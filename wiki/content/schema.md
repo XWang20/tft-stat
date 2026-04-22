@@ -81,12 +81,20 @@ wiki/content/
 
 Parseable: `grep "^## \[" log.md | tail -5`
 
+Every log entry MUST include `[[wikilinks]]` to all files modified. Example:
+
 ```
+## [2026-04-22] cron | Issue processing + experiment
+- Issue #1 (revision): revised [[experiments/nova-trait-breakpoint]] — switched to nova_yi
+- Issue #3 (conclusion): updated [[methods/filter-strategy]] — added "Trust compositions.py" section
+- New experiment: [[experiments/unit-eval-nova95]] — Module 4
+- Updated: [[lab-checklist]] (lesson #8), [[index]] (experiments table, syllabus)
+
 ## [YYYY-MM-DD] ingest | Source Title
+- Created [[sources/source-name]], updated [[concepts/metrics]], [[methods/filter-strategy]]
+
 ## [YYYY-MM-DD] experiment | Experiment Name
-## [YYYY-MM-DD] reflection | What was learned
-## [YYYY-MM-DD] update | What changed
-## [YYYY-MM-DD] lint | Health check
+- Created [[experiments/name]], updated [[index]] (table + syllabus)
 ```
 
 ## Conventions

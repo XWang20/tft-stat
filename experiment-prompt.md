@@ -50,7 +50,14 @@ Story format with chapters. Include "Questions for Xing" section.
 
 Every run MUST update these files:
 - **wiki/content/index.md** — experiments table (add new entry or update status), syllabus status if module progressed, experiment queue (remove completed item)
-- **wiki/content/log.md** — append entry for each action taken (issues processed, experiment completed)
+- **wiki/content/log.md** — append entry for each action taken. MUST include wikilinks to every file modified, e.g.:
+  ```
+  ## [2026-04-22] cron | Issue processing + experiment
+  - Issue #1 (revision): revised [[experiments/nova-trait-breakpoint]] — switched to nova_yi
+  - Issue #3 (conclusion): updated [[methods/filter-strategy]] — added "Trust compositions.py" section
+  - New experiment: [[experiments/unit-eval-nova95]] — Module 4
+  - Updated: [[lab-checklist]] (lesson #8), [[index]] (experiments table, syllabus)
+  ```
 - **wiki/content/lab-checklist.md** — append new lessons if any were learned
 - **wiki/content/concepts/*.md or methods/*.md** — update if new knowledge was validated
 - **wiki/content/schema.md** — only if workflow rules changed
