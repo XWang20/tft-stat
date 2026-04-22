@@ -105,6 +105,16 @@ Examples: `lulu` excludes Guinsoo on Jax (separates from Jax-reroll boards); `tf
 
 **Why unit/trait exclusions fail here**: reroll comps sharing the same cost tier (e.g., TF reroll, Jax reroll, Aatrox reroll) all use the same unit pool (Aatrox/Caitlyn/Talon/Jax/TF). You can't exclude these units without destroying your own comp's definition. Trait anchors don't help either — shared units create shared traits. The ONLY discriminator is how items are distributed: BT on Aatrox signals Aatrox-carry, Titan's on Jax signals Jax-carry. Without item-based exclusions, these comps are inseparable.
 
+#### Pattern 6: Star-Level Presence (1 comp)
+The comp is defined by having the unit at a specific star level, not by items or traits.
+Example: `two_tanky_samira` = `Samira(count=2)` — any board with Samira★2+.
+
+**When it works**: when the comp is defined by the player's commitment to a specific unit (2-starring it), not by how they itemize it. The unit's presence at ★2+ IS the comp identity. Adding `item_min=3` would exclude boards where Samira has 0-2 items — which are still the same comp, just with different item distribution.
+
+**Why items don't define this comp**: scout data from top-3 boards always shows carries with 3 items, which creates a false impression that items define the comp. But in the full population, many boards commit to Samira★2 without giving her 3 items (items go to frontline tanks, secondary carries, or are incomplete). The star level is the decision point — "did the player go Samira?" — not the item count.
+
+**Beware scout board bias**: top-3 finishes are the highest-performing subset. Their carries are always fully itemized, which can mislead you into thinking item count is definitional. The comp's identity may be simpler than what winning boards suggest.
+
 #### Expert Heuristics Extracted from These Patterns
 
 1. **Identity = Trait + Carry; Boundary = Exclusions.** The positive filter defines what the comp IS; the negative filter defines what it IS NOT.

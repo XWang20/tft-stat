@@ -266,3 +266,27 @@ Tracking all filter-design exercises for learning and comparison.
 - over-excluded: ADMIN >= 2 (-14k), LeBlanc(i3)/Nami(i3)/Viktor(i3)/Aurora(i3) exclusions (-19k more). Total: 33k legitimate games lost (31% of expert sample). LeBlanc(i3) appearing in 37% of Teemo games isn't contamination — it's boards that legitimately run both Teemo and LeBlanc as carries (different item slots in a Summon shell).
 
 **Lesson**: **When a carry is unique, the carry-only filter IS the answer.** Adding trait locks to a unique carry doesn't improve accuracy — it just shrinks sample size. The instinct to "add context" (Dishsoap method) must be calibrated: context helps when carries are shared across comps, but HURTS when the carry is already distinctive. Teemo is like Viktor or Zed — no other comp runs Teemo(i3) as primary carry. Also reinforced: for low-cost reroll comps sharing unit pools, **item-based exclusions are the only way** to separate them (Nasus reroll vs Teemo reroll share Nasus/Leona/Mordekaiser/Illaoi/Lissandra). The item on a shared unit identifies which reroll variant the board belongs to.
+
+### stargazer_samira → two_tanky_samira — 2026-04-22
+
+**Observation**: From `cli.py scout --top 3`, 3 boards showed Samira★3(i3) with Ornn★3(i3) and a tanky frontline (Nunu, Rhaast, Blitzcrank, Jax): KR Master #1 (Samira★3(i3)/Ornn★3(i3)/Nunu(i3)/Xayah(i3), Stargazer_Mountain_4), VN2 Master #2 (Samira★3(i3)/Ornn★3(i3)/Rhaast★3(i3)/Blitz(i3), Stargazer_Wolf_1), VN2 Master #3 (Samira★3(i3)/Ornn★3(i3)/Nunu(i3)/Rhaast★3, Stargazer_Serpent_1). I named it "stargazer_samira" based on the Stargazer trait visible across all boards.
+
+**My reasoning**: Samira appeared as a unique-ish carry — I assumed Samira(i3) would be a carry-only filter (Pattern 1). The Stargazer traits present in all boards seemed potentially useful as a trait anchor. I expected SpaceGroove (Nami/Samira as flex carries) to be the main contamination source and tried excluding Nami(i3) and Lissandra(i3).
+
+**Filter iterations**:
+1. `--or-units TFT17_Samira:i3` → 123,159 games, AVP 4.38, Top4 51.5%. Core units: Ornn 94%, Nunu 86%, Jax 80%, Xayah 79%, Blitzcrank 41%. Minimal 3-item carry contamination. Very clean already.
+2. `--or-units TFT17_Samira:i3 --exclude-units TFT17_Nami:i3,TFT17_Riven:i3` → 112,686 games, AVP 4.42, Top4 50.6%. Nami/Riven exclusions only removed 10k games (8%). Unit profile unchanged — SpaceGroove contamination negligible at i3 level.
+3. `--or-units TFT17_Samira:i3 --exclude-units TFT17_Nami:i3,TFT17_Lissandra:i3` → 114,861 games, AVP 4.42, Top4 50.7%. Same story — exclusions barely moved the needle. Carry-only filter is already clean.
+4. Final: `--or-units TFT17_Samira:i3` (carry-only, no exclusions needed)
+
+**Expert filter**: `Samira(count=2)` — requires only Samira★2+ (2 copies on board). No item requirement, no trait, no exclusions. 241,374 games, AVP 4.48, Top4 49.8%.
+
+**Comparison**:
+- right: identified Samira as a unique-enough carry with no trait lock or exclusions needed
+- missed:
+  - **Completely different filter paradigm**: expert uses `count=2` (star level ★2+), not `item_min=3`. This is NOT Pattern 1 (carry-only with items). The comp is defined by having a 2-star Samira, regardless of whether she has 0, 1, 2, or 3 items. My i3 filter captured 123k games; the expert captures 241k — nearly double.
+  - **"Two Tanky Samira" is not a carry comp**: the comp name ("成双莎弥拉") implies Samira★2 as a presence marker, not an itemized carry. The expert's unit profile includes Riven at 25%, Nami at 35%, Pantheon at 22% — much broader than a carry comp.
+  - **Star-level = comp identity for some comps**: this is a comp where having Samira★2 on board defines the comp, similar to how reroll comps are defined by ★3 units. The item count is irrelevant — what matters is whether you committed to Samira (by 2-starring her).
+  - **Misread the scout data**: I focused on Samira's items (i3) and Stargazer traits from the scout boards. But the scout boards were top-3 finishes — of course they have items on their carry. The comp's IDENTITY is simpler than what top boards show.
+
+**Lesson**: **Not all comps are defined by items or traits — some are defined by star level.** The 5 patterns in the guide (carry-only, carry+trait, OR-carry+trait+exclusions, carry+exclusions, item-based exclusions) all assume items are part of the comp identity. "Two Tanky Samira" introduces a 6th paradigm: **star-level presence** (`count=N`). The comp is "any board that committed to Samira★2+", and adding an item requirement (i3) artificially excludes half the legitimate games. This is a blindspot in the current guide. Also: scout board observations are biased toward winning boards — the carries always look itemized in top-3 finishes, which can mislead you into thinking item count is definitional when it's not.
