@@ -158,7 +158,7 @@ def cmd_tftable(args):
 
 
 def cmd_scout(args):
-    """Scan top player endgame boards for meta overview."""
+    """Scan top player endgame boards — full board view."""
     data = query("recent_matches", [], extra_params={
         "rank": args.rank or "CHALLENGER,GRANDMASTER,MASTER",
     })
@@ -168,49 +168,47 @@ def cmd_scout(args):
         return
 
     top = [m for m in matches if m.get("placement", 9) <= (args.top or 4)]
+    item_names = load_item_names()
 
-    from collections import Counter
+    print(f"Meta snapshot: {len(matches)} matches, {len(top)} top-{args.top or 4} boards\n")
 
-    # Carry frequency (3-item units)
-    carry_counts = Counter()
-    # Trait frequency
-    trait_counts = Counter()
-    # Carry item frequency
-    carry_items = {}
+    for m in sorted(top, key=lambda x: x.get("placement", 9)):
+        placement = m.get("placement", "?")
+        rank = m.get("rank", "?")
+        server = m.get("server", "?")
 
-    for m in top:
+        # Parse units
+        units = []
         for u in m.get("unit_tier_numitems", []):
             parts = u.rsplit("_", 2)
-            if len(parts) >= 3 and parts[-1] == "3":
+            if len(parts) >= 3:
                 uid = "_".join(parts[:-2])
-                carry_counts[uid] += 1
-        for t in (m.get("traits") or []):
-            if not t.endswith("_0"):
-                trait_counts[t] += 1
+                star = parts[-2]
+                items = parts[-1]
+                name = uid.replace("TFT17_", "")
+                units.append(f"{name}{'★' + star if star != '1' else ''}{'({})'.format(items) if items != '0' else ''}")
+
+        # Parse builds (3-item only)
+        builds = []
         for b in m.get("unit_buildNames", []):
             if "&" in b:
                 unit, items_str = b.split("&", 1)
-                items = items_str.split("|")
-                if len(items) >= 3:
-                    carry_items.setdefault(unit, Counter())
-                    for item in items:
-                        carry_items[unit][item] += 1
+                item_list = items_str.split("|")
+                if len(item_list) >= 3:
+                    unit_name = unit.replace("TFT17_", "")
+                    names = [item_names.get(i, i.replace("TFT_Item_", "").replace("TFT5_Item_", "")) for i in item_list]
+                    builds.append(f"{unit_name}: {' / '.join(names)}")
 
-    print(f"Meta snapshot: {len(matches)} matches, {len(top)} top-{args.top or 4} boards")
-    print(f"\n{'Carry (3-item)':<30} {'Count':>6} {'Rate':>6}")
-    print("-" * 45)
-    for uid, count in carry_counts.most_common(20):
-        print(f"{uid:<30} {count:>6} {count/len(top):>5.0%}")
+        # Active traits
+        traits = [t.replace("TFT17_", "") for t in (m.get("traits") or [])
+                  if not t.endswith("_0") and "UniqueTrait" not in t]
 
-    # Top items per top 5 carries
-    print(f"\n{'='*50}")
-    item_names = load_item_names()
-    for uid, _ in carry_counts.most_common(5):
-        if uid in carry_items:
-            print(f"\n{uid} top items:")
-            for item_id, cnt in carry_items[uid].most_common(5):
-                name = item_names.get(item_id, item_id.replace("TFT_Item_", ""))
-                print(f"  {name:<35} {cnt}x")
+        print(f"#{placement} {rank} {server} | {' '.join(units)}")
+        for b in builds:
+            print(f"  {b}")
+        if traits:
+            print(f"  traits: {', '.join(traits)}")
+        print()
 
 
 def _get_holder_baseline(params: list[str], holder: str) -> tuple[float, int]:
