@@ -1,3 +1,11 @@
+## [2026-04-22] experiment | Expert Filter Design Patterns
+- Taxonomized all 29 compositions.py filters into 5 design patterns
+- LeBlanc case study: Guinsoo invisible in minimal filter, #1 in full filter (92% usage)
+- Nami Simpson's Paradox: Void Staff #1 globally, irrelevant within either comp
+- Vex cross-comp: Striker's Flail 20× Necessity drop between nova_95 and vex_95
+- Expert heuristic: 64% of exclusions target 3-item carries (boundary definition)
+- Cross-validated vanguard_leblanc with tftable: top 5 match
+
 ## [2026-04-22] experiment | Build Necessity vs Single-Item Necessity
 - Module 3 follow-up: compared build-level and single-item Necessity for Vex and Fiora in nova_95
 - Key finding: build-implied rankings differ — Hextech Gunblade rises to #1 (from #3), Guinsoo drops to #4 (ceiling effect at 88% play rate)
