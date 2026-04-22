@@ -1,10 +1,9 @@
-## [2026-04-22] experiment | Xayah Stargazer Items REDO — precise conflict recompute
-- Redid experiment with improved `unit_item_unique` endpoint (positive filter now works, previously returned 0 games)
-- Key correction: approximate conflict recompute (`Unit(carry, item_min=3)`) was systematically upward-biased
-- IE only flips positive in Medallion (#1), NOT in Serpent/Fountain as previously reported
-- LW's positive Necessity was partly a Jhin-correlation artifact — drops to near-zero after precise recompute
-- Mountain Stargazer data broken (7k games, AVP 6.66) — excluded from analysis
-- Updated: [[methods/item-analysis-debiasing]] with warning about approximate method
+## [2026-04-22] experiment | Xayah Stargazer Items REDO v2 — all tiers, precise recompute
+- Redid with improved `unit_item_unique` (positive filter), all trait tiers (not just tier 1), renamed Wolf→Boar/Shield→Alter
+- Mountain fixed: 48.7k games (was 7k when only tier 1 + emblem excluded; now all 5 tiers, emblem kept)
+- Merged Ch2+3 into combined Necessity table with conflict recompute inline
+- IE flips only in Medallion (+.036) and barely Mountain (+.007); LW drops to near-zero after recompute
+- Guinsoo's strongest in Mountain (+.116) — worth investigating
 
 ## [2026-04-22] experiment | Xayah Stargazer Item Analysis + Debiasing Methods
 - New experiment: [[experiments/2026-04-22-xayah-stargazer-items]] -- Xayah items across 7 Stargazer types with conflict recompute
