@@ -15,7 +15,7 @@ import sys
 
 from tft_stat.api import query
 from tft_stat.compositions import COMPOSITIONS
-from tft_stat.filter_params import build_filter_params, load_item_names, parse_unit_spec
+from tft_stat.filter_params import expr_to_params, load_item_names, parse_unit_spec
 from tft_stat.metrics import add_item_metrics, placement_stats
 from tft_stat import tftable
 
@@ -268,21 +268,22 @@ def _get_holder_baseline(params: list[str], holder: str) -> tuple[float, int]:
 
 
 def _params_from_args(args) -> list[str]:
-    # --filter takes a Python expression in compositions.py syntax
     if hasattr(args, "filter") and args.filter:
         from tft_stat.filter_expr import Unit, Trait, Item, And, Or, Not
         from tft_stat.filter_params import expr_to_params
         expr = eval(args.filter)
         return expr_to_params(expr)
 
-    return build_filter_params(
-        comp=getattr(args, "comp", None),
-        or_units=getattr(args, "or_units", None),
-        units=getattr(args, "units", None),
-        traits=getattr(args, "traits", None),
-        exclude_units=getattr(args, "exclude_units", None),
-        exclude_traits=getattr(args, "exclude_traits", None),
-    )
+    if hasattr(args, "comp") and args.comp:
+        from tft_stat.compositions import COMPOSITIONS
+        from tft_stat.filter_params import expr_to_params
+        comp = COMPOSITIONS.get(args.comp)
+        if not comp:
+            print(f"Error: unknown comp '{args.comp}'", file=sys.stderr)
+            sys.exit(1)
+        return expr_to_params(comp["filter"])
+
+    return []
 
 
 def main():
@@ -334,12 +335,7 @@ def main():
 
 def _add_filter_args(p):
     p.add_argument("--comp", help="Comp key (e.g. nova_95, dark_star)")
-    p.add_argument("--filter", help="Filter expression in compositions.py syntax (e.g. \"Unit('TFT17_Vex', item_min=3) & Trait('TFT17_DRX', min_units=2)\")")
-    p.add_argument("--or-units", help="OR group: TFT17_Fiora:i3,TFT17_Vex:i3")
-    p.add_argument("--units", help="Required units: TFT17_Blitz,TFT17_Morde")
-    p.add_argument("--traits", help="Required traits: TFT17_DRX:2")
-    p.add_argument("--exclude-units", help="Excluded units")
-    p.add_argument("--exclude-traits", help="Excluded traits")
+    p.add_argument("--filter", help="Filter expression (e.g. \"Unit('TFT17_Vex', item_min=3) & Trait('TFT17_DRX', min_units=2)\")")
 
 
 if __name__ == "__main__":
