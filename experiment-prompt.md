@@ -1,27 +1,31 @@
 You are running a scheduled TFT data science experiment. Follow these steps exactly:
 
-## Step 0: Process GitHub Issues (FIRST PRIORITY)
+## Step 0: Process Giscus Comments (FIRST PRIORITY)
 
-Run: gh issue list --repo XWang20/tft-stat --state open --json number,title,labels,body
+Xing leaves feedback as Giscus comments on wiki experiment pages. These appear as GitHub Discussions.
 
-For each open issue:
-- **feedback** label:
-  1. Record in the experiment report's ## Review section (identify which experiment from the issue body)
-  2. If it's a process lesson → append to wiki/content/lab-checklist.md Lessons Learned
-  3. Update the experiment's status in wiki/content/index.md experiments table (e.g. 🔄 revision)
-- **conclusion** label:
-  1. Integrate into the relevant wiki/content/concepts/ or wiki/content/methods/ page
-  2. Update that page's status in wiki/content/index.md knowledge base table if needed
-- **revision** label:
-  1. Revise the specified experiment report
-  2. Update its status in wiki/content/index.md experiments table
-  3. Update wiki/content/index.md syllabus status if the module status changed
-- **topic** label:
-  1. Add to the Experiment Queue in wiki/content/index.md
-- After processing each issue, close it: gh issue close NUMBER --repo XWang20/tft-stat -c "Processed: [what was done, which files were updated]"
-- Append all issue processing to wiki/content/log.md
+Run this to find Xing's unprocessed comments:
+```
+gh api graphql -f query='{ repository(owner:"XWang20", name:"tft-stat") { discussions(first:20, orderBy:{field:CREATED_AT, direction:DESC}) { nodes { number, title, comments(first:10) { nodes { body, author { login }, createdAt } } } } } }'
+```
 
-If there are open issues, process ALL of them before starting a new experiment.
+Look for comments by XWang20. The discussion title maps to the wiki page (e.g. "tft-stat/experiments/2026-04-22-nova-trait-breakpoint" → `wiki/content/experiments/2026-04-22-nova-trait-breakpoint.md`).
+
+For each comment from Xing:
+- **"accept"** → update experiment status to ✅ in the report and in index.md
+- **feedback/revision request** → record in the report's ## Review section, update status to 🔄 in index.md, add to lab-checklist if it's a process lesson
+- **conclusion** → integrate into relevant concepts/ or methods/ page
+- **new topic** → add to Experiment Queue in index.md
+
+After processing, reply to the discussion acknowledging what was done:
+```
+gh api graphql -f query='mutation { addDiscussionComment(input: {discussionId: "DISCUSSION_NODE_ID", body: "Processed: [summary of actions taken, files updated]"}) { comment { id } } }'
+```
+
+Also check GitHub Issues (may still have open ones):
+```
+gh issue list --repo XWang20/tft-stat --state open --json number,title,labels,body
+```
 
 ## Step 1: Bootstrap
 
@@ -43,7 +47,7 @@ Remove the item from the queue after picking it.
 
 ## Step 4: Write the Report
 
-Write the experiment report to wiki/content/experiments/<name>.md with status 🧪 draft.
+Write the experiment report to wiki/content/experiments/YYYY-MM-DD-<title>.md with status 🧪 draft.
 Story format with chapters. Include "Questions for Xing" section.
 
 ## Step 5: Update ALL Relevant Wiki Files
@@ -53,14 +57,13 @@ Every run MUST update these files:
 - **wiki/content/log.md** — append entry for each action taken. MUST include wikilinks to every file modified, e.g.:
   ```
   ## [2026-04-22] cron | Issue processing + experiment
-  - Issue #1 (revision): revised [[experiments/nova-trait-breakpoint]] — switched to nova_yi
+  - Issue #1 (revision): revised [[experiments/2026-04-22-nova-trait-breakpoint]] — switched to nova_yi
   - Issue #3 (conclusion): updated [[methods/filter-strategy]] — added "Trust compositions.py" section
-  - New experiment: [[experiments/unit-eval-nova95]] — Module 4
+  - New experiment: [[experiments/2026-04-23-unit-eval-nova95]] — Module 4
   - Updated: [[lab-checklist]] (lesson #8), [[index]] (experiments table, syllabus)
   ```
 - **wiki/content/lab-checklist.md** — append new lessons if any were learned
 - **wiki/content/concepts/*.md or methods/*.md** — update if new knowledge was validated
-- **wiki/content/schema.md** — only if workflow rules changed
 
 Verify: after all edits, every experiment mentioned in a report must appear in index.md's experiments table. No orphan experiments.
 

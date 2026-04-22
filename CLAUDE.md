@@ -221,3 +221,13 @@ Xing creates issues on `XWang20/tft-stat` with labels:
 - **topic** → add to Experiment Queue in index.md
 
 Agent processes all open issues before starting new experiments, then closes them with a summary comment.
+
+### Giscus Comments as Review Pipeline
+
+Xing reviews experiments via Giscus comments directly on wiki pages (backed by GitHub Discussions).
+
+- **"accept"** → update status to ✅ in report and index.md
+- **feedback text** → record in report's `## Review` section, update status to 🔄
+- **conclusion** → integrate into concepts/ or methods/ pages
+
+Agent checks Discussions for XWang20 comments each cron run.
