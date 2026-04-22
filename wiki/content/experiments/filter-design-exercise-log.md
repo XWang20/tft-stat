@@ -165,3 +165,28 @@ Tracking all filter-design exercises for learning and comparison.
 - over-included: 93k extra games (347k vs 254k) from MF/Pyke(i3)/Yi(i3) contamination.
 
 **Lesson**: A unit appearing at >80% in a carry filter does NOT mean it shouldn't be excluded. Pyke at 86% was mostly Pyke-as-support (1 item), but the Pyke(i3) subset is contamination from Pyke Reroll. The distinction is: **exclude the unit-as-carry (i3), keep the unit-as-support (i1)**. Also: exclusions don't always require an item threshold — MissFortune is excluded entirely (any item count) because her presence signals a different comp direction regardless of itemization. The lesson: exclusion criteria should match the contamination signal, not a fixed template.
+
+### leblanc_vanguard → vanguard_leblanc — 2026-04-22
+
+**Observation**: From `cli.py scout --top 3`, 3 boards showed LeBlanc(i3) as primary AP carry in a Vanguard + Summon shell: VN2 #1 (LeBlanc★3(i3)/Blitz(i3)/Illaoi(i3)/IvernMinion/Nunu(i3)/Mordekaiser, ShieldTank_3, SummonTrait_1), EUW1 #2 (LeBlanc★3(i3)/Illaoi/IvernMinion/Nunu(i3)/Mordekaiser/Zoe(i3), ShieldTank_2, SummonTrait_1), VN2 #3 (LeBlanc★2(i3)/Illaoi(i3)/IvernMinion(i1)/Nunu(i3)/Mordekaiser/Morgana, ShieldTank_2, SummonTrait_1). All featured Mordekaiser, IvernMinion, Illaoi, Nunu as core frontline. Named it "leblanc_vanguard."
+
+**My reasoning**: LeBlanc appeared as a unique AP carry in a Vanguard (ShieldTank) + Summon shell. I treated this as a carry + trait lock comp (Pattern 2), with LeBlanc(i3) + ShieldTank >= 2 + SummonTrait >= 3 as the filter core. I expected contamination from other AP carries (Viktor, Nami, Vex) and reroll carries (Teemo, Nasus, Lissandra) sharing the Summon trait shell.
+
+**Filter iterations**:
+1. `--or-units TFT17_Leblanc:i3 --traits TFT17_ShieldTank:2` → 273,657 games, AVP 4.44. Way too broad — ShieldTank >= 2 is too generic, captures many comps.
+2. `--or-units TFT17_Leblanc:i3 --traits TFT17_ShieldTank:2,TFT17_SummonTrait:3` → 251,280 games, AVP 4.32. Adding SummonTrait >= 3 barely narrowed. Teemo 39k (15%), Lissandra 48k (19%), Nasus 33k (13%) — massive reroll contamination.
+3. Added exclusions for known carries (Vex/Viktor/Nami/Samira/Xayah/Lissandra/Teemo/Nasus/Aurora i3) → 211,283 games, AVP 4.47. Core units clearer: Illaoi 98%, IvernMinion 91%, Mordekaiser 90%, Nunu 88%, Leona 86%, Karma 83%. But still very broad.
+4. Aggressive exclusions (17 carries excluded) → 167,226 games, AVP 4.64. Core units stable but over-excluded with brute force.
+5. Final: `--or-units TFT17_Leblanc:i3 --traits TFT17_ShieldTank:2,TFT17_SummonTrait:3 --exclude-units TFT17_Vex:i3,TFT17_Viktor:i3,TFT17_Nami:i3,TFT17_Samira:i3,TFT17_Xayah:i3,TFT17_Lissandra:i3,TFT17_Teemo:i3,TFT17_Nasus:i3,TFT17_Aurora:i3,TFT17_Bard:i3,TFT17_Sona:i3,TFT17_Galio:i3,TFT17_Fiora:i3,TFT17_Graves:i3,TFT17_Zed:i3,TFT17_MasterYi:i3,TFT17_Jhin:i3`
+
+**Expert filter**: `LeBlanc(i3, i_max=3) & ShieldTank >= 2 & SummonTrait = 3 (exact) & ~Diana(i3) & ~Nasus(i3) & ~Zoe(i3) & ~Teemo(i3) & ~Vex(i3)` → 162,218 games, AVP 4.62
+
+**Comparison**:
+- right: LeBlanc(i3) as carry, ShieldTank >= 2, SummonTrait >= 3 as starting point, Vex(i3)/Teemo(i3)/Nasus(i3) exclusions
+- missed:
+  - **Summon = 3 (exact, not >= 3)**: the expert uses `max_units=3` to cap Summon at exactly 3, preventing overlap with Shepherd (Summon >= 5). This is the **trait ceiling** concept — without it, the filter captures Shepherd games where LeBlanc has items. My CLI only supports `>=`, so I couldn't express this.
+  - **Diana(i3) and Zoe(i3) exclusions**: Diana is the Anima Diana carry; Zoe is an ADMIN carry. Both contaminate when given 3 items within the Summon/Vanguard shell. I missed these targeted exclusions.
+  - **item_max=3**: expert uses exact 3 items
+- over-excluded: I used 17 exclusions when the expert needs only 5 (Diana/Nasus/Zoe/Teemo/Vex). Samira, Xayah, Lissandra, Aurora, Bard, Sona, Galio, Fiora, Graves, Zed, MasterYi, Jhin — all unnecessary because their contamination rate in LeBlanc + ShieldTank + Summon=3 is negligible.
+
+**Lesson**: **Trait ceilings (`max_units`) are as important as trait floors (`min_units`).** When a comp lives at a specific trait breakpoint (Summon = 3 for vanguard_leblanc), using `>= 3` captures all higher breakpoints too (Shepherd at >= 5). The ceiling is a surgical tool that one `max_units=3` parameter replaces dozens of exclusions — it removes Shepherd contamination at the trait level instead of unit-by-unit. Also: when faced with a filter that's too broad, the instinct to add more exclusions is a brute-force approach. The expert's method is to first identify the RIGHT trait constraints (including ceilings), then add only the targeted exclusions that the trait constraints can't handle.
