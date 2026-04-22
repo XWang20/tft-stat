@@ -85,7 +85,7 @@ Every log entry MUST include `[[wikilinks]]` to all files modified. Example:
 
 ```
 ## [2026-04-22] cron | Issue processing + experiment
-- Issue #1 (revision): revised [[experiments/nova-trait-breakpoint]] — switched to nova_yi
+- Issue #1 (revision): revised [[experiments/2026-04-22-nova-trait-breakpoint]] — switched to nova_yi
 - Issue #3 (conclusion): updated [[methods/filter-strategy]] — added "Trust compositions.py" section
 - New experiment: [[experiments/unit-eval-nova95]] — Module 4
 - Updated: [[lab-checklist]] (lesson #8), [[index]] (experiments table, syllabus)

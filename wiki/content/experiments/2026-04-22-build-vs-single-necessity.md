@@ -227,7 +227,7 @@ The fact that our single-item pipeline matches tftable at ρ > 0.97 for all thre
 - tftable ground truth via SSH (`python3 cli.py tftable`)
 - [[concepts/metrics]] — Necessity definition
 - [[methods/build-analysis]] — control variable, consistency check
-- [[experiments/vex-nova95]] — prior build + single-item comparison
+- [[experiments/2026-04-21-vex-nova95-items]] — prior build + single-item comparison
 
 ---
 

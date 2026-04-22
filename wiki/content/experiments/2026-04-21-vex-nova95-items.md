@@ -152,7 +152,7 @@ Morellonomicon        9,047     4%   3.89  -0.225  +0.010  +0.22
 
 Every metric tells a different story. AVP/Edge say Red Buff. Delta says Guinsoo (but for the wrong reason — inflated by terrible w/o group). Necessity says Guinsoo (for a defensible reason — play rate weighting).
 
-![Metric Landscape](/experiments/vex-nova95-metric-landscape.png)
+![Metric Landscape](/experiments/2026-04-21-vex-nova95-items-metric-landscape.png)
 
 ---
 
@@ -208,7 +208,7 @@ Jeweled Gauntlet      22%    +0.152     Worse than expected
 Void Staff            11%    +0.299     Much worse than expected
 ```
 
-![Frequency vs AVP](/experiments/vex-nova95-freq-avp.png)
+![Frequency vs AVP](/experiments/2026-04-21-vex-nova95-items-freq-avp.png)
 
 R² is near zero — meaning in this filtered dataset, the frequency-AVP correlation that dominates global stats is largely absent. The Nova 95 filter may already be controlling for most of the survivorship bias that creates that correlation globally.
 

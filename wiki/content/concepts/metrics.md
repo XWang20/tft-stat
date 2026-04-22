@@ -63,7 +63,7 @@ Key relationships:
 - Does not fully solve survivorship bias — just uses play rate as a proxy
 
 ### Bayesian Shrinkage
-- Tested and found ineffective for TFT item analysis ([[experiments/vex-nova95]])
+- Tested and found ineffective for TFT item analysis ([[experiments/2026-04-21-vex-nova95-items]])
 - TFT's problem is systematic bias, not variance
 - Most items have 4k-183k games — sample size is already sufficient
 - Shrinkage doesn't change rankings
@@ -83,4 +83,4 @@ Key relationships:
 - [[sources/morbrid-reddit-post]]: CI, sample size, constant frequency-AVP bias
 - [[sources/morbrid-aesah-talk]]: Graph view (frequency vs AVP), tier algorithm = frequency + place change
 - [[sources/dishsoap-frodan-stats]]: Play rate as confidence signal, builds > single items
-- [[experiments/vex-nova95]]: Empirical comparison of all metrics on Vex in Nova 95
+- [[experiments/2026-04-21-vex-nova95-items]]: Empirical comparison of all metrics on Vex in Nova 95
