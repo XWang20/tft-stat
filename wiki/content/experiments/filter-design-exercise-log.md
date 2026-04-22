@@ -95,3 +95,24 @@ Tracking all filter-design exercises for learning and comparison.
 - over-excluded: Lissandra(i3), Teemo(i3) — expert doesn't need these within SpaceGroove >= 5.
 
 **Lesson**: When scouting a trait-shell comp, identifying the comp type (Line vs single carry) determines whether alternative carries are contamination or legitimate flex options. Both scout boards happened to feature Nami, but Samira is equally valid as the primary carry in SpaceGroove. **Two boards showing the same carry doesn't mean the comp has a fixed carry** — need to look at more boards or check whether other units in the same trait shell also appear with 3 items. Also: reroll exclusions must target units that actually appear at ★3 with 3 items in this specific trait context (Nasus), not generically "reroll carries" from other comps (Lissandra/Teemo).
+
+### primordian_belveth → primordian — 2026-04-22
+
+**Observation**: From `cli.py scout --top 3`, 5 boards showed Belveth★3(i3) + RekSai★3(i3) in a Primordian shell with DRX_2: JP1 #2 (Belveth/Kindred/RekSai), VN2 #3 (Belveth/Kindred/RekSai/Maokai), EUN1 #3 (Akali★3(i3)/Belveth/RekSai), TR1 #3 (Akali/Belveth/RekSai), KR #3 (Akali/Belveth/RekSai). All featured Aatrox, Briar, Caitlyn, Maokai as supporting units. In 3/5 boards, Akali★3(i3) appeared as a co-carry alongside Belveth.
+
+**My reasoning**: This is a reroll comp defined by Primordian trait + Belveth/Akali dual carry. Primordian >= 2 is the trait anchor. Unlike NOVA (which shares DRX trait), Primordian is niche enough that I expected minimal contamination from other comps. I identified Akali as a flex co-carry by iteration 2.
+
+**Filter iterations**:
+1. `--or-units TFT17_Belveth:i3 --traits TFT17_Primordian:2` → 214,396 games, AVP 4.11, Top4 59.3%. Core units clean: Maokai 93.6%, Kindred 87.7%, Caitlyn 75.0%. No 3-item carry contamination visible.
+2. `--or-units TFT17_Belveth:i3,TFT17_Akali:i3 --traits TFT17_Primordian:2 --exclude-units TFT17_Fiora:i3,TFT17_Vex:i3,TFT17_Graves:i3` → 213,785 games. Exclusions removed only 611 games (0.3%), confirming minimal contamination. Core units unchanged.
+3. Added `--exclude-units TFT17_Samira:i3,TFT17_Xayah:i3,TFT17_Nami:i3` → 213,600 games. Only 185 more removed. Confirmed: no exclusions needed.
+4. Final: `--or-units TFT17_Belveth:i3,TFT17_Akali:i3 --traits TFT17_Primordian:2`
+
+**Expert filter**: `(Belveth(i3,i_max=3) | Akali(i3,i_max=3)) & Primordian >= 2` — no exclusions. 220,933 games, AVP 4.13, Top4 58.8%.
+
+**Comparison**:
+- right: Belveth as primary carry, Primordian >= 2 as trait anchor, Akali as co-carry (dual carry pattern), no exclusions needed
+- missed: item_max=3 (exact 3 items vs minimum 3), didn't include Akali in final filter initially
+- over-excluded: iterations 2-3 tested NOVA carry exclusions (Fiora/Vex/Graves/Samira/Xayah/Nami i3) — all unnecessary, each removing <0.3% of games
+
+**Lesson**: When a trait is niche enough (Primordian only has ~220k games total), the trait anchor alone provides sufficient boundary — no exclusions needed. This is Pattern 3 (OR-Carry + Trait) without the exclusion component. Cross-reference: `nova_yi` explicitly excludes `~Primordian >= 2`, confirming the trait boundary works bidirectionally. Also: spending iterations testing exclusions that remove <1% of games is a signal that the initial filter is already clean — recognize this early and stop iterating.
