@@ -208,4 +208,16 @@ tftable data (ground truth) is at `wangxing@DESKTOP-QTEB3KH:/home/wangxing/proje
 
 ## Daily Cronjob Experiments
 
-3 experiments per day. Each should start from a core question, explore with data, produce a report, and cross-validate. Experiment topics should be surprising and valuable — follow-ups, previews of next modules, or novel questions not in the syllabus.
+3 experiments per day (crontab: 9:00, 14:00, 20:00). Each run:
+1. **Process GitHub Issues first** — feedback, conclusions, revisions, new topics
+2. Pick experiment from queue → run → write report → update wiki → commit & push
+
+### GitHub Issues as Feedback Pipeline
+
+Xing creates issues on `XWang20/tft-stat` with labels:
+- **feedback** → record in experiment's `## Review` section + lab-checklist if process lesson
+- **conclusion** → integrate into `concepts/` or `methods/` wiki pages
+- **revision** → revise the specified experiment
+- **topic** → add to Experiment Queue in index.md
+
+Agent processes all open issues before starting new experiments, then closes them with a summary comment.

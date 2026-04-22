@@ -3,6 +3,7 @@
 # Called by crontab 3x daily
 
 export PATH="$HOME/.local/bin:$HOME/miniconda3/bin:$PATH"
+export GH_TOKEN=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
 cd /home/azureuser/tft-stat
 
 LOG_DIR="logs"
