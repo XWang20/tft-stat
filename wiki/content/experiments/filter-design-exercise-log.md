@@ -26,3 +26,32 @@ Conduit MF is not a pure single-carry comp where MF absorbs all 3 item slots. Th
 Not all carry comps use `item_min=3`. When a comp distributes items across multiple units (dual carry, or carry + tanky frontline), the primary carry may only need 2 items to be identified as "the carry." The item threshold should match the comp's item distribution pattern, not default to 3.
 
 **Guide update needed?**: yes — the "Step 2: Write initial filter" section should mention that `i2` is appropriate for comps where the carry shares items, and that `i3` is specifically for single-carry comps where one unit absorbs all items.
+
+---
+
+### pyke — 2026-04-22
+
+**My filter**: `--units TFT17_Pyke:i3 --exclude-units TFT17_Viktor:i3`
+**Expert filter**: `Pyke(i3) & ~Viktor(i3)` — carry + minimal exclusion (Pattern 4)
+
+**Sample size**: mine=58,285, expert=58,291 (diff = 6 games, negligible)
+
+**What I got right**:
+- Correctly identified Pyke as single primary carry with `i3` — Pyke reroll is a classic single-carry comp that absorbs all items
+- Correctly identified Viktor i3 as the only needed exclusion — Pyke and Viktor share the PsyOps trait and frequently co-exist. When Viktor has 3 items, those games are really Viktor comp, not Pyke comp
+- No trait lock needed — Pyke i3 is unique enough (no other comp runs Pyke as 3-item carry)
+- Correctly matched Pattern 4 (Carry + Minimal Exclusions): unique carry that only needs one exclusion to separate from an overlapping comp
+
+**What I missed**:
+- Nothing significant. The 6-game difference is likely from `item_max=3` in the expert definition vs my implicit no-max.
+
+**Design reasoning**:
+1. Started with carry-only `Pyke(i3)` → 110,146 games
+2. Checked unit frequencies: Viktor appeared in 60,630 games (55%) — suspiciously high
+3. Tested overlap: 51,866 games (47%) had BOTH Pyke i3 AND Viktor i3 — clear contamination from Viktor comp
+4. Added `~Viktor(i3)` → 58,285 games, clean unit distribution
+
+**Lesson for the guide**:
+When a carry-only filter shows another unit appearing at >50% frequency with 3 items, that's a contamination signal. The other unit's comp is leaking into your data. The fix is a targeted exclusion of that specific carry, not a trait lock.
+
+**Guide update needed?**: no — the guide already covers Pattern 4 well, and the iterative refinement process (Step 3→4) naturally leads to discovering this pattern.
