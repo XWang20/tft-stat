@@ -1,8 +1,8 @@
 # TFT Data Science Course
 
-> Goal: Master TFT data retrieval and analysis. Become better than the teacher.
-> Method: Each module has concepts, readings, and experiments. Mochi runs 3 experiments daily (cronjob), writes reports, cross-validates with tftable.
-> Xing reviews daily, discusses, corrects.
+> **Goal**: Master TFT data retrieval and statistical analysis.
+> **Method**: Each module has concepts, readings, and experiments. The agent runs 3 experiments daily, writes reports, cross-validates with tftable. Xing reviews daily, discusses, corrects.
+> **Outcome**: A reusable agent that any new Claude instance can bootstrap from.
 
 ---
 
@@ -25,43 +25,27 @@
 
 ## Daily Experiment Protocol
 
-### Schedule
-3 experiments per day via cronjob. Each experiment:
-1. Starts from a **core question** (can be Module-related, exploratory, or follow-up)
-2. Explores with data — **data first, conclusions after**
-3. Produces a report in `experiments/` (story format, with chapters)
-4. Cross-validates with tftable when applicable
-5. Updates relevant wiki concept/method pages
-
-### Report Format
-```
-# Experiment: [Title]
-Status: 🧪 In Progress | ✅ Complete
-Date: YYYY-MM-DD
-Module: N (or "Exploratory")
-
-## The Question
-## Chapter 1-N: (story-driven, data first)
-## Cross-Validation (vs tftable) ← MANDATORY for every experiment
-## What I Learned
-## Open Questions → feed into next experiments
-```
-
-### Cross-Validation Protocol
-Every experiment SHOULD include cross-validation when tftable API is available:
-1. Query tftable for the same data point (tftable = baseline / ground truth)
-2. Compare our result with tftable's
-3. If they agree → confidence++
-4. If they disagree → investigate why
-
-**Note**: tftable API not yet available for programmatic access. Xing will provide API later. For now, qualitative comparison only.
+3 experiments per day. Each experiment:
+1. Starts from a **core question** (module-related, follow-up, or exploratory)
+2. Reads `lab-checklist.md` — no exceptions
+3. Explores with data — **data first, conclusions after**
+4. Produces a report in `experiments/` (story format)
+5. Cross-validates with tftable when available
+6. Updates wiki: `index.md`, `course.md`, `log.md`, relevant concept/method pages
 
 ### Experiment Sources
 - **Module exercises**: directly practice the current topic
 - **Follow-ups**: open questions from previous experiments
 - **Previews**: explore next module's territory before formal study
-- **Surprises**: unexpected findings, things I'm curious about
+- **Surprises**: unexpected findings, contradictions, things nobody asked about
 - **Cross-validations**: compare our methods with tftable's answers
+
+### Cross-Validation Protocol
+1. Query tftable for the same data point (tftable = ground truth)
+2. Compare our result with tftable's
+3. Agree → confidence++. Disagree → investigate why.
+
+**Note**: tftable programmatic API not yet available. Xing will provide later.
 
 ---
 
@@ -70,22 +54,23 @@ Every experiment SHOULD include cross-validation when tftable API is available:
 | Module | Status | Key Experiments | Key Learnings |
 |---|---|---|---|
 | 0 | ✅ | API exploration (2026-04-21) | 9 endpoints discovered, filter format documented |
-| 1 | ✅ | vex-cross-comp-items (2026-04-21) | Filter is foundation; same unit different comp = different BIS; Giant Slayer flips sign between NOVA and Dark Star |
+| 1 | ✅ | vex-cross-comp-items (2026-04-21) | Filter is foundation; same unit different comp = different BIS |
 | 2 | ✅ | vex-nova95 (2026-04-21) | Necessity best single metric; Edge ≡ AVP; shrinkage doesn't fix bias |
 | 3 | 🧪 | vex-nova95 supplementary | Control variable + consistency check validated |
 | 4 | ⬜ | — | — |
-| 5 | 🧪 | nova-trait-breakpoint (2026-04-22) | REDO needed: used AVP (Xing feedback); universal improvement = bias; need Necessity + within-comp control |
+| 5 | 🧪 | nova-trait-breakpoint (2026-04-22) | REDO: used AVP; need Necessity + within-comp control |
+| 6–9 | ⬜ | — | — |
 
 ---
 
 ## Experiment Queue
 
-### Next experiments (priority: respond to Xing's feedback first):
-1. **Module 5 redo**: N.O.V.A. trait breakpoints within specific comps (Nova 95, Nova Yi), with/without emblem. Use Necessity not AVP. Apply causal inference. (Xing feedback 2026-04-22)
-2. **Open questions**: Can we measure filter reliability? How does causal inference framework apply to TFT?
-3. **Module 1 practice**: Study compositions.py filter patterns — document what expert-written filters look like
-4. **Module 3 follow-up**: Build AVP ranking vs Build Necessity ranking — do they differ?
-5. **Exploratory**: Do other traits show the same "universal improvement" bias pattern?
+Priority order:
+1. **Module 5 redo**: N.O.V.A. trait breakpoints within specific comps, using Necessity not AVP
+2. **Module 1 practice**: Study compositions.py filter patterns — document expert filter design
+3. **Module 3 follow-up**: Build Necessity ranking vs single-item Necessity — do they differ?
+4. **Exploratory**: Do other traits show the same "universal improvement" bias pattern?
+5. **Open**: Can we measure filter reliability? Causal inference framework for TFT?
 
 ---
 

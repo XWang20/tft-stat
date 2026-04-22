@@ -83,9 +83,71 @@ Necessity = p/(1-p) × (A - a)
 Delta = -(A - a)/(1-p)
 ```
 
-## Experiment Protocol
+---
 
-Before every experiment, read `wiki/content/lab-checklist.md`. Reports go in `wiki/content/experiments/` using story format with chapters:
+## Behavioral Guidelines — How to Think and Work
+
+### 1. Bootstrap: Read the Wiki First
+
+**Every new session starts cold. The wiki is your memory.**
+
+Before any analysis or experiment:
+- Read `wiki/content/index.md` — understand what exists
+- Read `wiki/content/course.md` — know where we are in the syllabus
+- Read `wiki/content/lab-checklist.md` — internalize the rules
+
+Don't rely on what you "know" from training. The wiki captures hard-won lessons (e.g., Edge ≡ AVP) that your training data doesn't contain.
+
+### 2. Data First, Conclusions After
+
+**You are a scientist, not a debater. Don't bring conclusions to data.**
+
+- State the question before touching any data.
+- Show the data. Let it speak. If it surprises you, that's good.
+- If two methods disagree, investigate why — don't pick the one you prefer.
+- If a result looks wrong, it might be right. Investigate before dismissing.
+- Acknowledge limitations and open questions. Uncertainty is not weakness.
+
+Ask yourself: "Am I looking for truth, or for confirmation?" If the latter, stop.
+
+### 3. Filter Before Measure
+
+**Without proper conditioning, all metrics are polluted. Filter is Dimension 1.**
+
+Before analyzing any metric:
+- Define the comp context (traits + key units). Never analyze a unit in isolation.
+- Use `compositions.py` definitions when available — these are expert-curated.
+- Check sample size. Below 1000 games on a mature patch = proceed with caution.
+- Sanity check: would a real player recognize these games as "this comp"?
+
+The three dimensions are orthogonal. But **filter comes first** because bad conditioning makes the other two dimensions meaningless.
+
+### 4. Cross-Validate Everything
+
+**A result from one method is a hypothesis. Convergence across methods is evidence.**
+
+- Single-item analysis → supplement with build analysis.
+- Necessity ranking → compare with control variable results.
+- Our pipeline → cross-check against tftable when available.
+- If methods agree → confidence increases.
+- If methods disagree → that's the interesting part. Investigate.
+
+### 5. Compound Knowledge, Don't Re-derive
+
+**The wiki is a persistent artifact. Write once, maintain forever.**
+
+After every experiment or learning:
+- File findings into the appropriate wiki page (concept/method/experiment).
+- Update `index.md` — no orphan pages.
+- Update `course.md` — track progress.
+- Append to `log.md` — chronological record.
+- If you learned a new lesson, add it to `lab-checklist.md`.
+
+The wiki should grow more valuable over time. A new agent bootstrapping from it should be immediately productive.
+
+### 6. Experiments Are Stories
+
+**Reports are narratives, not tables. Each experiment tells a story with chapters.**
 
 ```
 # Experiment: [Title]
@@ -93,15 +155,30 @@ Status: 🧪 | ✅
 Date: YYYY-MM-DD
 Module: N
 
-## The Question
-## Chapter 1-N (data-driven narrative)
-## Cross-Validation (vs tftable — mandatory when available)
-## What I Learned
-## Open Questions
-## Questions for Xing
+## The Question          ← what are we trying to learn?
+## Chapter 1-N           ← data-driven narrative, show the journey
+## Cross-Validation      ← vs tftable (mandatory when available)
+## What I Learned        ← synthesis
+## Open Questions        ← seeds for future experiments
+## Questions for Xing    ← things that need human judgment
 ```
 
-After each experiment: update `wiki/content/index.md`, `wiki/content/course.md`, and `wiki/content/log.md`.
+### 7. Surprise Over Routine
+
+**Experiments should teach something unexpected. Follow curiosity.**
+
+Good experiment topics:
+- Follow-ups from open questions in previous experiments
+- Contradictions between methods or data sources
+- Previews of upcoming course modules
+- Things nobody asked about but the data hints at
+
+Bad experiment topics:
+- Repeating what we already know
+- Confirming what we expect without risk of surprise
+- Topics chosen because they're easy, not because they're interesting
+
+---
 
 ## Wiki Maintenance
 
