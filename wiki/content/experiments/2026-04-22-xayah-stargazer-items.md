@@ -49,114 +49,125 @@ All items recomputed with Jhin conflict filter: `Item(item_id, carrier_unit_id='
 
 ### Clean Table (all items = max of original and recomputed)
 
-<table style="border-collapse:collapse;text-align:center;font-size:14px">
-<tr style="background:#f0f0f0"><th style="text-align:left;padding:4px 8px">Item</th>
-<th style="padding:4px 8px">Serpent</th>
-<th style="padding:4px 8px">Boar</th>
-<th style="padding:4px 8px">Alter</th>
-<th style="padding:4px 8px">Huntress</th>
-<th style="padding:4px 8px">Mountain</th>
-<th style="padding:4px 8px">Medallion</th>
-<th style="padding:4px 8px">Fountain</th>
+<table style="border-collapse:collapse;text-align:center;font-size:14px;font-family:system-ui">
+<tr><th style="text-align:left;padding:6px 10px;border-bottom:2px solid #e5e7eb">Item</th>
+<th style="padding:6px 10px;border-bottom:2px solid #e5e7eb;font-weight:600">Serpent</th>
+<th style="padding:6px 10px;border-bottom:2px solid #e5e7eb;font-weight:600">Boar</th>
+<th style="padding:6px 10px;border-bottom:2px solid #e5e7eb;font-weight:600">Alter</th>
+<th style="padding:6px 10px;border-bottom:2px solid #e5e7eb;font-weight:600">Huntress</th>
+<th style="padding:6px 10px;border-bottom:2px solid #e5e7eb;font-weight:600">Mountain</th>
+<th style="padding:6px 10px;border-bottom:2px solid #e5e7eb;font-weight:600">Medallion</th>
+<th style="padding:6px 10px;border-bottom:2px solid #e5e7eb;font-weight:600">Fountain</th>
 </tr>
-<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Guinsoo's</td>
-<td style="padding:4px 8px;background:rgb(211,240,211)">+0.014</td>
-<td style="padding:4px 8px;background:rgb(194,240,194)">+0.039</td>
-<td style="padding:4px 8px;background:rgb(255,171,171)">-0.092</td>
-<td style="padding:4px 8px;background:rgb(255,179,179)">-0.078</td>
-<td style="padding:4px 8px;background:rgb(145,240,145)">+0.113</td>
-<td style="padding:4px 8px;background:rgb(255,167,167)">-0.101</td>
-<td style="padding:4px 8px;background:rgb(255,158,158)">-0.117</td>
+<tr>
+<td style="text-align:left;padding:6px 10px;font-weight:600">Guinsoo's</td>
+<td style="padding:6px 10px;background:#eefcf6">+0.014</td>
+<td style="padding:6px 10px;background:#cff7e7">+0.039</td>
+<td style="padding:6px 10px;background:#fdb9c1">-0.092</td>
+<td style="padding:6px 10px;background:#fdc3cb">-0.078</td>
+<td style="padding:6px 10px;background:#76e8bb">+0.113</td>
+<td style="padding:6px 10px;background:#fdb2bb">-0.101</td>
+<td style="padding:6px 10px;background:#fda6b1">-0.117</td>
 </tr>
-<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Kraken's Fury</td>
-<td style="padding:4px 8px;background:rgb(120,240,120)">+0.249</td>
-<td style="padding:4px 8px;background:rgb(120,240,120)">+0.169</td>
-<td style="padding:4px 8px;background:rgb(120,240,120)">+0.291</td>
-<td style="padding:4px 8px;background:rgb(120,240,120)">+0.248</td>
-<td style="padding:4px 8px;background:rgb(120,240,120)">+0.208</td>
-<td style="padding:4px 8px;background:rgb(120,240,120)">+0.175</td>
-<td style="padding:4px 8px;background:rgb(120,240,120)">+0.178</td>
+<tr style="background:#fafafa">
+<td style="text-align:left;padding:6px 10px;font-weight:600">Kraken's Fury</td>
+<td style="padding:6px 10px;background:#6ee7b7">+0.249</td>
+<td style="padding:6px 10px;background:#6ee7b7">+0.169</td>
+<td style="padding:6px 10px;background:#6ee7b7">+0.291</td>
+<td style="padding:6px 10px;background:#6ee7b7">+0.248</td>
+<td style="padding:6px 10px;background:#6ee7b7">+0.208</td>
+<td style="padding:6px 10px;background:#6ee7b7">+0.175</td>
+<td style="padding:6px 10px;background:#6ee7b7">+0.178</td>
 </tr>
-<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">IE</td>
-<td style="padding:4px 8px;background:rgb(255,218,218)">-0.005</td>
-<td style="padding:4px 8px;background:rgb(255,212,212)">-0.016</td>
-<td style="padding:4px 8px;background:rgb(255,217,217)">-0.007</td>
-<td style="padding:4px 8px;background:rgb(255,203,203)">-0.032</td>
-<td style="padding:4px 8px;background:rgb(214,240,214)">+0.010</td>
-<td style="padding:4px 8px;background:rgb(196,240,196)">+0.037</td>
-<td style="padding:4px 8px;background:rgb(255,218,218)">-0.005</td>
+<tr>
+<td style="text-align:left;padding:6px 10px;font-weight:600">IE</td>
+<td style="padding:6px 10px;background:#fefbfb">-0.005</td>
+<td style="padding:6px 10px;background:#fef2f4">-0.016</td>
+<td style="padding:6px 10px;background:#fef9fa">-0.007</td>
+<td style="padding:6px 10px;background:#fee6e9">-0.032</td>
+<td style="padding:6px 10px;background:#f2fdf9">+0.010</td>
+<td style="padding:6px 10px;background:#d2f7e8">+0.037</td>
+<td style="padding:6px 10px;background:#fefbfb">-0.005</td>
 </tr>
-<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Giant Slayer</td>
-<td style="padding:4px 8px;background:rgb(255,209,209)">-0.021</td>
-<td style="padding:4px 8px;background:rgb(217,240,217)">+0.005</td>
-<td style="padding:4px 8px;background:rgb(255,207,207)">-0.026</td>
-<td style="padding:4px 8px;background:rgb(255,217,217)">-0.006</td>
-<td style="padding:4px 8px;background:rgb(216,240,216)">+0.006</td>
-<td style="padding:4px 8px;background:rgb(255,204,204)">-0.030</td>
-<td style="padding:4px 8px;background:rgb(255,210,210)">-0.020</td>
+<tr style="background:#fafafa">
+<td style="text-align:left;padding:6px 10px;font-weight:600">Giant Slayer</td>
+<td style="padding:6px 10px;background:#feeff1">-0.021</td>
+<td style="padding:6px 10px;background:#f8fefc">+0.005</td>
+<td style="padding:6px 10px;background:#feebed">-0.026</td>
+<td style="padding:6px 10px;background:#fefafb">-0.006</td>
+<td style="padding:6px 10px;background:#f7fdfb">+0.006</td>
+<td style="padding:6px 10px;background:#fee8eb">-0.030</td>
+<td style="padding:6px 10px;background:#feeff1">-0.020</td>
 </tr>
-<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Red Buff</td>
-<td style="padding:4px 8px;background:rgb(182,240,182)">+0.058</td>
-<td style="padding:4px 8px;background:rgb(171,240,171)">+0.074</td>
-<td style="padding:4px 8px;background:rgb(180,240,180)">+0.061</td>
-<td style="padding:4px 8px;background:rgb(184,240,184)">+0.054</td>
-<td style="padding:4px 8px;background:rgb(187,240,187)">+0.050</td>
-<td style="padding:4px 8px;background:rgb(188,240,188)">+0.048</td>
-<td style="padding:4px 8px;background:rgb(178,240,178)">+0.063</td>
+<tr>
+<td style="text-align:left;padding:6px 10px;font-weight:600">Red Buff</td>
+<td style="padding:6px 10px;background:#b8f3dc">+0.058</td>
+<td style="padding:6px 10px;background:#a5f0d2">+0.074</td>
+<td style="padding:6px 10px;background:#b5f2da">+0.061</td>
+<td style="padding:6px 10px;background:#bdf4de">+0.054</td>
+<td style="padding:6px 10px;background:#c2f5e1">+0.050</td>
+<td style="padding:6px 10px;background:#c5f5e2">+0.048</td>
+<td style="padding:6px 10px;background:#b2f2d9">+0.063</td>
 </tr>
-<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Deathblade</td>
-<td style="padding:4px 8px;background:rgb(217,240,217)">+0.005</td>
-<td style="padding:4px 8px;background:rgb(255,218,218)">-0.004</td>
-<td style="padding:4px 8px;background:rgb(214,240,214)">+0.009</td>
-<td style="padding:4px 8px;background:rgb(210,240,210)">+0.015</td>
-<td style="padding:4px 8px;background:rgb(207,240,207)">+0.020</td>
-<td style="padding:4px 8px;background:rgb(208,240,208)">+0.018</td>
-<td style="padding:4px 8px;background:rgb(208,240,208)">+0.019</td>
+<tr style="background:#fafafa">
+<td style="text-align:left;padding:6px 10px;font-weight:600">Deathblade</td>
+<td style="padding:6px 10px;background:#f8fefc">+0.005</td>
+<td style="padding:6px 10px;background:#fefbfc">-0.004</td>
+<td style="padding:6px 10px;background:#f4fdf9">+0.009</td>
+<td style="padding:6px 10px;background:#ecfcf6">+0.015</td>
+<td style="padding:6px 10px;background:#e6fbf3">+0.020</td>
+<td style="padding:6px 10px;background:#e9fbf4">+0.018</td>
+<td style="padding:6px 10px;background:#e8fbf3">+0.019</td>
 </tr>
-<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Last Whisper</td>
-<td style="padding:4px 8px;background:rgb(209,240,209)">+0.017</td>
-<td style="padding:4px 8px;background:rgb(206,240,206)">+0.021</td>
-<td style="padding:4px 8px;background:rgb(214,240,214)">+0.009</td>
-<td style="padding:4px 8px;background:rgb(208,240,208)">+0.018</td>
-<td style="padding:4px 8px;background:rgb(255,219,219)">-0.003</td>
-<td style="padding:4px 8px;background:rgb(200,240,200)">+0.030</td>
-<td style="padding:4px 8px;background:rgb(209,240,209)">+0.017</td>
+<tr>
+<td style="text-align:left;padding:6px 10px;font-weight:600">Last Whisper</td>
+<td style="padding:6px 10px;background:#eafbf4">+0.017</td>
+<td style="padding:6px 10px;background:#e5faf2">+0.021</td>
+<td style="padding:6px 10px;background:#f4fdf9">+0.009</td>
+<td style="padding:6px 10px;background:#e9fbf4">+0.018</td>
+<td style="padding:6px 10px;background:#fefcfd">-0.003</td>
+<td style="padding:6px 10px;background:#daf9ed">+0.030</td>
+<td style="padding:6px 10px;background:#eafbf4">+0.017</td>
 </tr>
-<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Striker's Flail</td>
-<td style="padding:4px 8px;background:rgb(255,219,219)">-0.003</td>
-<td style="padding:4px 8px;background:rgb(218,240,218)">+0.003</td>
-<td style="padding:4px 8px;background:rgb(255,219,219)">-0.002</td>
-<td style="padding:4px 8px;background:rgb(255,217,217)">-0.007</td>
-<td style="padding:4px 8px;background:rgb(213,240,213)">+0.011</td>
-<td style="padding:4px 8px;background:rgb(216,240,216)">+0.006</td>
-<td style="padding:4px 8px;background:rgb(216,240,216)">+0.006</td>
+<tr style="background:#fafafa">
+<td style="text-align:left;padding:6px 10px;font-weight:600">Striker's Flail</td>
+<td style="padding:6px 10px;background:#fefcfd">-0.003</td>
+<td style="padding:6px 10px;background:#fbfefd">+0.003</td>
+<td style="padding:6px 10px;background:#fefdfd">-0.002</td>
+<td style="padding:6px 10px;background:#fef9fa">-0.007</td>
+<td style="padding:6px 10px;background:#f1fcf8">+0.011</td>
+<td style="padding:6px 10px;background:#f7fdfb">+0.006</td>
+<td style="padding:6px 10px;background:#f7fdfb">+0.006</td>
 </tr>
-<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Hextech Gunblade</td>
-<td style="padding:4px 8px;background:rgb(255,219,219)">-0.003</td>
-<td style="padding:4px 8px;background:rgb(255,220,220)">-0.001</td>
-<td style="padding:4px 8px;background:rgb(216,240,216)">+0.007</td>
-<td style="padding:4px 8px;background:rgb(219,240,219)">+0.002</td>
-<td style="padding:4px 8px;background:rgb(217,240,217)">+0.005</td>
-<td style="padding:4px 8px;background:rgb(210,240,210)">+0.016</td>
-<td style="padding:4px 8px;background:rgb(219,240,219)">+0.002</td>
+<tr>
+<td style="text-align:left;padding:6px 10px;font-weight:600">Hextech Gunblade</td>
+<td style="padding:6px 10px;background:#fefcfd">-0.003</td>
+<td style="padding:6px 10px;background:#fefefe">-0.001</td>
+<td style="padding:6px 10px;background:#f6fdfa">+0.007</td>
+<td style="padding:6px 10px;background:#fcfefd">+0.002</td>
+<td style="padding:6px 10px;background:#f8fefc">+0.005</td>
+<td style="padding:6px 10px;background:#ebfbf5">+0.016</td>
+<td style="padding:6px 10px;background:#fcfefd">+0.002</td>
 </tr>
-<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Quicksilver</td>
-<td style="padding:4px 8px;background:rgb(255,220,220)">-0.001</td>
-<td style="padding:4px 8px;background:rgb(214,240,214)">+0.010</td>
-<td style="padding:4px 8px;background:rgb(212,240,212)">+0.013</td>
-<td style="padding:4px 8px;background:rgb(216,240,216)">+0.006</td>
-<td style="padding:4px 8px;background:rgb(255,218,218)">-0.004</td>
-<td style="padding:4px 8px;background:rgb(219,240,219)">+0.002</td>
-<td style="padding:4px 8px;background:rgb(219,240,219)">+0.002</td>
+<tr style="background:#fafafa">
+<td style="text-align:left;padding:6px 10px;font-weight:600">Quicksilver</td>
+<td style="padding:6px 10px;background:#fefefe">-0.001</td>
+<td style="padding:6px 10px;background:#f2fdf9">+0.010</td>
+<td style="padding:6px 10px;background:#effcf7">+0.013</td>
+<td style="padding:6px 10px;background:#f7fdfb">+0.006</td>
+<td style="padding:6px 10px;background:#fefbfc">-0.004</td>
+<td style="padding:6px 10px;background:#fcfefd">+0.002</td>
+<td style="padding:6px 10px;background:#fcfefd">+0.002</td>
 </tr>
-<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Edge of Night</td>
-<td style="padding:4px 8px;background:rgb(218,240,218)">+0.004</td>
-<td style="padding:4px 8px;background:rgb(218,240,218)">+0.003</td>
-<td style="padding:4px 8px;background:rgb(211,240,211)">+0.014</td>
-<td style="padding:4px 8px;background:rgb(212,240,212)">+0.013</td>
-<td style="padding:4px 8px;background:rgb(214,240,214)">+0.009</td>
-<td style="padding:4px 8px;background:rgb(209,240,209)">+0.017</td>
-<td style="padding:4px 8px;background:rgb(210,240,210)">+0.016</td>
+<tr>
+<td style="text-align:left;padding:6px 10px;font-weight:600">Edge of Night</td>
+<td style="padding:6px 10px;background:#fafefc">+0.004</td>
+<td style="padding:6px 10px;background:#fbfefd">+0.003</td>
+<td style="padding:6px 10px;background:#eefcf6">+0.014</td>
+<td style="padding:6px 10px;background:#effcf7">+0.013</td>
+<td style="padding:6px 10px;background:#f4fdf9">+0.009</td>
+<td style="padding:6px 10px;background:#eafbf4">+0.017</td>
+<td style="padding:6px 10px;background:#ebfbf5">+0.016</td>
 </tr>
 </table>
 
