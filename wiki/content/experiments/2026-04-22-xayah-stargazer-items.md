@@ -13,91 +13,105 @@ Queried Xayah comp (`xayah` in compositions.py) crossed with each Stargazer (3+ 
 
 | Stargazer | Games | AVP | Top4% | Nec (as trait) |
 |---|---|---|---|---|
-| Serpent | 55,964 | 3.87 | 60.7% | **+0.078** |
-| Wolf | 59,734 | 3.97 | 58.4% | +0.066 |
-| Shield | 53,466 | 4.08 | 56.5% | +0.040 |
-| Huntress | 48,864 | 4.42 | 50.2% | -0.013 |
-| Mountain | 62,960 | 4.44 | 49.6% | -0.021 |
-| Medallion | 32,366 | 4.60 | 46.7% | -0.025 |
-| Fountain | 37,892 | 4.79 | 43.3% | **-0.051** |
+| Serpent | 53,314 | 3.85 | 61.1% | **+0.075** |
+| Wolf | 50,243 | 3.94 | 59.0% | +0.056 |
+| Shield | 54,922 | 4.08 | 56.6% | +0.041 |
+| Huntress | 46,310 | 4.35 | 51.3% | -0.003 |
+| Medallion | 33,500 | 4.59 | 46.9% | -0.024 |
+| Fountain | 37,110 | 4.75 | 44.1% | -0.043 |
+| Mountain | 7,232 | 6.66 | 11.4% | -0.043 |
 
-Baseline (no Stargazer filter): 383k games, AVP 4.33.
+Baseline (no Stargazer filter): 395k games, AVP 4.33.
 
-Serpent and Wolf are clearly the best Stargazer effects for Xayah. Fountain is the worst.
+Serpent and Wolf are clearly the best Stargazer effects for Xayah. Mountain only 7k games at AVP 6.66 — data unreliable (likely a patch/API change since previous analysis showed 63k games).
 
 ## Chapter 2: Item Necessity Across Stargazers (Normal Items Only)
 
-Excluded artifact/radiant/trait/emblem items at API level (`unit_itemtype_counts`) and Anima Squad items from results. Also excluded Battle Bunny Crossbow via filter expression.
+Excluded artifact/radiant/trait/emblem items at API level (`unit_itemtype_counts`) and Anima Squad items via regex (`item=!TFT17_AnimaSquadItem_.*`). Using `unit_items_unique` endpoint which deduplicates item variants.
 
-**TODO**: Anima Squad exclusion is result-level only (display filter), not game-level. Anima-carrying games still pollute the baseline. See [[methods/item-analysis-debiasing]] for details.
+Mountain excluded from analysis — insufficient data (3,333 games after normal-only filter).
 
-Top 8 items by play rate, Necessity across all Stargazers:
+Top items by average Necessity across 6 Stargazers:
 
-| Item | Serpent | Wolf | Shield | Huntress | Mountain | Medallion | Fountain |
-|---|---|---|---|---|---|---|---|
-| Kraken's Fury | +.257(#1) | +.170(#1) | +.292(#1) | +.248(#1) | +.201(#1) | +.174(#1) | +.170(#1) |
-| Red Buff | +.057(#2) | +.074(#2) | +.061(#2) | +.051(#2) | +.045(#3) | +.046(#2) | +.064(#2) |
-| Last Whisper | +.014(#3) | +.024(#4) | +.010(#3) | +.013(#3) | +.016(#4) | +.033(#3) | +.023(#3) |
-| Guinsoo's | -.002(#12) | +.024(#3) | -.082(#24) | -.137(#25) | +.046(#2) | -.108(#22) | -.124(#24) |
-| Deathblade | -.014(#23) | -.016(#26) | +.008(#4) | +.005(#4) | +.004(#5) | -.005(#15) | +.003(#5) |
-| Giant Slayer | -.017(#24) | +.000(#10) | -.024(#23) | -.000(#11) | +.000(#8) | -.029(#21) | -.014(#22) |
-| Striker's Flail | -.012(#21) | -.004(#21) | -.011(#20) | -.011(#23) | -.003(#18) | -.011(#19) | -.010(#20) |
-| Infinity Edge | -.144(#25) | -.195(#27) | -.218(#25) | -.201(#26) | -.168(#27) | -.171(#23) | -.181(#25) |
+| Item | Serpent | Wolf | Shield | Huntress | Medallion | Fountain |
+|---|---|---|---|---|---|---|
+| Kraken's Fury | +.254(#1) | +.211(#1) | +.293(#1) | +.256(#1) | +.173(#1) | +.182(#1) |
+| Red Buff | +.056(#2) | +.085(#2) | +.062(#2) | +.053(#2) | +.047(#2) | +.060(#2) |
+| Last Whisper | +.015(#3) | +.015(#4) | +.008(#4) | +.021(#3) | +.030(#3) | +.021(#3) |
+| Deathblade | -.016(#34) | -.020(#41) | +.008(#3) | +.004(#4) | -.004(#29) | +.003(#6) |
+| Giant Slayer | -.018(#35) | -.002(#31) | -.026(#37) | -.006(#32) | -.031(#36) | -.019(#37) |
+| Guinsoo's | -.001(#21) | +.058(#3) | -.093(#38) | -.132(#37) | -.075(#37) | -.135(#38) |
+| Striker's Flail | -.012(#33) | -.008(#39) | -.012(#35) | -.012(#35) | -.014(#34) | -.010(#35) |
+| Infinity Edge | -.126(#36) | -.188(#42) | -.199(#39) | -.188(#38) | -.154(#38) | -.169(#39) |
 
 ### Key Observations
 
-1. **Top 3 (Kraken/Red Buff/LW) stable across all Stargazers** -- no need to change core items based on Stargazer type.
-2. **Guinsoo's extreme divergence**: Mountain +.046(#2) and Wolf +.024(#3) vs Huntress -.137(#25) and Fountain -.124(#24). These two Stargazers likely have attack speed or on-hit synergy.
-3. **Deathblade** mildly positive only in Shield/Huntress/Mountain/Fountain, negative elsewhere.
+1. **Top 3 (Kraken/Red Buff/LW) stable across all Stargazers** — no need to change core items based on Stargazer type.
+2. **Guinsoo's divergence**: Wolf +.058(#3) vs Huntress -.132(#37) and Fountain -.135(#38). Only positive in Wolf and near-zero in Serpent.
+3. **Deathblade** mildly positive only in Shield(#3)/Huntress(#4)/Fountain(#6).
 4. **Infinity Edge** strongly negative everywhere (before conflict recompute).
 
-## Chapter 3: Conflict Recompute (Jhin Competition)
+## Chapter 3: Conflict Recompute (Precise Per-Item Jhin Filter)
 
 Jhin appears in 73% of Xayah comp games and competes for IE, Giant Slayer, and Last Whisper.
 
-**Ideal method**: For each conflicting item, filter for games where Jhin ALSO carries that specific item: `Item('TFT_Item_InfinityEdge', carrier_unit_id='TFT17_Jhin')`. This directly removes the competition bias for that item.
+**Method**: For each conflicting item, filter for games where Jhin ALSO carries that specific item using positive `unit_item_unique`:
 
-**TODO**: Positive `unit_item` filter is not supported by the MetaTFT API (returns 0 games). The results below use a workaround: `Unit('TFT17_Jhin', item_min=3)` (Jhin has any 3 items). This is less precise -- it doesn't guarantee Jhin has the specific contested item. Results should be treated as approximate until the ideal method is implementable.
+```python
+Item('TFT_Item_InfinityEdge', carrier_unit_id='TFT17_Jhin')
+```
 
-| Item | Stargazer | Original | Recomputed | Verdict |
-|---|---|---|---|---|
-| **Infinity Edge** | Medallion | -.171(#23) | **+.049(#1)** | Massive flip -- IE is Xayah's best item when Jhin is full |
-| | Serpent | -.144(#25) | +.012(#4) | Flips positive |
-| | Fountain | -.181(#25) | +.011(#5) | Flips positive |
-| | Wolf | -.195(#27) | -.000(#8) | Near zero |
-| | Mountain | -.168(#27) | -.015(#20) | Still negative |
-| | Shield | -.218(#25) | -.021(#17) | Still negative |
-| | Huntress | -.201(#26) | -.019(#17) | Still negative |
-| **Giant Slayer** | Huntress | -.001(#12) | +.015(#3) | Flips positive |
-| | Wolf | +.001(#10) | +.003(#5) | Small increase |
-| | Mountain | +.000(#8) | -.021(#22) | Gets worse (not just bias) |
-| **Last Whisper** | Huntress | +.013(#3) | +.032(#2) | Modest increase |
-| | Medallion | +.033(#3) | +.039(#2) | Modest increase |
-| | all others | +.010 to +.024 | +.017 to +.030 | Consistent small increase |
+This is the **precise** method — it guarantees Jhin has the contested item, so Xayah's Necessity for that item reflects true value without competition bias. Previously this returned 0 games (`unit_item` endpoint); now works via `unit_item_unique` endpoint.
+
+### Results
+
+| Item | Stargazer | Original | Recomputed | Games | Verdict |
+|---|---|---|---|---|---|
+| **Infinity Edge** | Medallion | -.154(#38) | **+.038(#1)** | 6,012 | Major flip — IE best item when Jhin has IE too |
+| | Serpent | -.127(#36) | -.003(#26) | 12,342 | Near zero (was strongly negative) |
+| | Wolf | -.188(#42) | -.015(#35) | 11,620 | Still negative but much less |
+| | Shield | -.199(#39) | -.011(#30) | 11,460 | Still negative but much less |
+| | Huntress | -.188(#38) | -.041(#33) | 8,865 | Reduced but still clearly negative |
+| | Fountain | -.168(#39) | -.012(#30) | 6,441 | Still negative but much less |
+| **Giant Slayer** | all | -.001 to -.031 | -.004 to -.046 | 2.7k-5.5k | No improvement; GS bias is NOT from Jhin |
+| **Last Whisper** | all | +.008 to +.030 | -.008 to +.006 | 2.0k-4.3k | **Gets worse** — original LW positivity was partly from Jhin correlation |
 
 ### Interpretation
 
-1. **IE's negative Necessity is almost entirely selection bias from Jhin**. When Jhin is already full, IE becomes positive on Xayah in Medallion/Serpent/Fountain -- precisely the Stargazers where crit/burst synergizes.
-2. **Giant Slayer has real Stargazer interaction**, not just bias: it improves with recompute in Huntress but worsens in Mountain.
-3. **Last Whisper's mild conflict is confirmed**: small positive shift across all Stargazers, already positive before recompute.
+1. **IE in Medallion is the only true flip** (+.038 #1). In all other Stargazers, IE remains negative even after precise recompute. This is a major correction from the previous approximate method, which showed IE flipping positive in Serpent/Fountain too.
+
+2. **Previous approximate method overestimated the recompute effect.** `Unit('TFT17_Jhin', item_min=3)` (Jhin has any 3 items) introduced systematic upward bias because "Jhin full" ≠ "Jhin has this specific item." The approximate filter selected for stronger teams generally, not just for resolved item competition.
+
+3. **Last Whisper's original positive Necessity was partly a Jhin-correlation artifact.** When we control for Jhin carrying LW, Xayah's LW Necessity drops to near zero. This suggests LW's apparent value came from games where Jhin prioritized LW (indicating an already-strong AD comp), not from LW being inherently good on Xayah.
+
+4. **Giant Slayer is genuinely weak on Xayah.** Recompute makes it slightly worse, confirming the negative Necessity is not from Jhin competition.
+
+### Methodological Lesson
+
+The approximate conflict recompute (`Unit(carry, item_min=3)`) is **not a valid substitute** for precise per-item recompute (`Item(item_id, carrier=carry)`). The approximate method:
+- Overstates improvement for items with genuine competition (IE)
+- Misses that some items benefit from correlation, not despite competition (LW)
+- Should be deprecated now that `unit_item_unique` supports positive filters
 
 ## What I Learned
 
-1. **Xayah's core itemization is Stargazer-independent**: Kraken's Fury > Red Buff > Last Whisper in all 7 types.
-2. **Guinsoo's is the only item that truly changes by Stargazer**: mandatory in Mountain/Wolf, harmful in Huntress/Fountain.
-3. **Conflict recompute reveals IE as a hidden strong item** -- its terrible raw Necessity is a selection bias artifact from Jhin competition. In Medallion (best crit Stargazer), recomputed IE is actually #1.
-4. **Two new methods validated**: excluding special items and conflict recompute. Documented in [[methods/item-analysis-debiasing]].
+1. **Xayah's core itemization is Stargazer-independent**: Kraken's Fury > Red Buff > Last Whisper in all 6 types (Mountain excluded — data unreliable).
+2. **Guinsoo's is the only item that truly changes by Stargazer**: positive only in Wolf (#3), near-zero in Serpent, strongly negative in all others.
+3. **IE is only situationally redeemable** — precise conflict recompute shows it flips to #1 only in Medallion. Previous approximate method was too optimistic.
+4. **Last Whisper's value is partly a Jhin-correlation artifact** — a surprising finding from precise recompute.
+5. **Approximate conflict recompute is systematically biased** — the most important methodological lesson. Now that `unit_item_unique` works for positive filters, always use the precise method.
 
 ## Open Questions
 
-- What specific mechanics make Guinsoo's positive in Mountain/Wolf but negative in Huntress/Fountain?
-- Can conflict recompute be generalized to other comp pairs (e.g., any comp with a secondary AD carry)?
-- Is there a way to exclude Anima Squad items at the API level (currently only result-level filtering)?
+- What mechanic makes Guinsoo's positive in Wolf but negative in Huntress/Fountain?
+- Is LW's Jhin-correlation artifact seen in other dual-carry comps?
+- Mountain Stargazer data collapsed (7k games, AVP 6.66) — patch change or API issue?
 
 ## Questions for Xing
 
-- Is the conflict recompute method (filter for competing carry fully itemized) the standard approach? Or is there a more precise technique?
-- The Guinsoo's divergence across Stargazers is striking. Is this a known interaction, or worth deeper investigation?
-- Should we track Stargazer as a standard dimension in future comp analyses?
+- The approximate conflict recompute was systematically upward-biased. Should we add a warning to the debiasing methods page about this?
+- LW's drop after precise recompute is surprising — is "correlation artifact" the right framing, or is there another explanation?
+- Mountain data is broken in current patch. Should we remove it or keep it marked as unreliable?
 
 ## Review
+

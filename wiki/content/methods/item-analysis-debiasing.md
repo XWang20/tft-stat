@@ -58,11 +58,21 @@ filt_recomp_gs = xayah_base & Item('TFT_Item_MadredsBloodrazor', carrier_unit_id
 
 When Jhin also has IE, Xayah's IE is not at Jhin's expense -- both carries have the item, so Necessity reflects true value without competition bias.
 
-### TODO: Positive `unit_item` Not Supported
+### Implementation: Positive `unit_item_unique` Filter
 
-The MetaTFT API currently does not support positive `unit_item` filters (always returns 0 games). Only negation (`!unit_item`) works. The ideal per-item recompute cannot be implemented until the API supports this, or an alternative approach is found.
+The `unit_item_unique` endpoint supports positive carrier-item filters:
 
-Current workaround used in [[experiments/2026-04-22-xayah-stargazer-items]]: `Unit('TFT17_Jhin', item_min=3)` (Jhin has any 3 items). This is less precise -- it doesn't guarantee Jhin has the specific contested item.
+```python
+# Filter for games where Jhin carries IE
+Item('TFT_Item_InfinityEdge', carrier_unit_id='TFT17_Jhin')
+# → unit_item_unique=TFT17_Jhin-1%26TFT_Item_InfinityEdge-1
+```
+
+### WARNING: Approximate Method is Biased
+
+A previously used workaround `Unit('TFT17_Jhin', item_min=3)` (Jhin has any 3 items) introduces **systematic upward bias**. "Jhin is full" selects for stronger teams generally, not just for resolved item competition. In the Xayah experiment, the approximate method showed IE flipping positive in 3 Stargazers, while the precise method shows only 1 (Medallion). Worse, it masked that Last Whisper's positive Necessity was partly a Jhin-correlation artifact — precise recompute showed LW dropping to near-zero.
+
+**Always use `Item(item_id, carrier_unit_id=carry)` for conflict recompute. Do not use `Unit(carry, item_min=3)`.**
 
 ### How to Identify Conflict Items
 
