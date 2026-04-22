@@ -1,81 +1,97 @@
 You are a NEW agent performing a filter design exercise. You have NO prior context — read the wiki to learn.
 
-## Your Task
+## Your Goal
 
-Design a TFT composition filter from scratch, then compare with the expert ground truth.
+Analyze 100 recent top-player endgame boards, cluster them into distinct comp patterns, and design filters for each. This is a classification problem: group similar boards together, separate different ones.
 
 ## Step 1: Learn the Method
 
-Read these files in order:
-1. `wiki/content/methods/filter-strategy.md` — the filter design guide
-2. `wiki/content/concepts/framework.md` — core principles
+Read `wiki/content/methods/filter-strategy.md` — focus on "Design a Filter From Scratch" and the expert heuristics.
 
-Focus on the "Design a Filter From Scratch" section.
+**DO NOT read `tft_stat/compositions.py` or run `python3 cli.py comps` — they contain the answers.**
 
-## Step 2: Discover a Comp Pattern from Board Data
+## Step 2: Observe All Boards
 
-Run `python3 cli.py scout --top 3` to scan top player endgame boards.
+Run `python3 cli.py scout --top 3` to get ~50 top-3 boards.
 
-Study the boards. Look for recurring patterns:
-- Which units appear together frequently?
-- Which units carry 3 items in these boards?
+Study ALL boards holistically. For each board, note:
+- Which units carry 3 items (= carries)?
 - What traits are active?
+- What's the overall team shape?
 
-Identify ONE comp pattern you can describe (e.g., "boards with a DRX trait carry holding 3 items alongside Shen and Morgana as frontline"). Give it your own working name based on what you observe.
+## Step 3: Cluster Into Comp Patterns
 
-Check `wiki/content/experiments/filter-design-exercise-log.md` — if a similar pattern was already attempted, find a different one.
+Group boards by similarity. Ask:
+- Which boards share the same carry + trait combination?
+- Which boards look like variants of each other?
+- How many distinct comp types can you identify?
 
-**DO NOT read `tft_stat/compositions.py` or run `python3 cli.py comps` — they contain the answers. You will compare in Step 4 only.**
-- Easy: single carry comps (zed, kaisa, bonk, veigar, etc.)
-- Medium: carry + trait comps (conduit_mf, mecha, dark_star)
-- Hard: OR-group + exclusion comps (nova_95, vanguard_leblanc, nova_yi)
+Write down each cluster with:
+- A working name you choose
+- The defining features (carry, trait, core units)
+- How many boards fall into this cluster
+- How this cluster differs from similar-looking clusters
 
-## Step 3: Design Your Filter (WITHOUT looking at the answer)
+## Step 4: Design Filters For Each Cluster
 
-DO NOT read the comp's filter definition in compositions.py yet. Instead:
+For EACH cluster, design a filter iteratively:
 
-1. Run `python3 cli.py scout --top 3` to see what top players are running
-2. Based on the comp name and your understanding, design a filter using the guide's method:
-   - What is the carry? (or carry group?)
-   - What trait defines this comp?
-   - What exclusions might be needed?
-3. Write your filter as CLI args: `--comp` is NOT allowed. Use `--units`, `--or-units`, `--traits`, `--exclude-units`, `--exclude-traits`.
-4. Test your filter: `python3 cli.py total <your filter args>`
-5. Check units: `python3 cli.py units <your filter args>` — do the expected core units appear?
-6. Iterate if needed (sample too small, contamination, etc.)
+1. **Initial filter** — carry (with item threshold) + trait anchor
+2. **Test**: `python3 cli.py total <your filter args>` — check sample size
+3. **Validate**: `python3 cli.py units <your filter args>` — check:
+   - Do expected core units appear at high rate?
+   - Do unexpected units appear (= contamination from other comps)?
+   - What's the carry's IC3 rate?
+4. **Iterate** — if contamination or sample issues:
+   - Add exclusions for contaminating units/traits
+   - Adjust item threshold (i2 vs i3)
+   - Adjust trait bounds (≥ vs =)
+5. **Record each iteration** — what you changed and why
 
-## Step 4: Compare with Ground Truth
+## Step 5: Write the Report
 
-NOW read `tft_stat/compositions.py` and run `python3 cli.py comps`. Find the expert definition that matches your discovered pattern (if one exists). Compare:
-- What conditions did you get right?
-- What did you miss? (exclusions, trait bounds, OR-groups)
-- What did the expert include that you didn't think of? Why?
-- Run both filters and compare sample sizes and carry IC3 rates
-
-## Step 5: Record Results
-
-Append your results to `wiki/content/experiments/filter-design-exercise-log.md`:
+Write to `wiki/content/experiments/YYYY-MM-DD-filter-design-exercise.md`:
 
 ```
-### [comp_key] — [date]
-**My filter**: [CLI args]
-**Expert filter**: [description]
-**Sample size**: mine=X, expert=Y
-**What I got right**: ...
-**What I missed**: ...
-**Lesson for the guide**: ...
-**Guide update needed?**: yes/no — if yes, what specifically
+# Filter Design Exercise: Comp Discovery from Endgame Boards
+Status: 🧪 draft
+Date: YYYY-MM-DD
+
+## Observation
+What I saw in the 100 boards. How many distinct patterns. What stood out.
+
+## Clustering
+For each cluster:
+- Name, defining features, board count
+- How it differs from similar clusters
+
+## Filter Design Process (per cluster)
+For each cluster, show the FULL iteration:
+1. Initial filter → sample size, IC3, contamination check
+2. What I adjusted and why
+3. Final filter → sample size, IC3
+Show the reasoning, not just the result.
+
+## Comparison with Ground Truth
+NOW read compositions.py. For each of my clusters:
+- Does a matching expert definition exist?
+- What did I get right / miss?
+- Did I discover anything the expert definitions don't cover?
+
+## Lessons for the Guide
+What should be added to filter-strategy.md?
+
+## Questions for Xing
 ```
 
-## Step 6: Update the Guide (if needed)
+## Step 6: Update Guide + Commit
 
-If you learned something that the guide doesn't cover, update `wiki/content/methods/filter-strategy.md` with the specific insight. Make it actionable — not "be careful with X" but "when you see pattern P, do action A because reason R."
-
-## Step 7: Commit and Push
+If you learned something new, update `wiki/content/methods/filter-strategy.md`.
+Update `wiki/content/index.md` and `wiki/content/log.md`.
 
 ```
 git add wiki/ .
-git commit -m "filter-design exercise: [comp_key] — [one-line result]
+git commit -m "filter-design exercise: discovered N comp patterns from 100 boards
 
 via [HAPI](https://hapi.run)
 
