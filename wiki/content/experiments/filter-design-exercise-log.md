@@ -290,3 +290,23 @@ Tracking all filter-design exercises for learning and comparison.
   - **Misread the scout data**: I focused on Samira's items (i3) and Stargazer traits from the scout boards. But the scout boards were top-3 finishes — of course they have items on their carry. The comp's IDENTITY is simpler than what top boards show.
 
 **Lesson**: **Not all comps are defined by items or traits — some are defined by star level.** The 5 patterns in the guide (carry-only, carry+trait, OR-carry+trait+exclusions, carry+exclusions, item-based exclusions) all assume items are part of the comp identity. "Two Tanky Samira" introduces a 6th paradigm: **star-level presence** (`count=N`). The comp is "any board that committed to Samira★2+", and adding an item requirement (i3) artificially excludes half the legitimate games. This is a blindspot in the current guide. Also: scout board observations are biased toward winning boards — the carries always look itemized in top-3 finishes, which can mislead you into thinking item count is definitional when it's not.
+
+### veigar_reroll → veigar — 2026-04-22
+
+**Observation**: From `cli.py scout --top 3`, 4 boards showed Veigar★3(i3) as primary AP carry: JP1 #1 (Veigar★3(i3)/Ornn★3(i3)/Poppy★3, Astronaut_1, SummonTrait_1), KR #2 (Veigar★3(i3)/Bard★2(i3)/Rammus★2(i3), Astronaut_2), TW2 #2 (Veigar★3(i3)/Poppy★3(i3)/Lissandra★2(i3)/Gnar★2(i3), Astronaut_3), VN2 #3 (Veigar★3(i3)/Corki★2(i3)/Rammus★2(i3), Astronaut_2). All featured Veigar★3 as the AP reroll carry with JG/Nashor/SoS builds. The secondary units varied widely (Ornn, Bard, Poppy, Corki) — no consistent trait shell or co-carry.
+
+**My reasoning**: Veigar appeared as a reroll AP carry across multiple boards, but with no consistent trait shell (Astronaut breakpoints ranged 1-3, secondary carries varied). I initially treated it as a carry-only filter (Pattern 1), which was correct. However, I then second-guessed myself because no core unit exceeded 80% besides Rammus (a generic tank) — I interpreted the dispersed unit profile as contamination rather than recognizing that Veigar's comp is genuinely flexible in supporting units. This led me to over-exclude in subsequent iterations.
+
+**Filter iterations**:
+1. `--or-units TFT17_Veigar:i3` → 112,267 games, AVP 4.35, Top4 52.2%. Rammus 87%, Illaoi 57%, Bard 44%, Galio 12%. No 3-item carry contamination visible. **This was already the answer.**
+2. `--or-units TFT17_Veigar:i3 --exclude-units TFT17_Poppy:i3` → 59,904 games, AVP 4.53, Top4 48.5%. Lost 47% of games — massive over-exclusion. Poppy(i3) is a co-present carry in Veigar boards, not contamination.
+3. `--or-units TFT17_Veigar:i3 --exclude-units TFT17_Poppy:i3,TFT17_Corki:i3,TFT17_Galio:i3` → 39,197 games, AVP 4.80, Top4 43.4%. Destroyed the filter — removed 65% of legitimate games. Performance collapsed.
+
+**Expert filter**: `Veigar(i3, i_max=3)` — pure carry-only, no exclusions, no trait. 112,325 games, AVP 4.35, Top4 52.2%.
+
+**Comparison**:
+- right: Iteration 1 was the correct answer — carry-only filter (Pattern 1), no trait lock, no exclusions needed
+- missed: item_max=3 (exact 3 items vs minimum 3) — a minor precision detail
+- over-excluded: iterations 2-3 added Poppy(i3), Corki(i3), Galio(i3) exclusions that destroyed the filter. Each of these units legitimately co-exists with Veigar in the same boards
+
+**Lesson**: **When iteration 1 is already clean, stop iterating.** The absence of >80% core units (besides Rammus) is not a contamination signal — it's a signal that Veigar's comp is genuinely flexible in its supporting cast. Different boards pair Veigar with Astronaut units, Summon units, or generic tanks, but they're all legitimately "the Veigar comp." The instinct to "clean up" a dispersed unit profile by adding exclusions is dangerous when the carry is already unique. A unique carry with a flexible support shell = carry-only filter, full stop. Also: when exclusions remove >10% of games and AVP gets worse (not better), that's a clear signal you're cutting real games, not contamination.
