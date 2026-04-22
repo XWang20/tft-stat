@@ -23,6 +23,12 @@ Every unit is either **primary carry (主C)** or **secondary/support (副C)** in
 
 Whether a unit is primary carry is determined by comp context. `Unit('TFT17_Vex', item_min=3)` in compositions.py means "games where Vex is the primary carry." Without this distinction, you're mixing two completely different populations.
 
+**Not all comps have a single primary carry.** Comp types:
+- **Single carry**: one clear 主C (e.g., Zed, Kai'Sa) — simple
+- **Flex carry**: carry slot rotates between units (e.g., nova_95: Fiora/Vex/Graves) — use OR-group
+- **Dual carry**: items distributed across two units (e.g., mecha: ASOL + Galio) — lower item threshold
+- **Line**: a flexible path defined by a trait shell, not a fixed board (e.g., Space Groove) — harder to filter, more contamination expected
+
 ### Simpson's Paradox Is Not Theoretical — It's the Default
 
 Nami demonstrates this with real data. Her global item rankings (all 428k Nami-i3 games) show Void Staff as the #1 item (Nec +0.145). But within either of her actual comps:
@@ -106,10 +112,17 @@ When compositions.py doesn't have the comp you want to study, or when you discov
 Run `python3 cli.py scout --top 3` to scan recent top-3 endgame boards from Challenger/GM. Identify recurring board patterns — groups of units that appear together. These are candidate comps.
 
 #### Step 2: Write initial filter (Dishsoap method)
-Start with the comp's identity, not a single unit:
-- **Carry**: the unit with 3 items in those boards (this is the primary carry)
-- **Trait anchor**: the trait that defines the comp's identity (e.g., DRX for NOVA, DarkStar for Dark Star)
-- Don't add exclusions yet — start broad
+Start with the comp's identity, not a single unit. Different comp types need different approaches:
+
+**Single carry comp** (e.g., `zed`): trait anchor + carry with 3 items. Straightforward.
+
+**Flex carry comp** (e.g., `nova_95`): the carry slot is flexible — Fiora, Vex, or Graves can all be the primary carry. Use an OR-group for the carries: `(Fiora i3 | Vex i3 | Graves i3) & DRX ≥ 2`. The comp is defined by the trait shell, not a single carry.
+
+**Dual/multi carry comp** (e.g., `mecha`): multiple units share items. `ASOL(i2) + Galio(i2) + Mecha = 6`. Lower the item threshold (i2 instead of i3) because items are distributed.
+
+**Line (not comp)** (e.g., `space_groove`): a flexible path defined by a trait, not a fixed board. `(Nami i3 | Samira i3) + Space Groove ≥ 5`. These are harder to filter because the endgame boards vary more. Expect lower IC3 rates and more contamination — add exclusions carefully.
+
+Don't add exclusions yet in this step — start broad.
 
 #### Step 3: Validate with data
 Run `python3 cli.py total` and `python3 cli.py units` with your filter. Check:
