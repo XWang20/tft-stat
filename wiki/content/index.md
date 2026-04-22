@@ -87,7 +87,7 @@
 |---|---|---|---|---|
 | [[experiments/vex-nova95]] | 2026-04-21 | 2 | ✅ | 5 metrics compared; Necessity + Builds converge; Red Buff/Dcap best |
 | [[experiments/vex-cross-comp-items]] | 2026-04-21 | 1 | 🔄 | Vex BIS changes across comps; filter not standardized (ad-hoc, not compositions.py) |
-| [[experiments/cross-validation-vex-nova95]] | 2026-04-21 | 9 | 🧪 | Blocked on tftable API; pending |
+| [[experiments/cross-validation-vex-nova95]] | 2026-04-22 | 9 | 🧪 | Spearman 0.993 — top 9 items match; Necessity values differ but rankings robust |
 | [[experiments/nova-trait-breakpoint]] | 2026-04-22 | 5 | 🔄 | Used AVP instead of Necessity; no within-comp control |
 
 ### Experiment Queue
