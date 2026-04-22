@@ -94,10 +94,11 @@
 | [[experiments/2026-04-22-trait-breakpoint-multi-comp]] | 2026-04-22 | 5 | 🧪 | 3 traits × 3 comps: itemization stable across breakpoints; Necessity direction depends on carry leverage |
 | [[experiments/2026-04-22-universal-improvement-bias]] | 2026-04-22 | 5 | 🧪 | 8 traits tested: 7/8 show higher tier = better AVP (selection bias); Anima Squad reverses (opportunity cost > trait value) |
 | [[experiments/2026-04-22-filter-reliability]] | 2026-04-22 | 1/9 | 🧪 | Filter reliability depends on carry role: Vex ρ=0.976 (stable), Morde ρ=0.048 (unstable); tanks need cross-validation |
+| [[experiments/2026-04-22-carry-leverage-necessity]] | 2026-04-22 | 5 | 🧪 | 5 comps tested: AP carry Necessity ↑ at higher tier, AD carry flat/↓; ΔAVP magnitude may be confound |
 
 ### Experiment Queue
 
-1. **Module 5 follow-up**: Does the "carry leverage" Necessity direction pattern hold across more comps?
+(empty — generate from open questions)
 
 ### Experiment Lifecycle
 

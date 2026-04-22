@@ -1,3 +1,11 @@
+## [2026-04-22] cron | Carry leverage experiment + vex-cross-comp consistency check
+- Giscus #7: confirmed Round 3 consistency fixes complete for [[experiments/2026-04-22-vex-cross-comp-items]]
+- New experiment: [[experiments/2026-04-22-carry-leverage-necessity]] — Module 5 follow-up
+- Tested 2 new comps (Space Groove Nami, Meeple Corki) to validate carry leverage theory
+- Key finding: AP carry Necessity ↑ at higher tier (Nami +163% Nashor's), AD carry flat (Corki +10%)
+- ΔAVP magnitude may be the real driver, not carry type per se
+- Updated: [[index]] (experiments table, queue cleared)
+
 ## [2026-04-22] cron | Filter reliability experiment + vex-cross-comp revision
 - Revised [[experiments/2026-04-22-vex-cross-comp-items]] — removed stale vex_95 references, fixed consistency per Xing feedback
 - New experiment: [[experiments/2026-04-22-filter-reliability]] — Module 1/9
