@@ -211,6 +211,50 @@ def cmd_scout(args):
         print()
 
 
+def cmd_games(args):
+    """Show sample boards matching a filter — sanity check."""
+    params = _params_from_args(args)
+    data = query("recent_matches", params)
+    matches = data.get("data", [])
+    item_names = load_item_names()
+
+    if not matches:
+        print("No matches found with this filter.")
+        return
+
+    show = min(args.show or 10, len(matches))
+    print(f"{show}/{len(matches)} recent boards matching filter\n")
+
+    for m in matches[:show]:
+        placement = m.get("placement", "?")
+        rank = m.get("rank", "?")
+        server = m.get("server", "?")
+
+        units = []
+        for u in m.get("unit_tier_numitems", []):
+            parts = u.rsplit("_", 2)
+            if len(parts) >= 3:
+                uid = "_".join(parts[:-2])
+                star, items = parts[-2], parts[-1]
+                name = uid.replace("TFT17_", "")
+                units.append(f"{name}{'★' + star if star != '1' else ''}{'({})'.format(items) if items != '0' else ''}")
+
+        builds = []
+        for b in m.get("unit_buildNames", []):
+            if "&" in b:
+                unit, items_str = b.split("&", 1)
+                item_list = items_str.split("|")
+                if len(item_list) >= 2:
+                    unit_name = unit.replace("TFT17_", "")
+                    names = [item_names.get(i, i.replace("TFT_Item_", "")) for i in item_list]
+                    builds.append(f"{unit_name}: {' / '.join(names)}")
+
+        print(f"#{placement} {rank} {server} | {' '.join(units)}")
+        for b in builds:
+            print(f"  {b}")
+        print()
+
+
 def _get_holder_baseline(params: list[str], holder: str) -> tuple[float, int]:
     try:
         units_data = query("units_unique", params)
@@ -266,13 +310,19 @@ def main():
     p_scout.add_argument("--rank", help="Rank filter (default: CHALLENGER,GRANDMASTER,MASTER)")
     p_scout.add_argument("--top", type=int, default=4, help="Placement cutoff (default: 4)")
 
+    # games
+    p_games = sub.add_parser("games", help="Show sample boards matching a filter (sanity check)")
+    _add_filter_args(p_games)
+    p_games.add_argument("--show", type=int, default=10, help="Boards to show (default: 10)")
+
     args = parser.parse_args()
     if not args.command:
         parser.print_help()
         return
 
     {"comps": cmd_comps, "total": cmd_total, "units": cmd_units,
-     "items": cmd_items, "tftable": cmd_tftable, "scout": cmd_scout}[args.command](args)
+     "items": cmd_items, "tftable": cmd_tftable, "scout": cmd_scout,
+     "games": cmd_games}[args.command](args)
 
 
 def _add_filter_args(p):
