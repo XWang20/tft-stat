@@ -4,3 +4,4 @@ __pycache__/
 wiki/node_modules/
 wiki/public/
 wiki/.quartz-cache/
+logs/
