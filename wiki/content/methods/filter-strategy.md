@@ -77,6 +77,12 @@ Every filter reduces sample size. Three filters might be enough. Seven filters m
 
 **The art is finding the minimum filters that isolate what you want to study.**
 
+## Trust compositions.py Definitions
+
+tftable 的阵容定义是专家手写的，保证有足够对局数量。如果我们的 filter 转换返回 0 或极少 games，**一定是代码 bug**，不是定义的问题。不要怀疑 compositions.py。
+
+案例：`vex_95` 曾返回 0 games，排查发现是 bare Unit 缺少 `_.*` 通配符后缀（`filter_params.py` 已修复）。
+
 ## Common Filters
 
 | Filter | Purpose |

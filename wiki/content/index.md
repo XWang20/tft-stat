@@ -88,7 +88,7 @@
 | [[experiments/vex-nova95]] | 2026-04-21 | 2 | ✅ | 5 metrics compared; Necessity + Builds converge; Red Buff/Dcap best |
 | [[experiments/vex-cross-comp-items]] | 2026-04-22 | 1 | 🧪 | Revised: Vex BIS across comps with standardized filters; ad-hoc filters caused 3 sign flips in Dark Star |
 | [[experiments/cross-validation-vex-nova95]] | 2026-04-22 | 9 | 🧪 | Spearman 0.993 — top 9 items match; Necessity values differ but rankings robust |
-| [[experiments/nova-trait-breakpoint]] | 2026-04-22 | 5 | 🧪 | Revised: Necessity within comps; item rankings stable across trait tiers; filter leakage discovered; emblem path negligible (3.4%) |
+| [[experiments/nova-trait-breakpoint]] | 2026-04-22 | 5 | 🧪 | Third revision: nova_yi focus (66k/120k); 5 NOVA doesn't change MasterYi itemization; AVP gap is selection bias |
 | [[experiments/build-vs-single-necessity]] | 2026-04-22 | 3 | 🧪 | Build-implied rankings differ from single-item: Gunblade rises to #1, Guinsoo drops (ceiling effect); methods complementary |
 | [[experiments/filter-design-patterns]] | 2026-04-22 | 1 | 🧪 | 29 comp filters → 5 design patterns; LeBlanc Guinsoo invisible without filter; Nami Simpson's Paradox |
 

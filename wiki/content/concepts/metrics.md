@@ -68,6 +68,11 @@ Key relationships:
 - Most items have 4k-183k games — sample size is already sufficient
 - Shrinkage doesn't change rankings
 
+### Necessity Is Not the Final Answer
+- tftable 除了 Necessity 还使用了进阶 debiasing 方法，这解释了我们的 Necessity 数值和 tftable 有系统性差异（排名一致但量级不同）
+- Xing 会逐步教这些方法。当前阶段：用 Necessity 做分析，和 tftable 交叉验证排名一致性
+- 不要把 Necessity 当作最终答案 — 它是学习路径上的一步，后续会更新 metrics 体系
+
 ### No Single Perfect Metric
 - **Necessity + Build Analysis** converging is currently our best signal for confidence
 - Each metric answers a different question — use the right tool for the right question

@@ -1,3 +1,11 @@
+## [2026-04-22] cron | Issue processing + nova-trait-breakpoint revision
+- Processed 6 GitHub issues (#1-6): 3 feedback, 2 conclusions, 1 revision
+- Issue #4 (conclusion): integrated tftable debiasing info into concepts/metrics.md — new "Necessity Is Not the Final Answer" section
+- Issue #3 (conclusion): integrated compositions.py trust rule into methods/filter-strategy.md — new "Trust compositions.py Definitions" section
+- Issue #1 (revision): nova-trait-breakpoint third revision — switched to nova_yi as primary comp (66k 2 NOVA vs 120k 5 NOVA), focused on "does 5 NOVA change itemization?" (answer: no for MasterYi, top 3 identical)
+- Issues #2, #5, #6: confirmed feedback already recorded in wiki, closed
+- First cross-validation disagreement found: Edge of Night vs Giant Slayer at #1 for MasterYi
+
 ## [2026-04-22] experiment | Expert Filter Design Patterns
 - Taxonomized all 29 compositions.py filters into 5 design patterns
 - LeBlanc case study: Guinsoo invisible in minimal filter, #1 in full filter (92% usage)
