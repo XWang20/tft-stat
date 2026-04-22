@@ -10,10 +10,10 @@ Does Vex's BIS change depending on what comp she's in? If the same champion has 
 This is a revision of the original experiment. The original used ad-hoc filters (agent-constructed on the fly). This time we use **standardized compositions.py definitions** -- expert-curated filters ported from XWang20/tft_data.
 
 We compare Vex's item metrics in three comp contexts plus unfiltered:
-1. **NOVA 95** (`nova_95`) -- the dominant Vex comp (231k Vex games)
-2. **Dark Star** (`dark_star`) -- trait-focused comp where Vex sometimes appears (5.6k Vex games)
+1. **NOVA 95** (`nova_95`) -- the dominant Vex comp (210k Vex games)
+2. **Dark Star** (`dark_star`) -- trait-focused comp where Vex sometimes appears (5.7k Vex games)
 3. **Shepherd** (`shepherd`) -- Summon-focused comp where Vex sometimes appears (3.9k Vex games)
-4. **Unfiltered** -- all Vex games (616k games)
+4. **Unfiltered** -- all Vex games (618k games)
 
 **Note**: `vex_95` returned 0 games -- this comp definition (Vex 3-item + Blitzcrank + Mordekaiser, excluding DRX/LeBlanc/Jhin) is too narrow for current data availability. It may have been defined for a different patch window.
 
@@ -21,67 +21,67 @@ We compare Vex's item metrics in three comp contexts plus unfiltered:
 
 ## Chapter 1: The Data (Standardized Filters)
 
-### NOVA 95 (231,363 Vex games, AVP 4.12)
+### NOVA 95 (210,399 Vex games, AVP 4.16)
 
-Comp total: 308,499 games (AVP 4.21). Vex appears in 75% of nova_95 games.
-
-| Item | Games | Rate | AVP | Edge | Necessity |
-|------|-------|------|-----|------|-----------|
-| Guinsoo's Rageblade | 202,505 | 88% | 4.06 | +0.06 | **+0.452** |
-| Giant Slayer | 84,906 | 37% | 3.99 | +0.13 | +0.075 |
-| Hextech Gunblade | 65,854 | 28% | 3.95 | +0.17 | +0.068 |
-| Striker's Flail | 36,202 | 16% | 3.78 | +0.34 | +0.063 |
-| Rabadon's Deathcap | 22,247 | 10% | 3.76 | +0.36 | +0.038 |
-| Red Buff | 16,899 | 7% | 3.68 | +0.44 | +0.035 |
-| Archangel's Staff | 22,320 | 10% | 3.95 | +0.17 | +0.018 |
-| Jeweled Gauntlet | 51,457 | 22% | 4.11 | +0.01 | +0.003 |
-
-### Dark Star (5,633 Vex games, AVP 4.21)
-
-Comp total: 110,814 games (AVP 4.39). Vex appears in only 5% of dark_star games -- she is not the primary carry.
+Comp total: 237,970 games (AVP 4.28). Vex appears in 88% of nova_95 games.
 
 | Item | Games | Rate | AVP | Edge | Necessity |
 |------|-------|------|-----|------|-----------|
-| Guinsoo's Rageblade | 3,762 | 67% | 4.08 | +0.13 | **+0.260** |
-| Dark Star Emblem | 2,201 | 39% | 3.98 | +0.23 | +0.149 |
-| Void Staff | 751 | 13% | 3.94 | +0.27 | +0.041 |
-| Giant Slayer | 1,061 | 19% | 4.10 | +0.12 | +0.027 |
-| Rabadon's Deathcap | 408 | 7% | 3.89 | +0.32 | +0.025 |
-| Hextech Gunblade | 634 | 11% | 4.03 | +0.18 | +0.023 |
-| Archangel's Staff | 404 | 7% | 3.92 | +0.29 | +0.022 |
-| Jeweled Gauntlet | 1,400 | 25% | 4.20 | +0.01 | +0.004 |
+| Guinsoo's Rageblade | 185,706 | 88% | 4.09 | +0.07 | **+0.501** |
+| Giant Slayer | 79,052 | 38% | 4.02 | +0.14 | +0.084 |
+| Hextech Gunblade | 61,768 | 29% | 3.97 | +0.18 | +0.076 |
+| Striker's Flail | 33,307 | 16% | 3.82 | +0.33 | +0.063 |
+| Rabadon's Deathcap | 20,205 | 10% | 3.80 | +0.36 | +0.038 |
+| Red Buff | 15,108 | 7% | 3.73 | +0.43 | +0.033 |
+| Archangel's Staff | 20,232 | 10% | 3.99 | +0.17 | +0.018 |
+| Jeweled Gauntlet | 46,581 | 22% | 4.15 | +0.01 | +0.002 |
 
-### Shepherd (3,892 Vex games, AVP 3.38)
+### Dark Star (5,660 Vex games, AVP 4.21)
 
-Comp total: 49,295 games (AVP 4.02). Vex appears in only 8% of shepherd games.
+Comp total: 111,329 games (AVP 4.39). Vex appears in only 5% of dark_star games -- she is not the primary carry.
 
 | Item | Games | Rate | AVP | Edge | Necessity |
 |------|-------|------|-----|------|-----------|
-| Guinsoo's Rageblade | 2,858 | 73% | 3.27 | +0.11 | **+0.298** |
-| Giant Slayer | 1,200 | 31% | 3.12 | +0.25 | +0.113 |
-| Void Staff | 662 | 17% | 3.16 | +0.22 | +0.044 |
-| Jeweled Gauntlet | 1,280 | 33% | 3.32 | +0.06 | +0.027 |
+| Guinsoo's Rageblade | 3,783 | 67% | 4.09 | +0.13 | **+0.258** |
+| Dark Star Emblem | 2,217 | 39% | 3.98 | +0.23 | +0.149 |
+| Void Staff | 749 | 13% | 3.95 | +0.27 | +0.040 |
+| Giant Slayer | 1,062 | 19% | 4.10 | +0.11 | +0.026 |
+| Rabadon's Deathcap | 412 | 7% | 3.89 | +0.32 | +0.026 |
+| Hextech Gunblade | 640 | 11% | 4.04 | +0.17 | +0.022 |
+| Archangel's Staff | 408 | 7% | 3.93 | +0.28 | +0.022 |
+| Jeweled Gauntlet | 1,411 | 25% | 4.21 | +0.01 | +0.003 |
+
+### Shepherd (3,901 Vex games, AVP 3.38)
+
+Comp total: 49,432 games (AVP 4.02). Vex appears in only 8% of shepherd games.
+
+| Item | Games | Rate | AVP | Edge | Necessity |
+|------|-------|------|-----|------|-----------|
+| Guinsoo's Rageblade | 2,869 | 74% | 3.27 | +0.11 | **+0.301** |
+| Giant Slayer | 1,204 | 31% | 3.13 | +0.25 | +0.112 |
+| Void Staff | 662 | 17% | 3.16 | +0.22 | +0.045 |
+| Jeweled Gauntlet | 1,281 | 33% | 3.32 | +0.05 | +0.026 |
+| Hextech Gunblade | 746 | 19% | 3.28 | +0.09 | +0.022 |
 | Striker's Flail | 268 | 7% | 3.09 | +0.29 | +0.021 |
-| Hextech Gunblade | 746 | 19% | 3.29 | +0.09 | +0.020 |
-| Rabadon's Deathcap | 296 | 8% | 3.14 | +0.23 | +0.019 |
-| Red Buff | 182 | 5% | 3.06 | +0.32 | +0.015 |
+| Rabadon's Deathcap | 297 | 8% | 3.15 | +0.23 | +0.019 |
+| Red Buff | 185 | 5% | 3.04 | +0.33 | +0.017 |
 
 Notable negative-Necessity items in Shepherd:
-- Shepherd Emblem: Nec -0.034 (the comp's own emblem hurts Vex!)
+- Shepherd Emblem: Nec -0.037 (the comp's own emblem hurts Vex!)
 - Spear of Shojin: Nec -0.025
 
-### Unfiltered (616,448 games, AVP 4.33)
+### Unfiltered (618,285 games, AVP 4.33)
 
 | Item | Games | Rate | AVP | Edge | Necessity |
 |------|-------|------|-----|------|-----------|
-| Guinsoo's Rageblade | 497,853 | 81% | 4.25 | +0.08 | **+0.315** |
-| Giant Slayer | 220,625 | 36% | 4.12 | +0.21 | +0.115 |
-| Hextech Gunblade | 143,339 | 23% | 4.12 | +0.21 | +0.063 |
-| Striker's Flail | 64,814 | 11% | 3.99 | +0.34 | +0.040 |
-| Rabadon's Deathcap | 56,201 | 9% | 3.95 | +0.38 | +0.038 |
-| Red Buff | 32,745 | 5% | 3.89 | +0.44 | +0.025 |
-| Void Staff | 102,176 | 17% | 4.22 | +0.11 | +0.021 |
-| Jeweled Gauntlet | 158,536 | 26% | 4.29 | +0.04 | +0.014 |
+| Guinsoo's Rageblade | 499,301 | 81% | 4.25 | +0.08 | **+0.316** |
+| Giant Slayer | 221,291 | 36% | 4.12 | +0.21 | +0.116 |
+| Hextech Gunblade | 143,816 | 23% | 4.12 | +0.21 | +0.063 |
+| Striker's Flail | 65,005 | 11% | 3.99 | +0.34 | +0.040 |
+| Rabadon's Deathcap | 56,421 | 9% | 3.95 | +0.38 | +0.038 |
+| Red Buff | 32,817 | 5% | 3.89 | +0.44 | +0.025 |
+| Void Staff | 102,369 | 17% | 4.22 | +0.11 | +0.021 |
+| Jeweled Gauntlet | 158,995 | 26% | 4.29 | +0.04 | +0.015 |
 
 ---
 
@@ -94,22 +94,22 @@ Guinsoo's is #1 in every context by a massive margin. Play rate varies (67-88%),
 
 | Rank | NOVA 95 | Dark Star | Shepherd |
 |------|---------|-----------|----------|
-| #1 | Guinsoo's (0.452) | Guinsoo's (0.260) | Guinsoo's (0.298) |
-| #2 | Giant Slayer (0.075) | **Dark Star Emblem** (0.149) | Giant Slayer (0.113) |
-| #3 | Hextech Gunblade (0.068) | **Void Staff** (0.041) | **Void Staff** (0.044) |
-| #4 | Striker's Flail (0.063) | Giant Slayer (0.027) | Jeweled Gauntlet (0.027) |
-| #5 | Rabadon's Deathcap (0.038) | Rabadon's Deathcap (0.025) | Striker's Flail (0.021) |
-| #6 | Red Buff (0.035) | Hextech Gunblade (0.023) | Hextech Gunblade (0.020) |
+| #1 | Guinsoo's (0.501) | Guinsoo's (0.258) | Guinsoo's (0.301) |
+| #2 | Giant Slayer (0.084) | **Dark Star Emblem** (0.149) | Giant Slayer (0.112) |
+| #3 | Hextech Gunblade (0.076) | **Void Staff** (0.040) | **Void Staff** (0.045) |
+| #4 | Striker's Flail (0.063) | Giant Slayer (0.026) | Jeweled Gauntlet (0.026) |
+| #5 | Rabadon's Deathcap (0.038) | Rabadon's Deathcap (0.026) | Hextech Gunblade (0.022) |
+| #6 | Red Buff (0.033) | Hextech Gunblade (0.022) | Striker's Flail (0.021) |
 
 Key differences (bolded items shift significantly across comps):
 
 1. **Dark Star Emblem** is #2 in Dark Star (Nec 0.149) -- obvious comp-specific synergy. Does not appear in other comps.
 
-2. **Void Staff** is #3 in Dark Star (0.041) and Shepherd (0.044) but only Nec +0.007 in NOVA (not even in the top 8). Comp-dependent value.
+2. **Void Staff** is #3 in Dark Star (0.040) and Shepherd (0.045) but does not appear in NOVA's top items at all. Comp-dependent value.
 
-3. **Giant Slayer** is #2 in NOVA (0.075) and Shepherd (0.113), but drops to #4 in Dark Star (0.027). Still positive everywhere -- see Chapter 3 for how this differs from the old ad-hoc result.
+3. **Giant Slayer** is #2 in NOVA (0.084) and Shepherd (0.112), but drops to #4 in Dark Star (0.026). Still positive everywhere -- see Chapter 3 for how this differs from the old ad-hoc result.
 
-4. **Jeweled Gauntlet** is essentially neutral in NOVA (+0.003) and Dark Star (+0.004), but moderately useful in Shepherd (+0.027, #4). Not a trap anywhere with standardized filters.
+4. **Jeweled Gauntlet** is essentially neutral in NOVA (+0.002) and Dark Star (+0.003), but moderately useful in Shepherd (+0.026, #4). Not a trap anywhere with standardized filters.
 
 5. **Striker's Flail** matters in NOVA (#4, 0.063) but is marginal elsewhere.
 
@@ -117,12 +117,12 @@ Key differences (bolded items shift significantly across comps):
 
 | Context | Rate | AVP | Edge | Necessity |
 |---------|------|-----|------|-----------|
-| NOVA 95 | 37% | 3.99 | +0.13 | +0.075 |
-| Dark Star | 19% | 4.10 | +0.12 | +0.027 |
-| Shepherd | 31% | 3.12 | +0.25 | +0.113 |
-| Unfiltered | 36% | 4.12 | +0.21 | +0.115 |
+| NOVA 95 | 38% | 4.02 | +0.14 | +0.084 |
+| Dark Star | 19% | 4.10 | +0.11 | +0.026 |
+| Shepherd | 31% | 3.13 | +0.25 | +0.112 |
+| Unfiltered | 36% | 4.12 | +0.21 | +0.116 |
 
-Giant Slayer is positive everywhere, but its Necessity varies 4x (0.027 in Dark Star to 0.113 in Shepherd). The comp context changes both the play rate and the marginal value.
+Giant Slayer is positive everywhere, but its Necessity varies 4x (0.026 in Dark Star to 0.116 unfiltered). The comp context changes both the play rate and the marginal value.
 
 ---
 
@@ -134,26 +134,28 @@ This is the core of the revision. How much did the filter definition matter?
 
 | Comp | Old Vex Games | New Vex Games | Change |
 |------|--------------|---------------|--------|
-| NOVA 95 | 210,392 | 231,363 | +10% |
-| Dark Star | 3,692 | 5,633 | **+53%** |
-| Shepherd | 58,817 | 3,892 | **-93%** |
-| Unfiltered | 460,602 | 616,448 | +34% |
+| NOVA 95 | 210,392 | 210,399 | ~0% |
+| Dark Star | 3,692 | 5,660 | **+53%** |
+| Shepherd | 58,817 | 3,901 | **-93%** |
+| Unfiltered | 460,602 | 618,285 | +34% |
 
-The **Shepherd change is dramatic**: the old ad-hoc filter captured 58k Vex games, while the standardized Shepherd definition (Summon 5+, excluding Teemo/Lissandra carries) only has 3.9k Vex games. The old filter was likely defining "any game with Vex in a summon-ish context" rather than the actual Shepherd comp. 49,295 total Shepherd games exist, but Vex only appears in 8% of them -- she is not the Shepherd carry.
+The **NOVA 95 sample sizes now match**: the old ad-hoc filter had 210,392 Vex games; the standardized filter (after the `_.*` wildcard bug fix) has 210,399 -- essentially identical. The previous revision showed 231,363 (+10%), but that inflation was entirely caused by the filter bug allowing ~21k contaminated games through failed exclusions. With the bug fixed, the ad-hoc and standardized approaches converge on the same population for NOVA 95.
+
+The **Shepherd change is dramatic**: the old ad-hoc filter captured 58k Vex games, while the standardized Shepherd definition (Summon 5+, excluding Teemo/Lissandra carries) only has 3.9k Vex games. The old filter was likely defining "any game with Vex in a summon-ish context" rather than the actual Shepherd comp. 49,432 total Shepherd games exist, but Vex only appears in 8% of them -- she is not the Shepherd carry.
 
 ### Metric Changes That Matter
 
 | Item | Comp | Old Necessity | New Necessity | Direction Change? |
 |------|------|--------------|---------------|-------------------|
-| Giant Slayer | Dark Star | **-0.003** | **+0.027** | YES (neg -> pos) |
-| Hextech Gunblade | Dark Star | -0.007 | **+0.023** | YES (neg -> pos) |
-| Jeweled Gauntlet | Dark Star | **-0.067** | +0.004 | YES (neg -> neutral) |
-| Giant Slayer | Shepherd | +0.034 | **+0.113** | Same, 3x magnitude |
-| Shepherd Emblem | Shepherd | (not reported) | **-0.034** | New finding |
+| Giant Slayer | Dark Star | **-0.003** | **+0.026** | YES (neg -> pos) |
+| Hextech Gunblade | Dark Star | -0.007 | **+0.022** | YES (neg -> pos) |
+| Jeweled Gauntlet | Dark Star | **-0.067** | +0.003 | YES (neg -> neutral) |
+| Giant Slayer | Shepherd | +0.034 | **+0.112** | Same, 3x magnitude |
+| Shepherd Emblem | Shepherd | (not reported) | **-0.037** | New finding |
 
 **Three items flipped sign in Dark Star.** The old ad-hoc filter was polluting Dark Star data with non-Dark Star games (or excluding valid ones), producing artificial negative Necessity values.
 
-The biggest casualty: **Jeweled Gauntlet was called a "trap item"** in the original report (Nec -0.067 in Dark Star). With standardized filters, it's Nec +0.004 -- essentially neutral. The "trap" was an artifact of bad filtering, not a real property of the item.
+The biggest casualty: **Jeweled Gauntlet was called a "trap item"** in the original report (Nec -0.067 in Dark Star). With standardized filters, it's Nec +0.003 -- essentially neutral. The "trap" was an artifact of bad filtering, not a real property of the item.
 
 ### What Survived the Revision
 
@@ -175,18 +177,18 @@ tftable ground truth was available for **NOVA 95 only**. For Dark Star and Sheph
 
 | Item | MetaTFT Nec | tftable Nec | MetaTFT Rank | tftable Rank |
 |------|------------|-------------|--------------|--------------|
-| Guinsoo's Rageblade | +0.452 | +0.764 | 1 | 1 |
-| Giant Slayer | +0.075 | +0.092 | 2 | 2 |
-| Hextech Gunblade | +0.068 | +0.078 | 3 | 4 |
+| Guinsoo's Rageblade | +0.501 | +0.764 | 1 | 1 |
+| Giant Slayer | +0.084 | +0.092 | 2 | 2 |
+| Hextech Gunblade | +0.076 | +0.078 | 3 | 4 |
 | Striker's Flail | +0.063 | +0.080 | 4 | 3 |
 | Rabadon's Deathcap | +0.038 | +0.049 | 5 | 5 |
-| Red Buff | +0.035 | +0.046 | 6 | 6 |
+| Red Buff | +0.033 | +0.046 | 6 | 6 |
 | Archangel's Staff | +0.018 | +0.017 | 7 | 7 |
-| Jeweled Gauntlet | +0.003 | -0.002 | 8 | 11 |
+| Jeweled Gauntlet | +0.002 | -0.002 | 8 | 11 |
 
-**Top 7 items match between MetaTFT and tftable.** Rankings are nearly identical, with only a Hextech/Striker's swap at #3/#4. The absolute Necessity values differ (tftable Guinsoo's is 0.764 vs MetaTFT 0.452), likely due to different data collection periods or filter implementation details. But the rankings converge strongly.
+**Top 7 items match between MetaTFT and tftable.** Rankings are nearly identical, with only a Hextech/Striker's swap at #3/#4. The absolute Necessity values differ (tftable Guinsoo's is 0.764 vs MetaTFT 0.501), likely due to different data collection periods or filter implementation details. But the rankings converge strongly.
 
-tftable sample: 135,798 games (vs MetaTFT 231,363 Vex games). Different data windows likely explain the absolute value differences.
+tftable sample: 135,798 games (vs MetaTFT 210,399 Vex games). Different data windows likely explain the absolute value differences.
 
 ---
 
@@ -198,13 +200,13 @@ tftable sample: 135,798 games (vs MetaTFT 231,363 Vex games). Different data win
 
 3. **Core conclusion survived, dramatic details didn't.** "Same item, different comp = different BIS" is still true. But the exciting stories (Giant Slayer flipping negative, Jeweled Gauntlet as a trap) were filter artifacts. The truth is more nuanced: items vary in **magnitude** across comps (Giant Slayer 4x stronger in Shepherd than Dark Star) rather than flipping sign.
 
-4. **Cross-validation works for NOVA 95.** Top 7 items match between MetaTFT and tftable. This gives confidence that the standardized nova_95 filter is correct. We cannot cross-validate Dark Star and Shepherd because tftable does not track Vex in those comps.
+4. **Cross-validation works for NOVA 95.** Top 7 items match between MetaTFT and tftable. The Guinsoo's Necessity gap narrowed after the filter bug fix (MetaTFT 0.501 vs tftable 0.764, down from 0.452 vs 0.764). This gives confidence that the standardized nova_95 filter is correct. We cannot cross-validate Dark Star and Shepherd because tftable does not track Vex in those comps.
 
-5. **Vex is a secondary unit in Dark Star and Shepherd.** She appears in only 5% and 8% of those comp's games respectively. Item analysis on a non-carry unit in a comp is inherently noisier -- the 5.6k and 3.9k game samples are still below the ideal 10k+ threshold for stable Necessity estimates.
+5. **Vex is a secondary unit in Dark Star and Shepherd.** She appears in only 5% and 8% of those comp's games respectively. Item analysis on a non-carry unit in a comp is inherently noisier -- the 5.7k and 3.9k game samples are still below the ideal 10k+ threshold for stable Necessity estimates.
 
 ## Open Questions
 
-- Why did Guinsoo's Necessity differ so much between MetaTFT (0.452) and tftable (0.764)? Is it data window, filter implementation, or calculation methodology?
+- Why did Guinsoo's Necessity differ between MetaTFT (0.501) and tftable (0.764)? The gap narrowed after the filter bug fix (was 0.452 vs 0.764), but still significant. Is it data window, filter implementation, or calculation methodology?
 - Can we cross-validate Dark Star and Shepherd Vex items through any other method, given tftable doesn't track them?
 - The vex_95 comp definition returned 0 games -- is this comp definition outdated, or does it target a specific patch window?
 - Is it meaningful to analyze Vex items in comps where she appears in <10% of games? At what point does she become "incidental" rather than "part of the comp"?
@@ -214,7 +216,7 @@ tftable sample: 135,798 games (vs MetaTFT 231,363 Vex games). Different data win
 1. **vex_95 returned 0 games** -- is this definition stale/broken, or was it designed for a different data window? Should we report this as a bug?
 2. **Shepherd definition** -- the old ad-hoc filter gave 58k Vex games, but compositions.py Shepherd only has 3.9k. Is the standardized filter correct for studying "Vex in Shepherd"? Or should we also define a "Vex-carry Shepherd" variant?
 3. **Cross-comp analysis of a non-carry** -- Vex appears in only 5-8% of Dark Star/Shepherd games. Is it still scientifically valid to compare her item rankings across comps where she is incidental vs where she is the carry?
-4. **Necessity magnitude gap** between MetaTFT and tftable for Guinsoo's (0.452 vs 0.764) -- is this expected, or a concern?
+4. **Necessity magnitude gap** between MetaTFT and tftable for Guinsoo's (0.501 vs 0.764) -- narrowed from the pre-fix value (0.452), but still significant. Is this expected, or a concern?
 
 ---
 
@@ -235,3 +237,14 @@ tftable sample: 135,798 games (vs MetaTFT 231,363 Vex games). Different data win
 ### Revision Notes (2026-04-22)
 
 All data re-collected using `python3 cli.py items TFT17_Vex --comp <key>` with standardized compositions.py definitions. Chapter 3 directly compares old vs new results. Key finding: 3 items flipped Necessity sign in Dark Star due to ad-hoc filter pollution. The "Jeweled Gauntlet trap" was an artifact. Cross-validated nova_95 against tftable (top 7 match).
+
+### Filter Bug Fix Update (2026-04-22)
+
+A bug was discovered in `tft_stat/filter_params.py`: bare Unit filters (no star/item constraints) were missing the `_.*` wildcard suffix in the generated regex, causing exclusion filters like `~Unit('TFT17_Kindred')` to silently fail (the regex would not match any unit strings). This meant the nova_95 comp definition -- which excludes several units -- was accepting contaminated games that should have been filtered out.
+
+**Impact on this experiment:**
+- **NOVA 95 was most affected**: sample dropped from 231,363 to 210,399 Vex games (~21k contaminated games removed). The corrected sample (210,399) now matches the old ad-hoc sample size (210,392) almost exactly, confirming the +10% inflation was entirely a bug artifact.
+- **Vex participation in NOVA 95** corrected from 75% to 88%, which is more consistent with Vex being the comp's primary carry.
+- **Guinsoo's Necessity in NOVA 95** increased from 0.452 to 0.501, narrowing the gap with tftable (0.764).
+- **Dark Star and Shepherd** were negligibly affected (changes of <30 games each), since their comp definitions rely less on unit exclusions.
+- All rankings remained unchanged. No conclusions were invalidated by the fix -- the structural findings about cross-comp item variation held through both revisions.

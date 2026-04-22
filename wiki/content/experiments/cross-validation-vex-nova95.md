@@ -9,19 +9,19 @@ Do our item Necessity rankings match tftable's for Vex in Nova 95? This tests wh
 
 ## Chapter 1: Our Results
 
-`python3 cli.py items TFT17_Vex --comp nova_95` (231k games, overall AVP 4.12):
+`python3 cli.py items TFT17_Vex --comp nova_95` (211k games, overall AVP 4.16):
 
 ```
 Item                     Rate   Necessity
-Guinsoo's Rageblade       88%   +0.451
-Giant Slayer              37%   +0.075
-Hextech Gunblade          28%   +0.068
+Guinsoo's Rageblade       88%   +0.502
+Giant Slayer              38%   +0.084
+Hextech Gunblade          29%   +0.076
 Striker's Flail           16%   +0.063
 Rabadon's Deathcap        10%   +0.038
-Red Buff                   7%   +0.035
-Archangel's Staff         10%   +0.019
-Morellonomicon             4%   +0.009
-Nashor's Tooth             4%   +0.007
+Red Buff                   7%   +0.033
+Archangel's Staff         10%   +0.018
+Morellonomicon             4%   +0.007
+Nashor's Tooth             4%   +0.006
 ```
 
 ## Chapter 2: tftable Ground Truth
@@ -61,13 +61,13 @@ Spearman rank correlation: **0.993**
 
 ### Necessity 数值差异
 
-tftable 的 Necessity 值普遍更大（Guinsoo 0.764 vs 0.451）。可能原因：
-- 样本差异：tftable 136k games vs MetaTFT 231k games
+tftable 的 Necessity 值普遍更大（Guinsoo 0.764 vs 0.502）。可能原因：
+- 样本差异：tftable 136k games vs MetaTFT 211k games
 - 时间窗口：tftable 可能用更长的数据窗口
-- 计算方式：公式相同但 overall AVP baseline 不同（tftable 4.26 vs 我们 4.12）
-- Filter 定义：compositions.py 是同一份，但 MetaTFT API 的 filter 解析可能有细微差异
+- 计算方式：公式相同但 overall AVP baseline 不同（tftable 4.26 vs 我们 4.16）
+- tftable 使用了额外的 debiasing 方法（Xing 会后续教）
 
-排名一致但数值不同说明 Necessity 的**排序特性**很鲁棒——即使 baseline 不同，相对排名高度稳定。
+修复 filter bug 后差距缩小了（Guinsoo 从 0.451→0.502，更接近 tftable 的 0.764）。排名一致但数值不同说明 Necessity 的**排序特性**很鲁棒。
 
 ## What I Learned
 
