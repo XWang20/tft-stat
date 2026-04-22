@@ -140,3 +140,28 @@ Tracking all filter-design exercises for learning and comparison.
   - **CLI `--units` AND returned 0 games**: I hit a possible bug and gave up instead of investigating. Should have tried alternative approaches or checked if the API params were correct.
 
 **Lesson**: Dual carry comps require fundamentally different filter logic than single/flex carry comps: (1) AND both carries, not OR; (2) lower item threshold (i2) because items are split; (3) trait ceiling (exact match like `= 6`) is critical to prevent splash contamination. Also: when a CLI command returns unexpected 0 results, investigate the cause rather than abandoning the approach — it's likely a parameter issue, not proof that the filter is wrong.
+
+### psyops_viktor → viktor — 2026-04-22
+
+**Observation**: From `cli.py scout --top 3`, 4 boards showed Viktor(i3) as primary AP carry with PsyOps trait and Summon units: VN2 #1 (Viktor★3(i3)/Nami(i3)/Rhaast(i3)/Illaoi★3(i3)), VN2 #2 (Viktor★3(i3)/Sona(i3)/Illaoi(i3)), SG2 #3 (Viktor★2(i3)/Pyke★3(i3)/Mordekaiser★3(i3)), TW2 #3 (Viktor★3(i3)/Nami(i3)/Illaoi★3(i3)). All featured PsyOps_1 and most had SummonTrait_1 with low-cost frontline units (Mordekaiser, Pyke, Illaoi, Rhaast, IvernMinion, Lissandra).
+
+**My reasoning**: Viktor appeared as a unique carry — no other comp uses Viktor as primary 3-item carry. The comp looked like a carry-only filter (Pattern 1). PsyOps trait was present in all boards but Viktor alone provides PsyOps, so the trait isn't a useful discriminator. Core units (Pyke 86%, Mordekaiser 86%, Illaoi 85%) all >80% confirmed a clean carry-only pattern with minimal contamination from other 3-item carries.
+
+**Filter iterations**:
+1. `--or-units TFT17_Viktor:i3` → 347,290 games, AVP 4.09, Top4 58.4%. Core units: Pyke 86%, Mordekaiser 86%, Illaoi 85%, IvernMinion 83%, Rhaast 81%, Lissandra 76%. 3-item carry contamination negligible (Nami-3: 186, Galio-2: 137). Very clean.
+2. `--or-units TFT17_Viktor:i3 --traits TFT17_PsyOps:2` → 341,388 games, AVP 4.07. PsyOps >= 2 only removed 6k games — Viktor auto-provides PsyOps, so the trait is not a useful filter. Abandoned this direction.
+3. Tested carry exclusions (Galio i3, ASOL i3) individually — each removed <13k games (<4%). Concluded carry-only filter is sufficient.
+4. Final: `--or-units TFT17_Viktor:i3`
+
+**Expert filter**: `Viktor(i3, i_max=3) & ~MissFortune & ~Pyke(i3, i_max=3) & ~MasterYi(i3, i_max=3)` → 254,478 games, AVP 4.06, Top4 59.0%
+
+**Comparison**:
+- right: carry-only approach (Pattern 1), identified Viktor as unique carry, no trait lock needed
+- missed:
+  - **~MissFortune (no item requirement)**: MF's presence indicates Conduit MF comp contamination, even without 3 items on MF. This is a "unit presence = comp identity" exclusion, not a "3-item carry" exclusion.
+  - **~Pyke(i3)**: Pyke appeared at 86% in my filter and I assumed it was a core unit. But Pyke WITH 3 items is Pyke Reroll — a different comp. The expert excludes Pyke-as-carry while keeping Pyke-as-support.
+  - **~MasterYi(i3)**: NOVA Yi comp shares low-cost units with Viktor comp.
+  - **item_max=3**: exact 3 items, not minimum 3.
+- over-included: 93k extra games (347k vs 254k) from MF/Pyke(i3)/Yi(i3) contamination.
+
+**Lesson**: A unit appearing at >80% in a carry filter does NOT mean it shouldn't be excluded. Pyke at 86% was mostly Pyke-as-support (1 item), but the Pyke(i3) subset is contamination from Pyke Reroll. The distinction is: **exclude the unit-as-carry (i3), keep the unit-as-support (i1)**. Also: exclusions don't always require an item threshold — MissFortune is excluded entirely (any item count) because her presence signals a different comp direction regardless of itemization. The lesson: exclusion criteria should match the contamination signal, not a fixed template.

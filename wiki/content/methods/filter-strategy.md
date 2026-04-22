@@ -75,6 +75,8 @@ Examples: `zed` = `Unit(Zed, i3)`, `kaisa` = `Unit(Kai'Sa, i3)`, `bonk` = `Unit(
 
 **When it works**: when the carry is unique — no other comp runs this unit as primary carry with 3 items. There is no "Zed in another comp" problem.
 
+**Carry-only ≠ no exclusions.** Even carry-only comps may need exclusions — not for other carries sharing the slot, but for units whose 3-item presence signals a different comp. Example: `viktor` excludes `~Pyke(i3)` and `~MasterYi(i3)` (reroll/NOVA carries that share low-cost units), plus `~MissFortune` entirely (her presence signals Conduit MF regardless of items). A unit at 86% appearance (Pyke in Viktor) can still be an exclusion target when it's the *3-item carry version* that's contamination — the support version (1 item) stays.
+
 #### Pattern 2: Carry + Trait Lock (5 comps)
 Carry unit plus a trait requirement to define the comp's identity.
 Examples: `conduit_mf` = MF (i2+) + Conduit >= 2; `mecha` = ASOL (i2+) + Galio (i2+) + Mecha = 6
