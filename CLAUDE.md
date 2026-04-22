@@ -200,7 +200,7 @@ Bad experiment topics:
 
 Two sources for good questions:
 1. **Community** (Reddit /r/CompetitiveTFT, Discord) — find what players debate. "Giant Slayer vs JG on Vex?" is a real question with a decision point. Data can settle the argument.
-2. **Data anomalies** — scan for surprises: popular items with negative Necessity, tftable disagreements, unexpected cross-comp differences. Anomalies generate questions naturally.
+2. **Top player match history** — scan 50+ endgame boards from Challenger/GM players. Spot new comps, unusual builds, emerging meta shifts. This reveals questions like "why are top players building X on Y?" and helps improve compositions.py filters.
 
 A good question is **decision-oriented** ("Should I build X or Y?"), not exploratory ("What's the relationship between X and Y?"). Every question should map to a player decision point.
 

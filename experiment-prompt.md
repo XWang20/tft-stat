@@ -26,13 +26,11 @@ gh issue list --repo XWang20/tft-stat --state open --json number,title,labels,bo
    Look for item debates ("X vs Y on Z"), comp strength disputes, or meta questions.
    Good questions are ones where players disagree — data can settle the argument.
 
-2. **Data anomalies** — scan for surprises in the data:
-   - Run `python3 cli.py items <unit> --comp <comp>` for several comps
-   - Look for items with unexpected Necessity (popular but negative, or rare but highly positive)
-   - Compare with `python3 cli.py tftable <unit> --comp <comp>` — divergences are interesting
-   - Run `python3 cli.py units --comp <comp>` — units with surprising AVP or play rate
-
-   Good questions emerge from anomalies: "Why is X popular but bad?" or "Why does tftable disagree with us on Y?"
+2. **Top player match history** — scan recent high-elo endgame boards:
+   - Use MetaTFT recent_matches endpoint or tftable match data
+   - Look at 50+ endgame boards from Challenger/GM players
+   - Spot patterns: new comps not in compositions.py, unusual item builds on carries, emerging meta shifts
+   - This can reveal: new comp definitions to add, filter improvements, questions like "why are top players building X on Y?"
 
 **Question quality check**: A good experiment question is:
 - **Decision-oriented**: "Should I build X or Y?" not "What's the relationship between X and Y?"
