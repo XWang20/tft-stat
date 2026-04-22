@@ -98,8 +98,45 @@ Examples: `lulu` excludes Guinsoo on Jax (separates from Jax-reroll boards); `tf
 3. **Trait ceilings narrow comps.** `Summon = 3` (not >= 3) in vanguard_leblanc prevents overlap with Shepherd (Summon >= 5). Setting a max prevents leakage into higher-breakpoint variants.
 4. **Carry uniqueness determines filter complexity.** Unique carry = carry-only filter. Shared carry = need trait locks and exclusions. The taxonomy maps to one variable: how many comps share this carry?
 
-### Option 2: Build Filters Yourself
-Tips from Dishsoap and Aesah:
+### Option 2: Design a Filter From Scratch
+
+When compositions.py doesn't have the comp you want to study, or when you discover a new comp pattern, build the filter iteratively:
+
+#### Step 1: Scout top player boards
+Run `python3 cli.py scout --top 3` to scan recent top-3 endgame boards from Challenger/GM. Identify recurring board patterns — groups of units that appear together. These are candidate comps.
+
+#### Step 2: Write initial filter (Dishsoap method)
+Start with the comp's identity, not a single unit:
+- **Carry**: the unit with 3 items in those boards (this is the primary carry)
+- **Trait anchor**: the trait that defines the comp's identity (e.g., DRX for NOVA, DarkStar for Dark Star)
+- Don't add exclusions yet — start broad
+
+#### Step 3: Validate with data
+Run `python3 cli.py total` and `python3 cli.py units` with your filter. Check:
+- **Total games**: is the sample size reasonable (≥1000)?
+- **Carry IC3 rate**: what % of games have the carry with 3 items? Should be high (>50%) if this is truly a carry comp
+- **Unit frequency**: do the expected core units appear at high rates? Do unexpected units appear (= contamination)?
+
+#### Step 4: Iteratively refine
+Based on Step 3 results:
+- **Unexpected units at high frequency** → they're from a different comp leaking in. Add exclusion (`~Unit()`)
+- **IC3 rate too low** → your carry definition might be wrong, or the trait anchor is too broad
+- **Sample too small** → your filter is too narrow. Relax a condition (e.g., remove an exclusion, lower trait threshold)
+- **Sample too large with mixed boards** → add a trait ceiling or more exclusions
+
+#### Step 5: Cross-validate
+Compare your filter's item Necessity rankings against tftable (`python3 cli.py tftable`) if the comp exists there. If rankings diverge significantly, your filter boundary may be wrong.
+
+#### The Loop
+```
+scout → initial filter → check IC3/games/units → adjust → re-check → ...
+→ converge when: target comp included + interference excluded + sample adequate
+→ output: a reliable filter definition
+```
+
+This is how compositions.py definitions are written — the same iterative process, formalized.
+
+### Tips from Experts
 
 **Dishsoap’s approach** ([[sources/dishsoap-frodan-stats]]):
 - Start with the comp identity (trait + key carry), not the unit

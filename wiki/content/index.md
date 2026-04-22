@@ -49,13 +49,13 @@
 |---|---|---|
 | [[concepts/metrics]] | ✅ | AVP, Necessity, Delta — definitions, math, when to use each |
 | [[concepts/biases]] | ✅ | Three systematic biases: survivorship (biggest), player behavior, sample size |
-| [[concepts/framework]] | ✅ | Three orthogonal dimensions: filter strategy × data granularity × metric selection |
+| [[concepts/framework]] | ✅ | Question → filter → dimensions; primary carry vs secondary; question sourcing |
 
 ### Methods
 
 | Page | Status | Summary |
 |---|---|---|
-| [[methods/filter-strategy]] | ✅ | Conditioning as foundation; Simpson's Paradox; exclude→toggle; filter checklist |
+| [[methods/filter-strategy]] | ✅ | Filter = control variables; primary carry/secondary; 5 expert patterns; design-from-scratch loop; Simpson's Paradox |
 | [[methods/build-analysis]] | ✅ | Three-item builds, control variable, consistency check |
 
 ### Tools

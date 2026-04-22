@@ -1,3 +1,10 @@
+## [2026-04-22] update | Systematic wiki deepening from Xing teaching session
+- Deepened [[methods/filter-strategy]]: added "Design a Filter From Scratch" — iterative loop (scout → initial filter → IC3/games validation → adjust → converge)
+- Deepened [[concepts/framework]]: reframed around "question determines everything"; added question sourcing (community + top player match history); added primary carry vs secondary as core concept
+- Key concept: filter = controlling variables, not data preprocessing; 主C vs 副C is the most important variable
+- Key concept: questions come from players (community debates, top player boards), not from abstract statistics
+- New CLI: `cli.py scout` — scan top player endgame boards for meta overview
+
 ## [2026-04-22] cron | Carry leverage experiment + vex-cross-comp consistency check
 - Giscus #7: confirmed Round 3 consistency fixes complete for [[experiments/2026-04-22-vex-cross-comp-items]]
 - New experiment: [[experiments/2026-04-22-carry-leverage-necessity]] — Module 5 follow-up
