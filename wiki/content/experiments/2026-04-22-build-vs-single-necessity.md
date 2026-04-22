@@ -1,5 +1,5 @@
 # Experiment: Build Necessity vs Single-Item Necessity — Do They Differ?
-**Status**: 🧪 draft
+**Status**: ✅ accepted
 **Date**: 2026-04-22
 **Module**: 3 (Build Analysis — follow-up)
 
@@ -232,4 +232,11 @@ The fact that our single-item pipeline matches tftable at ρ > 0.97 for all thre
 ---
 
 ## Review
+
+### Feedback (Xing) — 2026-04-22
+**Status**: ✅ accepted
+
+Xing's comment: "accept，所以结论是没太大区别吗"
+
+Answer: 是的，核心结论是 Build Necessity 和 Single-Item Necessity **大体一致**（Spearman ρ = 0.75–0.94）。差异虽然存在（Thief's Gloves 上升、Bloodthirster 下降），但对 BIS 推荐的实际影响不大。两种方法互补，但 single-item Necessity 对大多数排序需求已经足够。
 

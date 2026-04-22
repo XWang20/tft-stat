@@ -1,3 +1,13 @@
+## [2026-04-22] cron | Giscus review processing + universal bias experiment
+- Giscus #9: ✅ accepted [[experiments/2026-04-22-build-vs-single-necessity]] — "没太大区别" confirmed
+- Giscus #8: ✅ accepted [[experiments/2026-04-22-cross-validation-vex-nova95]]
+- Giscus #7: 🔄 revision [[experiments/2026-04-22-vex-cross-comp-items]] — "通读全文检查一致性"
+- Added lesson #8 to [[lab-checklist]]: revise 后必须通读全文
+- New experiment: [[experiments/2026-04-22-universal-improvement-bias]] — Module 5, tested 8 traits total
+- Key finding: 7/8 traits show higher tier = better AVP (selection bias); Anima Squad reverses (opportunity cost)
+- Space Groove 10 = canonical selection bias example (AVP 1.10, 93% WR, 1117 games)
+- Updated: [[index]] (experiments table, queue, statuses)
+
 ## [2026-04-22] cron | Multi-comp trait breakpoint experiment
 - New experiment: [[experiments/2026-04-22-trait-breakpoint-multi-comp]] — Module 5 redo, tested 3 traits (DRX/DarkStar/Summon) × 3 comps (nova_yi/dark_star/shepherd)
 - Key finding: trait breakpoints do not change carry itemization — universal across AD/tank/AP carries

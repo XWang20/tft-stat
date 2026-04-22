@@ -56,3 +56,4 @@ Append new ones here. These are hard-won — don't repeat them.
 5. **compositions.py 一定能筛出足够样本** — tftable 定义是专家写的。0 games = 我们的 filter 转换有 bug，不是定义的问题。vex_95 曾因缺少 `_.*` 后缀返回 0 (2026-04-22)
 6. **实验不要偏离原始问题** — nova-trait-breakpoint 修订后变成 filter bug 调试报告，完全偏离了"5 NOVA 值不值"的问题 (2026-04-22)
 7. **Feedback 必须立即记录** — Xing 给的 feedback 要当场写进实验报告的 Review section 和 lab-checklist，不能只存 memory 不落文档 (2026-04-22)
+8. **Revise 后必须通读全文** — 修改数据后要检查全文一致性，包括引用数字、结论、章节间逻辑。不能只改数据表就提交 (2026-04-22)

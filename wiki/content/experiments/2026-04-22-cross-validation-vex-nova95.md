@@ -1,5 +1,5 @@
 # Experiment: Cross-Validation — Vex Items in Nova 95
-**Status**: 🧪 draft
+**Status**: ✅ accepted
 **Date**: 2026-04-22
 **Module**: 9 (Cross-Validation)
 
@@ -89,7 +89,10 @@ tftable 的 Necessity 值普遍更大（Guinsoo 0.764 vs 0.502）。可能原因
 
 ## Review
 
-### Feedback (Xing)
+### Feedback (Xing) — Round 1
 1. **交叉验证的目的是验证"我们的结论"，不是对比两个数据源** — crossval 应该比的是我们的分析结论（经过 filter 设计、metric 选择、分析判断）和 tftable 的结论，而不是 MetaTFT raw data vs tftable raw data
 2. **tftable 除了 Necessity 还用了别的 debiasing 方法** — 这解释了数值差异，后续 Xing 会逐步教
 3. **未来交叉验证不只是 items** — 还会有阵容条件、meta 判断、unit 评估等
+
+### Giscus Review — 2026-04-22
+**Status**: ✅ accepted

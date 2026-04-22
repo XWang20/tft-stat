@@ -1,5 +1,5 @@
 # Experiment: Vex Items Across Different Comps (Revised)
-**Status**: 🧪 draft
+**Status**: 🔄 revision
 **Date**: 2026-04-22 (revised from 2026-04-21)
 **Module**: 1 (Filter Design)
 
@@ -260,3 +260,15 @@ A bug was discovered in `tft_stat/filter_params.py`: bare Unit filters (no star/
 - **Guinsoo's Necessity in NOVA 95** increased from 0.452 to 0.501, narrowing the gap with tftable (0.764).
 - **Dark Star and Shepherd** were negligibly affected (changes of <30 games each), since their comp definitions rely less on unit exclusions.
 - All rankings remained unchanged. No conclusions were invalidated by the fix -- the structural findings about cross-comp item variation held through both revisions.
+
+### Giscus Review — 2026-04-22 (Round 2)
+
+**Status**: 🔄 revision
+
+#### Feedback (Xing)
+"每次revise之后还是通读一下全文吧，后面有很多没改过来的一致性存在问题"
+
+**问题**: 修订后未通读全文，导致文中多处数据/表述与修订后的结果不一致。
+
+#### Lesson
+**Revise 后必须通读全文检查一致性** — 不能只改数据部分就提交，文中引用的数字、结论、章节间的逻辑引用都需要同步更新。
