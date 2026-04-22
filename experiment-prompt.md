@@ -13,7 +13,11 @@ Look for comments by XWang20. The discussion title maps to the wiki page (e.g. "
 
 For each comment from Xing:
 - **"accept"** → update status to ✅ in report and index.md
-- **feedback text** → record in report's ## Review section, update status to 🔄
+- **feedback/revision text** → DO ALL THREE:
+  1. Record feedback in report's ## Review section
+  2. Actually FIX the issues described — read the full report, make the changes, verify consistency
+  3. Update status to 🧪 draft (ready for re-review) in report and index.md
+  DO NOT just record the feedback and move on. If Xing says "fix X", you must fix X.
 - **conclusion** → integrate into concepts/ or methods/ pages
 
 After processing, reply to the discussion:
