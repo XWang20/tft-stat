@@ -101,6 +101,8 @@ def _unit_to_metatft(unit, *, negated: bool = False) -> str:
         suffix += f"_.*_{items}"
     elif star:
         suffix += f"_{star}"
+    else:
+        suffix += "_.*"
 
     val = f"{unit.unit_id}{suffix}"
     return f"!{val}" if negated else val
