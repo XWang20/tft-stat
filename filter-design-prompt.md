@@ -12,13 +12,20 @@ Read these files in order:
 
 Focus on the "Design a Filter From Scratch" section.
 
-## Step 2: Pick a Target Comp
+## Step 2: Discover a Comp Pattern from Board Data
 
-Run `python3 cli.py comps` to see the list of comp keys and names. Pick ONE that hasn't been attempted in `wiki/content/experiments/filter-design-exercise-log.md` (create this file if it doesn't exist).
+Run `python3 cli.py scout --top 3` to scan top player endgame boards.
 
-**DO NOT read `tft_stat/compositions.py` — it contains the answer (expert filter definitions). You will read it ONLY in Step 4 after designing your own filter.**
+Study the boards. Look for recurring patterns:
+- Which units appear together frequently?
+- Which units carry 3 items in these boards?
+- What traits are active?
 
-Pick comps in this order of difficulty:
+Identify ONE comp pattern you can describe (e.g., "boards with a DRX trait carry holding 3 items alongside Shen and Morgana as frontline"). Give it your own working name based on what you observe.
+
+Check `wiki/content/experiments/filter-design-exercise-log.md` — if a similar pattern was already attempted, find a different one.
+
+**DO NOT read `tft_stat/compositions.py` or run `python3 cli.py comps` — they contain the answers. You will compare in Step 4 only.**
 - Easy: single carry comps (zed, kaisa, bonk, veigar, etc.)
 - Medium: carry + trait comps (conduit_mf, mecha, dark_star)
 - Hard: OR-group + exclusion comps (nova_95, vanguard_leblanc, nova_yi)
@@ -39,7 +46,7 @@ DO NOT read the comp's filter definition in compositions.py yet. Instead:
 
 ## Step 4: Compare with Ground Truth
 
-NOW read the comp's filter in `tft_stat/compositions.py`. Compare:
+NOW read `tft_stat/compositions.py` and run `python3 cli.py comps`. Find the expert definition that matches your discovered pattern (if one exists). Compare:
 - What conditions did you get right?
 - What did you miss? (exclusions, trait bounds, OR-groups)
 - What did the expert include that you didn't think of? Why?
