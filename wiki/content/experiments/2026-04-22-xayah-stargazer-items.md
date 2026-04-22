@@ -49,19 +49,116 @@ All items recomputed with Jhin conflict filter: `Item(item_id, carrier_unit_id='
 
 ### Clean Table (all items = max of original and recomputed)
 
-| Item | Serpent | Boar | Alter | Huntress | Mountain | Medallion | Fountain |
-|---|---|---|---|---|---|---|---|
-| Guinsoo's | +.014 | +.039 | -.092 | -.078 | **+.113** | -.101 | -.117 |
-| Kraken's Fury | +.249 | +.169 | +.291 | +.248 | +.208 | +.175 | +.178 |
-| IE | -.005 | -.016 | -.007 | -.032 | +.010 | **+.037** | -.005 |
-| Giant Slayer | -.021 | +.005 | -.026 | -.006 | +.006 | -.030 | -.020 |
-| Red Buff | +.058 | +.074 | +.061 | +.054 | +.050 | +.048 | +.063 |
-| Deathblade | +.005 | -.004 | +.009 | +.015 | **+.020** | +.018 | +.019 |
-| Last Whisper | +.017 | +.021 | +.009 | +.018 | -.003 | +.030 | +.017 |
-| Striker's Flail | -.003 | +.003 | -.002 | -.007 | +.011 | +.006 | +.006 |
-| Hextech Gunblade | -.003 | -.001 | +.007 | +.002 | +.005 | +.016 | +.002 |
-| Quicksilver | -.001 | +.010 | +.013 | +.006 | -.004 | +.002 | +.002 |
-| Edge of Night | +.004 | +.003 | +.014 | +.013 | +.009 | +.017 | +.016 |
+<table style="border-collapse:collapse;text-align:center;font-size:14px">
+<tr style="background:#f0f0f0"><th style="text-align:left;padding:4px 8px">Item</th>
+<th style="padding:4px 8px">Serpent</th>
+<th style="padding:4px 8px">Boar</th>
+<th style="padding:4px 8px">Alter</th>
+<th style="padding:4px 8px">Huntress</th>
+<th style="padding:4px 8px">Mountain</th>
+<th style="padding:4px 8px">Medallion</th>
+<th style="padding:4px 8px">Fountain</th>
+</tr>
+<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Guinsoo's</td>
+<td style="padding:4px 8px;background:rgb(211,240,211)">+0.014</td>
+<td style="padding:4px 8px;background:rgb(194,240,194)">+0.039</td>
+<td style="padding:4px 8px;background:rgb(255,171,171)">-0.092</td>
+<td style="padding:4px 8px;background:rgb(255,179,179)">-0.078</td>
+<td style="padding:4px 8px;background:rgb(145,240,145)">+0.113</td>
+<td style="padding:4px 8px;background:rgb(255,167,167)">-0.101</td>
+<td style="padding:4px 8px;background:rgb(255,158,158)">-0.117</td>
+</tr>
+<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Kraken's Fury</td>
+<td style="padding:4px 8px;background:rgb(120,240,120)">+0.249</td>
+<td style="padding:4px 8px;background:rgb(120,240,120)">+0.169</td>
+<td style="padding:4px 8px;background:rgb(120,240,120)">+0.291</td>
+<td style="padding:4px 8px;background:rgb(120,240,120)">+0.248</td>
+<td style="padding:4px 8px;background:rgb(120,240,120)">+0.208</td>
+<td style="padding:4px 8px;background:rgb(120,240,120)">+0.175</td>
+<td style="padding:4px 8px;background:rgb(120,240,120)">+0.178</td>
+</tr>
+<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">IE</td>
+<td style="padding:4px 8px;background:rgb(255,218,218)">-0.005</td>
+<td style="padding:4px 8px;background:rgb(255,212,212)">-0.016</td>
+<td style="padding:4px 8px;background:rgb(255,217,217)">-0.007</td>
+<td style="padding:4px 8px;background:rgb(255,203,203)">-0.032</td>
+<td style="padding:4px 8px;background:rgb(214,240,214)">+0.010</td>
+<td style="padding:4px 8px;background:rgb(196,240,196)">+0.037</td>
+<td style="padding:4px 8px;background:rgb(255,218,218)">-0.005</td>
+</tr>
+<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Giant Slayer</td>
+<td style="padding:4px 8px;background:rgb(255,209,209)">-0.021</td>
+<td style="padding:4px 8px;background:rgb(217,240,217)">+0.005</td>
+<td style="padding:4px 8px;background:rgb(255,207,207)">-0.026</td>
+<td style="padding:4px 8px;background:rgb(255,217,217)">-0.006</td>
+<td style="padding:4px 8px;background:rgb(216,240,216)">+0.006</td>
+<td style="padding:4px 8px;background:rgb(255,204,204)">-0.030</td>
+<td style="padding:4px 8px;background:rgb(255,210,210)">-0.020</td>
+</tr>
+<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Red Buff</td>
+<td style="padding:4px 8px;background:rgb(182,240,182)">+0.058</td>
+<td style="padding:4px 8px;background:rgb(171,240,171)">+0.074</td>
+<td style="padding:4px 8px;background:rgb(180,240,180)">+0.061</td>
+<td style="padding:4px 8px;background:rgb(184,240,184)">+0.054</td>
+<td style="padding:4px 8px;background:rgb(187,240,187)">+0.050</td>
+<td style="padding:4px 8px;background:rgb(188,240,188)">+0.048</td>
+<td style="padding:4px 8px;background:rgb(178,240,178)">+0.063</td>
+</tr>
+<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Deathblade</td>
+<td style="padding:4px 8px;background:rgb(217,240,217)">+0.005</td>
+<td style="padding:4px 8px;background:rgb(255,218,218)">-0.004</td>
+<td style="padding:4px 8px;background:rgb(214,240,214)">+0.009</td>
+<td style="padding:4px 8px;background:rgb(210,240,210)">+0.015</td>
+<td style="padding:4px 8px;background:rgb(207,240,207)">+0.020</td>
+<td style="padding:4px 8px;background:rgb(208,240,208)">+0.018</td>
+<td style="padding:4px 8px;background:rgb(208,240,208)">+0.019</td>
+</tr>
+<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Last Whisper</td>
+<td style="padding:4px 8px;background:rgb(209,240,209)">+0.017</td>
+<td style="padding:4px 8px;background:rgb(206,240,206)">+0.021</td>
+<td style="padding:4px 8px;background:rgb(214,240,214)">+0.009</td>
+<td style="padding:4px 8px;background:rgb(208,240,208)">+0.018</td>
+<td style="padding:4px 8px;background:rgb(255,219,219)">-0.003</td>
+<td style="padding:4px 8px;background:rgb(200,240,200)">+0.030</td>
+<td style="padding:4px 8px;background:rgb(209,240,209)">+0.017</td>
+</tr>
+<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Striker's Flail</td>
+<td style="padding:4px 8px;background:rgb(255,219,219)">-0.003</td>
+<td style="padding:4px 8px;background:rgb(218,240,218)">+0.003</td>
+<td style="padding:4px 8px;background:rgb(255,219,219)">-0.002</td>
+<td style="padding:4px 8px;background:rgb(255,217,217)">-0.007</td>
+<td style="padding:4px 8px;background:rgb(213,240,213)">+0.011</td>
+<td style="padding:4px 8px;background:rgb(216,240,216)">+0.006</td>
+<td style="padding:4px 8px;background:rgb(216,240,216)">+0.006</td>
+</tr>
+<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Hextech Gunblade</td>
+<td style="padding:4px 8px;background:rgb(255,219,219)">-0.003</td>
+<td style="padding:4px 8px;background:rgb(255,220,220)">-0.001</td>
+<td style="padding:4px 8px;background:rgb(216,240,216)">+0.007</td>
+<td style="padding:4px 8px;background:rgb(219,240,219)">+0.002</td>
+<td style="padding:4px 8px;background:rgb(217,240,217)">+0.005</td>
+<td style="padding:4px 8px;background:rgb(210,240,210)">+0.016</td>
+<td style="padding:4px 8px;background:rgb(219,240,219)">+0.002</td>
+</tr>
+<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Quicksilver</td>
+<td style="padding:4px 8px;background:rgb(255,220,220)">-0.001</td>
+<td style="padding:4px 8px;background:rgb(214,240,214)">+0.010</td>
+<td style="padding:4px 8px;background:rgb(212,240,212)">+0.013</td>
+<td style="padding:4px 8px;background:rgb(216,240,216)">+0.006</td>
+<td style="padding:4px 8px;background:rgb(255,218,218)">-0.004</td>
+<td style="padding:4px 8px;background:rgb(219,240,219)">+0.002</td>
+<td style="padding:4px 8px;background:rgb(219,240,219)">+0.002</td>
+</tr>
+<tr><td style="text-align:left;padding:4px 8px;font-weight:bold">Edge of Night</td>
+<td style="padding:4px 8px;background:rgb(218,240,218)">+0.004</td>
+<td style="padding:4px 8px;background:rgb(218,240,218)">+0.003</td>
+<td style="padding:4px 8px;background:rgb(211,240,211)">+0.014</td>
+<td style="padding:4px 8px;background:rgb(212,240,212)">+0.013</td>
+<td style="padding:4px 8px;background:rgb(214,240,214)">+0.009</td>
+<td style="padding:4px 8px;background:rgb(209,240,209)">+0.017</td>
+<td style="padding:4px 8px;background:rgb(210,240,210)">+0.016</td>
+</tr>
+</table>
 
 ### Key Observations
 
