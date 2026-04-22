@@ -46,6 +46,19 @@ For conflict items (IE/GS/LW), shows original Necessity and recomputed Necessity
 
 Format: `original/recomputed` for conflict items. Recomputed = filtered for Jhin also carrying that specific item (positive `unit_item_unique`).
 
+### Clean Table (conflict items = max of original and recomputed)
+
+| Item | Serpent | Boar | Alter | Huntress | Mountain | Medallion | Fountain |
+|---|---|---|---|---|---|---|---|
+| Kraken's Fury | +.250 | +.171 | +.291 | +.249 | +.208 | +.176 | +.176 |
+| Red Buff | +.056 | +.075 | +.062 | +.054 | +.051 | +.047 | +.064 |
+| Last Whisper | +.018 | +.020 | +.009 | +.018 | -.003 | +.031 | +.017 |
+| Guinsoo's | +.005 | +.027 | -.107 | -.096 | **+.116** | -.078 | -.121 |
+| IE | -.004 | -.016 | -.008 | -.032 | +.009 | **+.035** | -.005 |
+| Deathblade | -.013 | -.016 | +.009 | +.003 | +.005 | -.004 | +.004 |
+| Giant Slayer | -.020 | +.003 | -.026 | -.006 | +.006 | -.028 | -.020 |
+| Striker's Flail | -.013 | -.006 | -.012 | -.013 | -.006 | -.013 | -.010 |
+
 ### Key Observations
 
 1. **Top 2 (Kraken/Red Buff) stable across all Stargazers** — no need to change core items.
