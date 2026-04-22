@@ -5,11 +5,21 @@ You are running a scheduled TFT data science experiment. Follow these steps exac
 Run: gh issue list --repo XWang20/tft-stat --state open --json number,title,labels,body
 
 For each open issue:
-- **feedback** label → record in the experiment report's ## Review section, update lab-checklist if it's a process lesson
-- **conclusion** label → integrate into the relevant wiki concepts/ or methods/ page
-- **revision** label → revise the specified experiment report
-- **topic** label → add to the Experiment Queue in index.md
-- After processing, close the issue: gh issue close NUMBER --repo XWang20/tft-stat -c "Processed: [what was done]"
+- **feedback** label:
+  1. Record in the experiment report's ## Review section (identify which experiment from the issue body)
+  2. If it's a process lesson → append to wiki/content/lab-checklist.md Lessons Learned
+  3. Update the experiment's status in wiki/content/index.md experiments table (e.g. 🔄 revision)
+- **conclusion** label:
+  1. Integrate into the relevant wiki/content/concepts/ or wiki/content/methods/ page
+  2. Update that page's status in wiki/content/index.md knowledge base table if needed
+- **revision** label:
+  1. Revise the specified experiment report
+  2. Update its status in wiki/content/index.md experiments table
+  3. Update wiki/content/index.md syllabus status if the module status changed
+- **topic** label:
+  1. Add to the Experiment Queue in wiki/content/index.md
+- After processing each issue, close it: gh issue close NUMBER --repo XWang20/tft-stat -c "Processed: [what was done, which files were updated]"
+- Append all issue processing to wiki/content/log.md
 
 If there are open issues, process ALL of them before starting a new experiment.
 
@@ -22,6 +32,7 @@ Read wiki/content/lab-checklist.md — internalize the rules.
 
 Pick the FIRST item from the Experiment Queue in index.md.
 If the queue is empty, generate a surprising question from an open question in a previous experiment.
+Remove the item from the queue after picking it.
 
 ## Step 3: Run the Experiment
 
@@ -35,15 +46,21 @@ If the queue is empty, generate a surprising question from an open question in a
 Write the experiment report to wiki/content/experiments/<name>.md with status 🧪 draft.
 Story format with chapters. Include "Questions for Xing" section.
 
-## Step 5: Update Wiki
+## Step 5: Update ALL Relevant Wiki Files
 
-- Update wiki/content/index.md — add to experiments table, update syllabus if relevant
-- Append to wiki/content/log.md
+Every run MUST update these files:
+- **wiki/content/index.md** — experiments table (add new entry or update status), syllabus status if module progressed, experiment queue (remove completed item)
+- **wiki/content/log.md** — append entry for each action taken (issues processed, experiment completed)
+- **wiki/content/lab-checklist.md** — append new lessons if any were learned
+- **wiki/content/concepts/*.md or methods/*.md** — update if new knowledge was validated
+- **wiki/content/schema.md** — only if workflow rules changed
+
+Verify: after all edits, every experiment mentioned in a report must appear in index.md's experiments table. No orphan experiments.
 
 ## Step 6: Commit and Push
 
 git add wiki/ .
-git commit -m "experiment: <title>
+git commit -m "cron: [summary of all actions taken]
 
 via [HAPI](https://hapi.run)
 
