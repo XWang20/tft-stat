@@ -75,7 +75,11 @@ Examples: `zed` = `Unit(Zed, i3)`, `kaisa` = `Unit(Kai'Sa, i3)`, `bonk` = `Unit(
 
 **When it works**: when the carry is unique — no other comp runs this unit as primary carry with 3 items. There is no "Zed in another comp" problem.
 
+**Don't add trait context to unique carries.** If the carry is already distinctive (Teemo, Viktor, Zed, Kai'Sa), adding a trait lock only shrinks the sample. The Dishsoap principle ("add context first") applies when carries are shared — not when they're unique. Teemo + ADMIN >= 2 loses 14k games for zero accuracy gain.
+
 **Carry-only ≠ no exclusions.** Even carry-only comps may need exclusions — not for other carries sharing the slot, but for units whose 3-item presence signals a different comp. Example: `viktor` excludes `~Pyke(i3)` and `~MasterYi(i3)` (reroll/NOVA carries that share low-cost units), plus `~MissFortune` entirely (her presence signals Conduit MF regardless of items). A unit at 86% appearance (Pyke in Viktor) can still be an exclusion target when it's the *3-item carry version* that's contamination — the support version (1 item) stays.
+
+**Carry-only reroll comps may need item-based exclusions (Pattern 5).** When two reroll comps share the identical unit pool (e.g., Teemo reroll vs Nasus reroll both use Nasus/Leona/Mordekaiser/Illaoi/Lissandra), unit/trait exclusions can't separate them. The expert uses signature items: `~Guinsoo's_on_Nasus` in the Teemo filter identifies Nasus-carry boards. Same principle as `tf` (`~BT_on_Aatrox`) and `lulu` (`~Guinsoo's_on_Jax`).
 
 #### Pattern 2: Carry + Trait Lock (5 comps)
 Carry unit plus a trait requirement to define the comp's identity.

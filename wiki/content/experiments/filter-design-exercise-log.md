@@ -241,3 +241,28 @@ Tracking all filter-design exercises for learning and comparison.
 - over-excluded: Viktor(i3) — unnecessary because ~Primordian >= 2 already handles Viktor comp contamination (Viktor comp doesn't run Primordian trait, but the exclusion is redundant since Viktor games are a tiny fraction).
 
 **Lesson**: **Trait-level exclusions (`~Trait >= N`) are more powerful than unit-level exclusions (`~Unit(i3)`) when two comps share the same unit pool but differ by trait identity.** NOVA Yi and Primordian share Aatrox, Akali, Maokai, Kindred, RekSai — excluding individual units as carries (i3) misses the contamination from support-item versions. `~Primordian >= 2` cleanly separates the two comps at the trait boundary. Also: when a unit (Kindred) appears at 86% with 3 items in the filtered data AND appears as i3 in all scout boards, it's a co-carry signal — should be in an OR-group, not treated as secondary.
+
+### admin_teemo_reroll → teemo — 2026-04-22
+
+**Observation**: From `cli.py scout --top 3`, 2 boards showed Teemo★3(i3) as primary AP carry alongside Leona★3(i3) and Zoe in a Summon shell: BR1 #2 (Leona★3(i3)/Lissandra★3(i3)/Teemo★3(i3)/Zoe★2, ADMIN_1, SummonTrait_1, with Illaoi/Mordekaiser/Nasus frontline) and TW2 #2 (Leona★3(i3)/Teemo★3(i3)/Zoe★2(i3), ADMIN_1, SummonTrait_1, with Illaoi/Mordekaiser/Blitzcrank/Nami). Both featured ADMIN trait (Teemo + Zoe) and a Summon-heavy frontline (Illaoi, Mordekaiser, Nasus, Lissandra). Named it "admin_teemo_reroll."
+
+**My reasoning**: Teemo appeared as the primary AP carry with ADMIN as a potentially defining trait (Teemo + Zoe both ADMIN). I treated it as a carry + trait lock comp (Pattern 2), with Teemo(i3) + ADMIN >= 2 as the filter core. I expected contamination from vanguard_leblanc (LeBlanc shares Summon units) and other AP carries (Viktor, Nami, Aurora). I added carry exclusions to clean up.
+
+**Filter iterations**:
+1. `--or-units TFT17_Teemo:i3` → 106,821 games, AVP 4.17, Top4 57.6%. Core units: Leona 95%, Nasus 94%, Mordekaiser 93%, Illaoi 92%, Summon 91%, Zoe 68%, Lissandra 69%, LeBlanc-1 37%, Nunu 38%. Very clean already.
+2. `--or-units TFT17_Teemo:i3 --traits TFT17_ADMIN:2` → 92,250 games, AVP 4.09, Top4 59.3%. ADMIN >= 2 only removed ~14k games. LeBlanc still 42%. Trait not very discriminating.
+3. `--or-units TFT17_Teemo:i3 --traits TFT17_ADMIN:2 --exclude-units TFT17_Leblanc:i3,TFT17_Nami:i3,TFT17_Viktor:i3,TFT17_Aurora:i3` → 73,770 games, AVP 4.26, Top4 55.6%. LeBlanc-1 (support) still 36%. Core units clean but over-excluded.
+4. Tested OR-carry with Leona: `--or-units TFT17_Teemo:i3,TFT17_Leona:i3 --traits TFT17_ADMIN:2 --exclude-units ...` → 96,140 games. Leona expanded too much — Teemo dropped to 83%, IvernMinion appeared at 11%. Leona is a co-tank, not an independent carry. Abandoned.
+5. Final: `--or-units TFT17_Teemo:i3 --traits TFT17_ADMIN:2 --exclude-units TFT17_Leblanc:i3,TFT17_Nami:i3,TFT17_Viktor:i3,TFT17_Aurora:i3`
+
+**Expert filter**: `Teemo(i3, i_max=3) & ~Guinsoo's_on_Nasus` → 106,883 games, AVP 4.17, Top4 57.6%
+
+**Comparison**:
+- right: Teemo(i3) as primary carry, identified it as a unique carry
+- missed:
+  - **No trait lock needed**: Teemo is unique enough — no ADMIN, no Summon, no trait anchor at all. This is Pattern 1 (carry-only), not Pattern 2. My ADMIN >= 2 removed 14k legitimate games for no benefit.
+  - **Item-based exclusion (Pattern 5)**: expert uses `~Guinsoo's_on_Nasus` to separate from Nasus reroll, which shares the identical unit pool. Guinsoo's on Nasus signals Nasus-carry, not Teemo-carry. Same logic as `tf` exercise (BT on Aatrox, Titan's on Jax).
+  - **item_max=3**: exact 3 items.
+- over-excluded: ADMIN >= 2 (-14k), LeBlanc(i3)/Nami(i3)/Viktor(i3)/Aurora(i3) exclusions (-19k more). Total: 33k legitimate games lost (31% of expert sample). LeBlanc(i3) appearing in 37% of Teemo games isn't contamination — it's boards that legitimately run both Teemo and LeBlanc as carries (different item slots in a Summon shell).
+
+**Lesson**: **When a carry is unique, the carry-only filter IS the answer.** Adding trait locks to a unique carry doesn't improve accuracy — it just shrinks sample size. The instinct to "add context" (Dishsoap method) must be calibrated: context helps when carries are shared across comps, but HURTS when the carry is already distinctive. Teemo is like Viktor or Zed — no other comp runs Teemo(i3) as primary carry. Also reinforced: for low-cost reroll comps sharing unit pools, **item-based exclusions are the only way** to separate them (Nasus reroll vs Teemo reroll share Nasus/Leona/Mordekaiser/Illaoi/Lissandra). The item on a shared unit identifies which reroll variant the board belongs to.
