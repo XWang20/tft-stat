@@ -71,3 +71,27 @@ Tracking all filter-design exercises for learning and comparison.
 - wrong: my Timebreaker filter was accidentally stricter (85k games) AND captured a different population than the expert (104k games at worse performance). My filter selected high-performing Timebreaker boards that happened to include Corki, rather than the actual Corki-in-Astronaut comp.
 
 **Lesson**: When scouting boards, secondary traits can be misleading — two boards both showing Timebreaker didn't mean Timebreaker defines the comp. The comp name and high trait breakpoint (Astronaut >= 5) reveal the true identity. Also reinforced: high breakpoints (>= 5 vs >= 2) serve a filtering purpose — they narrow to the actual deep-trait comp, not random splashes. Finally, reroll carry exclusions (Veigar, IvernMinion★3, Poppy) are essential when the trait shell overlaps with reroll comps — the same lesson from the xayah exercise.
+
+### spacegroove_nami → space_groove — 2026-04-22
+
+**Observation**: From `cli.py scout --top 3`, two boards showed Nami(i3) as primary AP carry in a SpaceGroove shell: a #1 VN2 board (Nami(i3)/Riven(i3)/Nunu(i3)/TahmKench(i3), SpaceGroove_3) and a #2 EUW1 board (Nami(i3)/Riven(i3)/Nunu(i3), SpaceGroove_3). Both featured Ornn/Shen/Pantheon/Blitzcrank as tanky frontline. Named it "spacegroove_nami."
+
+**My reasoning**: I observed Nami as the primary AP carry with SpaceGroove as the defining trait. Both scout boards showed SpaceGroove_3, but I reasoned that a higher breakpoint would separate the dedicated SpaceGroove comp from random splashes. I treated it as a carry + trait lock comp (Pattern 2), with Nami(i3) + SpaceGroove as the filter core. I excluded Samira(i3) as contamination — and Lissandra(i3)/Teemo(i3) as reroll carries.
+
+**Filter iterations**:
+1. `--or-units TFT17_Nami:i3 --traits TFT17_SpaceGroove:3` → 260,020 games, AVP 4.21, Top4 55.3%. SpaceGroove >= 3 too low — Blitz 78%, Shen 52%, but Illaoi 8%, Mordekaiser 7% leaking in from other comps. Still very broad.
+2. `--or-units TFT17_Nami:i3 --traits TFT17_SpaceGroove:5` → 225,469 games, AVP 4.10, Top4 57.0%. Tighter — Blitz 84%, Shen 56%, Nunu 32%, Morgana 12%. Less contamination. Riven(i3) only 118 games — she's not as common as scout suggested.
+3. `--or-units TFT17_Nami:i3 --traits TFT17_SpaceGroove:5 --exclude-units TFT17_Samira:i3,TFT17_Lissandra:i3,TFT17_Teemo:i3` → 216,828 games, AVP 4.12, Top4 56.8%. Removed ~8.6k games. Core units stable: Blitz 85%, Shen 57%, Nunu 31%.
+4. Final: `--or-units TFT17_Nami:i3 --traits TFT17_SpaceGroove:5 --exclude-units TFT17_Samira:i3,TFT17_Lissandra:i3,TFT17_Teemo:i3`
+
+**Expert filter**: `(Nami(i3,i_max=3) | Samira(i3,i_max=3)) & SpaceGroove >= 5 & ~Nasus(★3,i3,i_max=3)` → 235,417 games, AVP 4.11, Top4 56.9%
+
+**Comparison**:
+- right: SpaceGroove >= 5 breakpoint (matched expert exactly), Nami(i3) as carry, trait-shell comp identification
+- missed:
+  - **Samira is a co-carry, not contamination.** Expert uses OR(Nami(i3) | Samira(i3)) — Space Groove is a flex carry Line comp where either Nami or Samira can be the primary carry. I excluded Samira, losing ~18k legitimate games.
+  - **Nasus(★3,i3) exclusion**: the correct reroll exclusion is Nasus★3 (a low-cost reroll carry in SpaceGroove), not Lissandra/Teemo. My reroll exclusions were misguided.
+  - **item_max=3**: expert uses exact 3 items, not just minimum 3.
+- over-excluded: Lissandra(i3), Teemo(i3) — expert doesn't need these within SpaceGroove >= 5.
+
+**Lesson**: When scouting a trait-shell comp, identifying the comp type (Line vs single carry) determines whether alternative carries are contamination or legitimate flex options. Both scout boards happened to feature Nami, but Samira is equally valid as the primary carry in SpaceGroove. **Two boards showing the same carry doesn't mean the comp has a fixed carry** — need to look at more boards or check whether other units in the same trait shell also appear with 3 items. Also: reroll exclusions must target units that actually appear at ★3 with 3 items in this specific trait context (Nasus), not generically "reroll carries" from other comps (Lissandra/Teemo).

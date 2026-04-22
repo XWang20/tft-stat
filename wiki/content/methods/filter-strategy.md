@@ -111,6 +111,8 @@ When compositions.py doesn't have the comp you want to study, or when you discov
 #### Step 1: Scout top player boards
 Run `python3 cli.py scout --top 3` to scan recent top-3 endgame boards from Challenger/GM. Identify recurring board patterns — groups of units that appear together. These are candidate comps.
 
+**Beware single-carry bias**: seeing the same carry across 2-3 boards doesn't prove the comp has a fixed carry. In Line/flex comps (e.g., Space Groove), different carries can fill the same slot. If the boards share a trait shell but the 3-item carry could plausibly rotate (e.g., Nami or Samira in SpaceGroove), treat alternative carries as co-carries (OR-group), not contamination. Check whether other units in the same trait shell also appear with 3 items before excluding them.
+
 #### Step 2: Write initial filter (Dishsoap method)
 Start with the comp's identity, not a single unit. Different comp types need different approaches:
 
