@@ -31,66 +31,75 @@ Note: each Stargazer has different numbers of trait tiers (Shield/Medallion=1, S
 
 Excluded artifact/radiant/trait items at API level (`unit_itemtype_counts`) and Anima Squad items via regex. Mountain does NOT exclude emblem (Mountain grants emblems — excluding them kills the data). Using `unit_items_unique` endpoint.
 
-For conflict items (IE/GS/LW), shows original Necessity and recomputed Necessity (after filtering for Jhin also carrying that specific item via positive `unit_item_unique`).
+All items recomputed with Jhin conflict filter: `Item(item_id, carrier_unit_id='TFT17_Jhin')` via positive `unit_item_unique`. Format: `original/recomputed`.
 
 | Item | Serpent | Boar | Alter | Huntress | Mountain | Medallion | Fountain |
 |---|---|---|---|---|---|---|---|
-| Kraken's Fury | +.251 | +.170 | +.292 | +.249 | +.208 | +.174 | +.179 |
-| Red Buff | +.056 | +.075 | +.062 | +.054 | +.050 | +.048 | +.064 |
-| Last Whisper | +.018/-.001 | +.021/+.002 | +.008/-.004 | +.018/+.004 | -.007/-.001 | +.031/-.009 | +.018/-.001 |
-| Guinsoo's | +.005 | +.027 | -.107 | -.096 | **+.116** | -.078 | -.121 |
-| Deathblade | -.013 | -.016 | +.009 | +.004 | +.005 | -.003 | +.004 |
-| Giant Slayer | -.020/-.026 | +.004/-.000 | -.026/-.048 | -.006/-.013 | +.006/-.021 | -.032/-.030 | -.020/-.033 |
-| Striker's Flail | -.014 | -.006 | -.012 | -.013 | -.006 | -.014 | -.011 |
-| Infinity Edge | -.128/-.004 | -.181/-.016 | -.199/-.009 | -.185/-.033 | -.135/+.007 | -.157/**+.036** | -.165/-.007 |
+| Kraken's Fury | +.249/+.182 | +.169/+.052 | +.291/+.165 | +.248/+.142 | +.208/+.185 | +.175/+.028 | +.178/+.022 |
+| Red Buff | +.058/-.010 | +.074/-.006 | +.061/+.003 | +.054/-.000 | +.050/-.009 | +.048/-.014 | +.063/-.006 |
+| Last Whisper | +.017/-.002 | +.021/+.002 | +.009/-.004 | +.018/+.005 | -.009/-.003 | +.030/-.006 | +.017/-.001 |
+| Guinsoo's | +.014/-.115 | +.039/-.183 | -.092/-.171 | -.078/-.260 | **+.113**/-.334 | -.101/-.162 | -.117/-.246 |
+| Deathblade | -.012/**+.005** | -.015/-.004 | +.009/+.009 | +.004/**+.015** | +.004/**+.020** | -.004/**+.018** | +.003/**+.019** |
+| Edge of Night | +.004/-.014 | +.003/-.001 | +.004/**+.014** | +.003/**+.013** | +.001/**+.009** | +.009/**+.017** | +.005/**+.016** |
+| Quicksilver | -.001/-.018 | +.005/**+.010** | +.002/**+.013** | -.004/**+.006** | -.004/-.011 | +.002/-.010 | -.004/+.002 |
+| Hextech Gunblade | -.003/-.005 | -.001/-.005 | -.003/**+.007** | +.000/+.002 | -.003/**+.005** | +.009/**+.016** | -.001/+.002 |
+| Striker's Flail | -.012/-.003 | -.007/**+.003** | -.012/-.002 | -.013/-.007 | -.005/**+.011** | -.013/**+.006** | -.010/**+.006** |
+| Giant Slayer | -.021/-.026 | +.005/-.001 | -.026/-.046 | -.006/-.013 | +.006/-.019 | -.030/-.030 | -.020/-.030 |
+| Infinity Edge | -.129/-.005 | -.181/-.016 | -.196/-.007 | -.183/-.032 | -.134/**+.010** | -.158/**+.037** | -.162/-.005 |
 
-Format: `original/recomputed` for conflict items. Recomputed = filtered for Jhin also carrying that specific item (positive `unit_item_unique`).
-
-### Clean Table (conflict items = max of original and recomputed)
+### Clean Table (all items = max of original and recomputed)
 
 | Item | Serpent | Boar | Alter | Huntress | Mountain | Medallion | Fountain |
 |---|---|---|---|---|---|---|---|
-| Kraken's Fury | +.250 | +.171 | +.291 | +.249 | +.208 | +.176 | +.176 |
-| Red Buff | +.056 | +.075 | +.062 | +.054 | +.051 | +.047 | +.064 |
-| Last Whisper | +.018 | +.020 | +.009 | +.018 | -.003 | +.031 | +.017 |
-| Guinsoo's | +.005 | +.027 | -.107 | -.096 | **+.116** | -.078 | -.121 |
-| IE | -.004 | -.016 | -.008 | -.032 | +.009 | **+.035** | -.005 |
-| Deathblade | -.013 | -.016 | +.009 | +.003 | +.005 | -.004 | +.004 |
-| Giant Slayer | -.020 | +.003 | -.026 | -.006 | +.006 | -.028 | -.020 |
-| Striker's Flail | -.013 | -.006 | -.012 | -.013 | -.006 | -.013 | -.010 |
+| Kraken's Fury | +.249 | +.169 | +.291 | +.248 | +.208 | +.175 | +.178 |
+| Red Buff | +.058 | +.074 | +.061 | +.054 | +.050 | +.048 | +.063 |
+| Last Whisper | +.017 | +.021 | +.009 | +.018 | -.003 | +.030 | +.017 |
+| Deathblade | +.005 | -.004 | +.009 | +.015 | **+.020** | +.018 | +.019 |
+| Edge of Night | +.004 | +.003 | +.014 | +.013 | +.009 | +.017 | +.016 |
+| Guinsoo's | +.014 | +.039 | -.092 | -.078 | **+.113** | -.101 | -.117 |
+| Quicksilver | -.001 | +.010 | +.013 | +.006 | -.004 | +.002 | +.002 |
+| Hextech Gunblade | -.003 | -.001 | +.007 | +.002 | +.005 | +.016 | +.002 |
+| IE | -.005 | -.016 | -.007 | -.032 | +.010 | **+.037** | -.005 |
+| Striker's Flail | -.003 | +.003 | -.002 | -.007 | +.011 | +.006 | +.006 |
+| Giant Slayer | -.021 | +.005 | -.026 | -.006 | +.006 | -.030 | -.020 |
 
 ### Key Observations
 
-1. **Top 2 (Kraken/Red Buff) stable across all Stargazers** — no need to change core items.
-2. **Guinsoo's extreme divergence**: Mountain +.116 and Boar +.027 vs Fountain -.121 and Alter -.107.
-3. **IE only flips positive after recompute in Medallion (+.036) and Mountain (+.007)**. All others remain negative. Previous approximate method (`Unit(Jhin, item_min=3)`) overstated this — showed IE flipping in 3+ Stargazers.
-4. **Last Whisper's positive Necessity is mostly a Jhin-correlation artifact**. After precise recompute, drops to near-zero or negative everywhere. LW looked good because Jhin-with-LW games = strong AD comps overall, not because LW is inherently valuable on Xayah.
-5. **Giant Slayer is genuinely weak** — recompute makes it worse, confirming negative Necessity is real, not from Jhin competition.
+1. **Kraken's Fury and Red Buff** are stable #1 and #2 across all Stargazers. However, recompute shows their high Necessity is partly from Jhin correlation — when Jhin also has Kraken/Red Buff, Xayah's Necessity drops significantly. This is expected: Kraken/Red Buff are genuinely good, AND appear in strong-team games.
+2. **Deathblade is a hidden strong item.** Original Necessity is near-zero or negative, but recompute reveals +.015 to +.020 in Huntress/Mountain/Medallion/Fountain. Jhin competes hard for Deathblade; when that competition is resolved, it's solidly positive.
+3. **Edge of Night** similarly hidden: recompute lifts it to +.013 to +.017 in Alter/Huntress/Medallion/Fountain.
+4. **Guinsoo's extreme divergence** persists in the clean table: Mountain +.113, Boar +.039 vs Fountain -.117, Alter -.092.
+5. **IE only flips positive in Medallion (+.037) and Mountain (+.010)**. All others remain negative even after recompute.
+6. **Giant Slayer is genuinely weak** — recompute makes it worse, confirming negative Necessity is real.
+7. **Striker's Flail** is mildly positive after recompute in Mountain/Medallion/Fountain — previously hidden by Jhin competition.
 
 ### Methodological Lesson
 
-The approximate conflict recompute (`Unit(carry, item_min=3)`) is **not a valid substitute** for precise per-item recompute (`Item(item_id, carrier=carry)`). The approximate method selects for stronger teams generally, not just resolved item competition. Now that `unit_item_unique` supports positive filters, always use the precise method.
+Full conflict recompute across ALL items reveals a richer picture than selective recompute on suspected items only:
+- Items that look neutral (Deathblade, Edge of Night, Striker's Flail) turn out to be hidden positives
+- Items that look strongly positive (Kraken's, Red Buff) partially benefit from team-strength correlation
+- The `unit_item_unique` positive filter makes this feasible at scale
 
 ## What I Learned
 
-1. **Xayah's core itemization is Stargazer-independent**: Kraken's Fury > Red Buff everywhere.
-2. **Guinsoo's is the only item that truly changes by Stargazer**: strong in Mountain/Boar, harmful in Fountain/Alter.
-3. **IE is only situationally redeemable** — precise conflict recompute shows it flips only in Medallion. Previous approximate method was too optimistic.
-4. **Last Whisper's value is partly a Jhin-correlation artifact** — surprising finding from precise recompute.
-5. **Approximate conflict recompute is systematically biased** — most important methodological lesson.
-6. **Stargazer tier counts vary** (1–5 tiers). Must query all tiers, not hardcode tier 1. Mountain also requires keeping emblem items.
+1. **Xayah's core itemization is Stargazer-independent**: Kraken's Fury > Red Buff > Last Whisper in the clean table.
+2. **Deathblade is the biggest surprise**: hidden behind Jhin competition, it's actually the 4th best item after recompute (ahead of Guinsoo's in most Stargazers).
+3. **Guinsoo's is the only item that truly changes by Stargazer**: strong in Mountain/Boar, harmful in Fountain/Alter.
+4. **IE is only situationally redeemable** — flips only in Medallion and barely Mountain.
+5. **Full conflict recompute should be standard** for any dual-carry comp — selective recompute misses hidden items.
+6. **Stargazer tier counts vary** (1–5 tiers). Must query all tiers, not hardcode. Mountain also requires keeping emblem items.
 
 ## Open Questions
 
 - What mechanic makes Guinsoo's positive in Mountain/Boar but negative in Fountain/Alter?
-- Is LW's Jhin-correlation artifact seen in other dual-carry comps?
-- Should conflict recompute be standard practice for all dual-carry comps?
+- Deathblade's hidden value: is this specific to Xayah/Jhin, or a general pattern in dual-carry comps?
+- Should the clean table (max of original and recomputed) be the default reporting format?
 
 ## Questions for Xing
 
-- LW's drop after precise recompute is surprising — is "correlation artifact" the right framing, or is there another explanation?
-- The approximate conflict recompute was systematically biased. Should we add a stronger warning to the methods page?
-- Mountain Guinsoo's +.116 is the strongest non-Kraken item anywhere. Worth investigating?
+- Deathblade's emergence after full recompute is striking. Is this a known phenomenon in dual-carry analysis?
+- Should we formalize "full conflict recompute" as a standard step in the item analysis method?
+- Kraken's/Red Buff Necessity dropping after recompute: is this the team-strength correlation we discussed, or something else?
 
 ## Review
 
