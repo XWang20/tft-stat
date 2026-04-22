@@ -170,6 +170,7 @@ Run `python3 cli.py total` and `python3 cli.py units` with your filter. Check:
 Based on Step 3 results:
 - **Unexpected units at high frequency** → they're from a different comp leaking in. Add exclusion (`~Unit()`)
 - **IC3 rate too low** → your carry definition might be wrong, or the trait anchor is too broad
+- **AVP gets worse after exclusions** → you're cutting real games, not contamination. If removing a set of games makes AVP increase (worse placement), those games were your comp's high-performance subset. Contamination from a stronger comp would make AVP *improve* when excluded. Use this as a diagnostic before committing to exclusions.
 - **Sample too small** → your filter is too narrow. Relax a condition (e.g., remove an exclusion, lower trait threshold)
 - **Sample too large with mixed boards** → add a trait ceiling or more exclusions
 - **Low-cost reroll contamination in Line comps** → when a trait-anchored filter (e.g., SpaceGroove >= 5) overlaps with a reroll comp's units, check for 3-star carries with 3 items leaking in. Use `~Unit(X, item_min=3, star_min=3, star_max=3)` to exclude only the true reroll cases while keeping normal appearances of that unit.

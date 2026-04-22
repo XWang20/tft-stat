@@ -379,3 +379,23 @@ Tracking all filter-design exercises for learning and comparison.
 - correctly avoided: adding DarkStar as trait anchor (would have lost 17k+ games for no benefit), adding carry exclusions (contamination was negligible)
 
 **Lesson**: **When a trait is naturally present in most of a carry's games, it's the comp's background — not a useful filter.** DarkStar >= 2 appeared in 89% of Kai'Sa(i3) games, but adding it as a filter only lost 11% of legitimate games without improving accuracy. The trait is a consequence of Kai'Sa's natural supporting cast (Karma/Jhin/Morgana are DarkStar), not a comp-defining constraint. Contrast with Corki where Astronaut >= 5 IS definitional — the difference is that Corki needs the high breakpoint to distinguish from random Astronaut splashes, while Kai'Sa doesn't need DarkStar at all because no other comp uses Kai'Sa as 3-item primary carry. The general rule: **don't add a trait filter just because the trait is common in your data — add it only when it discriminates between your comp and other comps sharing the same carry.**
+
+### shadow_zed → zed — 2026-04-22
+
+**Observation**: From `cli.py scout --top 3`, Zed★2(3) appeared as a melee carry alongside NOVA flex carries: EUW1 #2 (Zed★2(3)/Fiora★2(3)/Graves★2(3)/Nunu★2(3), DRX_1). Zed carried Edge of Night + Spear of Shojin. The board shared Aatrox, Akali, Shen, Morgana, Blitzcrank, Sona — typical DRX/tank units that appear in NOVA boards too. I named it "shadow_zed."
+
+**My reasoning**: Zed appeared in a DRX context alongside NOVA carries (Fiora, Graves), but as an independent 3-item carry. My hypothesis: Zed is a unique carry (Pattern 1) because no other comp runs Zed(i3) as primary carry. The DRX units around him are his natural supporting cast, not a separate comp's identity. The key test: does excluding NOVA carries clean up the filter or destroy it?
+
+**Filter iterations**:
+1. `--or-units TFT17_Zed:i3` → 56,377 games, AVP 4.12, Top4 55.9%. No unit >51%: Shen 50.8%, Nunu 48.8%, Blitz 43.0%, Akali 41.3%, Aatrox 42.2%, Fiora 37.8%, Morgana 34.7%, Graves 29.3%. Unit profile dispersed but all DRX-adjacent — no contradictory trait signals. No 3-item carry contamination (Sona-2: 53, Jhin-2: 63, Samira-2: 135 — all negligible).
+2. `--or-units TFT17_Zed:i3 --exclude-units TFT17_Fiora:i3,TFT17_Vex:i3,TFT17_Graves:i3` → 34,400 games, AVP 4.65, Top4 46.8%. **Excluding NOVA carries removed 39% of games and AVP collapsed.** Those NOVA+Zed boards are Zed's best-performing games — they're legitimate Zed comp games, not contamination. Abandoned this direction.
+3. Final: `--or-units TFT17_Zed:i3` (carry-only, no exclusions needed)
+
+**Expert filter**: `Zed(i3, i_max=3)` — pure carry-only, no exclusions, no trait. 56,390 games, AVP 4.13, Top4 55.9%.
+
+**Comparison**:
+- right: carry-only approach (Pattern 1), no trait lock, no exclusions — matched expert exactly
+- missed: item_max=3 (exact 3 items vs minimum 3) — only 13 games difference
+- correctly avoided: excluding NOVA carries (would have destroyed 39% of legitimate games), adding DRX as trait anchor (Zed doesn't need it)
+
+**Lesson**: **AVP degradation after exclusions is a definitive signal that you're cutting real games, not contamination.** In iteration 2, excluding Fiora/Vex/Graves(i3) caused AVP to drop from 4.12 → 4.65 — a massive 0.53 increase (worse placement). If those games were contamination from a better-performing comp, removing them should have IMPROVED AVP (or held it neutral). The fact that AVP got much worse proves those "NOVA + Zed" boards are Zed's strongest games. This is a useful diagnostic: **if excluding units makes AVP worse, those units' boards are your comp's high-performance subset, not contamination.** Also reinforced: a dispersed unit profile (no unit >51%) doesn't automatically mean "needs more filters" — when all supporting units belong to the same trait family (DRX/tank), the comp is simply flexible in its supporting cast, like Veigar.
