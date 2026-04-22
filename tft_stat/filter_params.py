@@ -79,32 +79,64 @@ def parse_trait_spec(spec: str) -> str:
     return ",".join(f"{trait_id}_{t}" for t in tiers)
 
 
+# --- Value token generation (ported from metatft_links.py) ---
+
+def _value_tokens(minimum, maximum, *, allowed=(1, 2, 3)) -> list[str]:
+    """Generate value tokens for a (min, max) range within allowed values.
+
+    Returns e.g. ['2', '3'] for min=2, max=3 with allowed=(1,2,3).
+    Returns [] when both min and max are None (unconstrained).
+    """
+    norm_min = int(minimum) if minimum is not None else None
+    norm_max = int(maximum) if maximum is not None else None
+    if norm_min is None and norm_max is None:
+        return []
+    if not allowed:
+        return []
+    if norm_min is not None and norm_max is not None and norm_min > norm_max:
+        norm_min, norm_max = norm_max, norm_min
+
+    candidates = [
+        v for v in allowed
+        if (norm_min is None or v >= norm_min)
+        and (norm_max is None or v <= norm_max)
+    ]
+
+    if not candidates and norm_min is not None and norm_min > max(allowed):
+        candidates = [max(allowed)]
+    if not candidates and norm_max is not None and norm_max < min(allowed):
+        candidates = [min(allowed)]
+    if not candidates:
+        return []
+    return [str(v) for v in candidates]
+
+
 # --- Expression tree → MetaTFT params ---
 
 def _unit_to_metatft(unit, *, negated: bool = False) -> str:
-    suffix = "-1"
-    star = items = None
-    if unit.star_min is not None or unit.star_max is not None:
-        vals = [str(v) for v in (1, 2, 3)
-                if (unit.star_min is None or v >= unit.star_min)
-                and (unit.star_max is None or v <= unit.star_max)]
-        star = ",".join(vals) if vals else None
-    if unit.item_min is not None or unit.item_max is not None:
-        vals = [str(v) for v in (1, 2, 3)
-                if (unit.item_min is None or v >= unit.item_min)
-                and (unit.item_max is None or v <= unit.item_max)]
-        items = ",".join(vals) if vals else None
+    """Build unit value string for API params.
 
-    if star and items:
-        suffix += f"_{star}_{items}"
-    elif items:
-        suffix += f"_.*_{items}"
-    elif star:
-        suffix += f"_{star}"
-    else:
-        suffix += "_.*"
+    Handles star_min/max and item_min/max via _value_tokens.
+    Unconstrained units get '-1_.*' suffix (star wildcard) since the API's
+    unit_tier_numitems_unique param requires explicit star wildcard.
+    """
+    star_tokens = _value_tokens(unit.star_min, unit.star_max)
+    item_tokens = _value_tokens(unit.item_min, unit.item_max)
 
-    val = f"{unit.unit_id}{suffix}"
+    parts = ["-1"]
+    if star_tokens:
+        parts.append(",".join(star_tokens))
+    elif item_tokens:
+        parts.append(".*")
+    if item_tokens:
+        parts.append(",".join(item_tokens))
+
+    # When unconstrained (no star/item filters), add star wildcard
+    # so the API matches all star levels, not just 1-star
+    if not star_tokens and not item_tokens:
+        parts.append(".*")
+
+    val = f"{unit.unit_id}{'_'.join(parts)}"
     return f"!{val}" if negated else val
 
 
@@ -131,8 +163,79 @@ def _trait_to_metatft(trait, *, negated: bool = False) -> str:
     return ",".join(tokens)
 
 
-def expr_to_params(expr, *, negated: bool = False, sf_prefix: str | None = None) -> list[str]:
-    """Recursively convert a FilterExpr tree into API filter params."""
+# --- Item exclusion collection (ported from metatft_links.py) ---
+
+def _collect_item_exclusions(expr, negated: bool = False):
+    """Yield (carrier_id, item_id) pairs from ~Item(..., carrier_unit_id=...) nodes.
+
+    Descends through And and Not; skips Or branches (ambiguous negation scope)
+    and plain Item nodes without a carrier.
+    """
+    from tft_stat.filter_expr import And, Item, Not
+
+    if expr is None:
+        return
+    if isinstance(expr, Not):
+        yield from _collect_item_exclusions(expr.child, not negated)
+        return
+    if isinstance(expr, Item):
+        if negated and expr.carrier_unit_id:
+            yield (expr.carrier_unit_id, expr.item_id)
+        return
+    if isinstance(expr, And):
+        for child in expr.children:
+            yield from _collect_item_exclusions(child, negated)
+
+
+def _item_exclusion_params(expr) -> list[str]:
+    """Build unit_item exclusion params from ~Item(...) nodes in the expression tree.
+
+    Generates item_holder=true, item_holder_unit=, and unit_item= params.
+    """
+    exclusions = list(_collect_item_exclusions(expr))
+    if not exclusions:
+        return []
+
+    params: list[str] = []
+    carriers: dict[str, str] = {}
+    unit_item_params: list[str] = []
+
+    for carrier_id, item_id in exclusions:
+        base_suffix = "-1"
+        carriers.setdefault(carrier_id, base_suffix)
+        param = f"unit_item=!{carrier_id}{base_suffix}%26{item_id}-1"
+        if param not in unit_item_params:
+            unit_item_params.append(param)
+
+    params.append("item_holder=true")
+    for carrier, suffix in carriers.items():
+        params.append(f"item_holder_unit={carrier}{suffix}")
+    params.extend(unit_item_params)
+
+    return params
+
+
+# --- Recursive expression converter (core) ---
+
+def _is_flat_eligible(child) -> bool:
+    """Check if a child node can be rendered as a flat unit=/trait= parameter.
+
+    Eligible: Unit, Trait, Not(Unit), Not(Trait).
+    """
+    from tft_stat.filter_expr import Not, Trait, Unit
+
+    if isinstance(child, (Unit, Trait)):
+        return True
+    if isinstance(child, Not) and isinstance(child.child, (Unit, Trait)):
+        return True
+    return False
+
+
+def _expr_to_params_core(expr, *, negated: bool = False, sf_prefix: str | None = None) -> list[str]:
+    """Recursively convert a FilterExpr tree into API filter params (units/traits).
+
+    Item nodes are skipped here; they are handled separately by _item_exclusion_params.
+    """
     from tft_stat.filter_expr import And, Item, Not, Or, Trait, Unit
 
     if isinstance(expr, Unit):
@@ -153,36 +256,59 @@ def expr_to_params(expr, *, negated: bool = False, sf_prefix: str | None = None)
         return []
 
     if isinstance(expr, Not):
-        return expr_to_params(expr.child, negated=not negated, sf_prefix=sf_prefix)
+        return _expr_to_params_core(expr.child, negated=not negated, sf_prefix=sf_prefix)
 
     if isinstance(expr, Or):
         children = expr.children
         if len(children) == 1:
-            return expr_to_params(children[0], negated=negated, sf_prefix=sf_prefix)
+            return _expr_to_params_core(children[0], negated=negated, sf_prefix=sf_prefix)
         params = []
         prefix = sf_prefix or "sf[0]"
         for idx, child in enumerate(children):
             child_prefix = f"{prefix}[or][{idx}]"
-            params.extend(expr_to_params(child, negated=negated, sf_prefix=child_prefix))
+            params.extend(_expr_to_params_core(child, negated=negated, sf_prefix=child_prefix))
         return params
 
     if isinstance(expr, And):
         children = expr.children
         if len(children) == 1:
-            return expr_to_params(children[0], negated=negated, sf_prefix=sf_prefix)
+            return _expr_to_params_core(children[0], negated=negated, sf_prefix=sf_prefix)
+
+        # When inside an sf[] context, all children use sf[] sub-indices
+        if sf_prefix is not None:
+            params = []
+            for idx, child in enumerate(children):
+                child_prefix = f"{sf_prefix}[and][{idx}]"
+                params.extend(_expr_to_params_core(child, negated=negated, sf_prefix=child_prefix))
+            return params
+
+        # Top-level And: flat-eligible leaves go as flat params,
+        # complex children use sf[] structured params
         params = []
         sf_idx = 0
         for child in children:
-            if isinstance(child, (Unit, Trait)) or \
-               (isinstance(child, Not) and isinstance(child.child, (Unit, Trait))):
-                params.extend(expr_to_params(child, negated=negated))
+            if _is_flat_eligible(child):
+                params.extend(_expr_to_params_core(child, negated=negated))
             else:
                 child_prefix = f"sf[{sf_idx}]"
-                params.extend(expr_to_params(child, negated=negated, sf_prefix=child_prefix))
+                params.extend(_expr_to_params_core(child, negated=negated, sf_prefix=child_prefix))
                 sf_idx += 1
         return params
 
     return []
+
+
+def expr_to_params(expr, *, negated: bool = False, sf_prefix: str | None = None) -> list[str]:
+    """Convert a FilterExpr tree into API filter params.
+
+    Handles Unit, Trait, And, Or, Not via recursive conversion, plus
+    Item exclusions (~Item with carrier_unit_id) via separate collection.
+    """
+    params = _expr_to_params_core(expr, negated=negated, sf_prefix=sf_prefix)
+    # Collect Item exclusions only at the top level (no sf_prefix)
+    if sf_prefix is None:
+        params.extend(_item_exclusion_params(expr))
+    return params
 
 
 def build_filter_params(*, comp: str | None = None,
