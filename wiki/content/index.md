@@ -1,27 +1,11 @@
 # TFT Data Science Wiki
 
-> A persistent knowledge base for TFT statistical analysis.
-> Built for reuse: any new agent instance bootstraps from this wiki.
->
-> Pattern: [Karpathy's LLM Wiki](https://x.com/karpathy/status/2039805659525644595)
->
-> **Layer 1** — Raw sources (immutable): `sources/*.txt`
-> **Layer 2** — Wiki (maintained): `concepts/`, `methods/`, `tools/`, `experiments/`
-> **Layer 3** — Rules: `schema.md`
->
-> Knowledge is compiled once and kept current, not re-derived on every query.
+> **Purpose**: Persistent knowledge base for TFT statistical analysis.
+> **Pattern**: [Karpathy's LLM Wiki](https://x.com/karpathy/status/2039805659525644595) — compiled once, kept current, not re-derived.
+> **Audience**: Any new agent instance bootstraps from here.
 
----
-
-## How to Use This Wiki
-
-**New agent?** Read in this order:
-1. This page — understand what exists
-2. [[course]] — know the syllabus and current progress
-3. [[lab-checklist]] — internalize the rules before any experiment
-4. Relevant concept/method pages for your task
-
-**Returning?** Check [[log]] for what changed since your last session.
+**New agent?** Read: this page → [[course]] → [[lab-checklist]] → start working.
+**Returning?** Check [[log]] for what changed since last session.
 
 ---
 
@@ -37,7 +21,7 @@
 
 | Page | Status | Summary |
 |---|---|---|
-| [[methods/filter-strategy]] | ✅ | Conditioning as foundation; Simpson's Paradox; checklist; exclude→toggle technique |
+| [[methods/filter-strategy]] | ✅ | Conditioning as foundation; Simpson's Paradox; exclude→toggle; filter checklist |
 | [[methods/build-analysis]] | ✅ | Three-item builds, control variable, consistency check |
 
 ## Tools
@@ -68,11 +52,5 @@
 
 ---
 
-## Maintenance
-
-- **Log**: [[log]] — parseable chronological record
-- **Course**: [[course]] — syllabus, progress, experiment queue
-- **Schema**: [[schema]] — wiki rules and conventions
-- **Lab checklist**: [[lab-checklist]] — MUST READ before every experiment
-- **Last updated**: 2026-04-22
-- **Contributors**: Xing (teacher), Agent (learner)
+**Maintenance**: [[schema]] (rules) · [[log]] (timeline) · [[course]] (syllabus) · [[lab-checklist]] (preflight)
+**Last updated**: 2026-04-22 · **Contributors**: Xing (teacher), Agent (learner)
