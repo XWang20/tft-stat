@@ -1,5 +1,5 @@
 # Experiment: Vex Items Across Different Comps
-**Status**: ✅ accepted
+**Status**: 🔄 revision
 **Date**: 2026-04-21
 **Module**: 1 (Filter Design)
 
@@ -174,3 +174,17 @@ However, we can cross-validate internally: the unfiltered Vex results should be 
 - Are there items that are bad unfiltered but good in a specific comp? (Reverse of the Jeweled Gauntlet trap)
 - Can we quantify "how much does filtering matter" as a single number? (e.g., average rank correlation between comp-filtered and unfiltered)
 - Module 3 preview: In NOVA 95, do the top *builds* (3-item combos) agree with the top single items?
+
+---
+
+## Review
+
+**Status**: 🔄 revision (2026-04-22)
+
+### Feedback (Xing)
+1. **Comp filter 未标准化** — "Dark Star"、"Shepherd" 是 agent 自己临时拼的 filter，没有使用 compositions.py 的专家定义。filter 定义不一致导致数据可能包含错误的局（如 Vex 在 "Dark Star" 里可能混入了非暗星阵容）
+2. **结论方向对，但具体数据不可靠** — "filter matters" 这个大方向是对的，Giant Slayer 在不同阵容表现不同也符合直觉，但具体数字（如 Dark Star 只有 3692 局）需要用标准化 filter 重跑
+
+### Revision Requirements
+- 用 compositions.py 的标准 filter 定义重跑所有阵容的 Vex 装备数据
+- 对比标准 filter vs 当时 ad-hoc filter 的差异，量化 filter 定义对结论的影响
