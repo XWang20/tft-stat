@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.env
+wiki/node_modules/
+wiki/public/
+wiki/.quartz-cache/

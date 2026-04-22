@@ -1,0 +1,577 @@
+[
+  {
+    "apiName": "TFT17_VexUniqueTrait",
+    "name": "Doomer",
+    "breakpoints": [
+      {
+        "minUnits": 1
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_ASTrait",
+    "name": "Challenger",
+    "breakpoints": [
+      {
+        "minUnits": 2
+      },
+      {
+        "minUnits": 3
+      },
+      {
+        "minUnits": 4
+      },
+      {
+        "minUnits": 5
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_MissFortuneUndeterminedTrait",
+    "name": "Choose Trait",
+    "breakpoints": []
+  },
+  {
+    "apiName": "TFT17_Stargazer_Wolf",
+    "name": "Stargazer",
+    "breakpoints": [
+      {
+        "minUnits": 3
+      },
+      {
+        "minUnits": 4
+      },
+      {
+        "minUnits": 5
+      },
+      {
+        "minUnits": 6
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_APTrait",
+    "name": "Replicator",
+    "breakpoints": [
+      {
+        "minUnits": 2
+      },
+      {
+        "minUnits": 4
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_ShieldTank",
+    "name": "Vanguard",
+    "breakpoints": [
+      {
+        "minUnits": 2
+      },
+      {
+        "minUnits": 4
+      },
+      {
+        "minUnits": 6
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_PsyOps",
+    "name": "Psionic",
+    "breakpoints": [
+      {
+        "minUnits": 2
+      },
+      {
+        "minUnits": 4
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_JhinUniqueTrait",
+    "name": "Eradicator",
+    "breakpoints": [
+      {
+        "minUnits": 1
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_Timebreaker",
+    "name": "Timebreaker",
+    "breakpoints": [
+      {
+        "minUnits": 2
+      },
+      {
+        "minUnits": 3
+      },
+      {
+        "minUnits": 4
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_MeleeTrait",
+    "name": "Marauder",
+    "breakpoints": [
+      {
+        "minUnits": 2
+      },
+      {
+        "minUnits": 4
+      },
+      {
+        "minUnits": 6
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_MissFortuneUniqueTrait",
+    "name": "Gun Goddess",
+    "breakpoints": [
+      {
+        "minUnits": 1
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_AnimaSquad",
+    "name": "Anima",
+    "breakpoints": [
+      {
+        "minUnits": 3
+      },
+      {
+        "minUnits": 6
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_Fateweaver",
+    "name": "Fateweaver",
+    "breakpoints": [
+      {
+        "minUnits": 2
+      },
+      {
+        "minUnits": 4
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_ZedUniqueTrait",
+    "name": "Galaxy Hunter",
+    "breakpoints": [
+      {
+        "minUnits": 1
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_ShenUniqueTrait",
+    "name": "Bulwark",
+    "breakpoints": [
+      {
+        "minUnits": 1
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_SonaUniqueTrait",
+    "name": "Commander",
+    "breakpoints": [
+      {
+        "minUnits": 1
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_Stargazer_Medallion",
+    "name": "Stargazer",
+    "breakpoints": [
+      {
+        "minUnits": 3
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_Stargazer_Huntress",
+    "name": "Stargazer",
+    "breakpoints": [
+      {
+        "minUnits": 3
+      },
+      {
+        "minUnits": 5
+      },
+      {
+        "minUnits": 7
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_Stargazer_Serpent",
+    "name": "Stargazer",
+    "breakpoints": [
+      {
+        "minUnits": 3
+      },
+      {
+        "minUnits": 5
+      },
+      {
+        "minUnits": 7
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_Stargazer_Shield",
+    "name": "Stargazer",
+    "breakpoints": [
+      {
+        "minUnits": 3
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_Stargazer_Fountain",
+    "name": "Stargazer",
+    "breakpoints": [
+      {
+        "minUnits": 3
+      },
+      {
+        "minUnits": 5
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_AssassinTrait",
+    "name": "Rogue",
+    "breakpoints": [
+      {
+        "minUnits": 2
+      },
+      {
+        "minUnits": 3
+      },
+      {
+        "minUnits": 4
+      },
+      {
+        "minUnits": 5
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_DarkStar",
+    "name": "Dark Star",
+    "breakpoints": [
+      {
+        "minUnits": 2
+      },
+      {
+        "minUnits": 4
+      },
+      {
+        "minUnits": 6
+      },
+      {
+        "minUnits": 9
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_Primordian",
+    "name": "Primordian",
+    "breakpoints": [
+      {
+        "minUnits": 2
+      },
+      {
+        "minUnits": 3
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_SpaceGroove",
+    "name": "Space Groove",
+    "breakpoints": [
+      {
+        "minUnits": 1
+      },
+      {
+        "minUnits": 3
+      },
+      {
+        "minUnits": 5
+      },
+      {
+        "minUnits": 7
+      },
+      {
+        "minUnits": 10
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_ADMIN",
+    "name": "Arbiter",
+    "breakpoints": [
+      {
+        "minUnits": 2
+      },
+      {
+        "minUnits": 3
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_Stargazer_Mountain",
+    "name": "Stargazer",
+    "breakpoints": [
+      {
+        "minUnits": 3
+      },
+      {
+        "minUnits": 4
+      },
+      {
+        "minUnits": 5
+      },
+      {
+        "minUnits": 6
+      },
+      {
+        "minUnits": 7
+      },
+      {
+        "minUnits": 8
+      },
+      {
+        "minUnits": 9
+      },
+      {
+        "minUnits": 10
+      },
+      {
+        "minUnits": 11
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_SummonTrait",
+    "name": "Shepherd",
+    "breakpoints": [
+      {
+        "minUnits": 3
+      },
+      {
+        "minUnits": 5
+      },
+      {
+        "minUnits": 7
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_RhaastUniqueTrait",
+    "name": "Redeemer",
+    "breakpoints": [
+      {
+        "minUnits": 1
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_HPTank",
+    "name": "Brawler",
+    "breakpoints": [
+      {
+        "minUnits": 2
+      },
+      {
+        "minUnits": 4
+      },
+      {
+        "minUnits": 6
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_ResistTank",
+    "name": "Bastion",
+    "breakpoints": [
+      {
+        "minUnits": 2
+      },
+      {
+        "minUnits": 4
+      },
+      {
+        "minUnits": 6
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_Astronaut",
+    "name": "Meeple",
+    "breakpoints": [
+      {
+        "minUnits": 3
+      },
+      {
+        "minUnits": 5
+      },
+      {
+        "minUnits": 7
+      },
+      {
+        "minUnits": 10
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_ManaTrait",
+    "name": "Conduit",
+    "breakpoints": [
+      {
+        "minUnits": 2
+      },
+      {
+        "minUnits": 3
+      },
+      {
+        "minUnits": 4
+      },
+      {
+        "minUnits": 5
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_Mecha",
+    "name": "Mecha",
+    "breakpoints": [
+      {
+        "minUnits": 3
+      },
+      {
+        "minUnits": 4
+      },
+      {
+        "minUnits": 6
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_GravesTrait",
+    "name": "Factory New",
+    "breakpoints": [
+      {
+        "minUnits": 1
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_Stargazer",
+    "name": "Stargazer",
+    "breakpoints": [
+      {
+        "minUnits": 3
+      },
+      {
+        "minUnits": 5
+      },
+      {
+        "minUnits": 7
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_FlexTrait",
+    "name": "Voyager",
+    "breakpoints": [
+      {
+        "minUnits": 2
+      },
+      {
+        "minUnits": 3
+      },
+      {
+        "minUnits": 4
+      },
+      {
+        "minUnits": 5
+      },
+      {
+        "minUnits": 6
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_BlitzcrankUniqueTrait",
+    "name": "Party Animal",
+    "breakpoints": [
+      {
+        "minUnits": 1
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_DRX",
+    "name": "N.O.V.A.",
+    "breakpoints": [
+      {
+        "minUnits": 2
+      },
+      {
+        "minUnits": 5
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_TahmKenchUniqueTrait",
+    "name": "Oracle",
+    "breakpoints": [
+      {
+        "minUnits": 1
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_RangedTrait",
+    "name": "Sniper",
+    "breakpoints": [
+      {
+        "minUnits": 2
+      },
+      {
+        "minUnits": 3
+      },
+      {
+        "minUnits": 4
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_FioraUniqueTrait",
+    "name": "Divine Duelist",
+    "breakpoints": [
+      {
+        "minUnits": 1
+      }
+    ]
+  },
+  {
+    "apiName": "TFT17_MorganaUniqueTrait",
+    "name": "Dark Lady",
+    "breakpoints": [
+      {
+        "minUnits": 1
+      }
+    ]
+  }
+]
