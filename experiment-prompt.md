@@ -1,108 +1,85 @@
-You are running a scheduled TFT data science experiment. Follow these steps exactly:
+You are running an autonomous TFT data science cycle. Every cycle follows the same workflow regardless of input type.
 
-## Step 0: Process Giscus Reviews (FIRST PRIORITY)
+## Step 1: Gather Inputs
 
-Xing reviews experiments via Giscus comments on wiki pages (backed by GitHub Discussions).
+Collect ALL pending inputs from these sources:
 
-Run this to find Xing's comments:
+**Giscus comments** (primary):
 ```
 gh api graphql -f query='{ repository(owner:"XWang20", name:"tft-stat") { discussions(first:20, orderBy:{field:CREATED_AT, direction:DESC}) { nodes { number, title, comments(first:10) { nodes { body, author { login }, createdAt } } } } } }'
 ```
+Look for XWang20 comments. Discussion title maps to wiki page.
 
-Look for comments by XWang20. The discussion title maps to the wiki page (e.g. "tft-stat/experiments/2026-04-22-nova-trait-breakpoint" → `wiki/content/experiments/2026-04-22-nova-trait-breakpoint.md`).
-
-For each comment from Xing:
-- **"accept"** → update status to ✅ in report and index.md
-- **feedback/revision text** → Treat this as a FULL task with the same three-output standard:
-  1. **Fix the report**: Read the full report end-to-end, fix all issues Xing described, verify internal consistency (numbers, conclusions, cross-references all match)
-  2. **Deepen knowledge**: What does this feedback teach? Update the relevant concepts/ or methods/ page with substantive content — not just a checklist line, but deeper understanding. Ask: "Does a new agent reading the wiki now understand this better?"
-  3. **Improve code** (if applicable): If the feedback reveals a tool gap or method limitation, implement it in tft_stat/ or cli.py
-  4. Update status to 🧪 draft in report and index.md
-  DO NOT just record the feedback and add a lesson. Execute the revision AND compound the learning.
-  After fixing, update ALL global wiki files: index.md (experiment status + syllabus), log.md (what was done with wikilinks), lab-checklist.md (if process lesson).
-- **conclusion** → integrate into concepts/ or methods/ pages with substantive content
-
-After processing, reply to the discussion:
+**GitHub Issues** (secondary):
 ```
-gh api graphql -f query='mutation { addDiscussionComment(input: {discussionId: "DISCUSSION_NODE_ID", body: "Processed: [summary]"}) { comment { id } } }'
+gh issue list --repo XWang20/tft-stat --state open --json number,title,labels,body
 ```
 
-Also check GitHub Issues: `gh issue list --repo XWang20/tft-stat --state open --json number,title,labels,body`
+**Experiment Queue** in wiki/content/index.md.
 
-## Step 1: Bootstrap
+## Step 2: Bootstrap
 
-Read wiki/content/index.md — syllabus, experiment queue, current progress.
-Read wiki/content/lab-checklist.md — rules.
-Read relevant concepts/ and methods/ pages for the topic you'll work on.
+Read wiki/content/index.md and wiki/content/lab-checklist.md.
+Read relevant concepts/ and methods/ pages for the topics you'll work on.
 
-## Step 2: Pick an Experiment
+## Step 3: Process Each Input (Same Standard For All)
 
-Pick the FIRST item from the Experiment Queue in index.md.
-If empty, generate a question from open questions in previous experiments.
-Remove it from the queue after picking.
+For each input — whether it's Xing's feedback, a conclusion, a revision request, or a new experiment — apply the SAME workflow:
 
-## Step 3: Run the Experiment
+### 3a. Understand the Task
+- Giscus "accept" → mark ✅, move to next input
+- Giscus feedback → the task is: fix the report + deepen knowledge
+- Giscus conclusion → the task is: integrate into wiki knowledge pages
+- Issue (any label) → the task is: whatever the issue describes
+- Experiment queue item → the task is: run the experiment
 
-- Use python3 cli.py (comps/total/units/items/tftable) to gather data
-- Use Necessity as primary metric, NEVER raw AVP
-- Cross-validate with tftable when applicable
-- Stay focused on the original question
+### 3b. Execute (Three Outputs)
 
-## Step 4: Produce Three Outputs (NOT JUST A REPORT)
+Every task MUST produce at least two of three:
 
-Every experiment MUST produce improvements in at least two of these three:
+1. **Report/Fix**: Write new experiment report OR fix existing report. Read full report end-to-end after changes, verify all numbers and cross-references are consistent.
 
-### Output 1: Report (always)
-Write to wiki/content/experiments/YYYY-MM-DD-<title>.md with status 🧪 draft.
-Story format. Include "Questions for Xing" section.
+2. **Knowledge Deepening**: Substantively update the relevant concepts/ or methods/ page. NOT a status change or one-line lesson — real content that makes a new agent smarter.
+   - Ask: "Does a new agent reading the wiki now understand this topic more deeply?"
 
-### Output 2: Code Improvement (when applicable)
-If the experiment reveals a new analysis method, a better debiasing approach,
-or a reusable pattern — implement it in tft_stat/ or cli.py.
+3. **Code Improvement** (when applicable): If you discover a new method, pattern, or tool gap — implement it in tft_stat/ or cli.py.
+   - Ask: "Can the system do something it couldn't before?"
 
-Examples of code improvements from experiments:
-- Discovered build-level Necessity → add `cli.py builds` command
-- Found that play-rate weighting matters → improve metrics.py
-- Identified a filter pattern → add it to filter_params.py
+### 3c. Update Global Wiki
 
-Ask: "After this experiment, can the system do something it couldn't before?"
+After EACH task, update:
+- **index.md** — experiment table status, syllabus progress, experiment queue
+- **log.md** — what was done, with [[wikilinks]] to every file modified
+- **lab-checklist.md** — new process lessons (with reasoning, not just rules)
 
-### Output 3: Wiki Knowledge Deepening (always)
-DO NOT just add a status change or a one-line lesson. Substantively deepen
-the relevant concepts/ or methods/ page with what you learned.
+## Step 4: Reply to Processed Inputs
 
-Bad update: "Added lesson #9 to lab-checklist: don't do X"
-Good update: Rewrote the "Selection Bias" section of concepts/biases.md with
-  specific examples from this experiment, quantified effect sizes, and a
-  decision framework for when selection bias matters vs when it's negligible.
+For each Giscus comment processed:
+```
+gh api graphql -f query='mutation { addDiscussionComment(input: {discussionId: "DISCUSSION_NODE_ID", body: "Processed: [summary of what was done, which files updated]"}) { comment { id } } }'
+```
 
-Ask: "After this experiment, does a new agent reading the wiki understand
-this topic more deeply than before?"
+For each Issue processed:
+```
+gh issue close NUMBER --repo XWang20/tft-stat -c "Processed: [summary]"
+```
 
-## Step 5: Update ALL Relevant Wiki Files
+## Step 5: Commit and Push
 
-Every run MUST update:
-- **wiki/content/index.md** — experiments table, syllabus status, experiment queue
-- **wiki/content/log.md** — wikilinks to every file modified:
-  ```
-  ## [YYYY-MM-DD] cron | [title]
-  - Giscus #N: [action] [[experiments/YYYY-MM-DD-name]]
-  - New experiment: [[experiments/YYYY-MM-DD-name]] — [summary]
-  - Deepened: [[concepts/biases]] — added quantified selection bias examples
-  - New code: cli.py builds command (from build-necessity experiment)
-  - Updated: [[lab-checklist]], [[index]]
-  ```
-- **wiki/content/concepts/*.md or methods/*.md** — substantive updates, not just status changes
-- **wiki/content/lab-checklist.md** — new lessons WITH reasoning from data
-
-Verify: no orphan experiments. Every report in experiments/ appears in index.md.
-
-## Step 6: Commit and Push
-
+```
 git add wiki/ tft_stat/ cli.py .
-git commit -m "cron: [summary of all actions taken]
+git commit -m "cron: [summary of all tasks processed]
 
 via [HAPI](https://hapi.run)
 
 Co-Authored-By: HAPI <noreply@hapi.run>"
 git push
+```
+
+## Rules
+
+- Necessity as primary metric, NEVER raw AVP
+- Stay focused on each task's original question
+- Cross-validate with tftable when applicable (python3 cli.py tftable)
+- After revising any report, read it end-to-end for consistency
+- Experiment reports use date prefix: YYYY-MM-DD-<title>.md, status 🧪 draft
