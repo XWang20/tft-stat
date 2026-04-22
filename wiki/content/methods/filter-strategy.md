@@ -122,7 +122,7 @@ Start with the comp's identity, not a single unit. Different comp types need dif
 
 **Carry + trait lock comp** (e.g., `conduit_mf`): carry unit + trait requirement. Use `i2` (not `i3`) when the carry routinely shares items with frontline or secondary units — `MF(i2) + Conduit ≥ 2`. Using `i3` here drops ~11% of legitimate games where MF had only 2 items.
 
-**Dual/multi carry comp** (e.g., `mecha`): multiple units share items. `ASOL(i2) + Galio(i2) + Mecha = 6`. Lower the item threshold (i2 instead of i3) because items are distributed.
+**Dual/multi carry comp** (e.g., `mecha`): multiple units share items. `ASOL(i2) + Galio(i2) + Mecha = 6`. Three key differences from single/flex carry comps: (1) use AND to require both carries simultaneously — OR captures single-carry games from other comps; (2) lower the item threshold (i2 instead of i3) because items are distributed between carries; (3) use exact trait match (`= 6` not `>= 6`) as a trait ceiling to prevent splash contamination from other comps running a few Mecha units.
 
 **Line (not comp)** (e.g., `space_groove`): a flexible path defined by a trait, not a fixed board. `(Nami i3 | Samira i3) + Space Groove ≥ 5`. These are harder to filter because the endgame boards vary more. Expect lower IC3 rates and more contamination — add exclusions carefully.
 

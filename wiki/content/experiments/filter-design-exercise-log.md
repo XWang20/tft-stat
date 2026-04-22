@@ -116,3 +116,27 @@ Tracking all filter-design exercises for learning and comparison.
 - over-excluded: iterations 2-3 tested NOVA carry exclusions (Fiora/Vex/Graves/Samira/Xayah/Nami i3) — all unnecessary, each removing <0.3% of games
 
 **Lesson**: When a trait is niche enough (Primordian only has ~220k games total), the trait anchor alone provides sufficient boundary — no exclusions needed. This is Pattern 3 (OR-Carry + Trait) without the exclusion component. Cross-reference: `nova_yi` explicitly excludes `~Primordian >= 2`, confirming the trait boundary works bidirectionally. Also: spending iterations testing exclusions that remove <1% of games is a signal that the initial filter is already clean — recognize this early and stop iterating.
+
+### mecha_asol_galio → mecha — 2026-04-22
+
+**Observation**: From `cli.py scout --top 3`, 3 boards showed ASOL(i3) + Galio(i3) as dual carries in a Mecha shell: KR GM #1 (ASOL★3(i3)/Galio★3(i3)/Karma★3(i3)/TahmKench(i3)/Urgot, Mecha_3), VN2 Master #1 (ASOL★2(i3)/Bard★2(i3)/Fiora★2(i3)/Galio★2(i3)/TahmKench/Urgot, Mecha_3), EUN1 Master #1 (ASOL★2(i3)/Fiora★2(i3)/Galio★2(i3)/Karma★2(i3)/TahmKench/Urgot, Mecha_3). All featured TahmKench and Urgot as supporting units.
+
+**My reasoning**: Identified ASOL + Galio as dual carries with Mecha as the defining trait. Scout boards showed Mecha_3, which I interpreted as `Mecha >= 3`. I used OR(ASOL_i3, Galio_i3) because CLI `--units` (AND) returned 0 games (likely a bug). I expected this to be a Pattern 2 (carry + trait lock) comp.
+
+**Filter iterations**:
+1. `--or-units TFT17_AurelionSol:i3,TFT17_Galio:i3 --traits TFT17_Mecha:3` → 273,339 games, AVP 4.60, Top4 47.2%. Too broad — captures any game with ASOL or Galio with 3 items + any Mecha splash. Fiora-1 at 103k (37.8%), Bard-1 at 83k (30.4%) — heavy contamination from NOVA/other comps.
+2. Tried `--or-units TFT17_AurelionSol:i2,TFT17_Galio:i2 --traits TFT17_Mecha:6` → 15,323 games, AVP 6.65. Terrible — using OR instead of AND means only one carry is present, and Mecha >= 6 without both carries captures losing/incomplete boards.
+3. Tried `--traits TFT17_Mecha:6` alone → 235,389 games, AVP 4.56. ASOL only appears in ~2% (4,646/235k), Galio ~2% (4,884/235k). Mecha >= 6 is dominated by non-ASOL/Galio boards — the trait shell alone is too broad without requiring both carries.
+4. Could not make `--units` AND work (returned 0), so stopped iterating. Final: `--or-units TFT17_AurelionSol:i3,TFT17_Galio:i3 --traits TFT17_Mecha:3`
+
+**Expert filter**: `ASOL(i2+) AND Galio(i2+) AND Mecha = 6 (exact)` → 225,068 games, AVP 4.50, Top4 48.8%
+
+**Comparison**:
+- right: identified ASOL + Galio as dual carries, Mecha as defining trait
+- missed:
+  - **AND not OR**: dual carry comps require both carries simultaneously (AND), not either-or (OR). My OR filter captured 48k extra games where only one carry was present.
+  - **i2 not i3**: dual carry = items distributed between two units. Using i3 requires 3 full items on each carry, but in practice items are split (e.g., ASOL gets 3, Galio gets 2, or vice versa). i2 captures the full population.
+  - **Mecha = 6 (exact) not >= 3**: trait ceiling prevents contamination from other comps that splash a few Mecha units. The "3" in scout data (Mecha_3) was the trait tier/breakpoint, not a min_units threshold for filtering.
+  - **CLI `--units` AND returned 0 games**: I hit a possible bug and gave up instead of investigating. Should have tried alternative approaches or checked if the API params were correct.
+
+**Lesson**: Dual carry comps require fundamentally different filter logic than single/flex carry comps: (1) AND both carries, not OR; (2) lower item threshold (i2) because items are split; (3) trait ceiling (exact match like `= 6`) is critical to prevent splash contamination. Also: when a CLI command returns unexpected 0 results, investigate the cause rather than abandoning the approach — it's likely a parameter issue, not proof that the filter is wrong.
