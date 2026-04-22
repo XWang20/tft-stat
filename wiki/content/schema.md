@@ -13,8 +13,7 @@ Deployed via GitHub Pages: https://xwang20.github.io/tft-stat/
 
 ```
 wiki/content/
-├── index.md          # Entry point — content catalog, one-line summaries
-├── course.md         # Syllabus, progress tracker, experiment queue
+├── index.md          # Entry point — syllabus, knowledge catalog, experiments
 ├── lab-checklist.md  # MUST READ before every experiment
 ├── log.md            # Append-only chronological record
 ├── schema.md         # THIS FILE — rules and conventions
@@ -59,7 +58,7 @@ wiki/content/
 ### Experiment
 1. Read `lab-checklist.md` — no exceptions
 2. Write report in `experiments/<name>.md` using story format
-3. Update `index.md`, `course.md`, `log.md`
+3. Update `index.md` (experiments table + syllabus status), `log.md`
 4. If new concepts emerged → update relevant concept/method pages
 5. `git push`
 

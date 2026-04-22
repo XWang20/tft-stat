@@ -4,7 +4,7 @@
 ---
 
 ## Pre-Experiment
-- [ ] Read `wiki/content/course.md` — know current progress and queue
+- [ ] Read `wiki/content/index.md` — know current progress and experiment queue
 - [ ] Read this checklist — don't skip items
 - [ ] Define the question clearly before touching any data
 - [ ] Check: is this question interesting? Could the answer surprise us?
@@ -32,9 +32,9 @@
 - [ ] If two methods disagree, investigate why (don't pick the one you prefer)
 
 ## Report
-- [ ] Story format with chapters (see `course.md` for template)
+- [ ] Story format with chapters (see experiment protocol in `index.md`)
 - [ ] Update `wiki/content/index.md` (no orphan pages)
-- [ ] Update `wiki/content/course.md` progress
+- [ ] Update `wiki/content/index.md` (syllabus status + experiments table)
 - [ ] Append to `wiki/content/log.md`
 - [ ] Include "Questions for Xing" section
 - [ ] `git add wiki/ && git commit && git push`

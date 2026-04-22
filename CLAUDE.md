@@ -24,8 +24,7 @@ tft-stat/
 │   └── config/pbe/               # traits.json (breakpoints), items.json (names)
 └── wiki/                         # Quartz wiki (separate git repo)
     └── content/
-        ├── index.md              # Entry point — read this first
-        ├── course.md             # 10-module syllabus + progress tracker
+        ├── index.md              # Entry point — syllabus, knowledge catalog, experiments
         ├── lab-checklist.md      # MUST READ before every experiment
         ├── schema.md             # Wiki maintenance rules
         ├── concepts/             # Core ideas (metrics, biases, framework)
@@ -93,7 +92,7 @@ Delta = -(A - a)/(1-p)
 
 Before any analysis or experiment:
 - Read `wiki/content/index.md` — understand what exists
-- Read `wiki/content/course.md` — know where we are in the syllabus
+- Read `wiki/content/index.md` — understand the syllabus and current progress
 - Read `wiki/content/lab-checklist.md` — internalize the rules
 
 Don't rely on what you "know" from training. The wiki captures hard-won lessons (e.g., Edge ≡ AVP) that your training data doesn't contain.
@@ -139,7 +138,7 @@ The three dimensions are orthogonal. But **filter comes first** because bad cond
 After every experiment or learning:
 - File findings into the appropriate wiki page (concept/method/experiment).
 - Update `index.md` — no orphan pages.
-- Update `course.md` — track progress.
+- Update `index.md` — syllabus status + experiments table.
 - Append to `log.md` — chronological record.
 - If you learned a new lesson, add it to `lab-checklist.md`.
 
