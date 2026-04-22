@@ -24,6 +24,29 @@ Tracking all filter-design exercises for learning and comparison.
 
 **Lesson**: For carry-only filters, the expert's exclusions focus on **reroll comps** (Lulu, Jax, Ezreal — all low-cost reroll carries) and **trait-based variants** (DarkStar >= 4). I over-focused on excluding high-cost carries (Fiora, Vex, Zed) which rarely overlap, while missing the low-cost reroll carries that are the real contamination risk. The reroll carry exclusion pattern (Pattern 5 from the guide) applies even within carry-only filters.
 
+### darkstar_graves → dark_star — 2026-04-22
+
+**Observation**: From `cli.py scout --top 3`, a KR Master #2 board showed Graves(i3) with Dark Star Emblem + Last Whisper + HoJ, alongside Karma(i3) with JG/Nashor's/Striker's, in a DarkStar_3 comp with Chogath, Galio, Jhin, TahmKench, Mordekaiser, Nunu. I named it "darkstar_graves" — Graves as carry in a DarkStar shell.
+
+**My reasoning**: The board had DarkStar_3 as the dominant trait with Graves as the primary AD carry. I assumed this was a carry + trait lock comp (Pattern 2), with Graves(i3) + DarkStar as the defining features. I tried to exclude contaminating carries (Xayah, Vex, Fiora) from other comps.
+
+**Filter iterations**:
+1. `--or-units TFT17_Graves:i3 --traits TFT17_DarkStar:2` → 39,690 games, AVP 4.06, Top4 56.9%. Way too broad — Xayah 30%, Vex 24%, Fiora 12% contamination. DarkStar >= 2 captures any comp splashing 2 DarkStar units.
+2. `--or-units TFT17_Graves:i3 --traits TFT17_DarkStar:4` → 3,951 games, AVP 4.22, Top4 54.3%. Much cleaner — core units Mordekaiser 96%, Karma 88%, Cho'gath 85%, Jhin 77%. Still some Xayah 19%.
+3. `--or-units TFT17_Graves:i3 --traits TFT17_DarkStar:4 --exclude-units TFT17_Xayah:i3,TFT17_Vex:i3,TFT17_Fiora:i3` → 3,460 games, AVP 4.27, Top4 53.3%.
+4. Final: `--or-units TFT17_Graves:i3 --traits TFT17_DarkStar:4 --exclude-units TFT17_Xayah:i3,TFT17_Vex:i3,TFT17_Fiora:i3`
+
+**Expert filter**: `Trait(DarkStar, min_units=4) & ~Kaisa(★3) & ~Chogath(★3)` — **no carry specified at all**. 116,218 games, AVP 4.38, Top4 52.1%.
+
+**Comparison**:
+- right: DarkStar >= 4 as the correct trait threshold (matched expert exactly)
+- missed:
+  - **Dark Star is a "Line" comp, not a carry comp.** The expert defines it purely by trait (DarkStar >= 4) with no carry unit. By anchoring on Graves(i3), I captured only 3% of the actual comp (3,460 vs 116,218 games). Dark Star boards have flexible carries — Graves, Karma, Jhin, Kai'Sa, or others can all be the primary carry.
+  - **Star-level exclusions**: expert excludes Kai'Sa★3 and Cho'gath★3 (reroll variants that are fundamentally different comps). I didn't consider star-level as an exclusion dimension.
+  - **Over-excluded**: my Xayah/Vex/Fiora exclusions were unnecessary — the trait threshold alone is distinctive enough.
+
+**Lesson**: Not every comp is defined by a carry. Some comps are defined purely by their trait shell — the carry slot is flexible. Recognizing comp "type" (single carry vs flex carry vs Line) from scout data is critical BEFORE designing the filter. When boards sharing a trait have different carries, that's a signal it's a Line/trait-shell comp, not a carry comp. Also learned: star-level (★3) exclusions are a tool for separating reroll variants from standard comps, a dimension I hadn't considered.
+
 ### corki_astronaut → meeple_corki — 2026-04-22
 
 **Observation**: From `cli.py scout --top 3`, two boards showed Corki(i3) as primary AD carry: a GM EUW board (Corki/Bard/Riven/Rammus/Fizz/Milio/Poppy/Shen/TahmKench, Astronaut_2/Timebreaker_1) and a Master JP board (Corki/Bard/Riven/Rammus/Mordekaiser/Fizz/Milio/Poppy/Rhaast, Astronaut_2/Timebreaker_2). Both featured Corki as the ranged AD carry with Astronaut units (Fizz/Milio/Poppy) and Riven as bruiser.
