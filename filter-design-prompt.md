@@ -19,14 +19,22 @@ Write down:
 - What defines this pattern (carry, trait, core units)
 - How it differs from other boards you saw
 
-## Step 3: Design the Filter (show your work)
+## Step 3: Design the Filter (data-driven iteration)
 
-Build the filter iteratively. Show EACH step:
+The unit frequency and game counts ARE your reward signal. Don't design in your head — let the data guide you.
 
-1. **Initial filter** → `python3 cli.py total <your args>` → record sample size
-2. **Check units** → `python3 cli.py units <your args>` → record carry IC3 rate, contaminating units
-3. **Adjust** → what you changed and why → re-run → check again
-4. **Repeat** until: target comp included + interference excluded + sample adequate
+For EACH iteration:
+1. Write your filter args
+2. Run `python3 cli.py total <args>` → record games, AVP
+3. Run `python3 cli.py units <args> --min-count 50` → **paste the output**
+4. Analyze units output:
+   - >80% appearance = core unit. Does it match your expectation?
+   - Unexpected 3-item units = contamination. Add exclusions for these.
+   - Carry appearance <50% = filter too broad
+   - Units from a different comp leaking in? Identify and exclude.
+5. Based on this, adjust filter → go back to step 1
+
+**MUST show at least 2-3 iterations with units output.** Each iteration should explain what the data told you and what you changed.
 
 ## Step 4: Compare with Ground Truth
 
