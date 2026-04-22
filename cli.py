@@ -114,10 +114,10 @@ def cmd_items(args):
     print("\nEdge = overall - w/ (positive=good). Necessity = w/o - overall (play-rate weighted).")
 
 
-def cmd_crossval(args):
-    """Fetch tftable ground truth for comparison."""
+def cmd_tftable(args):
+    """Query tftable ground-truth data."""
     if not args.comp:
-        print("Error: crossval requires --comp", file=sys.stderr)
+        print("Error: tftable requires --comp", file=sys.stderr)
         sys.exit(1)
 
     item_names = load_item_names()
@@ -202,10 +202,10 @@ def main():
     _add_filter_args(p_items)
     p_items.add_argument("--min-count", type=int, default=100)
 
-    # crossval
-    p_cv = sub.add_parser("crossval", help="Cross-validate conclusions with tftable")
-    p_cv.add_argument("holder_unit", nargs="?", help="Unit for item crossval (omit for unit crossval)")
-    _add_filter_args(p_cv)
+    # tftable
+    p_tt = sub.add_parser("tftable", help="Query tftable ground-truth data")
+    p_tt.add_argument("holder_unit", nargs="?", help="Unit for item data (omit for unit necessity)")
+    p_tt.add_argument("--comp", help="Comp key (e.g. nova_95)")
 
     args = parser.parse_args()
     if not args.command:
@@ -213,7 +213,7 @@ def main():
         return
 
     {"comps": cmd_comps, "total": cmd_total, "units": cmd_units,
-     "items": cmd_items, "crossval": cmd_crossval}[args.command](args)
+     "items": cmd_items, "tftable": cmd_tftable}[args.command](args)
 
 
 def _add_filter_args(p):
