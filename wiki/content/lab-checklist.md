@@ -32,12 +32,17 @@
 - [ ] If two methods disagree, investigate why (don't pick the one you prefer)
 
 ## Report
-- [ ] Story format with chapters (see experiment protocol in `index.md`)
-- [ ] Update `wiki/content/index.md` (no orphan pages)
-- [ ] Update `wiki/content/index.md` (syllabus status + experiments table)
+- [ ] Story format with chapters (see experiment template in CLAUDE.md)
+- [ ] Status set to `🧪 draft` — Xing will review and set final status
+- [ ] Include `## Questions for Xing` section
+- [ ] Update `wiki/content/index.md` (experiments table + syllabus status)
 - [ ] Append to `wiki/content/log.md`
-- [ ] Include "Questions for Xing" section
 - [ ] `git add wiki/ && git commit && git push`
+
+## After Review
+- [ ] Xing's feedback recorded in report's `## Review` section
+- [ ] Knowledge findings → integrated into `concepts/` or `methods/` pages
+- [ ] Process lessons → appended to Lessons Learned below
 
 ---
 

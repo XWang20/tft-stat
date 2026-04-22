@@ -1,5 +1,5 @@
 # Experiment: Vex Items Across Different Comps
-**Status**: ✅ Complete
+**Status**: ✅ accepted
 **Date**: 2026-04-21
 **Module**: 1 (Filter Design)
 

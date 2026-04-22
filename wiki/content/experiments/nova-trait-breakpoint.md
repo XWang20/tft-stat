@@ -1,5 +1,5 @@
 # Experiment: Is 5 N.O.V.A. Worth the Cost?
-**Status**: ✅ Complete
+**Status**: 🔄 revision
 **Date**: 2026-04-22
 **Module**: 5 (Trait Breakpoints — preview)
 
@@ -165,3 +165,22 @@ We **cannot** cleanly measure the trait's causal value from endgame snapshots. T
 - [[methods/filter-strategy]] — filter as foundation
 - [[experiments/vex-nova95]] — prior Vex item analysis
 - [[sources/dishsoap-frodan-stats]] — "add context first"
+
+---
+
+## Review
+
+**Status**: 🔄 revision (2026-04-22)
+
+### Feedback (Xing)
+> 这是一个有意思的问题，但实施过程太粗糙，几乎没有可靠的结论，甚至vex为什么还在用avp作为指标？感觉昨天讲的完全没有用到今天的作业中来
+
+1. **Used AVP despite proving it unreliable yesterday** — the entire previous day established Necessity as the correct metric, yet this experiment reverted to raw AVP comparison
+2. **No within-comp control** — compared 2 vs 5 N.O.V.A. globally instead of within specific comps (Nova 95, Nova Yi). Each comp has different contamination
+3. **Didn't consider emblem factor** — 2→3 N.O.V.A. via emblem is a different question than 2→3 via adding a unit. Explore with/without emblem as separate conditions
+4. **"Universal improvement" = bias signal** — if filtering by a trait improves every unit equally, it's selection bias not causal effect
+
+### Revision Requirements
+- Redo within specific comps using Necessity not AVP
+- Control for emblem vs unit-added paths to higher breakpoints
+- Apply causal inference reasoning (Xing: "你应该比我更懂因果推断")

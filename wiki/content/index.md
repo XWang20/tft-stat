@@ -18,7 +18,7 @@
 | 2 | Item Metrics | Given a comp, what metric tells us if an item is good? | ✅ | Necessity best single metric; Edge ≡ AVP; shrinkage doesn't fix bias |
 | 3 | Build Analysis | How do item combinations interact? | 🧪 | Control variable + consistency check validated |
 | 4 | Unit Evaluation | Which units matter most in a comp? | ⬜ | — |
-| 5 | Trait Breakpoints | When is 4→6 trait worth the cost? | 🧪 | REDO: used AVP; need Necessity + within-comp control |
+| 5 | Trait Breakpoints | When is 4→6 trait worth the cost? | 🔄 | Used AVP (wrong); need Necessity + within-comp control |
 | 6 | Comp Comparison | How do we compare two different comps? | ⬜ | — |
 | 7 | Emblem & Augment | What's the best emblem/augment for a comp? | ⬜ | — |
 | 8 | Temporal Analysis | How does the meta shift within a patch? | ⬜ | — |
@@ -47,7 +47,7 @@
 
 | Page | Status | Summary |
 |---|---|---|
-| [[concepts/metrics]] | ✅/🧪 | AVP, Necessity, Delta — definitions, math, when to use each |
+| [[concepts/metrics]] | ✅ | AVP, Necessity, Delta — definitions, math, when to use each |
 | [[concepts/biases]] | ✅ | Three systematic biases: survivorship (biggest), player behavior, sample size |
 | [[concepts/framework]] | ✅ | Three orthogonal dimensions: filter strategy × data granularity × metric selection |
 
@@ -77,14 +77,18 @@
 
 ## Experiments
 
-| Page | Date | Module | Summary |
-|---|---|---|---|
-| [[experiments/vex-nova95]] | 2026-04-21 | 2 | 5 metrics compared; Necessity + Builds converge; Red Buff/Dcap best |
-| [[experiments/vex-cross-comp-items]] | 2026-04-21 | 1 | Vex BIS changes across comps; filter = foundation validated |
-| [[experiments/cross-validation-vex-nova95]] | 2026-04-21 | 9 | Blocked on tftable API; pending |
-| [[experiments/nova-trait-breakpoint]] | 2026-04-22 | 5 | Used AVP (wrong!); needs redo with Necessity |
-| [[experiments/reflections-2026-04-21]] | 2026-04-21 | — | Don't bring conclusions to data; shrinkage ≠ debiasing |
-| [[experiments/reflections-2026-04-22]] | 2026-04-22 | — | Don't regress to AVP; control variables within comps |
+### Review Status
+- 🧪 **draft** — agent submitted, not yet reviewed
+- 🔄 **revision** — needs rework (feedback attached)
+- ✅ **accepted** — conclusions reliable, findings integrated into wiki
+- ❌ **rejected** — conclusions not trustworthy
+
+| Page | Date | Module | Status | Summary |
+|---|---|---|---|---|
+| [[experiments/vex-nova95]] | 2026-04-21 | 2 | ✅ | 5 metrics compared; Necessity + Builds converge; Red Buff/Dcap best |
+| [[experiments/vex-cross-comp-items]] | 2026-04-21 | 1 | ✅ | Vex BIS changes across comps; filter = foundation validated |
+| [[experiments/cross-validation-vex-nova95]] | 2026-04-21 | 9 | 🧪 | Blocked on tftable API; pending |
+| [[experiments/nova-trait-breakpoint]] | 2026-04-22 | 5 | 🔄 | Used AVP instead of Necessity; no within-comp control |
 
 ### Experiment Queue
 
@@ -94,13 +98,20 @@
 4. **Exploratory**: Do other traits show the same "universal improvement" bias pattern?
 5. **Open**: Can we measure filter reliability? Causal inference framework for TFT?
 
-### Experiment Protocol
+### Experiment Lifecycle
 
-3 experiments per day. Each experiment:
-1. Read [[lab-checklist]] — no exceptions
-2. Start from a core question → explore with data → produce report in `experiments/`
-3. Cross-validate with tftable when available
-4. Update this page (experiments table + syllabus status) and [[log]]
+```
+agent writes draft → status: 🧪 draft
+Xing reviews       → status: ✅ accepted | 🔄 revision | ❌ rejected
+                      feedback written in report's "## Review" section
+if 🔄 revision     → agent revises or creates follow-up experiment
+```
+
+Every experiment report includes a **## Review** section at the end. Xing's feedback goes there regardless of status. Feedback is never deleted — it's the most valuable part.
+
+**Lesson routing** after review:
+- Knowledge findings → integrate into `concepts/` or `methods/` pages
+- Process lessons ("never do X again") → append to `lab-checklist.md` Lessons Learned
 
 ---
 

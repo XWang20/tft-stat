@@ -57,10 +57,12 @@ wiki/content/
 
 ### Experiment
 1. Read `lab-checklist.md` — no exceptions
-2. Write report in `experiments/<name>.md` using story format
+2. Write report in `experiments/<name>.md` using story format, status: `🧪 draft`
 3. Update `index.md` (experiments table + syllabus status), `log.md`
-4. If new concepts emerged → update relevant concept/method pages
-5. `git push`
+4. After Xing review → update status to `✅ accepted` | `🔄 revision` | `❌ rejected`
+5. Write feedback in report's `## Review` section — feedback is never deleted
+6. Route lessons: knowledge → `concepts/` or `methods/`; process → `lab-checklist.md` Lessons Learned
+7. `git push`
 
 ### Query
 1. Read `index.md` → find relevant pages by summary

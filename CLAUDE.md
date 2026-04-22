@@ -150,7 +150,7 @@ The wiki should grow more valuable over time. A new agent bootstrapping from it 
 
 ```
 # Experiment: [Title]
-Status: 🧪 | ✅
+Status: 🧪 draft
 Date: YYYY-MM-DD
 Module: N
 
@@ -160,7 +160,15 @@ Module: N
 ## What I Learned        ← synthesis
 ## Open Questions        ← seeds for future experiments
 ## Questions for Xing    ← things that need human judgment
+## Review                ← Xing's feedback goes here (added after review)
 ```
+
+Experiment review states: `🧪 draft` → `✅ accepted` | `🔄 revision` | `❌ rejected`.
+Feedback is never deleted — it's the most valuable part of the report.
+
+After review, route lessons:
+- Knowledge findings → integrate into `concepts/` or `methods/` pages
+- Process lessons ("never do X again") → append to `lab-checklist.md` Lessons Learned
 
 ### 7. Surprise Over Routine
 

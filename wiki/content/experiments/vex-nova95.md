@@ -1,7 +1,6 @@
 # Experiment: Vex Items in Nova 95
-**Status**: 🧪 In Progress
+**Status**: ✅ accepted
 **Date**: 2026-04-21
-**Authors**: Xing + Mochi
 
 ---
 
@@ -239,3 +238,25 @@ We also explored the question "what's the best third item?" by fixing two items 
 - [[concepts/metrics]] — Metric definitions
 - [[concepts/biases]] — Bias taxonomy
 - [[concepts/framework]] — Three dimensions
+
+---
+
+## Review
+
+**Status**: ✅ accepted (2026-04-21)
+
+### Feedback (Xing)
+- Edge ≡ AVP — should have checked the algebra before running code
+- Don't bring conclusions to data — present data first, let reader form conclusions
+- Shrinkage doesn't solve systematic bias — TFT's problem is bias not variance
+
+### What I Learned
+1. **Different metrics answer different questions**: Necessity → "most important to comp" (Guinsoo); Control variable → "best marginal item" (Red Buff, Dcap); Builds → "what winners build" (Guinsoo + Dcap/Red Buff). Not contradictory — different questions.
+2. **Edge ≡ AVP** — `Edge = constant - AVP`, trivial identity. Proposed as new metric, wasted an experiment "discovering" it.
+3. **Shrinkage doesn't fix bias** — Bayesian shrinkage corrects variance (small n). TFT items have 4k-183k games. Precise but biased ≠ correct.
+4. **Filter changes the bias structure** — global Frequency-AVP regression (morbrid's constant bias) broke down in filtered data (R² = 0.004). Bias doesn't disappear, it manifests differently.
+
+### Open Questions
+- Is there a single metric that handles survivorship bias without by-round data?
+- Does Necessity's ranking hold across different comp structures?
+- Is "best marginal item" or "most important item" more useful for players?
