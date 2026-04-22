@@ -23,3 +23,28 @@ Tracking all filter-design exercises for learning and comparison.
 - over-excluded: Fiora(i3), Vex(i3), Zed(i3) — expert doesn't need these because their contamination rate is low enough to not matter, or they represent legitimate Xayah-primary games
 
 **Lesson**: For carry-only filters, the expert's exclusions focus on **reroll comps** (Lulu, Jax, Ezreal — all low-cost reroll carries) and **trait-based variants** (DarkStar >= 4). I over-focused on excluding high-cost carries (Fiora, Vex, Zed) which rarely overlap, while missing the low-cost reroll carries that are the real contamination risk. The reroll carry exclusion pattern (Pattern 5 from the guide) applies even within carry-only filters.
+
+### corki_astronaut → meeple_corki — 2026-04-22
+
+**Observation**: From `cli.py scout --top 3`, two boards showed Corki(i3) as primary AD carry: a GM EUW board (Corki/Bard/Riven/Rammus/Fizz/Milio/Poppy/Shen/TahmKench, Astronaut_2/Timebreaker_1) and a Master JP board (Corki/Bard/Riven/Rammus/Mordekaiser/Fizz/Milio/Poppy/Rhaast, Astronaut_2/Timebreaker_2). Both featured Corki as the ranged AD carry with Astronaut units (Fizz/Milio/Poppy) and Riven as bruiser.
+
+**My reasoning**: Both boards shared a Timebreaker trait shell alongside Astronaut units. I named it "corki_astronaut" and tried Timebreaker >= 2 as the trait anchor (since both boards displayed Timebreaker). The carry seemed unique enough that a carry + trait lock (Pattern 2) would work. I expected minimal contamination since Corki as primary 3-item carry is specific.
+
+**Filter iterations**:
+1. `--or-units TFT17_Corki:i3 --traits TFT17_Astronaut:2` → 169,130 games, AVP 4.31, Top4 51.7%. Too broad — generic splash units (Shen 19%, Aatrox 12%) dominate, meaning Astronaut >= 2 is too low a breakpoint.
+2. `--or-units TFT17_Corki:i3 --traits TFT17_Timebreaker:2` → 84,744 games, AVP 3.99, Top4 58.7%. Tighter. Core units: Talon 17%, Caitlyn 18%, TF 18%, Jax 19%, Aatrox 19%. Low contamination from other carries (<0.5% from Nami/Samira/LeBlanc).
+3. Checked exclusions: `--exclude-units TFT17_Nami:i3,TFT17_Samira:i3,TFT17_Leblanc:i3` → 84,307 games — only 437 games removed, confirming minimal contamination.
+4. Final: `--or-units TFT17_Corki:i3 --traits TFT17_Timebreaker:2`
+
+**Expert filter**: `Corki(i3, i_max=3) & Astronaut >= 5 & ~Veigar(i3) & ~IvernMinion(i3,★3) & ~Poppy(i3)` → 103,981 games, AVP 4.48, Top4 47.5%
+
+**Comparison**:
+- right: identified Corki as primary carry with 3 items, recognized the comp is a trait-shell comp (Pattern 2)
+- missed:
+  - **Wrong trait anchor**: expert uses **Astronaut >= 5** (the comp is literally called "Meeple Corki / 木灵族"), not Timebreaker. I was misled by a secondary trait visible in the two boards I observed. The comp's identity IS the deep Astronaut shell.
+  - **Breakpoint matters**: Astronaut >= 2 (my first try) was too low; expert uses >= 5. The high breakpoint is what defines this as "the Astronaut comp" vs "any comp that splashes 2 Astronauts."
+  - **Reroll exclusions**: expert excludes Veigar(i3), IvernMinion(i3,★3), Poppy(i3) — low-cost reroll carries that share the Astronaut trait and contaminate the filter. Same pattern as xayah_carry: reroll carries are the main contamination risk.
+  - **item_max=3**: expert uses exact 3 items, not just minimum 3.
+- wrong: my Timebreaker filter was accidentally stricter (85k games) AND captured a different population than the expert (104k games at worse performance). My filter selected high-performing Timebreaker boards that happened to include Corki, rather than the actual Corki-in-Astronaut comp.
+
+**Lesson**: When scouting boards, secondary traits can be misleading — two boards both showing Timebreaker didn't mean Timebreaker defines the comp. The comp name and high trait breakpoint (Astronaut >= 5) reveal the true identity. Also reinforced: high breakpoints (>= 5 vs >= 2) serve a filtering purpose — they narrow to the actual deep-trait comp, not random splashes. Finally, reroll carry exclusions (Veigar, IvernMinion★3, Poppy) are essential when the trait shell overlaps with reroll comps — the same lesson from the xayah exercise.
