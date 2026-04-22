@@ -138,6 +138,7 @@ Based on Step 3 results:
 - **IC3 rate too low** → your carry definition might be wrong, or the trait anchor is too broad
 - **Sample too small** → your filter is too narrow. Relax a condition (e.g., remove an exclusion, lower trait threshold)
 - **Sample too large with mixed boards** → add a trait ceiling or more exclusions
+- **Low-cost reroll contamination in Line comps** → when a trait-anchored filter (e.g., SpaceGroove >= 5) overlaps with a reroll comp's units, check for 3-star carries with 3 items leaking in. Use `~Unit(X, item_min=3, star_min=3, star_max=3)` to exclude only the true reroll cases while keeping normal appearances of that unit.
 
 #### Step 5: Cross-validate
 Compare your filter's item Necessity rankings against tftable (`python3 cli.py tftable`) if the comp exists there. If rankings diverge significantly, your filter boundary may be wrong.

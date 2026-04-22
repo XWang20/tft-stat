@@ -84,3 +84,37 @@ When a carry-only filter shows another unit appearing at >50% frequency with 3 i
 Low-cost reroll carries (1-2 cost units like Veigar, Zed, Kai'Sa) are often self-isolating because they occupy a unique niche — no other comp invests 3 items into these units. The carry-uniqueness heuristic from Pattern 1 ("how many comps share this carry?") maps directly: if the answer is zero, carry-only is sufficient.
 
 **Guide update needed?**: no — Pattern 1 is already well-documented and Veigar is a textbook example of it.
+
+---
+
+### space_groove — 2026-04-22
+
+**My filter**: `--or-units TFT17_Nami:i3,TFT17_Samira:i3 --traits TFT17_SpaceGroove:5`
+**Expert filter**: `(Nami i3 | Samira i3) & SpaceGroove >= 5 & ~Nasus(i3, 3★)` — OR carry group + trait lock + minimal exclusion
+
+**Sample size**: mine=238,205, expert=234,322 (diff = 3,883 games, 1.6%)
+
+**What I got right**:
+- Correctly identified this as a **Line comp** — defined by the SpaceGroove trait shell, not a single carry
+- Correctly used OR-group for dual carries: `Nami(i3) | Samira(i3)` — both can serve as primary carry
+- Correctly chose `SpaceGroove >= 5` as the trait anchor (not >= 3, which would be too broad at 258k games)
+- Correctly used `i3` item threshold — these are single-carry boards where one carry absorbs all items
+- Identified the comp from scout data without prior knowledge: multiple top-3 boards showed Nami(i3) + Riven(i3) + Shen + TahmKench + SpaceGroove trait
+
+**What I missed**:
+- The exclusion `~Nasus(i3, 3★)` — excludes 3-star Nasus with 3 items. This removes Bonk (Nasus reroll) games that happen to run 5+ SpaceGroove units. The key insight: star_min=3 + star_max=3 narrows the exclusion to **3-star reroll** Nasus only, not all Nasus boards. A 2-star Nasus in Space Groove is normal (frontline); a 3-star Nasus with 3 items is a Bonk comp contaminating the data.
+
+**Why the expert added this exclusion**:
+Low-cost reroll comps (like Bonk/Nasus) share many units with higher-tier comps. In this case, SpaceGroove units like Blitzcrank, Shen, and Nunu also appear in Bonk boards. When a Nasus hits 3-star with 3 items, that game's identity is "Nasus carry" not "Space Groove carry." The star-level qualifier (`star_min=3, star_max=3`) is a precision tool — it only excludes the true reroll cases while keeping normal Nasus appearances.
+
+**Design reasoning**:
+1. Scouted boards → noticed recurring Nami(i3) + SpaceGroove pattern
+2. Started with `Nami(i3) + SpaceGroove >= 3` → 258k games (too broad)
+3. Tightened to `SpaceGroove >= 5` → 224k games (better)
+4. Added Samira as OR carry → 238k games (correct population)
+5. Missed the Nasus exclusion — didn't check for reroll comp contamination
+
+**Lesson for the guide**:
+When filtering Line comps with broad trait anchors, check for **low-cost reroll comp contamination**. Reroll comps share many units with the trait shell but have a fundamentally different carry identity (3-star carry with 3 items). The exclusion should use `star_min=3, star_max=3` to precisely target reroll boards without removing normal appearances of the unit.
+
+**Guide update needed?**: yes — the iterative refinement section (Step 4) should mention checking for reroll comp contamination in Line comps, specifically using star-level qualifiers in exclusions.
