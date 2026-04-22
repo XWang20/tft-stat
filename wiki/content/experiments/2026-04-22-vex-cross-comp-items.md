@@ -220,15 +220,13 @@ tftable sample: 135,798 games (vs MetaTFT 210,399 Vex games). Different data win
 
 - Why did Guinsoo's Necessity differ between MetaTFT (0.501) and tftable (0.764)? The gap narrowed after the filter bug fix (was 0.452 vs 0.764), but still significant. Is it data window, filter implementation, or calculation methodology?
 - Can we cross-validate Dark Star and Shepherd Vex items through any other method, given tftable doesn't track them?
-- The vex_95 comp definition returned 0 games -- is this comp definition outdated, or does it target a specific patch window?
 - Is it meaningful to analyze Vex items in comps where she appears in <10% of games? At what point does she become "incidental" rather than "part of the comp"?
 
 ## Questions for Xing
 
-1. **vex_95 returned 0 games** -- is this definition stale/broken, or was it designed for a different data window? Should we report this as a bug?
-2. **Shepherd definition** -- the old ad-hoc filter gave 58k Vex games, but compositions.py Shepherd only has 3.9k. Is the standardized filter correct for studying "Vex in Shepherd"? Or should we also define a "Vex-carry Shepherd" variant?
-3. **Cross-comp analysis of a non-carry** -- Vex appears in only 5-8% of Dark Star/Shepherd games. Is it still scientifically valid to compare her item rankings across comps where she is incidental vs where she is the carry?
-4. **Necessity magnitude gap** between MetaTFT and tftable for Guinsoo's (0.501 vs 0.764) -- narrowed from the pre-fix value (0.452), but still significant. Is this expected, or a concern?
+1. **Shepherd definition** -- the old ad-hoc filter gave 58k Vex games, but compositions.py Shepherd only has 3.9k. Is the standardized filter correct for studying "Vex in Shepherd"? Or should we also define a "Vex-carry Shepherd" variant?
+2. **Cross-comp analysis of a non-carry** -- Vex appears in only 5-8% of Dark Star/Shepherd games. Is it still scientifically valid to compare her item rankings across comps where she is incidental vs where she is the carry?
+3. **Necessity magnitude gap** between MetaTFT and tftable for Guinsoo's (0.501 vs 0.764) -- narrowed from the pre-fix value (0.452), but still significant. Is this expected, or a concern?
 
 ---
 

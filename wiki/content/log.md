@@ -1,3 +1,11 @@
+## [2026-04-22] cron | Filter reliability experiment + vex-cross-comp revision
+- Revised [[experiments/2026-04-22-vex-cross-comp-items]] — removed stale vex_95 references, fixed consistency per Xing feedback
+- New experiment: [[experiments/2026-04-22-filter-reliability]] — Module 1/9
+- Key finding: filter reliability depends on carry role — Vex (primary carry) ρ=0.976, Mordekaiser (tank) ρ=0.048
+- Warmog's #1 in full filter but #7 in tftable — filter confound for tanks
+- Deepened: [[methods/filter-strategy]] — added "Filter Reliability Depends on Unit Role" section with quantified evidence
+- Updated: [[index]] (experiments table, queue)
+
 ## [2026-04-22] cron | Giscus review processing + universal bias experiment
 - Giscus #9: ✅ accepted [[experiments/2026-04-22-build-vs-single-necessity]] — "没太大区别" confirmed
 - Giscus #8: ✅ accepted [[experiments/2026-04-22-cross-validation-vex-nova95]]

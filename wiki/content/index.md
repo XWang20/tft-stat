@@ -93,11 +93,11 @@
 | [[experiments/2026-04-22-filter-design-patterns]] | 2026-04-22 | 1 | 🧪 | 29 comp filters → 5 design patterns; LeBlanc Guinsoo invisible without filter; Nami Simpson's Paradox |
 | [[experiments/2026-04-22-trait-breakpoint-multi-comp]] | 2026-04-22 | 5 | 🧪 | 3 traits × 3 comps: itemization stable across breakpoints; Necessity direction depends on carry leverage |
 | [[experiments/2026-04-22-universal-improvement-bias]] | 2026-04-22 | 5 | 🧪 | 8 traits tested: 7/8 show higher tier = better AVP (selection bias); Anima Squad reverses (opportunity cost > trait value) |
+| [[experiments/2026-04-22-filter-reliability]] | 2026-04-22 | 1/9 | 🧪 | Filter reliability depends on carry role: Vex ρ=0.976 (stable), Morde ρ=0.048 (unstable); tanks need cross-validation |
 
 ### Experiment Queue
 
-1. **Open**: Can we measure filter reliability? Causal inference framework for TFT?
-2. **Module 5 follow-up**: Does the "carry leverage" Necessity direction pattern hold across more comps?
+1. **Module 5 follow-up**: Does the "carry leverage" Necessity direction pattern hold across more comps?
 
 ### Experiment Lifecycle
 

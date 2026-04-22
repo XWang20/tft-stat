@@ -136,6 +136,19 @@ Every filter reduces sample size. Three filters might be enough. Seven filters m
 
 **The art is finding the minimum filters that isolate what you want to study.**
 
+### Filter Reliability Depends on Unit Role
+
+Not all units benefit equally from careful filtering. Filter reliability depends on the unit's **carry role** within the comp.
+
+| Unit Role | Filter Sensitivity | Example |
+|-----------|-------------------|---------|
+| **Primary carry** (3-item, >80% appearance) | Low — rankings stable across filter levels (ρ ≥ 0.89) | Vex in NOVA: full vs minimal ρ = 0.893, full vs no-filter ρ = 0.976 |
+| **Tank / secondary** | Extreme — rankings invert across filter levels (ρ ≈ 0.05) | Mordekaiser in Dark Star: full vs tftable ρ = 0.048, Warmog's rank swings #1↔#7 |
+
+**Why**: The primary carry IS the comp's identity. Filter changes mostly add/remove non-carry games, but carry-specific games stay similar. A tank's optimal build depends on the surrounding team context — different filters select different contexts.
+
+**Practical rule**: For primary carries, even a minimal filter (carry + 3 items) produces reliable Necessity rankings. For tanks and secondary carries, cross-validate with tftable before trusting any ranking. See [[experiments/2026-04-22-filter-reliability]].
+
 ## Ad-hoc vs Standardized Filters
 
 **Always use standardized compositions.py definitions. Never construct ad-hoc filters when an expert definition exists.**
