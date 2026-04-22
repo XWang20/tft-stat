@@ -89,12 +89,12 @@
 | [[experiments/vex-cross-comp-items]] | 2026-04-22 | 1 | 🧪 | Revised: Vex BIS across comps with standardized filters; ad-hoc filters caused 3 sign flips in Dark Star |
 | [[experiments/cross-validation-vex-nova95]] | 2026-04-22 | 9 | 🧪 | Spearman 0.993 — top 9 items match; Necessity values differ but rankings robust |
 | [[experiments/nova-trait-breakpoint]] | 2026-04-22 | 5 | 🧪 | Revised: Necessity within comps; item rankings stable across trait tiers; filter leakage discovered; emblem path negligible (3.4%) |
+| [[experiments/build-vs-single-necessity]] | 2026-04-22 | 3 | 🧪 | Build-implied rankings differ from single-item: Gunblade rises to #1, Guinsoo drops (ceiling effect); methods complementary |
 
 ### Experiment Queue
 
-1. **Module 5 redo**: N.O.V.A. trait breakpoints within specific comps, using Necessity not AVP
-2. **Module 1 practice**: Study compositions.py filter patterns — document expert filter design
-3. **Module 3 follow-up**: Build Necessity ranking vs single-item Necessity — do they differ?
+1. **Module 1 practice**: Study compositions.py filter patterns — document expert filter design
+2. **Module 5 redo**: N.O.V.A. trait breakpoints within specific comps, using Necessity not AVP
 4. **Exploratory**: Do other traits show the same "universal improvement" bias pattern?
 5. **Open**: Can we measure filter reliability? Causal inference framework for TFT?
 

@@ -1,3 +1,11 @@
+## [2026-04-22] experiment | Build Necessity vs Single-Item Necessity
+- Module 3 follow-up: compared build-level and single-item Necessity for Vex and Fiora in nova_95
+- Key finding: build-implied rankings differ — Hextech Gunblade rises to #1 (from #3), Guinsoo drops to #4 (ceiling effect at 88% play rate)
+- Bloodthirster on Fiora shows same pattern: #3 single-item but backbone of 9/10 top builds
+- JG confirmed as trap: tftable gives negative Necessity, build score misleadingly positive (contaminated by strong partners)
+- Methods are complementary: single-item for "what to prioritize," builds for "which third item"
+- Cross-validated with tftable: Void Staff worst item in both methods
+
 ## [2026-04-22] experiment | N.O.V.A. Trait Breakpoints (revised)
 - Redid experiment using Necessity within specific comps (nova_95, nova_yi)
 - Key finding: item Necessity rankings are stable across trait tiers (Vex top 6 identical in 2 vs 5 NOVA)
