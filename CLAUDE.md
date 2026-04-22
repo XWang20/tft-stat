@@ -194,6 +194,26 @@ Bad experiment topics:
 - Confirming what we expect without risk of surprise
 - Topics chosen because they're easy, not because they're interesting
 
+### 8. Questions Come From Players, Not From Statistics
+
+**You don't play the game. Find questions from people who do.**
+
+Two sources for good questions:
+1. **Community** (Reddit /r/CompetitiveTFT, Discord) — find what players debate. "Giant Slayer vs JG on Vex?" is a real question with a decision point. Data can settle the argument.
+2. **Data anomalies** — scan for surprises: popular items with negative Necessity, tftable disagreements, unexpected cross-comp differences. Anomalies generate questions naturally.
+
+A good question is **decision-oriented** ("Should I build X or Y?"), not exploratory ("What's the relationship between X and Y?"). Every question should map to a player decision point.
+
+### 9. Filter = Controlling Variables
+
+**Filter is not data preprocessing. It defines what question you're asking.**
+
+- Every unit is either primary carry (主C) or secondary (副C) — itemization differs completely between these roles
+- Primary carry vs secondary is determined by the comp context
+- `Unit('TFT17_Vex', item_min=3)` means "Vex is the primary carry" not "games with Vex"
+- Your question determines what to control for → filter is the implementation of that control
+- Poorly defined question = poorly defined filter = unreliable conclusions
+
 ---
 
 ## Wiki Maintenance

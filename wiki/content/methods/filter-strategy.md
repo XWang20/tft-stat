@@ -5,11 +5,23 @@
 
 TFT match data is high-dimensional: comp, items, traits, rank, server, stage, augments...
 
-Directly comparing aggregate statistics across these dimensions produces **Simpson's Paradox**: the same item can be BIS in one comp and terrible in another (e.g., Zoe's BIS flips between Rebel and Sorc — Dishsoap example).
+**Filter = controlling variables.** Not data preprocessing — it defines what question you're asking.
 
-In econometrics terms: you can't run an OLS regression without controlling for confounders and expect meaningful coefficients.
+Every filter condition controls a variable:
+- Fixed comp (trait + carry) = controls team composition
+- `item_min=3` on a unit = controls role (primary carry vs secondary)
+- Exclude specific units = controls comp boundaries
+- Rank/region = controls player skill
 
-**Filter = controlling for confounders.**
+**Your question determines your filter.** "What's Vex's BIS as primary carry?" → filter must isolate games where Vex IS the primary carry. "What's the best 9th unit for Nova 95?" → filter must lock the 8-unit core.
+
+### Primary Carry vs Secondary — The Most Important Variable
+
+Every unit is either **primary carry (主C)** or **secondary/support (副C)** in a given game. Itemization differs completely between these roles:
+- Primary carry: optimized item builds, 3 items, items chosen deliberately
+- Secondary: leftover items, late carousel pickups, survivorship bias at maximum
+
+Whether a unit is primary carry is determined by comp context. `Unit('TFT17_Vex', item_min=3)` in compositions.py means "games where Vex is the primary carry." Without this distinction, you're mixing two completely different populations.
 
 ### Simpson's Paradox Is Not Theoretical — It's the Default
 

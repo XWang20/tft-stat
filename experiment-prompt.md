@@ -17,6 +17,29 @@ gh issue list --repo XWang20/tft-stat --state open --json number,title,labels,bo
 
 **Experiment Queue** in wiki/content/index.md.
 
+**If the queue is empty**, generate a question from one of these two sources:
+
+1. **Community questions** — search Reddit /r/CompetitiveTFT for debated topics:
+   ```
+   curl -s "https://www.reddit.com/r/CompetitiveTFT/hot.json?limit=20" | python3 -c "..."
+   ```
+   Look for item debates ("X vs Y on Z"), comp strength disputes, or meta questions.
+   Good questions are ones where players disagree — data can settle the argument.
+
+2. **Data anomalies** — scan for surprises in the data:
+   - Run `python3 cli.py items <unit> --comp <comp>` for several comps
+   - Look for items with unexpected Necessity (popular but negative, or rare but highly positive)
+   - Compare with `python3 cli.py tftable <unit> --comp <comp>` — divergences are interesting
+   - Run `python3 cli.py units --comp <comp>` — units with surprising AVP or play rate
+
+   Good questions emerge from anomalies: "Why is X popular but bad?" or "Why does tftable disagree with us on Y?"
+
+**Question quality check**: A good experiment question is:
+- **Decision-oriented**: "Should I build X or Y?" not "What's the relationship between X and Y?"
+- **Specific**: tied to a comp, a unit, a decision point — not abstract
+- **Answerable**: our tools can gather the data needed
+- **Surprising**: the answer could go either way; if you already know the answer, pick a harder question
+
 ## Step 2: Bootstrap
 
 Read wiki/content/index.md and wiki/content/lab-checklist.md.
