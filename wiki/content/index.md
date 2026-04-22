@@ -95,6 +95,7 @@
 | [[experiments/2026-04-22-universal-improvement-bias]] | 2026-04-22 | 5 | 🧪 | 8 traits tested: 7/8 show higher tier = better AVP (selection bias); Anima Squad reverses (opportunity cost > trait value) |
 | [[experiments/2026-04-22-filter-reliability]] | 2026-04-22 | 1/9 | 🧪 | Filter reliability depends on carry role: Vex ρ=0.976 (stable), Morde ρ=0.048 (unstable); tanks need cross-validation |
 | [[experiments/2026-04-22-carry-leverage-necessity]] | 2026-04-22 | 5 | 🧪 | 5 comps tested: AP carry Necessity ↑ at higher tier, AD carry flat/↓; ΔAVP magnitude may be confound |
+| [[experiments/2026-04-22-filter-design-clustering]] | 2026-04-22 | 1 | 🧪 | Discovered 7 comp patterns from 38 boards; compared with 29 expert definitions; carry uniqueness determines filter complexity |
 
 ### Experiment Queue
 

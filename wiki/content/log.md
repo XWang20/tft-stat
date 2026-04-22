@@ -1,3 +1,11 @@
+## [2026-04-22] experiment | Filter Design Clustering Exercise
+- Scouted 38 top-3 boards from Master+, clustered into 7 distinct comp patterns
+- Designed and iteratively refined filters for each cluster: NOVA, Viktor, Space Groove, Vanguard LeBlanc, Jhin/Xayah Sniper, Mecha, Primordian Belveth
+- Compared with 29 expert definitions in compositions.py
+- Key lessons: (1) carry uniqueness determines filter complexity — unique carry = carry-only filter; (2) don't merge carries too eagerly — expert separates nova_95 from nova_yi; (3) start with carry-only, add complexity only if needed; (4) 38 boards is marginal — missed ~15 comps including rerolls
+- Biggest mistake: Viktor — tried shell-based filter (DarkStar+Voyager) when carry-only works because Viktor is unique
+- Updated: [[index]] (experiments table)
+
 ## [2026-04-22] update | Systematic wiki deepening from Xing teaching session
 - Deepened [[methods/filter-strategy]]: added "Design a Filter From Scratch" — iterative loop (scout → initial filter → IC3/games validation → adjust → converge)
 - Deepened [[concepts/framework]]: reframed around "question determines everything"; added question sourcing (community + top player match history); added primary carry vs secondary as core concept
