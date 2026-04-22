@@ -11,6 +11,27 @@ In econometrics terms: you can't run an OLS regression without controlling for c
 
 **Filter = controlling for confounders.**
 
+### Simpson's Paradox Is Not Theoretical — It's the Default
+
+Nami demonstrates this with real data. Her global item rankings (all 428k Nami-i3 games) show Void Staff as the #1 item (Nec +0.145). But within either of her actual comps:
+
+| Item | Global | Space Groove | Voyager |
+|---|---|---|---|
+| Void Staff | **#1** (Nec +0.145) | #4 (Nec +0.018) | not ranked |
+| Jeweled Gauntlet | not ranked | not ranked | **#1** (Nec +0.199) |
+
+Void Staff is globally #1 but irrelevant within either comp. Jeweled Gauntlet is Nami's most important item in Voyager but invisible in global data. The aggregate doesn't approximate any individual context — it produces actively misleading rankings.
+
+### Measured Impact: Filter Changes Conclusions, Not Just Precision
+
+These are not hypothetical scenarios. Measured across S17 comps:
+
+- **Giant Slayer** on Vex: Necessity +0.084 in nova_95, +0.026 in dark_star — same item, same champion, 3x difference depending on comp context.
+- **Striker's Flail** on Vex: Necessity +0.063 in nova_95, +0.003 in vex_95 — a **20x drop** between two comps that both feature Vex as primary carry.
+- **Guinsoo's Rageblade** on LeBlanc: invisible in top 25 with a carry-only filter (281k games), but **#1 item at 92% usage** with the full vanguard_leblanc filter (162k games). The filter doesn't refine the answer — it fundamentally changes it.
+
+The filter is not a statistical refinement. It determines which question you're answering.
+
 ## Filter Checklist
 
 ```
@@ -25,7 +46,45 @@ In econometrics terms: you can't run an OLS regression without controlling for c
 ## Filter Sources
 
 ### Option 1: Use tftable compositions.py (Expert-Curated)
-tftable maintains `compositions.py` with human-expert-written filter definitions for all meta comps. These use OR groups, trait requirements, and unit exclusions. Available at the tft_data GitHub repo. This is the gold standard.
+
+tftable maintains `compositions.py` with 29 expert-curated filter definitions for all meta comps. Available at the tft_data GitHub repo. **This is the gold standard — always prefer these over ad-hoc filters.**
+
+Analysis of all 29 definitions reveals 5 recurring design patterns:
+
+#### Pattern 1: Carry-Only (5 comps)
+Just the carry unit with 3 items. No trait, no exclusions.
+Examples: `zed` = `Unit(Zed, i3)`, `kaisa` = `Unit(Kai'Sa, i3)`, `bonk` = `Unit(Nasus, i3)`
+
+**When it works**: when the carry is unique — no other comp runs this unit as primary carry with 3 items. There is no "Zed in another comp" problem.
+
+#### Pattern 2: Carry + Trait Lock (5 comps)
+Carry unit plus a trait requirement to define the comp's identity.
+Examples: `conduit_mf` = MF (i2+) + Conduit >= 2; `mecha` = ASOL (i2+) + Galio (i2+) + Mecha = 6
+
+**When it works**: when the carry appears in multiple comps. MF with items could be many things, but MF + Conduit isolates the specific build path.
+
+#### Pattern 3: OR-Carry Group + Trait + Exclusions (7 comps)
+The most common pattern for meta comps. Multiple possible carries (OR-group), a trait anchor, and exclusions to prevent leakage from similar comps.
+Examples: `nova_95` = Fiora|Vex|Graves (i3) + DRX >= 2, excluding Mecha 4, Kindred, Aurora i3, MasterYi i3, Zed. `vanguard_leblanc` = LeBlanc (i3) + Vanguard >= 2 + Summon = 3, excluding 5 alternate carries.
+
+**Key insight**: most design effort goes into the exclusions. nova_95 has 2 positive conditions but 5 exclusions. The exclusions form a **negative boundary** — "this comp is NOT those other comps."
+
+#### Pattern 4: Carry + Minimal Exclusions (5 comps)
+Light exclusion to separate from one or two overlapping comps.
+Examples: `pyke` = Pyke (i3), excluding Viktor i3; `vex_95` = Vex (i3) + Blitz + Morde, excluding LeBlanc, DRX >= 2, Jhin i3
+
+#### Pattern 5: Item-Based Exclusions (3 comps)
+The most subtle pattern — uses `~Item()` to exclude specific item-on-unit combinations.
+Examples: `lulu` excludes Guinsoo on Jax (separates from Jax-reroll boards); `tf` excludes Bloodthirster on Aatrox and Titan's on Jax (separates from Aatrox/Jax reroll boards)
+
+**When it works**: only for low-cost reroll comps where unit/trait overlap is unavoidable. The expert uses signature items as negative identifiers — if Jax has Titan's Resolve, it's a Jax reroll, not a TF comp.
+
+#### Expert Heuristics Extracted from These Patterns
+
+1. **Identity = Trait + Carry; Boundary = Exclusions.** The positive filter defines what the comp IS; the negative filter defines what it IS NOT.
+2. **64% of exclusions target 3-item carries.** A unit with 3 items is someone's carry. If another carry appears in "your" comp's data, those are contaminated games.
+3. **Trait ceilings narrow comps.** `Summon = 3` (not >= 3) in vanguard_leblanc prevents overlap with Shepherd (Summon >= 5). Setting a max prevents leakage into higher-breakpoint variants.
+4. **Carry uniqueness determines filter complexity.** Unique carry = carry-only filter. Shared carry = need trait locks and exclusions. The taxonomy maps to one variable: how many comps share this carry?
 
 ### Option 2: Build Filters Yourself
 Tips from Dishsoap and Aesah:
@@ -77,6 +136,34 @@ Every filter reduces sample size. Three filters might be enough. Seven filters m
 
 **The art is finding the minimum filters that isolate what you want to study.**
 
+## Ad-hoc vs Standardized Filters
+
+**Always use standardized compositions.py definitions. Never construct ad-hoc filters when an expert definition exists.**
+
+### The Shepherd Cautionary Tale
+
+An ad-hoc "Shepherd" filter (agent-constructed on the fly) captured 58,817 Vex games. The standardized Shepherd definition (Summon >= 5, excluding Teemo/Lissandra carries) has only 3,901 Vex games — a **93% sample collapse**.
+
+The old filter was defining "any game with Vex in a summon-ish context" rather than the actual Shepherd comp. Of the 49,432 total Shepherd games, Vex only appears in 8%. She is not the Shepherd carry. The ad-hoc filter was analyzing a fundamentally different population while calling it by the same name.
+
+### Three Sign Flips in Dark Star
+
+Ad-hoc filters for Vex in Dark Star produced three Necessity sign flips compared to standardized filters:
+
+| Item | Ad-hoc Necessity | Standardized Necessity | Conclusion change |
+|---|---|---|---|
+| Giant Slayer | -0.003 | **+0.026** | "avoid" -> "useful" |
+| Hextech Gunblade | -0.007 | **+0.022** | "avoid" -> "useful" |
+| Jeweled Gauntlet | -0.067 | **+0.003** | "trap item" -> "neutral" |
+
+The original experiment called Jeweled Gauntlet a "trap item" in Dark Star. That conclusion was entirely a filter artifact — the item is neutral with proper conditioning.
+
+### Why This Happens
+
+Ad-hoc filters are dangerous because they feel reasonable. "Vex + some Summon units" sounds like a reasonable proxy for Shepherd, but it captures a superset that includes many non-Shepherd games. The resulting metrics are a weighted average of real Shepherd games and contaminating games — Simpson's Paradox at the filter level.
+
+**Rule**: If compositions.py has a definition, use it. If it doesn't, your analysis question may be ill-defined.
+
 ## Trust compositions.py Definitions
 
 tftable 的阵容定义是专家手写的，保证有足够对局数量。如果我们的 filter 转换返回 0 或极少 games，**一定是代码 bug**，不是定义的问题。不要怀疑 compositions.py。
@@ -98,3 +185,5 @@ tftable 的阵容定义是专家手写的，保证有足够对局数量。如果
 - [[sources/dishsoap-frodan-stats]]: "Add context first", don't just put the unit in
 - [[sources/morbrid-aesah-talk]]: Games tab, exclude→toggle, don't overfilter
 - [[sources/aesah-data-mistakes]]: Filter to see primary carry items
+- [[experiments/2026-04-22-vex-cross-comp-items]]: Quantified filter impact — 3 sign flips from ad-hoc vs standardized, Shepherd 93% sample collapse
+- [[experiments/2026-04-22-filter-design-patterns]]: 5 expert filter patterns from 29 comp definitions, LeBlanc case study, Nami Simpson's Paradox

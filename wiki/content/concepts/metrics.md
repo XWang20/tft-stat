@@ -32,9 +32,27 @@ Key relationships:
 
 | Metric | Measures | Handles Survivorship Bias? | Play Rate Aware? |
 |---|---|---|---|
-| **AVP** | "How good is placement when this item is present?" | ❌ No | ❌ No |
-| **Delta** | "How much better/worse vs not having it?" | Partially — but w/o baseline shifts with play rate | ⚠️ Indirectly (w/o depends on p) |
-| **Necessity** | "How much would overall suffer if nobody built this?" | ✅ Better — play rate weighting suppresses carousel items | ✅ Directly |
+| **AVP** | "How good is placement when this item is present?" | No | No |
+| **Delta** | "How much better/worse vs not having it?" | Partially — but w/o baseline shifts with play rate | Indirectly (w/o depends on p) |
+| **Necessity** | "How much would overall suffer if nobody built this?" | Better — play rate weighting suppresses carousel items | Directly |
+
+### Necessity's Ranking Robustness
+
+Empirically verified: our pipeline (MetaTFT, 211k games, overall AVP 4.16) vs tftable (136k games, overall AVP 4.26) produces **Spearman rho = 0.993** on Vex items in Nova 95. Despite different sample sizes, time windows, and baselines, 13 of 15 items rank identically. The only swaps are adjacent items with near-identical Necessity values (Flail/Gunblade at #3/#4, gap < 0.01).
+
+This means Necessity rankings are robust to the specific dataset — you can trust the ordering even when absolute values differ between sources.
+
+## Different Metrics Answer Different Questions
+
+Each metric answers a distinct question. They are not contradictory — they measure different things:
+
+| Metric/Method | Question | Example (Vex in Nova 95) |
+|---|---|---|
+| **Necessity** | "What's most important to this comp?" | Guinsoo — removing it would cost +0.5 AVP |
+| **Control variable** | "What's the best marginal item?" | Red Buff, Dcap — consistently rank #1-2 when fixing two items and varying the third |
+| **Builds** | "What do winners build?" | Guinsoo + Dcap + Red Buff — top build by AVP |
+
+A practical player needs all three perspectives: Necessity tells you what to prioritize (slam Guinsoo), control variable tells you what to complete with (add Red Buff or Dcap), and builds give a BIS reference.
 
 ## When to Use What
 
@@ -61,6 +79,7 @@ Key relationships:
 - Suppresses low play rate items — this is usually correct (carousel bias) but could hide genuinely good niche items
 - High play rate items dominate — an "okay" item that everyone builds gets high Necessity
 - Does not fully solve survivorship bias — just uses play rate as a proxy
+- **Compression at lower baselines**: When overall AVP is lower (better comp performance or tighter filter), all Necessity values shrink proportionally because `(A - a)` shrinks. Rankings are preserved but absolute values are not comparable across conditions with different baselines. Example: our pipeline (AVP 4.16) gives Guinsoo Necessity +0.502; tftable (AVP 4.26) gives +0.764. Same ranking, different scale.
 
 ### Bayesian Shrinkage
 - Tested and found ineffective for TFT item analysis ([[experiments/2026-04-21-vex-nova95-items]])
@@ -84,3 +103,4 @@ Key relationships:
 - [[sources/morbrid-aesah-talk]]: Graph view (frequency vs AVP), tier algorithm = frequency + place change
 - [[sources/dishsoap-frodan-stats]]: Play rate as confidence signal, builds > single items
 - [[experiments/2026-04-21-vex-nova95-items]]: Empirical comparison of all metrics on Vex in Nova 95
+- [[experiments/2026-04-22-cross-validation-vex-nova95]]: Spearman 0.993 ranking robustness, Necessity compression
