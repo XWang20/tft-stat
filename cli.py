@@ -157,6 +157,82 @@ def cmd_tftable(args):
             print(f"{u['unit_id']:<30} {u['necessity']:>10.3f} {u['ic3_rate']:>8.1%} {u['ic3_rank']:>9.2f}")
 
 
+def cmd_scout(args):
+    """Scan top player endgame boards for patterns."""
+    item_names = load_item_names()
+    rank = args.rank or "CHALLENGER,GRANDMASTER,MASTER"
+    data = query("recent_matches", [], extra_params={"rank": rank})
+    matches = data.get("data", [])
+
+    if not matches:
+        print("No matches found.")
+        return
+
+    # Parse each board
+    boards = []
+    for m in matches:
+        units_raw = m.get("unit_tier_numitems", [])
+        units = {}
+        for u in units_raw:
+            parts = u.split("_")
+            # format: TFT17_Name_star_items
+            uid = "_".join(parts[:-2]) if len(parts) >= 4 else u
+            star = parts[-2] if len(parts) >= 4 else "?"
+            items = parts[-1] if len(parts) >= 4 else "0"
+            units[uid] = {"star": star, "items": int(items) if items.isdigit() else 0}
+
+        carries = [uid for uid, info in units.items() if info["items"] == 3]
+        builds_raw = m.get("unit_buildNames", [])
+        builds = {}
+        for b in builds_raw:
+            if "&" in b:
+                unit_part, item_part = b.split("&", 1)
+                item_ids = [i.split("|") for i in [item_part]]
+                builds[unit_part] = item_ids[0] if item_ids else []
+
+        boards.append({
+            "placement": m.get("placement", 9),
+            "rank": m.get("rank", "?"),
+            "server": m.get("server", "?"),
+            "player": m.get("riot_id", "?"),
+            "units": units,
+            "carries": carries,
+            "builds": builds,
+            "traits": [t for t in (m.get("traits") or [])],
+        })
+
+    # Filter to top placements
+    top = [b for b in boards if b["placement"] <= (args.top or 4)]
+    print(f"Scanned {len(matches)} matches ({rank}), {len(top)} top-{args.top or 4} boards\n")
+
+    # Count carry frequency
+    from collections import Counter
+    carry_counts = Counter()
+    for b in top:
+        for c in b["carries"]:
+            carry_counts[c] += 1
+
+    print("Carry frequency (3-item units in top boards):")
+    print(f"{'Unit':<30} {'Count':>6} {'Rate':>6}")
+    print("-" * 45)
+    for uid, count in carry_counts.most_common(15):
+        print(f"{uid:<30} {count:>6} {count/len(top):>5.0%}")
+
+    # Show sample winning boards
+    winners = [b for b in boards if b["placement"] == 1][:args.show or 5]
+    print(f"\n{'='*70}")
+    print(f"Sample #1 boards ({len(winners)} shown):")
+    print(f"{'='*70}")
+    for b in winners:
+        print(f"\n{b['rank']} {b['server']} ({b['player']})")
+        print(f"  Units: {', '.join(sorted(b['units'].keys()))}")
+        print(f"  Carries (3-item): {', '.join(b['carries']) or 'none'}")
+        for unit, items in b["builds"].items():
+            if len(items) >= 2:
+                names = [item_names.get(i, i.replace('TFT_Item_','')) for i in items]
+                print(f"  {unit}: {' + '.join(names)}")
+
+
 def _get_holder_baseline(params: list[str], holder: str) -> tuple[float, int]:
     try:
         units_data = query("units_unique", params)
@@ -207,13 +283,19 @@ def main():
     p_tt.add_argument("holder_unit", nargs="?", help="Unit for item data (omit for unit necessity)")
     p_tt.add_argument("--comp", help="Comp key (e.g. nova_95)")
 
+    # scout
+    p_scout = sub.add_parser("scout", help="Scan top player endgame boards")
+    p_scout.add_argument("--rank", help="Rank filter (default: CHALLENGER,GRANDMASTER,MASTER)")
+    p_scout.add_argument("--top", type=int, default=4, help="Show boards with placement <= N (default: 4)")
+    p_scout.add_argument("--show", type=int, default=5, help="Number of #1 boards to display (default: 5)")
+
     args = parser.parse_args()
     if not args.command:
         parser.print_help()
         return
 
     {"comps": cmd_comps, "total": cmd_total, "units": cmd_units,
-     "items": cmd_items, "tftable": cmd_tftable}[args.command](args)
+     "items": cmd_items, "tftable": cmd_tftable, "scout": cmd_scout}[args.command](args)
 
 
 def _add_filter_args(p):
