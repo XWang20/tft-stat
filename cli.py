@@ -79,6 +79,14 @@ def cmd_items(args):
     holder = parse_unit_spec(args.holder_unit)
     params = _params_from_args(args)
 
+    if getattr(args, "normal_only", False):
+        import urllib.parse
+        uid = args.holder_unit.split(":")[0]
+        for t in ("artifact", "radiant", "trait", "emblem"):
+            val = urllib.parse.quote(f"!{uid}-1|{t}_1,2,3", safe="")
+            params.append(f"unit_itemtype_counts={val}")
+        params.append("item=!TFT17_AnimaSquadItem_.*")
+
     data = query(f"unit_items_unique/{holder}", params)
     item_names = load_item_names()
 
@@ -272,18 +280,19 @@ def _params_from_args(args) -> list[str]:
         from tft_stat.filter_expr import Unit, Trait, Item, And, Or, Not
         from tft_stat.filter_params import expr_to_params
         expr = eval(args.filter)
-        return expr_to_params(expr)
-
-    if hasattr(args, "comp") and args.comp:
+        params = expr_to_params(expr)
+    elif hasattr(args, "comp") and args.comp:
         from tft_stat.compositions import COMPOSITIONS
         from tft_stat.filter_params import expr_to_params
         comp = COMPOSITIONS.get(args.comp)
         if not comp:
             print(f"Error: unknown comp '{args.comp}'", file=sys.stderr)
             sys.exit(1)
-        return expr_to_params(comp["filter"])
+        params = expr_to_params(comp["filter"])
+    else:
+        params = []
 
-    return []
+    return params
 
 
 def main():
@@ -307,6 +316,8 @@ def main():
     p_items.add_argument("holder_unit", help="Unit to check items for (e.g. TFT17_Vex)")
     _add_filter_args(p_items)
     p_items.add_argument("--min-count", type=int, default=100)
+    p_items.add_argument("--normal-only", action="store_true",
+                         help="Exclude artifact/radiant/trait/emblem items")
 
     # tftable
     p_tt = sub.add_parser("tftable", help="Query tftable ground-truth data")

@@ -1,3 +1,10 @@
+## [2026-04-22] experiment | Xayah Stargazer Item Analysis + Debiasing Methods
+- New experiment: [[experiments/2026-04-22-xayah-stargazer-items]] -- Xayah items across 7 Stargazer types with conflict recompute
+- New method page: [[methods/item-analysis-debiasing]] -- two debiasing techniques: exclude special items at API level + conflict recompute for shared-carry bias
+- Key findings: core items (Kraken/Red Buff/LW) stable across all Stargazers; Guinsoo's diverges (positive in Mountain/Wolf, negative in Huntress/Fountain); IE's negative Necessity is Jhin selection bias (flips to #1 in Medallion after recompute)
+- CLI: added `--normal-only` flag to items command
+- Updated: [[index]] (methods table + experiments table)
+
 ## [2026-04-22] experiment | Filter Design Clustering Exercise
 - Scouted 38 top-3 boards from Master+, clustered into 7 distinct comp patterns
 - Designed and iteratively refined filters for each cluster: NOVA, Viktor, Space Groove, Vanguard LeBlanc, Jhin/Xayah Sniper, Mecha, Primordian Belveth

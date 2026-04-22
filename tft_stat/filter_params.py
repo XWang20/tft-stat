@@ -165,52 +165,56 @@ def _trait_to_metatft(trait, *, negated: bool = False) -> str:
 
 # --- Item exclusion collection (ported from metatft_links.py) ---
 
-def _collect_item_exclusions(expr, negated: bool = False):
-    """Yield (carrier_id, item_id) pairs from ~Item(..., carrier_unit_id=...) nodes.
+def _collect_items(expr, negated: bool = False):
+    """Yield (carrier_id | None, item_id, negated) from Item nodes.
 
-    Descends through And and Not; skips Or branches (ambiguous negation scope)
-    and plain Item nodes without a carrier.
+    Descends through And, Or, and Not.
     """
-    from tft_stat.filter_expr import And, Item, Not
+    from tft_stat.filter_expr import And, Item, Not, Or
 
     if expr is None:
         return
     if isinstance(expr, Not):
-        yield from _collect_item_exclusions(expr.child, not negated)
+        yield from _collect_items(expr.child, not negated)
         return
     if isinstance(expr, Item):
-        if negated and expr.carrier_unit_id:
-            yield (expr.carrier_unit_id, expr.item_id)
+        yield (expr.carrier_unit_id, expr.item_id, negated)
         return
-    if isinstance(expr, And):
+    if isinstance(expr, (And, Or)):
         for child in expr.children:
-            yield from _collect_item_exclusions(child, negated)
+            yield from _collect_items(child, negated)
 
 
-def _item_exclusion_params(expr) -> list[str]:
-    """Build unit_item exclusion params from ~Item(...) nodes in the expression tree.
+def _item_params(expr) -> list[str]:
+    """Build item filter params from Item nodes in the expression tree.
 
-    Generates item_holder=true, item_holder_unit=, and unit_item= params.
+    With carrier:
+      Item(id, carrier)  → unit_item_unique=carrier-1%26item-1
+      ~Item(id, carrier) → unit_item_unique=!carrier-1%26item-1
+
+    Without carrier:
+      Item(id)  → item_unique=id-1   (or item=id for regex patterns)
+      ~Item(id) → item_unique=!id-1  (or item=!id for regex patterns)
     """
-    exclusions = list(_collect_item_exclusions(expr))
-    if not exclusions:
+    items = list(_collect_items(expr))
+    if not items:
         return []
 
     params: list[str] = []
-    carriers: dict[str, str] = {}
-    unit_item_params: list[str] = []
+    for carrier_id, item_id, negated in items:
+        prefix = "!" if negated else ""
+        is_pattern = ".*" in item_id
 
-    for carrier_id, item_id in exclusions:
-        base_suffix = "-1"
-        carriers.setdefault(carrier_id, base_suffix)
-        param = f"unit_item=!{carrier_id}{base_suffix}%26{item_id}-1"
-        if param not in unit_item_params:
-            unit_item_params.append(param)
-
-    params.append("item_holder=true")
-    for carrier, suffix in carriers.items():
-        params.append(f"item_holder_unit={carrier}{suffix}")
-    params.extend(unit_item_params)
+        if carrier_id:
+            carrier_val = f"{carrier_id}-1"
+            item_val = item_id if "-" in item_id else f"{item_id}-1"
+            params.append(f"unit_item_unique={prefix}{carrier_val}%26{item_val}")
+        else:
+            if is_pattern:
+                params.append(f"item={prefix}{item_id}")
+            else:
+                item_val = item_id if "-" in item_id else f"{item_id}-1"
+                params.append(f"item_unique={prefix}{item_val}")
 
     return params
 
@@ -305,9 +309,8 @@ def expr_to_params(expr, *, negated: bool = False, sf_prefix: str | None = None)
     Item exclusions (~Item with carrier_unit_id) via separate collection.
     """
     params = _expr_to_params_core(expr, negated=negated, sf_prefix=sf_prefix)
-    # Collect Item exclusions only at the top level (no sf_prefix)
     if sf_prefix is None:
-        params.extend(_item_exclusion_params(expr))
+        params.extend(_item_params(expr))
     return params
 
 

@@ -57,6 +57,7 @@
 |---|---|---|
 | [[methods/filter-strategy]] | ✅ | Filter = control variables; primary carry/secondary; 5 expert patterns; design-from-scratch loop; Simpson's Paradox |
 | [[methods/build-analysis]] | ✅ | Three-item builds, control variable, consistency check |
+| [[methods/item-analysis-debiasing]] | 🧪 | Exclude special items (artifact/radiant/anima) + conflict recompute for shared-carry bias |
 
 ### Tools
 
@@ -96,6 +97,7 @@
 | [[experiments/2026-04-22-filter-reliability]] | 2026-04-22 | 1/9 | 🧪 | Filter reliability depends on carry role: Vex ρ=0.976 (stable), Morde ρ=0.048 (unstable); tanks need cross-validation |
 | [[experiments/2026-04-22-carry-leverage-necessity]] | 2026-04-22 | 5 | 🧪 | 5 comps tested: AP carry Necessity ↑ at higher tier, AD carry flat/↓; ΔAVP magnitude may be confound |
 | [[experiments/2026-04-22-filter-design-clustering]] | 2026-04-22 | 1 | 🧪 | Discovered 7 comp patterns from 38 boards; compared with 29 expert definitions; carry uniqueness determines filter complexity |
+| [[experiments/2026-04-22-xayah-stargazer-items]] | 2026-04-22 | 2, 7 | 🧪 | Xayah items × 7 Stargazers; core items stable; Guinsoo's diverges by Stargazer; IE negative is Jhin selection bias (conflict recompute) |
 
 ### Experiment Queue
 
