@@ -62,7 +62,7 @@ Append to `wiki/content/experiments/filter-design-exercise-log.md`:
 **Lesson**: [what the guide should add]
 ```
 
-If the guide needs updating, edit `wiki/content/methods/filter-strategy.md`.
+If you learned something the guide doesn't cover, you MUST update `wiki/content/methods/filter-strategy.md`. This is the whole point — the guide improves with each iteration. Don't just write "guide update needed: yes" — actually make the edit.
 
 ## Step 6: Commit and Push
 
