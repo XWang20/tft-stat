@@ -215,3 +215,29 @@ Tracking all filter-design exercises for learning and comparison.
   - **The filter coexists with Corki boards**: Corki-1 at 108k (62%) in the expert filter too. The expert doesn't exclude Corki because TF+Jax+Corki boards ARE legitimate TF reroll games (the comp often includes Corki as a secondary unit). My assumption that Corki = contamination was wrong.
 
 **Lesson**: **Low-cost reroll comps sharing the same unit pool can only be separated by item patterns, not by unit/trait filters.** TF reroll, Jax reroll, and Aatrox reroll all share Aatrox/Caitlyn/Talon/Jax/TF — you can't exclude units without destroying your own comp. The expert's solution is Pattern 5: signature items as negative identifiers (BT on Aatrox = Aatrox comp, Titan's on Jax = Jax comp). Also learned: dual carry comps use i2 not i3, and sometimes no trait anchor is needed when the unit combination itself is sufficiently distinctive. Finally: a unit appearing at high frequency in your filtered data (Corki at 62%) is not automatically contamination — it may be a legitimate secondary unit in the comp.
+
+### nova_yi_carry → nova_yi — 2026-04-22
+
+**Observation**: From `cli.py scout --top 3`, 3 boards showed MasterYi(i3) as primary melee carry with DRX trait and Kindred as secondary/co-carry: EUW1 #1 (MasterYi(i3)/Kindred(i3)/Graves(i3)/TahmKench(i3), DRX_1), VN2 #1 (MasterYi(i3)/Fiora(i3)/Kindred(i3)/Shen(i3)/TahmKench(i3), DRX_2, MeleeTrait_2), TW2 #2 (MasterYi(i3)/Kindred(i3)/Fiora(i3)/Maokai(i3)/Shen(i3), DRX_1, MeleeTrait_2). All featured Aatrox, Akali, Maokai as supporting units. Named it "nova_yi_carry."
+
+**My reasoning**: MasterYi appeared as the primary melee carry with DRX as the defining trait — a NOVA variant. I treated it as a carry + trait lock comp (Pattern 2), starting carry-only then adding DRX >= 2. The main contamination concern was Primordian comp (Belveth/Akali carries) which shares most DRX units. I excluded individual carries (Belveth i3, Akali i3, Viktor i3) rather than the Primordian trait itself.
+
+**Filter iterations**:
+1. `--or-units TFT17_MasterYi:i3` → 202,612 games, AVP 4.44. Very dispersed — Belveth 38%, Sona 23%, many different comps using Yi as carry. No trait identity.
+2. `--or-units TFT17_MasterYi:i3 --traits TFT17_DRX:2` → 131,731 games, AVP 4.34. Belveth still 56% — Primordian comp shares DRX trait. Akali 93%, Maokai 90%, core units present but heavily contaminated.
+3. `--or-units TFT17_MasterYi:i3 --traits TFT17_DRX:2 --exclude-units TFT17_Belveth:i3,TFT17_Akali:i3,TFT17_Viktor:i3` → 120,718 games, AVP 4.36. Belveth still 55% as i1 support. Core units: Akali 93%, Maokai 90%, Aatrox 84%, Kindred 86%, TahmKench 66%, Fiora 60%.
+4. Tested aggressive carry exclusions (added Fiora/Vex/Nami/Samira i3) → 79,254 games, AVP 4.90. Over-excluded — Fiora and Vex are legitimate NOVA flex carries. Abandoned.
+5. Final: `--or-units TFT17_MasterYi:i3 --traits TFT17_DRX:2 --exclude-units TFT17_Belveth:i3,TFT17_Akali:i3,TFT17_Viktor:i3`
+
+**Expert filter**: `(MasterYi(i3,i_max=3) | Kindred(i3,i_max=3)) & DRX >= 2 & ~Primordian >= 2 & ~Aatrox(i3,★3)` → 189,240 games, AVP 4.45
+
+**Comparison**:
+- right: MasterYi(i3) as primary carry, DRX >= 2 as trait anchor, recognized Primordian as main contamination source
+- missed:
+  - **Kindred is a co-carry (OR group)**: expert uses `MasterYi(i3) | Kindred(i3)`. I only used MasterYi(i3), losing ~68k games where Kindred was the primary carry and Yi was support. All 3 scout boards showed Kindred(i3), but I treated it as secondary rather than flex carry.
+  - **~Primordian >= 2 (trait-level exclusion)**: expert excludes the entire Primordian trait (>= 2), not individual units. This is cleaner and more comprehensive — any board with 2+ Primordian units is excluded regardless of item counts. My unit-level exclusions (Belveth i3, Akali i3) only caught carry versions while missing support-item Primordian boards.
+  - **~Aatrox(i3, ★3)**: excludes 3-star Aatrox reroll — a reroll variant sharing low-cost DRX units.
+  - **item_max=3**: exact 3 items.
+- over-excluded: Viktor(i3) — unnecessary because ~Primordian >= 2 already handles Viktor comp contamination (Viktor comp doesn't run Primordian trait, but the exclusion is redundant since Viktor games are a tiny fraction).
+
+**Lesson**: **Trait-level exclusions (`~Trait >= N`) are more powerful than unit-level exclusions (`~Unit(i3)`) when two comps share the same unit pool but differ by trait identity.** NOVA Yi and Primordian share Aatrox, Akali, Maokai, Kindred, RekSai — excluding individual units as carries (i3) misses the contamination from support-item versions. `~Primordian >= 2` cleanly separates the two comps at the trait boundary. Also: when a unit (Kindred) appears at 86% with 3 items in the filtered data AND appears as i3 in all scout boards, it's a co-carry signal — should be in an OR-group, not treated as secondary.

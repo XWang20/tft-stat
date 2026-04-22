@@ -107,6 +107,7 @@ Examples: `lulu` excludes Guinsoo on Jax (separates from Jax-reroll boards); `tf
 2. **64% of exclusions target 3-item carries.** A unit with 3 items is someone's carry. If another carry appears in "your" comp's data, those are contaminated games.
 3. **Trait ceilings narrow comps.** `Summon = 3` (not >= 3) in vanguard_leblanc prevents overlap with Shepherd (Summon >= 5). Setting a max prevents leakage into higher-breakpoint variants.
 4. **Carry uniqueness determines filter complexity.** Unique carry = carry-only filter. Shared carry = need trait locks and exclusions. The taxonomy maps to one variable: how many comps share this carry?
+5. **Trait-level exclusions beat unit-level exclusions when comps share unit pools.** When two comps share most units but differ by trait identity (e.g., NOVA Yi vs Primordian — both run Aatrox, Akali, Maokai, Kindred), excluding individual units as carries (`~Belveth(i3)`) only catches the carry version while missing support-item contamination. `~Primordian >= 2` cleanly separates at the trait boundary. Prefer `~Trait >= N` over `~Unit(iN)` when the contaminating comp has a distinctive trait.
 
 ### Option 2: Design a Filter From Scratch
 
