@@ -18,7 +18,7 @@
 | 2 | Item Metrics | Given a comp, what metric tells us if an item is good? | ✅ | Necessity best single metric; Edge ≡ AVP; shrinkage doesn't fix bias |
 | 3 | Build Analysis | How do item combinations interact? | 🧪 | Control variable + consistency check validated |
 | 4 | Unit Evaluation | Which units matter most in a comp? | ⬜ | — |
-| 5 | Trait Breakpoints | When is 4→6 trait worth the cost? | 🔄 | Used AVP (wrong); need Necessity + within-comp control |
+| 5 | Trait Breakpoints | When is 4->6 trait worth the cost? | 🧪 | Item rankings stable across tiers; selection bias persists within comps; filter leakage issue |
 | 6 | Comp Comparison | How do we compare two different comps? | ⬜ | — |
 | 7 | Emblem & Augment | What's the best emblem/augment for a comp? | ⬜ | — |
 | 8 | Temporal Analysis | How does the meta shift within a patch? | ⬜ | — |
@@ -86,9 +86,9 @@
 | Page | Date | Module | Status | Summary |
 |---|---|---|---|---|
 | [[experiments/vex-nova95]] | 2026-04-21 | 2 | ✅ | 5 metrics compared; Necessity + Builds converge; Red Buff/Dcap best |
-| [[experiments/vex-cross-comp-items]] | 2026-04-21 | 1 | 🔄 | Vex BIS changes across comps; filter not standardized (ad-hoc, not compositions.py) |
+| [[experiments/vex-cross-comp-items]] | 2026-04-22 | 1 | 🧪 | Revised: Vex BIS across comps with standardized filters; ad-hoc filters caused 3 sign flips in Dark Star |
 | [[experiments/cross-validation-vex-nova95]] | 2026-04-22 | 9 | 🧪 | Spearman 0.993 — top 9 items match; Necessity values differ but rankings robust |
-| [[experiments/nova-trait-breakpoint]] | 2026-04-22 | 5 | 🔄 | Used AVP instead of Necessity; no within-comp control |
+| [[experiments/nova-trait-breakpoint]] | 2026-04-22 | 5 | 🧪 | Revised: Necessity within comps; item rankings stable across trait tiers; filter leakage discovered; emblem path negligible (3.4%) |
 
 ### Experiment Queue
 

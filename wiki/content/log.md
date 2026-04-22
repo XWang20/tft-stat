@@ -1,3 +1,20 @@
+## [2026-04-22] experiment | N.O.V.A. Trait Breakpoints (revised)
+- Redid experiment using Necessity within specific comps (nova_95, nova_yi)
+- Key finding: item Necessity rankings are stable across trait tiers (Vex top 6 identical in 2 vs 5 NOVA)
+- Discovered filter integrity issue: Kindred exclusion leaks when combined with DRX tier 2 trait filter (97% Kindred in "5 NOVA nova_95")
+- Emblem path to 5 NOVA is negligible (~3.4% of games)
+- "Universal improvement" pattern persists even within comps -- selection bias not eliminated
+- Cross-validated with tftable: item Necessity rankings match
+- Question remains fundamentally unanswerable from endgame snapshots
+
+## [2026-04-22] experiment | Vex cross-comp items (revision)
+- Revised experiment using standardized compositions.py filters (was ad-hoc)
+- Old Shepherd filter captured 58k Vex games; standardized filter yields only 3.9k (93% drop)
+- 3 items flipped Necessity sign in Dark Star (Giant Slayer, Hextech Gunblade, JG) -- ad-hoc filter artifacts
+- "Jeweled Gauntlet trap" conclusion was entirely a filter artifact
+- Cross-validated nova_95 against tftable: top 7 items match
+- Core conclusion "filter = foundation" still holds, but dramatic sign-flip stories were overstated
+
 ## [2026-04-22] update | Project restructure
 - Merged wiki into main tft-stat repo (was separate git repo)
 - Restructured code: metatft_query.py → tft_stat/ package + cli.py

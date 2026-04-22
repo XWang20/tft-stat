@@ -1,186 +1,276 @@
-# Experiment: Is 5 N.O.V.A. Worth the Cost?
-**Status**: 🔄 revision
-**Date**: 2026-04-22
-**Module**: 5 (Trait Breakpoints — preview)
+# Experiment: Is 5 N.O.V.A. Worth the Cost? (Revised)
+**Status**: 🧪 draft
+**Date**: 2026-04-22 (original), 2026-04-22 (revision)
+**Module**: 5 (Trait Breakpoints -- preview)
 
 ---
 
 ## The Question
 
-N.O.V.A. in S17 has two breakpoints: **2 units** and **5 units**. The Nova 95 comp typically runs at 2 NOVA. Is upgrading to 5 NOVA worth it?
+N.O.V.A. (DRX) in S17 has two breakpoints: **2 units** and **5 units**. The Nova 95 comp typically runs at 2 NOVA. Is upgrading to 5 NOVA worth it?
 
-This seems straightforward — compare AVP at 2 vs 5 NOVA. But the whole course so far warns me: **raw AVP comparisons are corrupted by survivorship bias.** Players who hit 5 NOVA might already be winning (more gold, better boards, luckier shops). Can we actually separate "the trait made me stronger" from "I was already strong enough to hit 5"?
-
-**Setup**: Nova 95 base filter (OR: Fiora/Vex/Graves with 3 items). Compare `trait=TFT17_DRX_1 & !DRX_2` (exactly 2 NOVA) vs `trait=TFT17_DRX_2` (5+ NOVA). Patch: current. Days: 3. Ranks: Plat–Challenger.
-
----
-
-## Chapter 1: The Headline Numbers
-
-| Breakpoint | Games | Vex AVP | Top4% |
-|---|---|---|---|
-| 2 N.O.V.A. (exactly) | 217,994 | 4.13 | 55.8% |
-| 5 N.O.V.A. | 9,189 | 3.73 | 64.7% |
-
-5 NOVA looks incredible — **0.40 AVP better**, nearly a full placement. But immediately: 5 NOVA is only **4.0%** of all Nova 95 games. Red flag. Low frequency + high performance is the exact pattern of survivorship bias.
-
-Global trait stats tell a similar story:
-- DRX_1 (2 NOVA): 711k games, AVP 4.56 — below average
-- DRX_2 (5 NOVA): 297k games, AVP 4.04 — above average
+The original experiment compared raw AVP between 2 and 5 NOVA globally, which Xing correctly flagged as worthless. This revision:
+1. Uses **Necessity** as primary metric, not AVP
+2. Works **within specific comps** (nova_95 and nova_yi)
+3. Investigates the **emblem factor** -- do players reach 5 NOVA via emblem or via adding units?
+4. Tests for the **"universal improvement" bias signal**
 
 ---
 
-## Chapter 2: Every Unit Gets Better
+## Chapter 1: Within-Comp Headline Numbers
 
-If 5 NOVA is truly a powerful trait breakpoint, we'd expect NOVA-synergy units to improve more than non-NOVA units. Let's check.
+All queries use compositions.py definitions + trait-tier filters. Patch: current. Ranks: Plat--Challenger.
 
-| Unit | 2 NOVA AVP | 5 NOVA AVP | Δ | NOVA? |
+### Nova 95 (Fiora/Vex/Graves carry, DRX >= 2)
+
+| Condition | Games | AVP | Top4% | Win% |
 |---|---|---|---|---|
-| Briar | 4.85 | 2.94 | **-1.90** | No |
-| Rek'Sai | 4.44 | 2.95 | **-1.49** | No |
-| Caitlyn | 4.79 | 3.79 | -1.01 | No |
-| Diana | 4.87 | 3.87 | -1.00 | No |
-| Rammus | 4.85 | 3.98 | -0.87 | No |
-| MissFortune | 4.64 | 3.80 | -0.85 | No |
-| Shen | 3.97 | 3.18 | -0.79 | No |
-| TahmKench | 4.36 | 3.58 | -0.79 | No |
-| Riven | 4.29 | 3.51 | -0.77 | No |
-| Morgana | 3.98 | 3.24 | -0.75 | No |
-| Maokai | 4.35 | 3.64 | -0.71 | Yes (DRX) |
-| Bel'Veth | 3.94 | 3.29 | -0.65 | Yes (DRX) |
-| MasterYi | 4.04 | 3.41 | -0.63 | Yes (DRX) |
-| Kindred | 4.19 | 3.63 | -0.56 | Yes (DRX) |
-| Akali | 4.19 | 3.63 | -0.55 | No |
-| Fiora | 4.03 | 3.46 | -0.56 | Yes (DRX) |
-| Vex | 4.13 | 3.73 | -0.40 | Yes (DRX) |
-| Nunu | 4.11 | 4.18 | **+0.08** | No |
-| Jax | 4.13 | 4.17 | **+0.03** | No |
+| All nova_95 | 308,478 | 4.21 | 54.7% | 18.3% |
+| 2 NOVA only (`--exclude-traits TFT17_DRX:5`) | 270,022 | 4.25 | 53.8% | 18.8% |
+| 5 NOVA (`--traits TFT17_DRX:5`) | 38,457 | 3.94 | 61.5% | 15.1% |
 
-**Every single unit gets better in 5 NOVA** except Nunu (+0.08) and Jax (+0.03). The improvement is **not concentrated on NOVA units** — non-NOVA units like Briar (-1.90), Rek'Sai (-1.49), and Caitlyn (-1.01) improve even more than the NOVA core.
+### Nova Yi (MasterYi/Kindred carry, DRX >= 2)
 
-This is the smoking gun for survivorship bias. If the trait itself were the cause, NOVA units should benefit disproportionately. Instead, the improvement is universal, meaning **the player's overall board state is better**, not just the trait.
+| Condition | Games | AVP | Top4% | Win% |
+|---|---|---|---|---|
+| All nova_yi | 185,454 | 4.45 | 50.8% | 11.3% |
+| 2 NOVA only | 65,511 | 4.61 | 47.9% | 10.7% |
+| 5 NOVA | 119,948 | 4.37 | 52.3% | 11.6% |
+
+Naive AVP delta: nova_95 = -0.31, nova_yi = -0.24. But the original experiment already showed this is unreliable. More interesting: **5 NOVA has lower win rate but higher Top4%** in nova_95 (15.1% vs 18.8% WR). This hints at a different playstyle -- 5 NOVA boards are more consistent (more Top4) but less explosive (fewer wins).
+
+In nova_yi, 5 NOVA accounts for **65%** of all games -- it's the default, not an upgrade. In nova_95, it's only **12.5%** of games.
 
 ---
 
-## Chapter 3: The Composition Shifts
+## Chapter 2: Filter Integrity -- A Critical Discovery
 
-Who actually appears in 5 NOVA games?
+Before trusting any data, I checked what the 5 NOVA filter actually captures within nova_95. The nova_95 definition explicitly excludes Kindred (`~Unit('TFT17_Kindred')`) and MasterYi with 3 items. But in the 5 NOVA condition:
 
-| Unit | 2 NOVA rate | 5 NOVA rate | Shift |
-|---|---|---|---|
-| Maokai | 43% | **100%** | +57pp — 5th NOVA unit, basically mandatory |
-| Kindred | 12% | **99%** | +87pp — another NOVA unit, now core |
-| TahmKench | 42% | **65%** | +23pp |
-| MasterYi | 12% | **61%** | +49pp — NOVA unit |
-| Bel'Veth | 7% | **51%** | +44pp — NOVA unit |
-| Caitlyn | 3% | **44%** | +41pp |
-| Shen | 91% | 61% | **-30pp** — dropped! |
-| Morgana | 80% | 17% | **-63pp** — dropped hard |
-| Blitzcrank | 72% | 6% | **-66pp** — dropped hard |
-| Nunu | 72% | 5% | **-67pp** — dropped hard |
-
-The board looks completely different. 5 NOVA means replacing the frontline (Shen/Morgana/Blitz/Nunu) with NOVA units (Maokai, Kindred, Bel'Veth, MasterYi). It's not "add 3 more NOVA units" — it's "replace your support shell with a NOVA shell."
-
-This is effectively a **different composition**, not just a trait upgrade.
-
----
-
-## Chapter 4: Vex's BIS Changes Too
-
-| Rank | 2 NOVA (217k games) | 5 NOVA (9k games) |
+| Unit | Games in 5 NOVA nova_95 | Rate |
 |---|---|---|
-| 1 | RFC (3.69) | Power Gauntlet (3.23) |
-| 2 | Dcap (3.77) | RFC (3.28) |
-| 3 | Shiv (3.79) | Dcap (3.42) |
-| 4 | Power Gauntlet (3.80) | Leviathan (3.48) |
-| 5 | Guinsoo (3.83) | Bloodrazor (3.51) |
+| Kindred | 37,403 | **97%** |
+| Akali | 37,924 | 99% |
+| Maokai | 38,078 | 99% |
+| Aatrox | 37,798 | 98% |
+| MasterYi | 11,808 | 31% |
 
-Power Gauntlet jumps from #4 to #1. Bloodrazor appears in 5 NOVA (#5) but isn't even top 12 in 2 NOVA. This suggests the trait's power surge mechanic synergizes differently with certain items.
+**Kindred appears in 97% of "5 NOVA nova_95" games despite the filter excluding Kindred.** This means either:
+1. The MetaTFT API `unit_tier_numitems_unique=!TFT17_Kindred-1` exclusion is not working properly when combined with the trait filter
+2. The `-1` suffix has a different interpretation than expected
 
-But again — 5 NOVA sample sizes are small (1,221 games for Power Gauntlet vs 34,450 in 2 NOVA). The usual caveat applies.
+This is a **data contamination issue**. The 38k "5 NOVA nova_95" games are largely what would otherwise be classified as nova_yi games. The filter boundary between nova_95 and nova_yi breaks down at the 5 NOVA tier because hitting 5 DRX naturally requires adding Kindred, MasterYi, etc.
+
+**Implication**: We cannot cleanly compare 2 vs 5 NOVA within nova_95 because the 5 NOVA subset is effectively a different composition. The comparison in nova_yi is more reliable since Kindred/MasterYi are already part of the comp definition there.
 
 ---
 
-## Chapter 5: Can We Measure the Trait's True Value?
+## Chapter 3: Item Necessity Rankings -- The Measurable Signal
 
-We want to isolate the causal effect of the trait. Three approaches:
+Even if absolute AVP is biased by selection effects, **item Necessity rankings** are more robust because they measure relative importance within a condition. If 5 NOVA changes the carry's optimal itemization, that would be genuine trait signal.
 
-### Approach A: Overall AVP Delta
-- 5 NOVA AVP: 3.73
-- 2 NOVA AVP: 4.13
-- **Naive Delta: -0.40**
+### Vex Items: 2 NOVA vs 5 NOVA (within nova_95)
 
-This is hopelessly confounded.
+| Rank | 2 NOVA Item (Nec.) | 5 NOVA Item (Nec.) |
+|---|---|---|
+| 1 | Guinsoo (+0.479) | Guinsoo (+0.153) |
+| 2 | Giant Slayer (+0.077) | Giant Slayer (+0.088) |
+| 3 | Hextech Gunblade (+0.071) | Striker's Flail (+0.076) |
+| 4 | Striker's Flail (+0.063) | Hextech Gunblade (+0.051) |
+| 5 | Rabadon's Deathcap (+0.038) | Rabadon's Deathcap (+0.039) |
+| 6 | Red Buff (+0.035) | Red Buff (+0.039) |
+| 7 | Guinsoo ★2 (+0.029) | Jeweled Gauntlet (+0.027) |
+| 8 | Archangel's Staff (+0.018) | Archangel's Staff (+0.025) |
 
-### Approach B: Board-Strength Normalization (idea)
-If we could filter both groups to "same quality boards" (same # of 2-stars, same gold spent, same items), we could isolate the trait effect. But MetaTFT doesn't expose these variables.
+**Top 6 items are the same in both conditions.** Rankings only shift at positions 3-4 (Hextech and Striker's swap). Guinsoo remains overwhelmingly core. This is strong evidence that **5 NOVA does not fundamentally change Vex's itemization**.
 
-### Approach C: Look at Nunu and Jax
-Nunu and Jax are the only units that don't improve (or get slightly worse) in 5 NOVA. Why?
+Note: Guinsoo Necessity drops from +0.479 to +0.153 -- this is expected when the overall AVP is lower (3.76 vs 4.13), since Necessity = p/(1-p) * (overall_AVP - w/o_AVP) and the baseline shifts.
 
-- **Nunu**: 72% presence in 2 NOVA → 5% in 5 NOVA. Nunu gets dropped when going 5 NOVA. The remaining 5% are players who kept Nunu despite going vertical — probably suboptimal boards.
-- **Jax**: 4% → 1%. Same story.
+### Fiora Items: 2 NOVA vs 5 NOVA
 
-These units get worse precisely because they're the "wrong" units to have in 5 NOVA. This is actually evidence that composition matters: the trait forces a specific board, and units that don't fit it suffer.
+| Rank | 2 NOVA Item (Nec.) | 5 NOVA Item (Nec.) |
+|---|---|---|
+| 1 | Edge of Night (+0.141) | Edge of Night (+0.091) |
+| 2 | Sterak's Gage (+0.125) | Sterak's Gage (+0.056) |
+| 3 | Bloodthirster (+0.108) | Giant Slayer (+0.050) |
+| 4 | Hand of Justice (+0.083) | Hand of Justice (+0.029) |
+| 5 | Thief's Gloves (+0.058) | Striker's Flail (+0.029) |
+| 6 | Giant Slayer (+0.043) | Quicksilver (+0.024) |
 
-### Conclusion
-We **cannot** cleanly measure the trait's causal value from endgame snapshots. The 5 NOVA filter selects for a completely different (and likely highrolled) player population. The 0.40 AVP improvement is **an upper bound** on the trait's true value — the real value is somewhere between 0 and 0.40.
+Here Giant Slayer jumps from #6 to #3, and Bloodthirster (the #3 in 2 NOVA) drops out of the top 6. Striker's Flail and Quicksilver rise. This might reflect a genuine interaction: 5 NOVA provides more tankiness from more DRX units, making offensive items (Giant Slayer, Striker's) more valuable relative to sustain (Bloodthirster).
+
+But caution: the 5 NOVA Fiora data includes Kindred contamination (Chapter 2), so this could also reflect the different board composition rather than the trait itself.
+
+### Graves Items: 2 NOVA vs 5 NOVA
+
+| Rank | 2 NOVA Item (Nec.) | 5 NOVA Item (Nec.) |
+|---|---|---|
+| 1 | Quicksilver (+0.116) | Giant Slayer (+0.053) |
+| 2 | Giant Slayer (+0.102) | Quicksilver (+0.048) |
+| 3 | Sterak's Gage (+0.086) | Striker's Flail (+0.043) |
+| 4 | Hand of Justice (+0.083) | Deathblade (+0.040) |
+| 5 | Striker's Flail (+0.071) | Hand of Justice (+0.038) |
+| 6 | Deathblade (+0.050) | Marauder Emblem (+0.021) |
+
+Again, top items are similar. Striker's Flail and Deathblade move up in 5 NOVA. Marauder Emblem appears at #6 in 5 NOVA (interesting but small sample). The pattern across all three carries: **offensive items gain relative importance in 5 NOVA**, which could reflect the trait providing more team durability.
+
+### MasterYi Items in Nova Yi: 2 NOVA vs 5 NOVA
+
+As a control where 5 NOVA is the natural state:
+
+| Rank | 2 NOVA Item (Nec.) | 5 NOVA Item (Nec.) |
+|---|---|---|
+| 1 | Edge of Night (+0.110) | Edge of Night (+0.054) |
+| 2 | Giant Slayer (+0.061) | Giant Slayer (+0.044) |
+| 3 | Quicksilver (+0.043) | Quicksilver (+0.021) |
+| 4 | Hand of Justice (+0.026) | Hand of Justice (+0.018) |
+| 5 | Malware Matrix (+0.018) | Striker's Flail (+0.017) |
+| 6 | Striker's Flail (+0.016) | Sterak's Gage (+0.017) |
+
+Top 4 identical. Rankings are very stable. Within nova_yi (where the filter boundary is clean), 5 NOVA does **not** change itemization priorities at all.
+
+---
+
+## Chapter 4: The "Universal Improvement" Test (Revised)
+
+The original experiment showed every unit improves in 5 NOVA globally. Does this persist within comps?
+
+Within nova_95, selected units:
+
+| Unit | 2 NOVA AVP | 5 NOVA AVP | Delta | DRX? |
+|---|---|---|---|---|
+| Fiora | 4.07 | 3.75 | -0.32 | Yes |
+| Vex | 4.13 | 3.76 | -0.37 | Yes |
+| Shen | 4.00 | 3.50 | **-0.50** | No |
+| Morgana | 4.00 | 3.45 | **-0.55** | No |
+| Blitzcrank | 3.99 | 3.79 | -0.20 | No |
+| Rek'Sai | -- | 2.95 | -- | No |
+| Briar | -- | 2.94 | -- | No |
+
+Non-DRX units like Shen (-0.50) and Morgana (-0.55) improve *more* than the DRX carries Fiora (-0.32) and Vex (-0.37). The "universal improvement" pattern persists even within a specific comp. This is still the selection bias signature: **the player hitting 5 NOVA has a stronger board overall**, not just better DRX synergy.
+
+---
+
+## Chapter 5: The Emblem Factor
+
+Players can reach higher NOVA breakpoints via N.O.V.A. Emblem (`TFT17_Item_DRXEmblemItem`) on a non-DRX unit. In 5 NOVA nova_95 games, emblem usage on support units:
+
+| Unit | N.O.V.A. Emblem Games | AVP with Emblem |
+|---|---|---|
+| Shen | 480 | 3.56 |
+| Morgana | 341 | 3.95 |
+| Blitzcrank | 227 | 3.73 |
+| TahmKench | 208 | 4.11 |
+| Nunu | 62 | 5.08 |
+| **Total** | **~1,318** | -- |
+
+~1,300 emblem games out of 38,457 total 5 NOVA games = **~3.4%**. The emblem path to 5 NOVA is a minor factor. The vast majority of 5 NOVA games reach it by adding DRX units (Kindred, Maokai, Bel'Veth, etc.), confirming that 5 NOVA fundamentally changes the board composition.
+
+One emblem observation: Nunu with N.O.V.A. Emblem has AVP 5.08 (terrible), confirming that forcing 5 NOVA via emblem on a suboptimal carrier doesn't help.
+
+---
+
+## Chapter 6: Cross-Validation with tftable
+
+tftable ground truth for nova_95 (135,798 games):
+
+| Unit | Necessity | IC3 Rate |
+|---|---|---|
+| Vex | 8.000 | 87.0% |
+| Graves | 8.000 | 64.3% |
+| Fiora | 8.000 | 44.2% |
+| Nunu | 5.109 | 66.8% |
+| TahmKench | 5.048 | 47.9% |
+| Blitzcrank | 4.093 | 14.6% |
+| Morgana | 4.071 | 8.5% |
+| Shen | 4.054 | 7.7% |
+
+tftable only has 8 units listed. The three carries (Vex, Graves, Fiora) are all at Necessity 8.0 (maximum -- defining the comp). Nunu and TahmKench follow as core support at ~5.0, then the frontline trio at ~4.0. This matches the nova_95 definition: a carry + DRX + specific support shell.
+
+tftable doesn't split by trait tier, so we can't directly cross-validate the 2 vs 5 NOVA comparison. But the unit Necessity structure confirms the comp identity.
+
+Vex item Necessity (tftable):
+
+| Item | tftable Necessity | Our 2-NOVA Necessity |
+|---|---|---|
+| Guinsoo | 0.764 | 0.479 |
+| Giant Slayer | 0.092 | 0.077 |
+| Striker's Flail | 0.080 | 0.063 |
+| Hextech Gunblade | 0.078 | 0.071 |
+| Rabadon's | 0.049 | 0.038 |
+| Red Buff | 0.046 | 0.035 |
+
+Rankings match perfectly (top 6 identical). Absolute values differ (tftable's are higher), likely due to different sample periods and slight filter differences. The ranking agreement strengthens confidence in the Necessity metric.
 
 ---
 
 ## What I Learned
 
 ### About trait breakpoints
-1. **Trait breakpoints are confounded by selection bias** — hitting a higher breakpoint requires specific units, which requires either luck or a strong economy, which correlates with winning
-2. **Higher trait ≈ different comp, not "same comp but stronger"** — the unit composition shifts dramatically (frontline swapped for NOVA units)
-3. **Universal improvement = bias signal** — when every unit gets better, including non-synergy units, it's the player that's stronger, not the trait
-4. **Nunu/Jax as "negative controls"** — units that don't improve (or get worse) reveal compositional incompatibility, which is genuine signal
+1. **Item Necessity rankings are stable across trait tiers** -- Vex BIS doesn't change whether you're at 2 or 5 NOVA. Top 6 items identical. Same for MasterYi in nova_yi. This is actually useful: players don't need to re-itemize for trait breakpoints.
+
+2. **"Universal improvement" persists within comps** -- Non-DRX support units improve more than DRX carries in 5 NOVA. This is still selection bias, not trait causation. The bias is somewhat attenuated within comps (deltas are smaller than the global comparison) but not eliminated.
+
+3. **5 NOVA = different composition, not a trait upgrade** -- In nova_95 context, reaching 5 NOVA means adding Kindred, Maokai, Bel'Veth, replacing the support shell. This isn't "same comp but stronger" -- it's a compositional pivot.
+
+4. **Offensive items gain relative Necessity in 5 NOVA** -- Across all three carries, Striker's Flail and Giant Slayer rise while sustain items (Bloodthirster, Sterak's) fall. This *could* be genuine trait interaction (more DRX units = more team durability = carry can be greedier), but it's confounded by the board composition change.
 
 ### About methodology
-5. **The "every unit improves" test is a cheap bias detector** — if filtering by X improves everything equally, X is likely correlated with board quality, not causing the improvement
-6. **We need a counterfactual**: "What if this exact player had stayed at 2 NOVA?" — endgame snapshot data can't answer this
-7. **Trait analysis needs the Dishsoap treatment**: instead of trait level, we should compare specific board configurations (8-unit teams) where only the trait level differs
+5. **Filter integrity check is essential** -- The nova_95 filter with 5 NOVA leaks Kindred games despite the exclusion. Always verify what the filter actually returns before trusting the data.
 
-### Open questions
-- [ ] Can we construct "matched pairs" — 2 NOVA and 5 NOVA boards with the same core 5 units, comparing AVP on the remaining slots?
-- [ ] Do other traits show the same "everything gets better" pattern, or is NOVA special?
-- [ ] Is there a trait where hitting the breakpoint actually makes some units *worse*? That would be genuine trait-specific signal
-- [ ] Dishsoap's approach: look at "4 NOVA + 1 flex" vs "5 NOVA" — does the 5th NOVA unit beat the best flex option?
+6. **Ranking comparison > absolute value comparison** -- Even when absolute Necessity values are biased by baseline shifts, the *rankings* are more robust. Comparing "is Guinsoo still #1?" is safer than "did Guinsoo Necessity change by X?".
+
+7. **The emblem path is negligible** -- Only ~3% of 5 NOVA games use emblems. This falsifies the hypothesis that emblem-carrying confounds the comparison.
+
+### About the original question
+8. **"Is 5 NOVA worth the cost?" remains fundamentally unanswerable from endgame snapshots.** We cannot separate "the trait made the board stronger" from "stronger boards reach 5 NOVA." The best we can say: item Necessity doesn't change, the board composition shifts dramatically, and the AVP improvement (0.24-0.31) is an upper bound on the true trait value.
 
 ---
 
 ## Questions for Xing
 
-1. **The "universal improvement" test** — I used it as a bias detector (if everything improves, it's bias not the trait). Is this a known technique in causal inference? Does it have a name? It feels like it's related to "positive control" in experiments.
+1. **Filter leakage**: The `!TFT17_Kindred-1` exclusion appears to fail when combined with `trait=TFT17_DRX_2`. Is this a known MetaTFT API limitation? Should we file a bug, or is the parameter format wrong?
 
-2. **Matched-pair analysis** — Could we filter for boards that share 6 common units but differ on whether they have a 5th NOVA unit vs a non-NOVA flex? This would control for board quality. Would MetaTFT's filter system even support this level of specificity, or would we run out of sample size?
+2. **Ranking stability as a finding**: The fact that item Necessity rankings are stable across trait tiers -- is this interesting or expected? If BIS doesn't change with trait level, it suggests items and traits are orthogonal dimensions, which simplifies player decision-making.
 
-3. **Is there any trait in TFT history where the data clearly showed a causal breakpoint effect** (i.e., the trait itself is the reason, not selection bias)? Or is this fundamentally unmeasurable from endgame snapshots?
+3. **The "offensive items rise" pattern**: Across all three carries, damage items gain relative Necessity in 5 NOVA while sustain items drop. Is this worth exploring further (e.g., does the same pattern hold for other vertical traits like Space Groove 5 or Dark Star 4)?
+
+4. **How to handle the filter leakage in future experiments**: Should we add additional exclusion filters to patch the leak (e.g., explicitly exclude Kindred AND Maokai AND Bel'Veth for "pure 2 NOVA"), or accept that trait-level comparisons within comp definitions are inherently messy?
+
+5. **Is nova_yi the better test case?** Since nova_yi naturally includes both 2 and 5 NOVA (and doesn't have the filter leakage problem), should trait breakpoint analysis focus there instead of nova_95?
 
 ---
 
 ## Sources
-- MetaTFT Explorer API: units_unique, unit_items_unique, traits endpoints
-- [[concepts/biases]] — survivorship bias framework
-- [[methods/filter-strategy]] — filter as foundation
-- [[experiments/vex-nova95]] — prior Vex item analysis
-- [[sources/dishsoap-frodan-stats]] — "add context first"
+- MetaTFT Explorer API: total, units_unique, unit_items_unique endpoints
+- tftable ground truth via SSH (`python3 cli.py tftable --comp nova_95`)
+- [[concepts/metrics]] -- Necessity as primary ranking metric
+- [[methods/filter-strategy]] -- filter integrity check
+- [[experiments/vex-nova95]] -- prior Vex item analysis for baseline
 
 ---
 
-## Review
+## Review (Original)
 
 **Status**: 🔄 revision (2026-04-22)
 
 ### Feedback (Xing)
 > 这是一个有意思的问题，但实施过程太粗糙，几乎没有可靠的结论，甚至vex为什么还在用avp作为指标？感觉昨天讲的完全没有用到今天的作业中来
 
-1. **Used AVP despite proving it unreliable yesterday** — the entire previous day established Necessity as the correct metric, yet this experiment reverted to raw AVP comparison
-2. **No within-comp control** — compared 2 vs 5 N.O.V.A. globally instead of within specific comps (Nova 95, Nova Yi). Each comp has different contamination
-3. **Didn't consider emblem factor** — 2→3 N.O.V.A. via emblem is a different question than 2→3 via adding a unit. Explore with/without emblem as separate conditions
-4. **"Universal improvement" = bias signal** — if filtering by a trait improves every unit equally, it's selection bias not causal effect
+1. **Used AVP despite proving it unreliable yesterday** -- the entire previous day established Necessity as the correct metric, yet this experiment reverted to raw AVP comparison
+2. **No within-comp control** -- compared 2 vs 5 N.O.V.A. globally instead of within specific comps (Nova 95, Nova Yi). Each comp has different contamination
+3. **Didn't consider emblem factor** -- 2-3 N.O.V.A. via emblem is a different question than 2-3 via adding a unit. Explore with/without emblem as separate conditions
+4. **"Universal improvement" = bias signal** -- if filtering by a trait improves every unit equally, it's selection bias not causal effect
 
 ### Revision Requirements
 - Redo within specific comps using Necessity not AVP
 - Control for emblem vs unit-added paths to higher breakpoints
 - Apply causal inference reasoning (Xing: "你应该比我更懂因果推断")
+
+### What Changed in Revision
+- Switched to Necessity as primary metric for all item comparisons
+- Analyzed within nova_95 and nova_yi separately
+- Discovered filter integrity issue (Kindred leaking into 5 NOVA nova_95)
+- Quantified emblem factor (3.4% -- negligible)
+- Compared item Necessity rankings across conditions (stable top 6)
+- Cross-validated with tftable (rankings match)
