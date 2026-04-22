@@ -53,3 +53,6 @@ Append new ones here. These are hard-won — don't repeat them.
 2. **Shrinkage doesn't fix systematic bias** — TFT's problem is bias not variance (2026-04-21)
 3. **Don't regress to AVP** — cron experiment used AVP despite proving it unreliable the same day (2026-04-22)
 4. **Isolated sessions forget everything** — must re-read wiki before every experiment (2026-04-22)
+5. **compositions.py 一定能筛出足够样本** — tftable 定义是专家写的。0 games = 我们的 filter 转换有 bug，不是定义的问题。vex_95 曾因缺少 `_.*` 后缀返回 0 (2026-04-22)
+6. **实验不要偏离原始问题** — nova-trait-breakpoint 修订后变成 filter bug 调试报告，完全偏离了"5 NOVA 值不值"的问题 (2026-04-22)
+7. **Feedback 必须立即记录** — Xing 给的 feedback 要当场写进实验报告的 Review section 和 lab-checklist，不能只存 memory 不落文档 (2026-04-22)

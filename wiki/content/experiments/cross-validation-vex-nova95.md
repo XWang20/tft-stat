@@ -86,3 +86,10 @@ tftable 的 Necessity 值普遍更大（Guinsoo 0.764 vs 0.502）。可能原因
 1. tftable 的 item Necessity 公式和我们用的一样吗（`w/o_AVP - overall_AVP`）？数值差异来自哪里？
 2. IC3 necessity（unit 级别的 necessity，最大值 8.0）是怎么计算的？和 item necessity 的公式不同？
 3. 下一步应该多阵容测试一致性，还是先深入理解数值差异？
+
+## Review
+
+### Feedback (Xing)
+1. **交叉验证的目的是验证"我们的结论"，不是对比两个数据源** — crossval 应该比的是我们的分析结论（经过 filter 设计、metric 选择、分析判断）和 tftable 的结论，而不是 MetaTFT raw data vs tftable raw data
+2. **tftable 除了 Necessity 还用了别的 debiasing 方法** — 这解释了数值差异，后续 Xing 会逐步教
+3. **未来交叉验证不只是 items** — 还会有阵容条件、meta 判断、unit 评估等

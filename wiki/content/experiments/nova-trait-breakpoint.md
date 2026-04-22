@@ -292,7 +292,19 @@ Rankings match perfectly (top 6 identical). Absolute values differ (tftable's ar
 - All data re-queried with working `~Unit('TFT17_Kindred')` exclusion
 - nova_95 total: 308,478 → 237,967 games (70k contaminated games removed)
 - 5 NOVA nova_95: 38,457 → 1,029 games (previous data was 97% Kindred contamination from bug)
-- "97% Kindred contamination" finding invalidated -- it was caused by our filter code, not the API
 - Emblem factor reversed: 3.4% → dominant path (36-63% of carry items in 5 NOVA)
 - AVP delta reversed: -0.31 → -0.01 (essentially zero)
-- Previous conclusions about "offensive items rising" and "5 NOVA = different composition" were artifacts of contaminated data
+
+## Review (Second Round)
+
+**Status**: 🔄 revision (2026-04-22)
+
+### Feedback (Xing)
+1. **报告完全偏离了原始问题** — 问题是"5 NOVA 值不值"，但报告变成了 filter bug 调试记录 + item ranking 对比。Chapter 2-4 在讲 filter bug，Chapter 5-6 才勉强回到问题
+2. **nova_95 里 5 NOVA 只有 1k 局不够分析** — 应该用 nova_yi 作为主要分析对象，nova_yi 有 65k 局 2 NOVA 和 120k 局 5 NOVA，两组都有足够样本
+3. **tftable 除了 Necessity 还有其他 debiasing 方法** — Xing 会逐步教，当前 Necessity 只是第一步
+
+### Revision Requirements
+- 以 nova_yi 为主要分析 comp 回答"5 NOVA 值不值"
+- 聚焦原始问题，filter bug 教训归入 lab-checklist 不占报告篇幅
+- 简化报告结构
