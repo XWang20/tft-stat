@@ -118,6 +118,8 @@ Start with the comp's identity, not a single unit. Different comp types need dif
 
 **Flex carry comp** (e.g., `nova_95`): the carry slot is flexible — Fiora, Vex, or Graves can all be the primary carry. Use an OR-group for the carries: `(Fiora i3 | Vex i3 | Graves i3) & DRX ≥ 2`. The comp is defined by the trait shell, not a single carry.
 
+**Carry + trait lock comp** (e.g., `conduit_mf`): carry unit + trait requirement. Use `i2` (not `i3`) when the carry routinely shares items with frontline or secondary units — `MF(i2) + Conduit ≥ 2`. Using `i3` here drops ~11% of legitimate games where MF had only 2 items.
+
 **Dual/multi carry comp** (e.g., `mecha`): multiple units share items. `ASOL(i2) + Galio(i2) + Mecha = 6`. Lower the item threshold (i2 instead of i3) because items are distributed.
 
 **Line (not comp)** (e.g., `space_groove`): a flexible path defined by a trait, not a fixed board. `(Nami i3 | Samira i3) + Space Groove ≥ 5`. These are harder to filter because the endgame boards vary more. Expect lower IC3 rates and more contamination — add exclusions carefully.
