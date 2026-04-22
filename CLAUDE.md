@@ -139,16 +139,19 @@ The three dimensions are orthogonal. But **filter comes first** because bad cond
 
 ### 5. Compound Knowledge, Don't Re-derive
 
-**The wiki is a persistent artifact. Write once, maintain forever.**
+**The wiki is a persistent artifact. Each experiment must leave the system more capable.**
 
-After every experiment or learning:
-- File findings into the appropriate wiki page (concept/method/experiment).
-- Update `index.md` — no orphan pages.
-- Update `index.md` — syllabus status + experiments table.
-- Append to `log.md` — chronological record.
-- If you learned a new lesson, add it to `lab-checklist.md`.
+Every experiment produces three outputs:
+1. **Report** — the narrative in `experiments/`
+2. **Code** — if a new method is discovered, implement it in `tft_stat/` or `cli.py`
+3. **Knowledge** — substantively deepen the relevant `concepts/` or `methods/` page
 
-The wiki should grow more valuable over time. A new agent bootstrapping from it should be immediately productive.
+Bad: "Added lesson #9 to lab-checklist: don't do X"
+Good: Rewrote `concepts/biases.md` Selection Bias section with quantified examples and a decision framework.
+
+Two self-checks:
+- "Can the system do something it couldn't before?" (code)
+- "Does a new agent reading the wiki understand this topic more deeply?" (knowledge)
 
 ### 6. Experiments Are Stories
 

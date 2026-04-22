@@ -1,10 +1,10 @@
 You are running a scheduled TFT data science experiment. Follow these steps exactly:
 
-## Step 0: Process Giscus Comments (FIRST PRIORITY)
+## Step 0: Process Giscus Reviews (FIRST PRIORITY)
 
-Xing leaves feedback as Giscus comments on wiki experiment pages. These appear as GitHub Discussions.
+Xing reviews experiments via Giscus comments on wiki pages (backed by GitHub Discussions).
 
-Run this to find Xing's unprocessed comments:
+Run this to find Xing's comments:
 ```
 gh api graphql -f query='{ repository(owner:"XWang20", name:"tft-stat") { discussions(first:20, orderBy:{field:CREATED_AT, direction:DESC}) { nodes { number, title, comments(first:10) { nodes { body, author { login }, createdAt } } } } } }'
 ```
@@ -12,64 +12,88 @@ gh api graphql -f query='{ repository(owner:"XWang20", name:"tft-stat") { discus
 Look for comments by XWang20. The discussion title maps to the wiki page (e.g. "tft-stat/experiments/2026-04-22-nova-trait-breakpoint" → `wiki/content/experiments/2026-04-22-nova-trait-breakpoint.md`).
 
 For each comment from Xing:
-- **"accept"** → update experiment status to ✅ in the report and in index.md
-- **feedback/revision request** → record in the report's ## Review section, update status to 🔄 in index.md, add to lab-checklist if it's a process lesson
-- **conclusion** → integrate into relevant concepts/ or methods/ page
-- **new topic** → add to Experiment Queue in index.md
+- **"accept"** → update status to ✅ in report and index.md
+- **feedback text** → record in report's ## Review section, update status to 🔄
+- **conclusion** → integrate into concepts/ or methods/ pages
 
-After processing, reply to the discussion acknowledging what was done:
+After processing, reply to the discussion:
 ```
-gh api graphql -f query='mutation { addDiscussionComment(input: {discussionId: "DISCUSSION_NODE_ID", body: "Processed: [summary of actions taken, files updated]"}) { comment { id } } }'
+gh api graphql -f query='mutation { addDiscussionComment(input: {discussionId: "DISCUSSION_NODE_ID", body: "Processed: [summary]"}) { comment { id } } }'
 ```
 
-Also check GitHub Issues (may still have open ones):
-```
-gh issue list --repo XWang20/tft-stat --state open --json number,title,labels,body
-```
+Also check GitHub Issues: `gh issue list --repo XWang20/tft-stat --state open --json number,title,labels,body`
 
 ## Step 1: Bootstrap
 
-Read wiki/content/index.md — understand the syllabus, experiment queue, and current progress.
-Read wiki/content/lab-checklist.md — internalize the rules.
+Read wiki/content/index.md — syllabus, experiment queue, current progress.
+Read wiki/content/lab-checklist.md — rules.
+Read relevant concepts/ and methods/ pages for the topic you'll work on.
 
 ## Step 2: Pick an Experiment
 
 Pick the FIRST item from the Experiment Queue in index.md.
-If the queue is empty, generate a surprising question from an open question in a previous experiment.
-Remove the item from the queue after picking it.
+If empty, generate a question from open questions in previous experiments.
+Remove it from the queue after picking.
 
 ## Step 3: Run the Experiment
 
 - Use python3 cli.py (comps/total/units/items/tftable) to gather data
 - Use Necessity as primary metric, NEVER raw AVP
-- Cross-validate with tftable when applicable (python3 cli.py tftable)
-- Stay focused on the original question — don't drift into tangential analysis
+- Cross-validate with tftable when applicable
+- Stay focused on the original question
 
-## Step 4: Write the Report
+## Step 4: Produce Three Outputs (NOT JUST A REPORT)
 
-Write the experiment report to wiki/content/experiments/YYYY-MM-DD-<title>.md with status 🧪 draft.
-Story format with chapters. Include "Questions for Xing" section.
+Every experiment MUST produce improvements in at least two of these three:
+
+### Output 1: Report (always)
+Write to wiki/content/experiments/YYYY-MM-DD-<title>.md with status 🧪 draft.
+Story format. Include "Questions for Xing" section.
+
+### Output 2: Code Improvement (when applicable)
+If the experiment reveals a new analysis method, a better debiasing approach,
+or a reusable pattern — implement it in tft_stat/ or cli.py.
+
+Examples of code improvements from experiments:
+- Discovered build-level Necessity → add `cli.py builds` command
+- Found that play-rate weighting matters → improve metrics.py
+- Identified a filter pattern → add it to filter_params.py
+
+Ask: "After this experiment, can the system do something it couldn't before?"
+
+### Output 3: Wiki Knowledge Deepening (always)
+DO NOT just add a status change or a one-line lesson. Substantively deepen
+the relevant concepts/ or methods/ page with what you learned.
+
+Bad update: "Added lesson #9 to lab-checklist: don't do X"
+Good update: Rewrote the "Selection Bias" section of concepts/biases.md with
+  specific examples from this experiment, quantified effect sizes, and a
+  decision framework for when selection bias matters vs when it's negligible.
+
+Ask: "After this experiment, does a new agent reading the wiki understand
+this topic more deeply than before?"
 
 ## Step 5: Update ALL Relevant Wiki Files
 
-Every run MUST update these files:
-- **wiki/content/index.md** — experiments table (add new entry or update status), syllabus status if module progressed, experiment queue (remove completed item)
-- **wiki/content/log.md** — append entry for each action taken. MUST include wikilinks to every file modified, e.g.:
+Every run MUST update:
+- **wiki/content/index.md** — experiments table, syllabus status, experiment queue
+- **wiki/content/log.md** — wikilinks to every file modified:
   ```
-  ## [2026-04-22] cron | Issue processing + experiment
-  - Issue #1 (revision): revised [[experiments/2026-04-22-nova-trait-breakpoint]] — switched to nova_yi
-  - Issue #3 (conclusion): updated [[methods/filter-strategy]] — added "Trust compositions.py" section
-  - New experiment: [[experiments/2026-04-23-unit-eval-nova95]] — Module 4
-  - Updated: [[lab-checklist]] (lesson #8), [[index]] (experiments table, syllabus)
+  ## [YYYY-MM-DD] cron | [title]
+  - Giscus #N: [action] [[experiments/YYYY-MM-DD-name]]
+  - New experiment: [[experiments/YYYY-MM-DD-name]] — [summary]
+  - Deepened: [[concepts/biases]] — added quantified selection bias examples
+  - New code: cli.py builds command (from build-necessity experiment)
+  - Updated: [[lab-checklist]], [[index]]
   ```
-- **wiki/content/lab-checklist.md** — append new lessons if any were learned
-- **wiki/content/concepts/*.md or methods/*.md** — update if new knowledge was validated
+- **wiki/content/concepts/*.md or methods/*.md** — substantive updates, not just status changes
+- **wiki/content/lab-checklist.md** — new lessons WITH reasoning from data
 
-Verify: after all edits, every experiment mentioned in a report must appear in index.md's experiments table. No orphan experiments.
+Verify: no orphan experiments. Every report in experiments/ appears in index.md.
 
 ## Step 6: Commit and Push
 
-git add wiki/ .
+git add wiki/ tft_stat/ cli.py .
 git commit -m "cron: [summary of all actions taken]
 
 via [HAPI](https://hapi.run)
