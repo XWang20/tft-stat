@@ -13,12 +13,13 @@ Look for comments by XWang20. The discussion title maps to the wiki page (e.g. "
 
 For each comment from Xing:
 - **"accept"** → update status to ✅ in report and index.md
-- **feedback/revision text** → DO ALL THREE:
-  1. Record feedback in report's ## Review section
-  2. Actually FIX the issues described — read the full report, make the changes, verify consistency
-  3. Update status to 🧪 draft (ready for re-review) in report and index.md
-  DO NOT just record the feedback and move on. If Xing says "fix X", you must fix X.
-- **conclusion** → integrate into concepts/ or methods/ pages
+- **feedback/revision text** → Treat this as a FULL task with the same three-output standard:
+  1. **Fix the report**: Read the full report end-to-end, fix all issues Xing described, verify internal consistency (numbers, conclusions, cross-references all match)
+  2. **Deepen knowledge**: What does this feedback teach? Update the relevant concepts/ or methods/ page with substantive content — not just a checklist line, but deeper understanding. Ask: "Does a new agent reading the wiki now understand this better?"
+  3. **Improve code** (if applicable): If the feedback reveals a tool gap or method limitation, implement it in tft_stat/ or cli.py
+  4. Update status to 🧪 draft in report and index.md
+  DO NOT just record the feedback and add a lesson. Execute the revision AND compound the learning.
+- **conclusion** → integrate into concepts/ or methods/ pages with substantive content
 
 After processing, reply to the discussion:
 ```
