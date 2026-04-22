@@ -9,13 +9,12 @@ Does Vex's BIS change depending on what comp she's in? If the same champion has 
 
 This is a revision of the original experiment. The original used ad-hoc filters (agent-constructed on the fly). This time we use **standardized compositions.py definitions** -- expert-curated filters ported from XWang20/tft_data.
 
-We compare Vex's item metrics in three comp contexts plus unfiltered:
+We compare Vex's item metrics in four comp contexts plus unfiltered:
 1. **NOVA 95** (`nova_95`) -- the dominant Vex comp (210k Vex games)
-2. **Dark Star** (`dark_star`) -- trait-focused comp where Vex sometimes appears (5.7k Vex games)
-3. **Shepherd** (`shepherd`) -- Summon-focused comp where Vex sometimes appears (3.9k Vex games)
-4. **Unfiltered** -- all Vex games (618k games)
-
-**Note**: `vex_95` returned 0 games -- this comp definition (Vex 3-item + Blitzcrank + Mordekaiser, excluding DRX/LeBlanc/Jhin) is too narrow for current data availability. It may have been defined for a different patch window.
+2. **Vex 95** (`vex_95`) -- Vex carry without DRX (140k games, AVP 3.81)
+3. **Dark Star** (`dark_star`) -- trait-focused comp where Vex sometimes appears (5.7k Vex games)
+4. **Shepherd** (`shepherd`) -- Summon-focused comp where Vex sometimes appears (3.9k Vex games)
+5. **Unfiltered** -- all Vex games (618k games)
 
 ---
 
@@ -35,6 +34,19 @@ Comp total: 237,970 games (AVP 4.28). Vex appears in 88% of nova_95 games.
 | Red Buff | 15,108 | 7% | 3.73 | +0.43 | +0.033 |
 | Archangel's Staff | 20,232 | 10% | 3.99 | +0.17 | +0.018 |
 | Jeweled Gauntlet | 46,581 | 22% | 4.15 | +0.01 | +0.002 |
+
+### Vex 95 (139,980 Vex games, AVP 3.81)
+
+Comp total: 139,981 games (AVP 3.81). Vex IS the comp — 100% appearance. This is "Vex carry without DRX": requires Blitzcrank + Mordekaiser, excludes DRX/LeBlanc/Jhin.
+
+| Item | Games | Rate | AVP | Edge | Necessity |
+|------|-------|------|-----|------|-----------|
+| Guinsoo's Rageblade | 129,246 | 92% | 3.80 | +0.01 | **+0.125** |
+| Giant Slayer | 73,100 | 52% | 3.72 | +0.09 | +0.093 |
+| Rabadon's Deathcap | 16,378 | 12% | 3.62 | +0.19 | +0.025 |
+| Hextech Gunblade | 37,291 | 27% | 3.76 | +0.05 | +0.019 |
+| Void Staff | 36,920 | 26% | 3.78 | +0.02 | +0.009 |
+| Striker's Flail | 12,002 | 9% | 3.78 | +0.03 | +0.003 |
 
 ### Dark Star (5,660 Vex games, AVP 4.21)
 
