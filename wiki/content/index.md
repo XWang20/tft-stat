@@ -91,12 +91,13 @@
 | [[experiments/2026-04-22-nova-trait-breakpoint]] | 2026-04-22 | 5 | 🧪 | Third revision: nova_yi focus (66k/120k); 5 NOVA doesn't change MasterYi itemization; AVP gap is selection bias |
 | [[experiments/2026-04-22-build-vs-single-necessity]] | 2026-04-22 | 3 | 🧪 | Build-implied rankings differ from single-item: Gunblade rises to #1, Guinsoo drops (ceiling effect); methods complementary |
 | [[experiments/2026-04-22-filter-design-patterns]] | 2026-04-22 | 1 | 🧪 | 29 comp filters → 5 design patterns; LeBlanc Guinsoo invisible without filter; Nami Simpson's Paradox |
+| [[experiments/2026-04-22-trait-breakpoint-multi-comp]] | 2026-04-22 | 5 | 🧪 | 3 traits × 3 comps: itemization stable across breakpoints; Necessity direction depends on carry leverage |
 
 ### Experiment Queue
 
-1. **Module 5 redo**: N.O.V.A. trait breakpoints within specific comps, using Necessity not AVP
-2. **Exploratory**: Do other traits show the same "universal improvement" bias pattern?
-3. **Open**: Can we measure filter reliability? Causal inference framework for TFT?
+1. **Exploratory**: Do other traits show the same "universal improvement" bias pattern?
+2. **Open**: Can we measure filter reliability? Causal inference framework for TFT?
+3. **Module 5 follow-up**: Does the "carry leverage" Necessity direction pattern hold across more comps?
 
 ### Experiment Lifecycle
 

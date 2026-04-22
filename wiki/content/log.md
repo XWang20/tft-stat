@@ -1,3 +1,11 @@
+## [2026-04-22] cron | Multi-comp trait breakpoint experiment
+- New experiment: [[experiments/2026-04-22-trait-breakpoint-multi-comp]] — Module 5 redo, tested 3 traits (DRX/DarkStar/Summon) × 3 comps (nova_yi/dark_star/shepherd)
+- Key finding: trait breakpoints do not change carry itemization — universal across AD/tank/AP carries
+- Unexpected: Necessity direction varies by carry role leverage (MasterYi ↓, Mordekaiser/Sona ↑ at higher tier)
+- Cross-validated with tftable for Mordekaiser and Sona — item pools match
+- Updated: [[index]] (experiments table, queue)
+- GitHub authentication failed — skipped Giscus/issue processing
+
 ## [2026-04-22] cron | Issue processing + nova-trait-breakpoint revision
 - Processed 6 GitHub issues (#1-6): 3 feedback, 2 conclusions, 1 revision
 - Issue #4 (conclusion): integrated tftable debiasing info into concepts/metrics.md — new "Necessity Is Not the Final Answer" section
