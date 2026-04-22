@@ -48,6 +48,9 @@ python3 cli.py items TFT17_Vex --comp nova_95
 # Cross-validate with tftable (SSH to desktop, compare necessity rankings)
 python3 cli.py crossval TFT17_Vex --comp nova_95
 
+# Cross-validate unit necessity (omit unit for unit-level comparison)
+python3 cli.py crossval --comp nova_95
+
 # Manual filter (can combine with --comp)
 python3 cli.py items TFT17_Vex \
     --or-units TFT17_Fiora:i3,TFT17_Vex:i3,TFT17_Graves:i3 \

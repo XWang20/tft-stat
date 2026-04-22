@@ -17,7 +17,7 @@ from tft_stat.api import query
 from tft_stat.compositions import COMPOSITIONS
 from tft_stat.filter_params import build_filter_params, load_item_names, parse_unit_spec
 from tft_stat.metrics import add_item_metrics, placement_stats
-from tft_stat.tftable import get_unit_items, get_comp_summary, get_comp_units, list_comps as tftable_list_comps
+from tft_stat import tftable
 
 
 def cmd_comps(_args):
@@ -115,44 +115,39 @@ def cmd_items(args):
 
 
 def cmd_crossval(args):
+    """Cross-validate our conclusions against tftable ground truth."""
     if not args.comp:
         print("Error: crossval requires --comp", file=sys.stderr)
         sys.exit(1)
-    if not args.holder_unit:
-        print("Error: crossval requires a holder unit (e.g. TFT17_Vex)", file=sys.stderr)
-        sys.exit(1)
 
-    holder = parse_unit_spec(args.holder_unit)
+    holder = args.holder_unit
     item_names = load_item_names()
 
-    # --- tftable data ---
-    print(f"Fetching tftable data for {args.comp} / {args.holder_unit}...")
+    print(f"Loading tftable data for {args.comp}...")
     try:
-        tftable_items = get_unit_items(args.comp, args.holder_unit)
+        tftable_summary = tftable.get_comp_summary(args.comp)
     except Exception as e:
         print(f"Error accessing tftable: {e}", file=sys.stderr)
         sys.exit(1)
 
+    if holder:
+        _crossval_items(args, holder, item_names, tftable_summary)
+    else:
+        _crossval_units(args, tftable_summary)
+
+
+def _crossval_items(args, holder_unit, item_names, tftable_summary):
+    """Compare our item necessity ranking against tftable's."""
+    tftable_items = tftable.get_unit_items(args.comp, holder_unit)
     if not tftable_items:
-        print(f"No tftable data found for {args.holder_unit} in {args.comp}")
-        print(f"Available units: {get_comp_units(args.comp)}")
-        sys.exit(1)
+        print(f"No tftable item data for {holder_unit} in {args.comp}")
+        print(f"Available units: {tftable.get_comp_units(args.comp)}")
+        return
 
-    tftable_rank = {}
-    for i, item in enumerate(sorted(tftable_items, key=lambda x: -x["necessity"])):
-        iid = item["item_id"]
-        tftable_rank[iid] = {
-            "rank": i + 1,
-            "necessity": item["necessity"],
-            "rate": item["appearance_rate"],
-            "rating": item.get("rating", ""),
-        }
-
-    # --- our pipeline ---
-    print(f"Fetching MetaTFT data for {args.comp} / {args.holder_unit}...")
+    holder = parse_unit_spec(holder_unit)
     params = _params_from_args(args)
-    data = query(f"unit_items_unique/{holder}", params)
 
+    data = query(f"unit_items_unique/{holder}", params)
     results = []
     for item in data.get("data", []):
         iid = item.get("unit_items_unique", "")
@@ -172,73 +167,122 @@ def cmd_crossval(args):
     add_item_metrics(results, overall_avg, total_comp_games)
     results.sort(key=lambda x: x[3]["weighted_delta"], reverse=True)
 
-    our_rank = {}
-    for i, (name, base_item, _, s) in enumerate(results):
-        our_rank[base_item] = {
-            "rank": i + 1,
-            "name": name,
-            "necessity": s["weighted_delta"],
-            "rate": s["play_rate"],
-        }
+    tftable_ids = {it["item_id"] for it in tftable_items}
+    our_in_scope = [(base, s["weighted_delta"]) for (_, base, _, s) in results if base in tftable_ids]
+    our_in_scope.sort(key=lambda x: -x[1])
+    our_rerank = {iid: rank + 1 for rank, (iid, _) in enumerate(our_in_scope)}
+    our_nec = {base: s["weighted_delta"] for (_, base, _, s) in results}
 
-    # --- comparison (only items present in tftable) ---
     matched = []
-    our_items_by_id = {base: (i + 1, name, s) for i, (name, base, _, s) in enumerate(results)}
     for i, item in enumerate(sorted(tftable_items, key=lambda x: -x["necessity"])):
         iid = item["item_id"]
-        name = item_names.get(iid, iid)
-        t_rank = i + 1
-        o = our_items_by_id.get(iid)
         matched.append({
-            "name": name,
-            "t_rank": t_rank,
+            "name": item_names.get(iid, iid),
+            "t_rank": i + 1,
             "t_nec": item["necessity"],
             "t_rating": item.get("rating", ""),
-            "o_rank": o[0] if o else None,
-            "o_nec": o[2]["weighted_delta"] if o else None,
+            "o_rank": our_rerank.get(iid),
+            "o_nec": our_nec.get(iid),
         })
 
-    # re-rank our results within tftable's item set only
-    tftable_ids = {item["item_id"] for item in tftable_items}
-    our_filtered = [(base, s["weighted_delta"]) for (_, base, _, s) in results if base in tftable_ids]
-    our_filtered.sort(key=lambda x: -x[1])
-    our_rerank = {iid: rank + 1 for rank, (iid, _) in enumerate(our_filtered)}
-
-    tftable_summary = get_comp_summary(args.comp)
-
-    for m in matched:
-        iid_candidates = [item["item_id"] for item in tftable_items
-                         if item_names.get(item["item_id"], item["item_id"]) == m["name"]]
-        if iid_candidates:
-            m["o_rank_matched"] = our_rerank.get(iid_candidates[0])
-
     print(f"\n{'='*70}")
-    print(f"Cross-Validation: {args.holder_unit} items in {args.comp}")
+    print(f"Cross-Validation: {holder_unit} items in {args.comp}")
     print(f"tftable: {tftable_summary.get('sample_size', '?'):,} games | "
-          f"MetaTFT: {total_comp_games:,} games")
+          f"Ours: {total_comp_games:,} games")
     print(f"{'='*70}")
     print(f"\n{'Item':<28} {'tftable':>10} {'Ours':>10} {'tft#':>5} {'Our#':>5} {'Rating'}")
     print("-" * 70)
     for m in matched:
         t_nec = f"{m['t_nec']:.4f}"
         o_nec = f"{m['o_nec']:.4f}" if m['o_nec'] is not None else "—"
-        t_r = str(m["t_rank"])
-        o_r = str(m.get("o_rank_matched", "—"))
-        print(f"{m['name']:<28} {t_nec:>10} {o_nec:>10} {t_r:>5} {o_r:>5} {m['t_rating']}")
+        o_r = str(m["o_rank"]) if m["o_rank"] else "—"
+        print(f"{m['name']:<28} {t_nec:>10} {o_nec:>10} {m['t_rank']:>5} {o_r:>5} {m['t_rating']}")
 
-    # rank correlation on matched set
-    paired = [(m["t_rank"], m["o_rank_matched"]) for m in matched if m.get("o_rank_matched")]
-    if len(paired) >= 3:
-        n = len(paired)
-        d_sq = sum((t - o) ** 2 for t, o in paired)
-        spearman = 1 - 6 * d_sq / (n * (n * n - 1))
-        print(f"\nSpearman rank correlation: {spearman:.3f} (n={n})")
-        if spearman > 0.8:
-            print("Strong agreement between pipelines.")
-        elif spearman > 0.5:
-            print("Moderate agreement — investigate divergences.")
+    _print_spearman([(m["t_rank"], m["o_rank"]) for m in matched if m["o_rank"]])
+
+
+def _crossval_units(args, tftable_summary):
+    """Compare our unit necessity ranking against tftable's."""
+    tftable_units = tftable.get_unit_necessity(args.comp)
+    if not tftable_units:
+        print(f"No tftable unit data for {args.comp}")
+        return
+
+    params = _params_from_args(args)
+    data = query("units_unique", params)
+
+    total_data = query("total", params)
+    td = total_data.get("data", [{}])
+    if isinstance(td, list) and td:
+        td = td[0]
+    total_stats = placement_stats(td.get("placement_count", []))
+    overall_avg = total_stats["avg"]
+    total_games = total_stats["games"]
+
+    our_units = {}
+    for item in data.get("data", []):
+        uid_raw = item.get("units_unique", "")
+        if not uid_raw:
+            continue
+        uid = uid_raw.rsplit("-", 1)[0] if "-" in uid_raw else uid_raw
+        stats = placement_stats(item.get("placement_count", []))
+        if stats["games"] < 100:
+            continue
+        if uid in our_units:
+            if stats["games"] < our_units[uid]["games"]:
+                continue
+        p = stats["games"] / total_games if total_games > 0 else 0
+        if p < 1.0:
+            necessity = ((overall_avg - p * stats["avg"]) / (1 - p)) - overall_avg
         else:
-            print("Weak agreement — significant methodology differences.")
+            necessity = 0
+        our_units[uid] = {"necessity": necessity, "games": stats["games"], "avg": stats["avg"]}
+
+    tftable_ids = {u["unit_id"] for u in tftable_units}
+    our_in_scope = [(uid, v["necessity"]) for uid, v in our_units.items() if uid in tftable_ids]
+    our_in_scope.sort(key=lambda x: -x[1])
+    our_rerank = {uid: rank + 1 for rank, (uid, _) in enumerate(our_in_scope)}
+
+    matched = []
+    for i, u in enumerate(sorted(tftable_units, key=lambda x: -x["necessity"])):
+        uid = u["unit_id"]
+        matched.append({
+            "unit": uid,
+            "t_rank": i + 1,
+            "t_nec": u["necessity"],
+            "o_rank": our_rerank.get(uid),
+            "o_nec": our_units.get(uid, {}).get("necessity"),
+        })
+
+    print(f"\n{'='*70}")
+    print(f"Cross-Validation: unit necessity in {args.comp}")
+    print(f"tftable: {tftable_summary.get('sample_size', '?'):,} games | "
+          f"Ours: {total_games:,} games")
+    print(f"{'='*70}")
+    print(f"\n{'Unit':<28} {'tftable':>10} {'Ours':>10} {'tft#':>5} {'Our#':>5}")
+    print("-" * 63)
+    for m in matched:
+        t_nec = f"{m['t_nec']:.3f}"
+        o_nec = f"{m['o_nec']:.3f}" if m['o_nec'] is not None else "—"
+        o_r = str(m["o_rank"]) if m["o_rank"] else "—"
+        print(f"{m['unit']:<28} {t_nec:>10} {o_nec:>10} {m['t_rank']:>5} {o_r:>5}")
+
+    _print_spearman([(m["t_rank"], m["o_rank"]) for m in matched if m["o_rank"]])
+
+
+def _print_spearman(paired: list[tuple[int, int]]):
+    if len(paired) < 3:
+        return
+    n = len(paired)
+    d_sq = sum((t - o) ** 2 for t, o in paired)
+    spearman = 1 - 6 * d_sq / (n * (n * n - 1))
+    print(f"\nSpearman rank correlation: {spearman:.3f} (n={n})")
+    if spearman > 0.8:
+        print("Strong agreement.")
+    elif spearman > 0.5:
+        print("Moderate agreement — investigate divergences.")
+    else:
+        print("Weak agreement — significant methodology differences.")
 
 
 def _get_holder_baseline(params: list[str], holder: str) -> tuple[float, int]:
@@ -287,8 +331,8 @@ def main():
     p_items.add_argument("--min-count", type=int, default=100)
 
     # crossval
-    p_cv = sub.add_parser("crossval", help="Cross-validate item rankings with tftable")
-    p_cv.add_argument("holder_unit", help="Unit to check (e.g. TFT17_Vex)")
+    p_cv = sub.add_parser("crossval", help="Cross-validate conclusions with tftable")
+    p_cv.add_argument("holder_unit", nargs="?", help="Unit for item crossval (omit for unit crossval)")
     _add_filter_args(p_cv)
 
     args = parser.parse_args()
