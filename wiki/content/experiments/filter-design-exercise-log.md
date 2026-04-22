@@ -399,3 +399,23 @@ Tracking all filter-design exercises for learning and comparison.
 - correctly avoided: excluding NOVA carries (would have destroyed 39% of legitimate games), adding DRX as trait anchor (Zed doesn't need it)
 
 **Lesson**: **AVP degradation after exclusions is a definitive signal that you're cutting real games, not contamination.** In iteration 2, excluding Fiora/Vex/Graves(i3) caused AVP to drop from 4.12 → 4.65 — a massive 0.53 increase (worse placement). If those games were contamination from a better-performing comp, removing them should have IMPROVED AVP (or held it neutral). The fact that AVP got much worse proves those "NOVA + Zed" boards are Zed's strongest games. This is a useful diagnostic: **if excluding units makes AVP worse, those units' boards are your comp's high-performance subset, not contamination.** Also reinforced: a dispersed unit profile (no unit >51%) doesn't automatically mean "needs more filters" — when all supporting units belong to the same trait family (DRX/tank), the comp is simply flexible in its supporting cast, like Veigar.
+
+### nasus_bonk → bonk — 2026-04-22
+
+**Observation**: From `cli.py scout --top 3`, no scout boards showed Nasus★3(i3) directly (reroll carries are rare in top-3 finishes). However, the teemo exercise (admin_teemo_reroll) revealed that Nasus/Teemo/Leona/Mordekaiser/Illaoi share an identical low-cost unit pool. The Teemo expert filter uses `~Guinsoo's_on_Nasus` to separate from Nasus reroll — implying Nasus reroll (Bonk) exists as a mirror comp. I chose to design the Nasus-carry filter as the complement.
+
+**My reasoning**: Nasus(i3) should be a unique carry — no other comp runs Nasus as a 3-item primary carry. The shared unit pool with Teemo reroll is just low-cost overlap, not contamination (Teemo appears at 1 item = support role). The main question was whether item-based exclusions (like `~Guinsoo's_on_Teemo`) were needed to separate from Teemo reroll, or whether Nasus(i3) alone is sufficient.
+
+**Filter iterations**:
+1. `--or-units TFT17_Nasus:i3` → 55,242 games, AVP 4.34, Top4 54.1%. Core units: Teemo-1 84%, Illaoi-1 82%, Leona-1 81%, Mordekaiser-1 81%, Summon 72%. No 3-item carry contamination visible (no Teemo-3, LeBlanc-3, Viktor-3 in output). **Already clean.**
+2. `--or-units TFT17_Nasus:i3 --exclude-units TFT17_Leblanc:i3,TFT17_Teemo:i3` → 19,280 games, AVP 4.92. Lost 65% of games, AVP collapsed by +0.58. Definitive signal: those excluded games are Nasus's best-performing subset (dual-carry boards), not contamination.
+3. Final: `--or-units TFT17_Nasus:i3` (carry-only, no exclusions needed)
+
+**Expert filter**: `Nasus(i3, i_max=3)` — pure carry-only, no exclusions, no trait. 55,256 games, AVP 4.34, Top4 54.1%.
+
+**Comparison**:
+- right: carry-only approach (Pattern 1), no trait lock, no exclusions — matched expert exactly
+- missed: item_max=3 (exact 3 items vs minimum 3) — only 14 games difference
+- correctly avoided: excluding Teemo(i3)/LeBlanc(i3) (would have destroyed 65% of legitimate games), adding trait anchors (Nasus doesn't need them)
+
+**Lesson**: **Reroll comps sharing the same unit pool don't always need item-based exclusions to separate.** The teemo filter uses `~Guinsoo's_on_Nasus`, but the bonk filter uses NO exclusion at all — not even `~Guinsoo's_on_Teemo`. The asymmetry exists because item-based exclusions are about removing the *other* comp's signature builds from YOUR comp's data. For Teemo, Guinsoo's on Nasus signals "this is a Nasus-carry board" — worth excluding. For Nasus (bonk), there's apparently no strong contamination from Teemo-carry boards, so no exclusion is needed. The lesson: **separation is not always symmetric between mirror comps.** Also: the AVP degradation test (iteration 2) correctly identified that excluding LeBlanc(i3) and Teemo(i3) was cutting real dual-carry games, not contamination — confirming the diagnostic from the shadow_zed exercise.
