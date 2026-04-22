@@ -310,3 +310,26 @@ Tracking all filter-design exercises for learning and comparison.
 - over-excluded: iterations 2-3 added Poppy(i3), Corki(i3), Galio(i3) exclusions that destroyed the filter. Each of these units legitimately co-exists with Veigar in the same boards
 
 **Lesson**: **When iteration 1 is already clean, stop iterating.** The absence of >80% core units (besides Rammus) is not a contamination signal — it's a signal that Veigar's comp is genuinely flexible in its supporting cast. Different boards pair Veigar with Astronaut units, Summon units, or generic tanks, but they're all legitimately "the Veigar comp." The instinct to "clean up" a dispersed unit profile by adding exclusions is dangerous when the carry is already unique. A unique carry with a flexible support shell = carry-only filter, full stop. Also: when exclusions remove >10% of games and AVP gets worse (not better), that's a clear signal you're cutting real games, not contamination.
+
+### vex_summon → vex_95 — 2026-04-22
+
+**Observation**: From `cli.py scout --top 3`, 5 boards showed Vex(i3) as primary AP carry with Blitzcrank and Mordekaiser in a Summon/Vanguard shell — NOT in DRX/NOVA context: VN2 #2 (Vex(3)/Blitz(3)/Nunu(3), ShieldTank_2, SummonTrait_1), VN2 #2 (Vex(3)/Sona(3)/Blitz(3)/Nunu(3), SummonTrait_3), EUW1 #1 (Vex(3)/Zoe★3(3)/Leona★3(3), ShieldTank_3). These boards shared Vex as AP carry with a tanky Summon/Vanguard frontline (Blitzcrank, Mordekaiser, Illaoi, IvernMinion, Nunu), distinct from NOVA boards which feature DRX trait + Fiora/Graves flex carries. Named it "vex_summon."
+
+**My reasoning**: Vex appeared as a shared carry across multiple comps (NOVA, DarkStar, vex_95, vanguard_leblanc). I needed to isolate the specific "Vex in Summon/Vanguard shell" variant. Starting carry-only would be far too broad (526k games). The key distinguishing features were: (1) no DRX trait (separates from NOVA), (2) Blitzcrank + Mordekaiser as frontline anchors, (3) no LeBlanc (separates from vanguard_leblanc).
+
+**Filter iterations**:
+1. `--or-units TFT17_Vex:i3` → 525,870 games, AVP 4.12, Top4 56.4%. Way too broad — Vex appears as carry in NOVA (Fiora 48%, Graves 46%), DarkStar, vanguard_leblanc, and vex_95 simultaneously. No core unit >80%. Carry-only is insufficient for a shared carry.
+2. `--or-units TFT17_Vex:i3 --exclude-units TFT17_Fiora:i3,TFT17_Graves:i3,TFT17_Leblanc:i3,TFT17_Jhin:i3 --exclude-traits TFT17_DRX:2` → 237,626 games, AVP 4.33, Top4 52.5%. Better — excluded NOVA flex carries and DRX trait. But still very dispersed: Blitzcrank 76%, Mordekaiser 73%, IvernMinion 69%, no unit >80%. The filter is "Vex in non-DRX, non-NOVA everything" — still too broad.
+3. Could not add `--units TFT17_Blitzcrank,TFT17_Mordekaiser` AND condition (CLI returned 0 when mixing `--units` AND with `--or-units`). Stopped iterating due to CLI limitation.
+
+**Expert filter**: `Vex(i3, i_max=3) & Blitzcrank & Mordekaiser & ~LeBlanc & ~DRX >= 2 & ~Jhin(i3)` → 143,811 games, AVP 3.81, Top4 62.1%
+
+**Comparison**:
+- right: identified need for DRX exclusion (`~DRX >= 2`), recognized Vex is a shared carry requiring more than carry-only, excluded Jhin(i3) and LeBlanc as contamination sources
+- missed:
+  - **Blitzcrank & Mordekaiser as AND conditions (Pattern 4)**: the expert requires BOTH Blitzcrank and Mordekaiser to be present on the board — they define the comp's frontline identity, not just the carry. My filter was 66% larger (238k vs 144k) because I couldn't enforce this AND condition. Blitz+Morde at 100% in the expert filter confirms they ARE the comp's definition alongside Vex.
+  - **~LeBlanc (no item requirement)**: expert excludes LeBlanc entirely (any item count), not just LeBlanc(i3). LeBlanc's presence signals vanguard_leblanc regardless of itemization — same pattern as MissFortune in the Viktor filter.
+  - **item_max=3**: exact 3 items
+- over-excluded: Fiora(i3) and Graves(i3) — the expert doesn't need these because `~DRX >= 2` already handles NOVA contamination. My carry exclusions were redundant with the trait exclusion.
+
+**Lesson**: **When a carry appears in 4+ different comps, carry-only filtering is useless.** Vex is the most shared carry in S17 — she appears in NOVA, DarkStar, vex_95, vanguard_leblanc. The expert solves this not with trait locks (Vex doesn't have a unique trait) but with **unit AND conditions** (Blitzcrank + Mordekaiser = this specific Vex comp) plus **comp-boundary exclusions** (~DRX >= 2 for NOVA, ~LeBlanc for vanguard_leblanc, ~Jhin(i3) for DarkStar). This is a **hybrid of Pattern 4 (carry + minimal exclusions) and trait-level exclusion**. Also learned: when `--exclude-traits` removes contamination and `--exclude-units` targeting the same comps' carries is redundant — prefer the trait-level exclusion (fewer parameters, same effect). Finally: some units (LeBlanc, MissFortune) are excluded entirely regardless of items because their mere presence signals a different comp direction.
