@@ -14,7 +14,9 @@ Focus on the "Design a Filter From Scratch" section.
 
 ## Step 2: Pick a Target Comp
 
-Read `tft_stat/compositions.py`. Pick ONE comp that you haven't seen attempted in `wiki/content/experiments/filter-design-exercise-log.md` (create this file if it doesn't exist).
+Run `python3 cli.py comps` to see the list of comp keys and names. Pick ONE that hasn't been attempted in `wiki/content/experiments/filter-design-exercise-log.md` (create this file if it doesn't exist).
+
+**DO NOT read `tft_stat/compositions.py` — it contains the answer (expert filter definitions). You will read it ONLY in Step 4 after designing your own filter.**
 
 Pick comps in this order of difficulty:
 - Easy: single carry comps (zed, kaisa, bonk, veigar, etc.)
