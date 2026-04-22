@@ -75,7 +75,7 @@ Examples: `zed` = `Unit(Zed, i3)`, `kaisa` = `Unit(Kai'Sa, i3)`, `bonk` = `Unit(
 
 **When it works**: when the carry is unique — no other comp runs this unit as primary carry with 3 items. There is no "Zed in another comp" problem.
 
-**Don't add trait context to unique carries.** If the carry is already distinctive (Teemo, Viktor, Zed, Kai'Sa), adding a trait lock only shrinks the sample. The Dishsoap principle ("add context first") applies when carries are shared — not when they're unique. Teemo + ADMIN >= 2 loses 14k games for zero accuracy gain.
+**Don't add trait context to unique carries.** If the carry is already distinctive (Teemo, Viktor, Zed, Kai'Sa), adding a trait lock only shrinks the sample. The Dishsoap principle ("add context first") applies when carries are shared — not when they're unique. Teemo + ADMIN >= 2 loses 14k games for zero accuracy gain. Similarly, Kai'Sa + DarkStar >= 2 loses 17k games despite DarkStar appearing in 89% of Kai'Sa boards — a naturally prevalent trait is the comp's background, not a useful discriminator. Only add a trait filter when it separates your comp from other comps sharing the same carry.
 
 **Carry-only ≠ no exclusions.** Even carry-only comps may need exclusions — not for other carries sharing the slot, but for units whose 3-item presence signals a different comp. Example: `viktor` excludes `~Pyke(i3)` and `~MasterYi(i3)` (reroll/NOVA carries that share low-cost units), plus `~MissFortune` entirely (her presence signals Conduit MF regardless of items). A unit at 86% appearance (Pyke in Viktor) can still be an exclusion target when it's the *3-item carry version* that's contamination — the support version (1 item) stays.
 

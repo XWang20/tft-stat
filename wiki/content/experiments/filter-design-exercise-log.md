@@ -358,3 +358,24 @@ Tracking all filter-design exercises for learning and comparison.
 - over-included: 58k extra games (99k vs 41k) from Aurora in non-AnimaSquad contexts.
 
 **Lesson**: **Not every unit with 3 items in diverse boards is a "unique carry."** Veigar(i3) is a unique carry because Veigar IS the comp — no other comp runs Veigar as primary carry. Aurora(i3) appears in diverse contexts NOT because Aurora's comp is flexible, but because Aurora is a secondary/splash carry in OTHER comps (Mecha, Summon). The dispersed unit profile was a signal that Aurora appears across multiple DIFFERENT comps, not that "Aurora's comp has a flexible supporting cast." The key diagnostic: when no unit exceeds 50% and the units span multiple unrelated traits (Mecha + Summon + DRX), you're looking at a unit that appears in multiple comps, not a standalone comp. For Veigar, the unit profile was also dispersed but the trait context was consistent (Astronaut, Summon). For Aurora, the trait contexts were contradictory (Mecha vs Summon vs DRX) — that's the "multiple comps" signal.
+
+### kaisa_carry → kaisa — 2026-04-22
+
+**Observation**: From `cli.py scout --top 3`, 2 boards showed Kai'Sa(i3) as primary carry: VN2 #2 (Kai'Sa★2(i3)/Karma★3(i3)/Mordekaiser(i3), DarkStar_3) and NA1 #3 (Kai'Sa★3(i3)/Fizz★3(i3), Astronaut_1). Kai'Sa appeared in different trait contexts (DarkStar, Astronaut) but always as the primary ranged carry with items like IE/GS/Striker's.
+
+**My reasoning**: Kai'Sa appeared as a carry in two different trait contexts, which initially raised the question: is she a unique carry (Pattern 1) or a shared carry across comps (needing trait lock)? The aurora_carry exercise taught that contradictory trait contexts signal multi-comp contamination. However, testing DarkStar >= 2 showed it captured 89% of Kai'Sa(i3) games — most Kai'Sa boards naturally include DarkStar units (Karma, Jhin, Morgana), suggesting a consistent trait family rather than contradictory contexts. The carry-only filter showed negligible 3-item carry contamination (Riven i3: 92, Rammus i3: 54 — both trivial). I concluded Kai'Sa is a unique carry with a DarkStar-adjacent flexible shell.
+
+**Filter iterations**:
+1. `--or-units TFT17_Kaisa:i3` → 163,077 games, AVP 4.37, Top4 52.4%. Dispersed unit profile: Karma-1 69%, Rammus-1 66%, Riven-1 48%. No unit >80%. 3-item carry contamination negligible (<0.1%).
+2. `--or-units TFT17_Kaisa:i3 --traits TFT17_DarkStar:2` → 145,785 games, AVP 4.22. DarkStar >= 2 only removed 11% of games. Core units unchanged. Trait anchor unnecessary — DarkStar is the natural trait, not a discriminator.
+3. `--or-units TFT17_Kaisa:i3 --exclude-traits TFT17_DarkStar:4` → 143,063 games, AVP 4.38. Excluding DarkStar >= 4 only removed 12% — confirming most Kai'Sa games have DarkStar 2-3 (not deep DarkStar 4+).
+4. Final: `--or-units TFT17_Kaisa:i3` (carry-only, no exclusions needed)
+
+**Expert filter**: `Kaisa(i3, i_max=3)` — pure carry-only, no exclusions, no trait. 163,122 games, AVP 4.37, Top4 52.4%.
+
+**Comparison**:
+- right: carry-only approach (Pattern 1), no trait lock, no exclusions
+- missed: item_max=3 (exact 3 items vs minimum 3) — only 45 games difference
+- correctly avoided: adding DarkStar as trait anchor (would have lost 17k+ games for no benefit), adding carry exclusions (contamination was negligible)
+
+**Lesson**: **When a trait is naturally present in most of a carry's games, it's the comp's background — not a useful filter.** DarkStar >= 2 appeared in 89% of Kai'Sa(i3) games, but adding it as a filter only lost 11% of legitimate games without improving accuracy. The trait is a consequence of Kai'Sa's natural supporting cast (Karma/Jhin/Morgana are DarkStar), not a comp-defining constraint. Contrast with Corki where Astronaut >= 5 IS definitional — the difference is that Corki needs the high breakpoint to distinguish from random Astronaut splashes, while Kai'Sa doesn't need DarkStar at all because no other comp uses Kai'Sa as 3-item primary carry. The general rule: **don't add a trait filter just because the trait is common in your data — add it only when it discriminates between your comp and other comps sharing the same carry.**
