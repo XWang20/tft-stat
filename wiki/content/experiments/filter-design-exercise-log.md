@@ -333,3 +333,28 @@ Tracking all filter-design exercises for learning and comparison.
 - over-excluded: Fiora(i3) and Graves(i3) — the expert doesn't need these because `~DRX >= 2` already handles NOVA contamination. My carry exclusions were redundant with the trait exclusion.
 
 **Lesson**: **When a carry appears in 4+ different comps, carry-only filtering is useless.** Vex is the most shared carry in S17 — she appears in NOVA, DarkStar, vex_95, vanguard_leblanc. The expert solves this not with trait locks (Vex doesn't have a unique trait) but with **unit AND conditions** (Blitzcrank + Mordekaiser = this specific Vex comp) plus **comp-boundary exclusions** (~DRX >= 2 for NOVA, ~LeBlanc for vanguard_leblanc, ~Jhin(i3) for DarkStar). This is a **hybrid of Pattern 4 (carry + minimal exclusions) and trait-level exclusion**. Also learned: when `--exclude-traits` removes contamination and `--exclude-units` targeting the same comps' carries is redundant — prefer the trait-level exclusion (fewer parameters, same effect). Finally: some units (LeBlanc, MissFortune) are excluded entirely regardless of items because their mere presence signals a different comp direction.
+
+### aurora_carry → anima_diana — 2026-04-22
+
+**Observation**: From `cli.py scout --top 3`, 3 boards showed Aurora(i3) as primary AP carry: VN2 GM #2 (Aurora★3(i3)/Galio(i3)/Maokai(i3)/Urgot★3(i3), Mecha_2), NA1 #3 (Aurora★3(i3)/Galio(i3)/Karma(i3)/Rammus(i3), SummonTrait_1), TR1 #2 (Aurora★2(i3)/Fiora(i3)/Rammus(i3)/Sona(i3), SummonTrait_1). Aurora appeared in different trait contexts (Mecha, Summon) with no consistent trait shell.
+
+**My reasoning**: Aurora appeared as a unique AP carry across multiple boards with no consistent supporting cast — similar to Veigar. I expected a carry-only filter (Pattern 1) since no other comp seemed to use Aurora as a 3-item primary carry. The dispersed unit profile (no unit >50%) reinforced this belief.
+
+**Filter iterations**:
+1. `--or-units TFT17_Aurora:i3` → 99,426 games, AVP 4.56, Top4 49.0%. No unit >50%: Summon 46.9%, Galio 43.9%, LeBlanc 34.6%, Karma 29.6%. 3-item carry contamination negligible (<0.3%). Very dispersed but clean.
+2. `--or-units TFT17_Aurora:i3 --exclude-units TFT17_Galio:i3,TFT17_Leblanc:i3` → 73,050 games, AVP 4.89. Lost 26% of games. AVP worsened — exclusions removed legitimate Aurora games. Abandoned.
+3. Tested trait anchors (AnimaSquad >= 2 → 60k, PsyOps >= 2 → 25k) — both lost 40-75% of games. No single trait defines Aurora.
+4. Final: `--or-units TFT17_Aurora:i3` (carry-only, no exclusions)
+
+**Expert filter**: `(Aurora(i3, i_max=3) | Diana(i3, i_max=3)) & Diana & AnimaSquad >= 3` → 41,485 games, AVP 4.76, Top4 44.9%
+
+**Comparison**:
+- right: identified Aurora as an AP carry
+- missed:
+  - **Aurora is NOT a standalone comp.** She's a co-carry in Anima Diana (幻灵皎月), not a "unique carry like Veigar." My carry-only filter (99k) was 2.4x the expert's (41k) because it captured Aurora in ALL contexts (Mecha splash, Summon shell, etc.).
+  - **Diana is the co-carry AND comp identity marker**: `Diana` must be present on board (AND, no item requirement), while `Aurora(i3) | Diana(i3)` defines who the itemized carry is. This is a comp where the unit presence defines identity (Diana on board), and items define the carry role (Aurora or Diana gets items).
+  - **AnimaSquad >= 3** is the trait anchor — the comp is literally "Anima squad." I saw AnimaSquad in my trait tests (60k games at >= 2) but never tried the right breakpoint (>= 3).
+  - **item_max=3**: exact 3 items.
+- over-included: 58k extra games (99k vs 41k) from Aurora in non-AnimaSquad contexts.
+
+**Lesson**: **Not every unit with 3 items in diverse boards is a "unique carry."** Veigar(i3) is a unique carry because Veigar IS the comp — no other comp runs Veigar as primary carry. Aurora(i3) appears in diverse contexts NOT because Aurora's comp is flexible, but because Aurora is a secondary/splash carry in OTHER comps (Mecha, Summon). The dispersed unit profile was a signal that Aurora appears across multiple DIFFERENT comps, not that "Aurora's comp has a flexible supporting cast." The key diagnostic: when no unit exceeds 50% and the units span multiple unrelated traits (Mecha + Summon + DRX), you're looking at a unit that appears in multiple comps, not a standalone comp. For Veigar, the unit profile was also dispersed but the trait context was consistent (Astronaut, Summon). For Aurora, the trait contexts were contradictory (Mecha vs Summon vs DRX) — that's the "multiple comps" signal.

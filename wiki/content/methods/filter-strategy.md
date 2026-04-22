@@ -115,6 +115,16 @@ Example: `two_tanky_samira` = `Samira(count=2)` — any board with Samira★2+.
 
 **Beware scout board bias**: top-3 finishes are the highest-performing subset. Their carries are always fully itemized, which can mislead you into thinking item count is definitional. The comp's identity may be simpler than what winning boards suggest.
 
+#### Distinguishing "Unique Carry" from "Multi-Comp Carry"
+
+A dispersed unit profile (no unit >50%) after carry-only filtering can mean two very different things:
+
+1. **Unique carry, flexible support** (e.g., Veigar): the carry IS the comp, supporting units vary by board. Trait contexts are consistent or related (Astronaut, Summon). Carry-only filter is correct.
+
+2. **Shared carry across multiple comps** (e.g., Aurora): the carry appears as primary or secondary in several unrelated comps. Trait contexts are **contradictory** (Mecha + Summon + DRX in the same filter output). Carry-only filter is too broad — needs trait anchor and/or co-carry requirements.
+
+**The diagnostic**: after carry-only filtering, check whether the supporting units cluster around a single trait family or span multiple unrelated ones. Contradictory trait signals (e.g., Mecha units AND Summon units AND DRX units all >10%) mean you're capturing multiple comps, not one flexible comp.
+
 #### Expert Heuristics Extracted from These Patterns
 
 1. **Identity = Trait + Carry; Boundary = Exclusions.** The positive filter defines what the comp IS; the negative filter defines what it IS NOT.
