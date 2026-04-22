@@ -99,6 +99,8 @@ Examples: `lulu` excludes Guinsoo on Jax (separates from Jax-reroll boards); `tf
 
 **When it works**: only for low-cost reroll comps where unit/trait overlap is unavoidable. The expert uses signature items as negative identifiers — if Jax has Titan's Resolve, it's a Jax reroll, not a TF comp.
 
+**Why unit/trait exclusions fail here**: reroll comps sharing the same cost tier (e.g., TF reroll, Jax reroll, Aatrox reroll) all use the same unit pool (Aatrox/Caitlyn/Talon/Jax/TF). You can't exclude these units without destroying your own comp's definition. Trait anchors don't help either — shared units create shared traits. The ONLY discriminator is how items are distributed: BT on Aatrox signals Aatrox-carry, Titan's on Jax signals Jax-carry. Without item-based exclusions, these comps are inseparable.
+
 #### Expert Heuristics Extracted from These Patterns
 
 1. **Identity = Trait + Carry; Boundary = Exclusions.** The positive filter defines what the comp IS; the negative filter defines what it IS NOT.

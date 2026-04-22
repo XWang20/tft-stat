@@ -190,3 +190,28 @@ Tracking all filter-design exercises for learning and comparison.
 - over-excluded: I used 17 exclusions when the expert needs only 5 (Diana/Nasus/Zoe/Teemo/Vex). Samira, Xayah, Lissandra, Aurora, Bard, Sona, Galio, Fiora, Graves, Zed, MasterYi, Jhin — all unnecessary because their contamination rate in LeBlanc + ShieldTank + Summon=3 is negligible.
 
 **Lesson**: **Trait ceilings (`max_units`) are as important as trait floors (`min_units`).** When a comp lives at a specific trait breakpoint (Summon = 3 for vanguard_leblanc), using `>= 3` captures all higher breakpoints too (Shepherd at >= 5). The ceiling is a surgical tool that one `max_units=3` parameter replaces dozens of exclusions — it removes Shepherd contamination at the trait level instead of unit-by-unit. Also: when faced with a filter that's too broad, the instinct to add more exclusions is a brute-force approach. The expert's method is to first identify the RIGHT trait constraints (including ceilings), then add only the targeted exclusions that the trait constraints can't handle.
+
+### tf_jax_reroll → tf — 2026-04-22
+
+**Observation**: From `cli.py scout --top 3`, 3 boards showed Jax★3(i3) + TwistedFate★3(i3) as dual reroll carries: SG2 #1 (Jax★3(i3)/TF★3(i3)/Aatrox★3/Caitlyn★3/Corki★2/Milio★2/Riven★2/Shen/Talon★3, Fateweaver_2), VN2 #3 (Jax★3(i3)/TF★3(i3)/Aatrox★3/Caitlyn★3/Gwen★2/Milio/Talon★3, Fateweaver_1), EUN1 #3 (Jax★3(i3)/TF★3(i3)/Corki★2(i3)/Aatrox★3/Caitlyn★3/Milio★2/Riven★2/Talon★3, Fateweaver_2). All shared Aatrox★3, Caitlyn★3, Talon★3 as low-cost reroll core. Named it "tf_jax_reroll."
+
+**My reasoning**: Identified TF + Jax as dual reroll carries linked by Fateweaver trait. Tried Fateweaver >= 2 as trait anchor with OR(TF_i3, Jax_i3), then AND(TF_i3, Jax_i3). The main contamination source was Meeple Corki (Corki + Astronaut comp also runs TF+Jax). Attempted to exclude Corki(i3) and other carries, but the CLI couldn't express "exclude Corki regardless of items," so contamination persisted. The `--units` AND for 3+ units returned 0 games, blocking my attempt to add Aatrox as required core.
+
+**Filter iterations**:
+1. `--or-units TFT17_TwistedFate:i3,TFT17_Jax:i3 --traits TFT17_Fateweaver:2` → 218,877 games, AVP 4.29. Corki-1 at 129k (59%), Milio at 145k (66%) — overwhelmingly Meeple Corki contamination. OR captures single-carry boards.
+2. `--units TFT17_TwistedFate:i3,TFT17_Jax:i3 --traits TFT17_Fateweaver:2` → 155,299 games, AVP 3.97. AND helped but Corki-1 still 100k (64%), Milio 110k (71%). Fateweaver trait is not distinctive — both reroll and Meeple Corki comps use it.
+3. `--units TFT17_TwistedFate:i3,TFT17_Jax:i3 --traits TFT17_Fateweaver:2 --exclude-units TFT17_Corki:i3` → 133,421 games, AVP 4.14. Only excluded 3-item Corki; Corki-1 at 78k (59%), Milio still dominant. CLI `--exclude-units X:i3` only blocks 3-item version.
+4. Tried TF(i3) only + various carry exclusions → 165k+ games, still Corki/Milio dominated. Could not find a unit/trait combination to isolate the reroll comp.
+5. Final: stuck at `--units TFT17_TwistedFate:i3,TFT17_Jax:i3 --traits TFT17_Fateweaver:2 --exclude-units TFT17_Corki:i3` — 133k games, heavily contaminated.
+
+**Expert filter**: `TF(i2+) AND Jax(i2+) & ~BT_on_Aatrox & ~Titan's_on_Jax` → 174,888 games, AVP 4.16, Top4 57.5%
+
+**Comparison**:
+- right: identified TF + Jax as dual carries, recognized they must be AND-linked
+- missed:
+  - **i2 not i3**: like the Mecha comp, dual carry = items distributed. Using i2 captures the full population. I defaulted to i3 because I saw scout boards with 3 items on each carry, but in practice items split between them.
+  - **No trait anchor at all**: the expert uses NO Fateweaver trait — TF+Jax together are already distinctive enough. I wasted iterations trying to use Fateweaver as a discriminator, when it actually pulled in Meeple Corki contamination.
+  - **Item-based exclusions (Pattern 5)**: the expert uses `~BT_on_Aatrox` and `~Titan's_on_Jax` — signature items that identify overlapping reroll comps (Aatrox reroll, Jax reroll). I never considered item-based exclusions. This is the most subtle pattern: when unit/trait overlap is unavoidable between reroll comps, specific item-on-unit combos serve as negative identifiers.
+  - **The filter coexists with Corki boards**: Corki-1 at 108k (62%) in the expert filter too. The expert doesn't exclude Corki because TF+Jax+Corki boards ARE legitimate TF reroll games (the comp often includes Corki as a secondary unit). My assumption that Corki = contamination was wrong.
+
+**Lesson**: **Low-cost reroll comps sharing the same unit pool can only be separated by item patterns, not by unit/trait filters.** TF reroll, Jax reroll, and Aatrox reroll all share Aatrox/Caitlyn/Talon/Jax/TF — you can't exclude units without destroying your own comp. The expert's solution is Pattern 5: signature items as negative identifiers (BT on Aatrox = Aatrox comp, Titan's on Jax = Jax comp). Also learned: dual carry comps use i2 not i3, and sometimes no trait anchor is needed when the unit combination itself is sufficiently distinctive. Finally: a unit appearing at high frequency in your filtered data (Corki at 62%) is not automatically contamination — it may be a legitimate secondary unit in the comp.
