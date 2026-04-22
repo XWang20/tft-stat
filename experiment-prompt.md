@@ -19,6 +19,7 @@ For each comment from Xing:
   3. **Improve code** (if applicable): If the feedback reveals a tool gap or method limitation, implement it in tft_stat/ or cli.py
   4. Update status to 🧪 draft in report and index.md
   DO NOT just record the feedback and add a lesson. Execute the revision AND compound the learning.
+  After fixing, update ALL global wiki files: index.md (experiment status + syllabus), log.md (what was done with wikilinks), lab-checklist.md (if process lesson).
 - **conclusion** → integrate into concepts/ or methods/ pages with substantive content
 
 After processing, reply to the discussion:
