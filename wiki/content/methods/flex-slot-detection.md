@@ -20,14 +20,7 @@ Primary board 告诉你：
 - **Core size**: primary board 的 unit 数（不是从 carry cost 推断，因为不一定符合 "5-cost=9, 4-cost=8" 的规律）
 - **Level**: 需要考虑多 slot trait（如 Mecha 3 unit 占 5 slot → 7 units on board = level 9）
 
-### Step 2: Identify Variants and Flex Slots
-
-在 `core` 输出中分类其他高频 board：
-- **灵活位替换**（1-2 unit 差异）：同一 comp 的微调，不影响核心结构
-- **Variant**（≥3 unit 差异）：完全不同的玩法，需要分开分析
-- **+1 board**：比 primary 多 1 个 unit 的 board，是下一个 level 的候选
-
-### Step 3: +1 控制变量分析
+### Step 2: +1 控制变量分析
 
 固定 primary board 的 core units + 控制 level：
 
@@ -41,7 +34,7 @@ Unit('unit1') & Unit('unit2') & ... & Unit('unitN')"
 - **AVP**: 完整 board 的 AVP 不受 survivorship bias 污染，freq 高且 AVP 低 = 好选择
 - **Necessity**: 衡量边际影响，但在高 level 时数值被压缩（AVP 空间小）
 
-### Step 4: Cross-Validation
+### Step 3: Cross-Validation
 
 `python3 cli.py tftable --comp <COMP>` 对比 tftable 的 unit necessity（注意两者衡量不同东西：我们的是存在价值，IC3 可能是 carry 价值）。
 
