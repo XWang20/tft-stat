@@ -251,9 +251,14 @@ def cmd_core(args):
         pc = e.get("placement_count", [])
         games = sum(pc)
         avg = sum((j+1)*c for j, c in enumerate(pc)) / games if games else 0
-        names = " ".join(u.replace("TFT17_", "") for u in units)
+        unit_labels = []
+        for idx, uid in enumerate(units):
+            name = uid.replace("TFT17_", "")
+            star = e.get(f"avg_unit_{idx+1}_tier", 0)
+            star_str = f"★{star:.1f}" if star >= 1.5 else ""
+            unit_labels.append(f"{name}{star_str}")
         tag = " <- primary" if i == 1 else ""
-        print(f"{i:<4} {games:>7,} {games/total_games:>5.1%} {avg:>5.2f} {len(units):>4}  {names}{tag}")
+        print(f"{i:<4} {games:>7,} {games/total_games:>5.1%} {avg:>5.2f} {len(units):>4}  {' '.join(unit_labels)}{tag}")
 
     primary = entries[0]
     primary_units = primary.get("units_traits", "").split("|")[0].split("&")
