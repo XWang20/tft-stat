@@ -1,4 +1,4 @@
-# Unit Evaluation
+# Plus-One Discovery
 **Status**: 🧪 draft
 
 ## When to Use
@@ -115,4 +115,4 @@ Key insight: Shen (+0.95 necessity) is far more irreplaceable than Akali (+0.00)
 
 ## Sources
 - [[experiments/2026-04-23-nova95-unit-evaluation]] — method development
-- [[concepts/composition]] — role taxonomy, level bias
+- [[concepts/composition]] — role taxonomy, comp variants

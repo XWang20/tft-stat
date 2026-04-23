@@ -32,9 +32,33 @@ Comp 的构成有三种模式：
 
 **3. 存在 Variant**：同一个 comp 有多个变体，核心阵容本身就不同。例如一个 comp 可能有 "标准版" 和 "高 roll 版"，两者的核心 unit 不同。tftable 通过 `comp_variants.py` 自动检测 variant — 对同一 comp 的所有 board 做聚类，找到出现率最高的阵容模式，variant 之间的差异用 symmetric difference 衡量。
 
+### 如何找 Primary Board 和 Variant
+
+使用 `core` 子命令查看一个 comp 下所有 board compositions，按频率排序：
+
+```bash
+python3 cli.py core --comp mecha
+```
+
+输出按频率排列所有 board composition + 平均星级，#1 就是 primary board。不同 board size 混排（自动查 6-11 人口），可以同时看到 level 7/8/9 的 variant。
+
+**判读方法**：
+- **Primary**: freq 最高的 board，占比通常 > 30%（如 nova_95 的 9 人标准阵容占 46%）
+- **Variant**: 和 primary 有 1-2 个 unit 差异的高频 board（如 mecha 的 Fiora 版 vs Viktor 版 vs Mordekaiser 版）
+- **+1 board**: 比 primary 多 1 个 unit 的 board（如 nova_95 primary 是 9 人，+1 board 是 10 人含 Sona）
+- **残缺 board**: 比 primary 少 1 个 unit、AVP 偏高的 board（如 nova_95 缺 Nunu 的 8 人 board）
+
+**Mecha 示例**（有明显 variant）：
+```
+#1  17k  11%  7 units: ASol Bard Fiora Galio Karma TahmKench Urgot    ← primary (Fiora 版)
+#2  14k   9%  6 units: ASol Fiora Galio Karma TahmKench Urgot         ← 6 人口版
+#3   9k   6%  6 units: ASol Galio MasterYi TahmKench Urgot Viktor     ← variant (Viktor 版)
+#4   8k   5%  6 units: ASol Galio Karma Mordekaiser TahmKench Urgot   ← variant (Morde 版)
+```
+
 ### +1 分析方法（控制变量法）
 
-分析灵活位的标准方法（参见 [[methods/unit-evaluation]]）：
+分析灵活位的标准方法（参见 [[methods/plus-one-discovery]]）：
 
 1. 确定 core_type：5-cost → core_size=9, flex_pop=10；4-cost → core_size=8, flex_pop=9
 2. 从 unit appearance rate 中取 top core_size 个 unit 作为 CoreUnits
