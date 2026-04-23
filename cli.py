@@ -292,6 +292,9 @@ def _params_from_args(args) -> list[str]:
     else:
         params = []
 
+    if hasattr(args, "level") and args.level:
+        params.append(f"level={args.level}")
+
     return params
 
 
@@ -347,6 +350,7 @@ def main():
 def _add_filter_args(p):
     p.add_argument("--comp", help="Comp key (e.g. nova_95, dark_star)")
     p.add_argument("--filter", help="Filter expression (e.g. \"Unit('TFT17_Vex', item_min=3) & Trait('TFT17_DRX', min_units=2)\")")
+    p.add_argument("--level", type=int, help="Player level filter (e.g. 9, 10)")
 
 
 if __name__ == "__main__":

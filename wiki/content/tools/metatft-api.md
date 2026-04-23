@@ -13,6 +13,7 @@ patch=current
 days=3
 rank=CHALLENGER,DIAMOND,EMERALD,GRANDMASTER,MASTER,PLATINUM
 permit_filter_adjustment=true
+level=10            # player level filter (optional, 1-10)
 ```
 
 ## Endpoints
