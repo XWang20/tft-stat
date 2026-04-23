@@ -222,6 +222,64 @@ def cmd_scout(args):
         print()
 
 
+def cmd_core(args):
+    """Detect core comp and +1 candidates for a composition."""
+    params = _params_from_args(args)
+
+    data = query("units_unique", params)
+
+    units = []
+    for item in data.get("data", []):
+        uid = item.get("units_unique", "")
+        if not uid or "PVE" in uid:
+            continue
+        stats = placement_stats(item.get("placement_count", []))
+        if stats["games"] < 50:
+            continue
+        units.append((uid, stats))
+
+    units.sort(key=lambda x: -x[1]["games"])
+    if not units:
+        print("No unit data found.")
+        return
+
+    total = units[0][1]["games"]
+    threshold = args.threshold
+
+    core = [(uid, s) for uid, s in units if s["games"] / total >= threshold]
+    core_size = len(core)
+    core_ids = [uid.split("-")[0] for uid, _ in core]
+
+    print(f"Core units ({core_size}, appearance >= {threshold:.0%}):")
+    print(f"{'Unit':<30} {'Games':>8} {'Rate':>6} {'AVP':>6}")
+    print("-" * 54)
+    for uid, s in core:
+        print(f"{uid:<30} {s['games']:>8,} {s['games']/total:>5.1%} {s['avg']:>6.2f}")
+
+    non_core = [(uid, s) for uid, s in units if s["games"] / total < threshold and s["games"] >= 100]
+    if non_core:
+        overall_avg = sum(s["games"] * s["avg"] for _, s in core) / sum(s["games"] for _, s in core)
+        print(f"\n+1 candidates (by Necessity, overall AVP={overall_avg:.2f}):")
+        print(f"{'Unit':<30} {'Games':>8} {'Rate':>6} {'AVP':>6} {'Neces.':>8}")
+        print("-" * 62)
+        candidates = []
+        for uid, s in non_core:
+            p = s["games"] / total
+            nec = p / (1 - p) * (overall_avg - s["avg"])
+            candidates.append((uid, s, nec))
+        candidates.sort(key=lambda x: -x[2])
+        for uid, s, nec in candidates[:10]:
+            print(f"{uid:<30} {s['games']:>8,} {s['games']/total:>5.1%} {s['avg']:>6.2f} {nec:>+8.4f}")
+
+    if core_size >= 7:
+        filter_parts = [f"Unit('{cid}')" for cid in core_ids]
+        filter_str = " & ".join(filter_parts)
+        flex_pop = core_size + 1
+        comp_flag = f"--comp {args.comp} " if args.comp else ""
+        print(f"\n+1 analysis command:")
+        print(f"  python3 cli.py units {comp_flag}--level {flex_pop} --filter \"{filter_str}\"")
+
+
 def cmd_games(args):
     """Show sample boards matching a filter — sanity check."""
     params = _params_from_args(args)
@@ -307,8 +365,6 @@ def _params_from_args(args) -> list[str]:
     if hasattr(args, "filter") and args.filter:
         extra_expr = eval(args.filter)
         params.extend(expr_to_params(extra_expr))
-    else:
-        params = []
 
     if hasattr(args, "level") and args.level:
         params.append(f"level={args.level}")
@@ -356,6 +412,12 @@ def main():
     p_scout.add_argument("--rank", help="Rank filter (default: CHALLENGER,GRANDMASTER,MASTER)")
     p_scout.add_argument("--top", type=int, default=4, help="Placement cutoff (default: 4)")
 
+    # core
+    p_core = sub.add_parser("core", help="Detect core comp and +1 candidates")
+    _add_filter_args(p_core)
+    p_core.add_argument("--threshold", type=float, default=0.70,
+                         help="Appearance rate threshold for core units (default: 0.70)")
+
     # games
     p_games = sub.add_parser("games", help="Show sample boards matching a filter (sanity check)")
     _add_filter_args(p_games)
@@ -368,7 +430,7 @@ def main():
 
     {"comps": cmd_comps, "total": cmd_total, "units": cmd_units,
      "items": cmd_items, "tftable": cmd_tftable, "scout": cmd_scout,
-     "games": cmd_games}[args.command](args)
+     "core": cmd_core, "games": cmd_games}[args.command](args)
 
 
 def _add_filter_args(p):
