@@ -1,3 +1,23 @@
+## [2026-04-23] experiment | Vex Third Item Build Analysis
+- [[experiments/2026-04-23-vex-third-item-build]] — GS+Guinsoo 后第三件的社区争论用数据回答
+- nova_95: Red Buff(3.51) > Dcap(3.74) > Flail(3.76) >> Gunblade(3.92, 32% play rate 但排#8)
+- vex_95: Dcap(3.57) > Void Staff(3.63) > Gunblade(3.65)
+- Dcap 是通用安全选择；Void Staff 极度 comp 依赖（DRX 穿透使其在 nova_95 多余）
+- 挑战前提：Guinsoo+Dcap core 优于 Guinsoo+GS，但可能有选择偏差
+
+## [2026-04-23] experiment | Nova 95 Unit Evaluation (Module 4 开篇)
+- [[experiments/2026-04-23-nova95-unit-evaluation]] — Module 4 首个实验
+- Shen Necessity 最高(+1.40)，最不可替代；Akali play rate 第2(91.5%) 但 Necessity 最低(+0.17)
+- 九人口：Sona 是明确首选(Nec +0.127, 3x Jhin)；三候选均为 unique trait
+- 识别 level bias 并论证相对排名可靠性
+
+## [2026-04-23] experiment | Tank Filter Reliability Cross-Unit ρ
+- [[experiments/2026-04-23-tank-filter-reliability]] — 纠正前实验"tank 不稳定"结论
+- Nasus(ρ=0.929), Poppy(ρ=0.952), Cho'Gath(ρ=1.000) 均与 carry 一样稳定
+- Morde ρ=0.048 是选错 unit 的人为错误（非主 tank，不带装备）
+- Galio 揭示 "two-world"：comp-specific items(Gargoyle 76%) 在 mecha 外消失，generic items 保持 ρ=1.000
+- 新分类：Primary Carry / Tanky Carry / Primary Tank / Comp-Specific Tank / Non-Itemized
+
 ## [2026-04-22] experiment | Xayah Stargazer Items REDO v2 — all tiers, precise recompute
 - Redid with improved `unit_item_unique` (positive filter), all trait tiers (not just tier 1), renamed Wolf→Boar/Shield→Alter
 - Mountain fixed: 48.7k games (was 7k when only tier 1 + emblem excluded; now all 5 tiers, emblem kept)
