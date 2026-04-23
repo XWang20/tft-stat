@@ -222,6 +222,9 @@ def cmd_scout(args):
         print()
 
 
+IGNORED_BOARD_UNITS = {"TFT17_Summon"}
+
+
 def cmd_core(args):
     """Detect primary board composition via MetaTFT comps endpoint."""
     params = _params_from_args(args)
@@ -243,7 +246,7 @@ def cmd_core(args):
 
     top_n = min(args.show, len(entries))
     print(f"Board compositions: {len(entries)} ({total_games:,} total games)")
-    print(f"\n{'#':<4} {'Games':>7} {'Share':>6} {'AVP':>5} {'Size':>4}  Units")
+    print(f"\n{'#':<4} {'Games':>7} {'Share':>6} {'AVP':>5} {'Lvl':>4}  Units")
     print("-" * 85)
     for i, e in enumerate(entries[:top_n], 1):
         ut = e.get("units_traits", "")
@@ -251,17 +254,22 @@ def cmd_core(args):
         pc = e.get("placement_count", [])
         games = sum(pc)
         avg = sum((j+1)*c for j, c in enumerate(pc)) / games if games else 0
+        real_units = [u for u in units if u not in IGNORED_BOARD_UNITS]
+        level = len(real_units)
         unit_labels = []
         for idx, uid in enumerate(units):
             name = uid.replace("TFT17_", "")
+            if uid in IGNORED_BOARD_UNITS:
+                name = f"({name})"
             star = e.get(f"avg_unit_{idx+1}_tier", 0)
             star_str = f"★{star:.1f}" if star >= 1.5 else ""
             unit_labels.append(f"{name}{star_str}")
         tag = " <- primary" if i == 1 else ""
-        print(f"{i:<4} {games:>7,} {games/total_games:>5.1%} {avg:>5.2f} {len(units):>4}  {' '.join(unit_labels)}{tag}")
+        print(f"{i:<4} {games:>7,} {games/total_games:>5.1%} {avg:>5.2f} {level:>4}  {' '.join(unit_labels)}{tag}")
 
     primary = entries[0]
-    primary_units = primary.get("units_traits", "").split("|")[0].split("&")
+    all_primary_units = primary.get("units_traits", "").split("|")[0].split("&")
+    primary_units = [u for u in all_primary_units if u not in IGNORED_BOARD_UNITS]
     core_size = len(primary_units)
     primary_games = sum(primary.get("placement_count", []))
 
@@ -270,8 +278,8 @@ def cmd_core(args):
         filter_str = " & ".join(filter_parts)
         flex_pop = core_size + 1
         comp_flag = f"--comp {args.comp} " if args.comp else ""
-        print(f"\nPrimary: {core_size} units, {primary_games:,} games ({primary_games/total_games:.0%})")
-        print(f"+1 command:")
+        print(f"\nPrimary: {core_size} units (level {core_size}), {primary_games:,} games ({primary_games/total_games:.0%})")
+        print(f"+1 command (level {flex_pop}):")
         print(f"  python3 cli.py units {comp_flag}--level {flex_pop} --filter \"{filter_str}\"")
 
 def cmd_games(args):
