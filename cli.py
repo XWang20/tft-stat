@@ -229,7 +229,7 @@ def cmd_core(args):
         print("Error: --comp or --filter required for comps query", file=sys.stderr)
         sys.exit(1)
 
-    slots = args.num_unit_slots or 9
+    slots = args.num_unit_slots or "6,7,8,9,10,11"
     params.append(f"num_unit_slots={slots}")
 
     data = query("exact_units_traits2", params)
@@ -242,9 +242,9 @@ def cmd_core(args):
     total_games = sum(sum(e.get("placement_count", [])) for e in entries)
 
     top_n = min(args.show, len(entries))
-    print(f"Board compositions: {len(entries)} ({total_games:,} total games, {slots} unit slots)")
-    print(f"\n{'#':<4} {'Games':>7} {'Share':>6} {'AVP':>5}  Units")
-    print("-" * 80)
+    print(f"Board compositions: {len(entries)} ({total_games:,} total games)")
+    print(f"\n{'#':<4} {'Games':>7} {'Share':>6} {'AVP':>5} {'Size':>4}  Units")
+    print("-" * 85)
     for i, e in enumerate(entries[:top_n], 1):
         ut = e.get("units_traits", "")
         units = ut.split("|")[0].split("&") if ut else []
@@ -253,7 +253,7 @@ def cmd_core(args):
         avg = sum((j+1)*c for j, c in enumerate(pc)) / games if games else 0
         names = " ".join(u.replace("TFT17_", "") for u in units)
         tag = " <- primary" if i == 1 else ""
-        print(f"{i:<4} {games:>7,} {games/total_games:>5.1%} {avg:>5.2f}  {names}{tag}")
+        print(f"{i:<4} {games:>7,} {games/total_games:>5.1%} {avg:>5.2f} {len(units):>4}  {names}{tag}")
 
     primary = entries[0]
     primary_units = primary.get("units_traits", "").split("|")[0].split("&")
@@ -404,8 +404,8 @@ def main():
     # core
     p_core = sub.add_parser("core", help="Show board compositions for a comp (primary board detection)")
     _add_filter_args(p_core)
-    p_core.add_argument("--num-unit-slots", type=int, default=None,
-                         help="Board size / number of units (default: auto)")
+    p_core.add_argument("--num-unit-slots", default=None,
+                         help="Board size(s), e.g. 8 or 6,7,8,9,10,11 (default: 6-11)")
     p_core.add_argument("--show", type=int, default=10, help="Compositions to show (default: 10)")
 
     # games
