@@ -29,7 +29,7 @@
 | dark_star | 9 | 2,507 | Morgana (2.38, +.019) | Sona (2.39, +.003) | Xayah (2.41, +.019) |
 | space_groove | 9 | 19,463 | Samira (1.84, +.055) | Teemo (1.89, +.010) | Nunu (1.98, -.001) |
 | meeple_corki | 9 | 2,736 | Veigar (1.52, +.220) | Jhin (2.11, +.006) | Galio (2.50, -.028) |
-| mecha | 7 (lv9) | 581 | — (insufficient data) | — | — |
+| mecha | 9 | 9,269 | Jhin (1.85, +.030) | Morgana (1.88, +.013) | Sona (2.01, -.005) |
 | vanguard_leblanc | 8 | 35,749 | Blitzcrank (3.54, +.038) | Galio (3.55, +.020) | Morgana (3.62, +.027) |
 | shepherd | 9 | 686 | Morgana (2.24, -.015) | — | — |
 | nova_yi | 9 | 6,672 | Urgot (1.71, +.022) | Graves (1.81, +.009) | Morgana (1.84, +.035) |
@@ -83,10 +83,9 @@ Morgana is the universal +1 (14/27 comps with data).
 | voyager | Morgana | 41.0% | +0.125 | Limited data |
 | anima_diana | Rhaast | 15.6% | +0.107 | Best AVP among candidates |
 
-### 3. No +1 or Insufficient Data (3/29)
+### 3. No +1 or Insufficient Data (2/29)
 
 - **two_tanky_samira**: primary already 10 units
-- **mecha**: 581 games at +1 level, no non-core units returned
 - **shepherd**: only 686 games at +1 level, sole candidate Morgana has negative Necessity
 
 ### 4. Shared Primary Boards
