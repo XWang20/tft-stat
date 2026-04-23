@@ -21,322 +21,37 @@
 
 ## Summary Table
 
-| Comp | Core Size | Level | +1 Games | +1 #1 (AVP, Nec) | +1 #2 (AVP, Nec) | +1 #3 (AVP, Nec) |
-|---|---|---|---|---|---|---|
-| nova_95 | 9u | 9 | 29,481 | Sona (1.91, +.027) | Rhaast (1.62, +.022) | Jhin (1.78, +.019) |
-| vex_95 | 9u | 9 | 14,620 | Morgana (1.84, +.010) | Galio (1.86, -.001) | Fiora (1.96, -.005) |
-| zed | 9u | 9 | 1,118 | Vex (1.52, +.060) | Sona (1.59, -.002) | — |
-| dark_star | 9u | 9 | 2,503 | Morgana (2.37, +.021) | Xayah (2.41, +.019) | Sona (2.40, +.003) |
-| space_groove | 9u | 9 | 19,468 | Samira (1.84, +.055) | Teemo (1.89, +.010) | Nunu (1.98, -.001) |
-| meeple_corki | 9u | 9 | 2,744 | Veigar (1.51, +.226) | Jhin (2.11, +.007) | Galio (2.49, -.026) |
-| mecha | 7u | 9 | 9,260 | Jhin (1.84, +.030) | Morgana (1.87, +.013) | Sona (2.01, -.006) |
-| vanguard_leblanc | 9u | 9 | 4,884 | Bard (2.35, +.055) | Blitzcrank (2.31, +.036) | Sona (2.35, +.005) |
-| shepherd | 10u | 10 | 0 | — | — | — |
-| nova_yi | 9u | 9 | 6,674 | Morgana (1.84, +.035) | Urgot (1.70, +.023) | Graves (1.82, +.009) |
-| xayah | 9u | 9 | 29,688 | Blitzcrank (1.54, +.005) | Shen (1.63, -.003) | Sona (1.68, -.004) |
-| voyager | 9u | 9 | 163 | — (数据不足) | — | — |
-| conduit_mf | 7u | 7 | 5,704 | ASol (3.17, +.044) | Mordekaiser (3.26, +.011) | Morgana (3.27, +.009) |
-| lulu | 7u | 7 | 7,583 | Rhaast (3.98, +.277) | Riven (3.59, +.030) | Nunu (4.09, .000) |
-| anima_diana | 8u | 8 | 4,391 | Rhaast (1.81, +.081) | Morgana (2.05, +.048) | Karma (2.07, +.045) |
-| viktor | 9u | 9 | 4,957 | Blitzcrank (1.81, +.014) | Morgana (1.89, +.010) | Shen (1.94, -.004) |
-| kaisa | 8u | 8 | 4,998 | Gwen (1.88, +.046) | Galio (1.83, +.011) | Talon (1.92, +.005) |
-| two_tanky_samira | 10u | 10 | 0 | — | — | — |
-| pyke | 8u | 8 | 2,152 | Morgana (2.40, +.020) | Bard (2.51, +.017) | Fizz (2.51, +.008) |
-| reach_for_the_stars | 8u | 8 | 22,291 | Morgana (2.23, +.024) | Rhaast (2.08, +.017) | Shen (2.27, +.008) |
-| the_big_bang | 8u | 9 | 4,627 | Summon (2.09, +.498) | Sona (2.06, +.340) | Morgana (2.17, .000) |
-| primordian | 8u | 9 | 57,053 | Shen (2.42, +.256) | Rammus (2.71, -.005) | Sona (2.84, -.007) |
-| bonk | 9u | 10 | 525 | Blitzcrank (1.86, +.054) | Leblanc (1.83, +.026) | Nunu (1.88, +.025) |
-| stellar_combo | 8u | 9 | 1,762 | Shen (2.25, +.249) | Morgana (2.38, +.007) | Rammus (2.53, -.006) |
-| termeepnal_velocity | 9u | 10 | 643 | Bard (1.79, +.369) | Fizz (1.94, -.041) | Gnar (2.20, -.076) |
-| ez_chogath | 8u | 9 | 5,757 | Jhin (2.49, +.480) | Shen (2.94, -.006) | Kaisa (2.87, -.008) |
-| tf | 8u | 9 | 21,927 | Morgana (2.24, +.027) | Rhaast (2.08, +.018) | Shen (2.28, +.011) |
-| veigar | 9u | 10 | 1,155 | Bard (1.86, +.489) | Morgana (1.87, +.019) | Galio (1.79, +.017) |
-| teemo | 9u | 10 | 1,686 | Blitzcrank (1.86, +.081) | Nunu (1.87, +.057) | Sona (1.87, +.013) |
-
-## Results
-
-### 5-Cost Comps
-
-#### nova_95
-**Primary**: Aatrox Akali Blitzcrank Fiora Graves Morgana Nunu Shen Vex (9u, 82.8k, AVP 3.96)
-**+1 at level 10** (29,481 games, AVP 1.94):
-
-| # | Unit | Games | Rate | AVP | Necessity |
+| Comp | Level | +1 Games | +1 #1 (AVP, Nec) | +1 #2 (AVP, Nec) | +1 #3 (AVP, Nec) |
 |---|---|---|---|---|---|
-| 1 | Sona | 14,013 | 47.5% | 1.91 | +0.027 |
-| 2 | Rhaast | 1,856 | 6.3% | 1.62 | +0.022 |
-| 3 | Jhin | 3,138 | 10.6% | 1.78 | +0.019 |
-
-#### vex_95
-**Primary**: Bard Blitzcrank IvernMinion Karma Mordekaiser Rammus Rhaast Shen Vex (9u, 23.1k, AVP 3.98)
-**+1 at level 10** (14,620 games, AVP 1.85):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Morgana | 7,130 | 48.8% | 1.84 | +0.010 |
-| 2 | Galio | 756 | 5.2% | 1.86 | -0.001 |
-| 3 | Fiora | 584 | 4.0% | 1.96 | -0.005 |
-
-#### zed
-**Primary**: Aatrox Akali Blitzcrank Fiora Graves Morgana Nunu Shen Zed (9u, 2.8k, AVP 3.04)
-**+1 at level 10** (1,118 games, AVP 1.58):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Vex | 560 | 50.1% | 1.52 | +0.060 |
-| 2 | Sona | 215 | 19.2% | 1.59 | -0.002 |
-
-### 4-Cost Comps
-
-#### dark_star
-**Primary**: Blitzcrank Chogath Galio Jhin Kaisa Karma Lissandra Mordekaiser TahmKench (9u, 6.2k, AVP 4.08)
-**+1 at level 10** (2,503 games, AVP 2.46):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Morgana | 478 | 19.1% | 2.37 | +0.021 |
-| 2 | Xayah | 699 | 27.9% | 2.41 | +0.019 |
-| 3 | Sona | 120 | 4.8% | 2.40 | +0.003 |
-
-#### space_groove
-**Primary**: Blitzcrank Gwen Nami Nasus Ornn Pantheon Riven Shen TahmKench (9u, 25.9k, AVP 3.79)
-**+1 at level 10** (19,468 games, AVP 1.96):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Samira | 6,114 | 31.4% | 1.84 | +0.055 |
-| 2 | Teemo | 2,339 | 12.0% | 1.89 | +0.010 |
-| 3 | Nunu | 806 | 4.1% | 1.98 | -0.001 |
-
-#### meeple_corki
-**Primary**: Bard Corki Fizz Gnar IvernMinion Milio Poppy Rammus Riven (9u, 9.5k, AVP 4.24)
-**+1 at level 10** (2,744 games, AVP 2.25):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Veigar | 641 | 23.4% | 1.51 | +0.226 |
-| 2 | Jhin | 127 | 4.6% | 2.11 | +0.007 |
-| 3 | Galio | 267 | 9.7% | 2.49 | -0.026 |
-
-#### mecha
-**Primary**: AurelionSol Bard Fiora Galio Karma TahmKench Urgot (7u / level 9 with Mecha +2, 17.0k, AVP 3.53)
-**+1 at level 10** (9,260 games, AVP 1.91):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Jhin | 2,798 | 30.2% | 1.84 | +0.030 |
-| 2 | Morgana | 2,329 | 25.2% | 1.87 | +0.013 |
-| 3 | Sona | 500 | 5.4% | 2.01 | -0.006 |
-
-#### vanguard_leblanc
-**Primary**: Illaoi IvernMinion Karma Leblanc Leona Mordekaiser Nunu Summon Zoe (9u, 35.4k, AVP 5.32)
-**+1 at level 10** (4,884 games, AVP 2.39):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Bard | 2,817 | 57.7% | 2.35 | +0.055 |
-| 2 | Blitzcrank | 1,503 | 30.8% | 2.31 | +0.036 |
-| 3 | Sona | 513 | 10.5% | 2.35 | +0.005 |
-
-#### shepherd
-**Primary**: Galio Illaoi IvernMinion Karma Leblanc Leona Lissandra Sona Summon Teemo (10u, 1.6k, AVP 3.68)
-**+1**: 无（level 11 无数据）
-
-#### nova_yi
-**Primary**: Aatrox Akali Belveth Fiora Kindred Maokai MasterYi Shen TahmKench (9u, 9.8k, AVP 3.23)
-**+1 at level 10** (6,674 games, AVP 1.99):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Morgana | 1,256 | 18.8% | 1.84 | +0.035 |
-| 2 | Urgot | 487 | 7.3% | 1.70 | +0.023 |
-| 3 | Graves | 321 | 4.8% | 1.82 | +0.009 |
-
-#### xayah
-**Primary**: Bard Gnar Jax Jhin Mordekaiser Nunu Rammus Rhaast Xayah (9u, 13.5k, AVP 2.79)
-**+1 at level 10** (29,688 games, AVP 1.61):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Blitzcrank | 1,882 | 6.3% | 1.54 | +0.005 |
-| 2 | Shen | 3,500 | 11.8% | 1.63 | -0.003 |
-| 3 | Sona | 1,714 | 5.8% | 1.68 | -0.004 |
-
-#### voyager
-**Primary**: Galio Illaoi IvernMinion Karma Lissandra Nami Nunu Rhaast Summon (9u, 1.3k, AVP 4.93)
-**+1**: 数据不足（level 10 仅 163 games，无非 core unit 出现）
-
-#### anima_diana
-**Primary**: Aurora Diana Illaoi IvernMinion Jinx Leblanc Leona Summon (8u, 9.5k, AVP 6.24)
-**+1 at level 9** (4,391 games, AVP 2.20):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Rhaast | 757 | 17.2% | 1.81 | +0.081 |
-| 2 | Morgana | 1,059 | 24.1% | 2.05 | +0.048 |
-| 3 | Karma | 1,125 | 25.6% | 2.07 | +0.045 |
-
-### 3-Cost Comps
-
-#### conduit_mf
-**Primary**: Aatrox Gragas Maokai MissFortune Ornn Rhaast Viktor (7u, 10.9k, AVP 5.23)
-**+1 at level 8** (5,704 games, AVP 3.40):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | AurelionSol | 913 | 16.0% | 3.17 | +0.044 |
-| 2 | Mordekaiser | 399 | 7.0% | 3.26 | +0.011 |
-| 3 | Morgana | 377 | 6.6% | 3.27 | +0.009 |
-
-#### viktor
-**Primary**: Illaoi IvernMinion Lissandra Mordekaiser Nami Pyke Rhaast Summon Viktor (9u, 115.4k, AVP 3.59)
-**+1 at level 10** (4,957 games, AVP 1.91):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Blitzcrank | 609 | 12.3% | 1.81 | +0.014 |
-| 2 | Morgana | 1,694 | 34.2% | 1.89 | +0.010 |
-| 3 | Shen | 600 | 12.1% | 1.94 | -0.004 |
-
-#### kaisa
-**Primary**: Fizz IvernMinion Kaisa Karma Ornn Rammus Rhaast Riven (8u, 25.6k, AVP 3.09)
-**+1 at level 9** (4,998 games, AVP 2.00):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Gwen | 1,379 | 27.6% | 1.88 | +0.046 |
-| 2 | Galio | 305 | 6.1% | 1.83 | +0.011 |
-| 3 | Talon | 290 | 5.8% | 1.92 | +0.005 |
-
-#### lulu
-**Primary**: Aatrox Jax Lulu Maokai Milio Pantheon TwistedFate (7u, 2.1k, AVP 6.65)
-**+1 at level 8** (7,583 games, AVP 4.09):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Rhaast | 5,426 | 71.6% | 3.98 | +0.277 |
-| 2 | Riven | 434 | 5.7% | 3.59 | +0.030 |
-| 3 | Nunu | 346 | 4.6% | 4.09 | +0.000 |
-
-### 2-Cost Comps
-
-#### pyke
-**Primary**: Corki Gragas Gwen IvernMinion Milio Pantheon Pyke Riven (8u, 5.6k, AVP 3.74)
-**+1 at level 9** (2,152 games, AVP 2.56):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Morgana | 243 | 11.3% | 2.40 | +0.020 |
-| 2 | Bard | 543 | 25.2% | 2.51 | +0.017 |
-| 3 | Fizz | 301 | 14.0% | 2.51 | +0.008 |
-
-#### reach_for_the_stars
-**Primary**: Aatrox Caitlyn Corki Jax Milio Riven Talon TwistedFate (8u, 15.1k, AVP 3.12)
-**+1 at level 9** (22,291 games, AVP 2.30):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Morgana | 5,713 | 25.6% | 2.23 | +0.024 |
-| 2 | Rhaast | 1,591 | 7.1% | 2.08 | +0.017 |
-| 3 | Shen | 4,673 | 21.0% | 2.27 | +0.008 |
-
-#### the_big_bang
-**Primary**: Aurora Galio IvernMinion Karma Lissandra Poppy Pyke Rammus (8u, 5.7k, AVP 3.61)
-**+1 at level 9** (4,627 games, AVP 2.17):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Summon | 3,987 | 86.2% | 2.09 | +0.498 |
-| 2 | Sona | 3,495 | 75.5% | 2.06 | +0.340 |
-| 3 | Morgana | 120 | 2.6% | 2.17 | +0.000 |
-
-#### primordian
-**Primary**: Aatrox Akali Belveth Briar Caitlyn Kindred Maokai RekSai (8u, 90.5k, AVP 4.27)
-**+1 at level 9** (57,053 games, AVP 2.62):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Shen | 32,030 | 56.1% | 2.42 | +0.256 |
-| 2 | Rammus | 2,878 | 5.0% | 2.71 | -0.005 |
-| 3 | Sona | 1,787 | 3.1% | 2.84 | -0.007 |
-
-#### two_tanky_samira
-**Primary**: Blitzcrank Gwen Nami Nasus Ornn Pantheon Riven Samira Shen TahmKench (10u, 6.2k, AVP 2.03)
-**+1**: 无（level 11 无数据）
-
-#### ez_chogath
-**Primary**: Chogath Ezreal Maokai Milio Pantheon Riven TahmKench Xayah (8u, 5.1k, AVP 5.06)
-**+1 at level 9** (5,757 games, AVP 2.74):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Jhin | 3,786 | 65.8% | 2.49 | +0.480 |
-| 2 | Shen | 154 | 2.7% | 2.94 | -0.006 |
-| 3 | Kaisa | 335 | 5.8% | 2.87 | -0.008 |
-
-### 1-Cost Comps
-
-#### bonk
-**Primary**: Illaoi Leona Lissandra Mordekaiser Nami Nasus Summon Teemo Zoe (9u, 8.4k, AVP 3.84)
-**+1 at level 10** (525 games, AVP 1.91):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Blitzcrank | 272 | 51.8% | 1.86 | +0.054 |
-| 2 | Leblanc | 129 | 24.6% | 1.83 | +0.026 |
-| 3 | Nunu | 239 | 45.5% | 1.88 | +0.025 |
-
-#### stellar_combo
-**Primary**: Aatrox Akali Belveth Briar Caitlyn Kindred Maokai RekSai (8u, 2.8k, AVP 4.14)
-**+1 at level 9** (1,762 games, AVP 2.45):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Shen | 977 | 55.4% | 2.25 | +0.249 |
-| 2 | Morgana | 161 | 9.1% | 2.38 | +0.007 |
-| 3 | Rammus | 115 | 6.5% | 2.53 | -0.006 |
-
-#### termeepnal_velocity
-**Primary**: Corki Illaoi IvernMinion Lissandra Mordekaiser Poppy Rammus Summon Veigar (9u, 13.2k, AVP 4.24)
-**+1 at level 10** (643 games, AVP 1.88):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Bard | 517 | 80.4% | 1.79 | +0.369 |
-| 2 | Fizz | 262 | 40.7% | 1.94 | -0.041 |
-| 3 | Gnar | 123 | 19.1% | 2.20 | -0.076 |
-
-#### tf
-**Primary**: Aatrox Caitlyn Corki Jax Milio Riven Talon TwistedFate (8u, 15.1k, AVP 3.19)
-**+1 at level 9** (21,927 games, AVP 2.32):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Morgana | 5,590 | 25.5% | 2.24 | +0.027 |
-| 2 | Rhaast | 1,559 | 7.1% | 2.08 | +0.018 |
-| 3 | Shen | 4,602 | 21.0% | 2.28 | +0.011 |
-
-#### veigar
-**Primary**: Corki Illaoi IvernMinion Lissandra Mordekaiser Poppy Rammus Summon Veigar (9u, 19.4k, AVP 4.35)
-**+1 at level 10** (1,155 games, AVP 1.97):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Bard | 943 | 81.6% | 1.86 | +0.489 |
-| 2 | Morgana | 187 | 16.2% | 1.87 | +0.019 |
-| 3 | Galio | 101 | 8.7% | 1.79 | +0.017 |
-
-#### teemo
-**Primary**: Illaoi Leona Lissandra Mordekaiser Nami Nasus Summon Teemo Zoe (9u, 24.3k, AVP 4.01)
-**+1 at level 10** (1,686 games, AVP 1.92):
-
-| # | Unit | Games | Rate | AVP | Necessity |
-|---|---|---|---|---|---|
-| 1 | Blitzcrank | 968 | 57.4% | 1.86 | +0.081 |
-| 2 | Nunu | 895 | 53.1% | 1.87 | +0.057 |
-| 3 | Sona | 357 | 21.2% | 1.87 | +0.013 |
-
----
+| nova_95 | 9 | 29,481 | Sona (1.91, +.027) | Rhaast (1.62, +.022) | Jhin (1.78, +.019) |
+| vex_95 | 9 | 14,620 | Morgana (1.84, +.010) | Galio (1.86, -.001) | Fiora (1.96, -.005) |
+| zed | 9 | 1,118 | Vex (1.52, +.060) | Sona (1.59, -.002) | — |
+| dark_star | 9 | 2,503 | Morgana (2.37, +.021) | Xayah (2.41, +.019) | Sona (2.40, +.003) |
+| space_groove | 9 | 19,468 | Samira (1.84, +.055) | Teemo (1.89, +.010) | Nunu (1.98, -.001) |
+| meeple_corki | 9 | 2,744 | Veigar (1.51, +.226) | Jhin (2.11, +.007) | Galio (2.49, -.026) |
+| mecha | 9 | 9,260 | Jhin (1.84, +.030) | Morgana (1.87, +.013) | Sona (2.01, -.006) |
+| vanguard_leblanc | 8 | 4,884 | Bard (2.35, +.055) | Blitzcrank (2.31, +.036) | Sona (2.35, +.005) |
+| shepherd | 9 | 0 | — | — | — |
+| nova_yi | 9 | 6,674 | Morgana (1.84, +.035) | Urgot (1.70, +.023) | Graves (1.82, +.009) |
+| xayah | 9 | 29,688 | Blitzcrank (1.54, +.005) | Shen (1.63, -.003) | Sona (1.68, -.004) |
+| voyager | 8 | 163 | — (数据不足) | — | — |
+| conduit_mf | 7 | 5,704 | ASol (3.17, +.044) | Mordekaiser (3.26, +.011) | Morgana (3.27, +.009) |
+| lulu | 7 | 7,583 | Rhaast (3.98, +.277) | Riven (3.59, +.030) | Nunu (4.09, .000) |
+| anima_diana | 8 | 4,391 | Rhaast (1.81, +.081) | Morgana (2.05, +.048) | Karma (2.07, +.045) |
+| viktor | 8 | 4,957 | Blitzcrank (1.81, +.014) | Morgana (1.89, +.010) | Shen (1.94, -.004) |
+| kaisa | 8 | 4,998 | Gwen (1.88, +.046) | Galio (1.83, +.011) | Talon (1.92, +.005) |
+| two_tanky_samira | 10 | 0 | — | — | — |
+| pyke | 8 | 2,152 | Morgana (2.40, +.020) | Bard (2.51, +.017) | Fizz (2.51, +.008) |
+| reach_for_the_stars | 8 | 22,291 | Morgana (2.23, +.024) | Rhaast (2.08, +.017) | Shen (2.27, +.008) |
+| the_big_bang | 8 | 4,627 | Summon (2.09, +.498) | Sona (2.06, +.340) | Morgana (2.17, .000) |
+| primordian | 8 | 57,053 | Shen (2.42, +.256) | Rammus (2.71, -.005) | Sona (2.84, -.007) |
+| bonk | 8 | 525 | Blitzcrank (1.86, +.054) | Leblanc (1.83, +.026) | Nunu (1.88, +.025) |
+| stellar_combo | 8 | 1,762 | Shen (2.25, +.249) | Morgana (2.38, +.007) | Rammus (2.53, -.006) |
+| termeepnal_velocity | 8 | 643 | Bard (1.79, +.369) | Fizz (1.94, -.041) | Gnar (2.20, -.076) |
+| ez_chogath | 8 | 5,757 | Jhin (2.49, +.480) | Shen (2.94, -.006) | Kaisa (2.87, -.008) |
+| tf | 8 | 21,927 | Morgana (2.24, +.027) | Rhaast (2.08, +.018) | Shen (2.28, +.011) |
+| veigar | 8 | 1,155 | Bard (1.86, +.489) | Morgana (1.87, +.019) | Galio (1.79, +.017) |
+| teemo | 8 | 1,686 | Blitzcrank (1.86, +.081) | Nunu (1.87, +.057) | Sona (1.87, +.013) |
 
 ## What I Learned
 
