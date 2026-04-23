@@ -12,6 +12,8 @@
 ## Filter (Dimension 1 — Foundation)
 - [ ] Specify comp context (traits + key units), not just the unit
 - [ ] Use `compositions.py` definitions when available (expert-curated baseline)
+- [ ] Use `--normal-only` — 不排除光装/特殊装备会污染排名
+- [ ] Use `--level` when analyzing level-up candidates — level bias 是需要预防的变量，不是需要发现的结论
 - [ ] Don't overfilter — keep ≥1000 games
 - [ ] Sanity check: would a real player recognize these games as "this comp"?
 
@@ -24,6 +26,8 @@
 ## Data Granularity (Dimension 2)
 - [ ] Single-item analysis → always supplement with build analysis
 - [ ] If comparing items: use builds or control variable, not single-item AVP
+- [ ] Control variable（固定两件看第三件）→ 用 Necessity 不用 raw AVP（退化成单件 AVP）
+- [ ] Consistency check（跨 base pair 排名）→ AVP 比较是有效的
 
 ## Analysis
 - [ ] **Data first, conclusions after** — don't bring conclusions to data
@@ -58,3 +62,5 @@ Append new ones here. These are hard-won — don't repeat them.
 7. **Feedback 必须立即记录** — Xing 给的 feedback 要当场写进实验报告的 Review section 和 lab-checklist，不能只存 memory 不落文档 (2026-04-22)
 8. **Revise 后必须通读全文** — 修改数据后要检查全文一致性，包括引用数字、结论、章节间逻辑。不能只改数据表就提交 (2026-04-22)
 9. **物品分析必须用 `--normal-only`** — 不排除光装/特殊装备会污染 Necessity 排名，光装和普通装混排无意义 (2026-04-23)
+10. **固定两件看第三件 = 单件 AVP** — 控制变量分析固定 base pair 后，第三件的 raw AVP 和单件 AVP 有同样的 survivorship bias，必须用 Necessity。但 consistency check（跨 base pair 排名）用 AVP 是有效的 (2026-04-23)
+11. **Level bias 是预防不是发现** — 分析 +1 挂谁时必须用 `--level` 控制人口。Sona 在 nova_95 的 Necessity 从未控制的 +0.127 降到 level-controlled 的 +0.015（下降 88%）(2026-04-23)

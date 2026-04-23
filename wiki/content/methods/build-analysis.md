@@ -35,13 +35,22 @@ python3 cli.py items TFT17_Vex --comp nova_95
 ### Control Variable (Fix 2, Vary 1)
 The most powerful single-item evaluation method:
 1. Group all builds by pairs (e.g., Guinsoo + Giant Slayer)
-2. For each pair, rank the 3rd item by AVP
+2. For each pair, rank the 3rd item by **Necessity within the pair** (not raw AVP)
 3. Compare rankings across different pairs
 
+**Why Necessity, not AVP**: Fixing two items and varying the third degenerates to single-item analysis within the subpopulation. Low-frequency third items have the same survivorship bias as single-item AVP. Compute Build Necessity within the fixed-pair subset:
+
+```
+p = games_with_X / total_pair_games
+Build Necessity = p/(1-p) × (pair_baseline_AVP - X_AVP)
+```
+
+Example: in nova_95 GS+Guinsoo subset, Red Buff had the best raw AVP (3.58) but ranked #2 by Necessity (+0.017) behind Striker's Flail (+0.027), because Red Buff's 4.2% play rate limited its weighted impact.
+
 ### Consistency Check
-The validation step:
+The validation step — here, comparing AVP across base pairs is valid because you're using many builds to triangulate a single item's value, not ranking within a fixed pair:
 - Does the same item rank similarly across different base pairs?
-- If Red Buff is #1 with Guinsoo+GSlayer AND Guinsoo+Gunblade AND Guinsoo+JG... it's likely genuinely good
+- If Dcap is #1 with Guinsoo+GSlayer AND Guinsoo+Gunblade AND Guinsoo+Flail... it's genuinely good
 - If it's #1 in one pair but #5 in another, it's context-dependent
 
 ## Our Experiment Results (Vex in Nova 95)
@@ -78,8 +87,9 @@ Single-item Necessity and build analysis answer different questions:
 |---|---|---|
 | **Single-item Necessity** | "What's most important to this comp?" | Prioritizing which items to slam early |
 | **Build Necessity** | "Which items contribute most across all builds?" | Evaluating items when core is already decided |
-| **Control variable** | "What's the best marginal item given my current two?" | Choosing the third item in a specific build |
+| **Control variable** | "What's the best marginal item given my current two?" | Choosing the third item — **use Necessity within the pair, not raw AVP** |
 | **Top build AVP** | "What do the best-performing boards look like?" | BIS reference (but beware survivorship bias on low-frequency builds) |
+| **Consistency check** | "Is this item's strength robust across contexts?" | Triangulating item value across base pairs — AVP comparison is valid here |
 
 In practice: use single-item Necessity to identify core items (slam Guinsoo first), then control variable analysis to pick the best third item given what you already have.
 
