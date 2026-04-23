@@ -33,7 +33,7 @@ All data excludes emblem/spatula games (`--no-emblem`).
 | meeple_corki | 9 | 1,814 | Jhin (2.16, +.020) | Galio (2.54, -.007) | Morgana (2.64, -.038) |
 | mecha | 9 | 8,605 | Jhin (1.84, +.031) | Morgana (1.88, +.010) | Shen (2.01, -.008) |
 | vanguard_leblanc | 8 | 30,605 | Galio (3.55, +.020) | Morgana (3.63, +.028) | Blitzcrank (3.68, +.009) |
-| shepherd | 9 | 699* | Morgana (2.25, -.020) | — | — |
+| shepherd | 9 | 699† | Morgana (2.25, -.020) | — | — |
 | nova_yi | 9 | 2,685 | Morgana (1.96, +.028) | Sona (2.10, +.011) | Caitlyn (2.19, -.053) |
 | xayah | 9 | 23,699 | Blitzcrank (1.58, +.003) | Shen (1.64, -.003) | Samira (1.67, -.006) |
 | voyager | 8 | 988 | Morgana (3.20, +.134) | — | — |
@@ -56,6 +56,8 @@ All data excludes emblem/spatula games (`--no-emblem`).
 | teemo | 8 | 9,374 | Morgana (2.69, +.026) | Blitzcrank (2.74, +.012) | Leblanc (2.76, +.012) |
 
 \* shepherd is emblem-dependent: 0 games without emblem at level 10. Data shown includes emblem games.
+
+† shepherd primary board only represents 9% of games (variant-heavy comp with 9,809 games at level 10 total). The fixed-core method captures only 699 of those. Multiple distinct variants exist (Galio/Karma/Teemo version vs Mordekaiser/Nunu version).
 
 ## What I Learned
 
