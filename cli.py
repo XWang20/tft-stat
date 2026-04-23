@@ -91,6 +91,7 @@ def cmd_items(args):
     item_names = load_item_names()
 
     results = []
+    exclude_ids = _item_exclude_set(args)
     for item in data.get("data", []):
         iid = item.get("unit_items_unique", "")
         if not iid:
@@ -101,6 +102,8 @@ def cmd_items(args):
 
         item_part = iid.split("&")[1] if "&" in iid else iid
         base_item = item_part.rsplit("-", 1)[0] if "-" in item_part else item_part
+        if base_item in exclude_ids:
+            continue
         name = item_names.get(base_item, base_item)
         tier = item_part.rsplit("-", 1)[1] if "-" in item_part else "?"
         results.append((name, base_item, tier, stats))
@@ -275,6 +278,19 @@ def _get_holder_baseline(params: list[str], holder: str) -> tuple[float, int]:
     return 4.5, 0
 
 
+def _item_exclude_set(args) -> set[str]:
+    """Build set of item IDs to exclude based on --exclude-tank-items etc."""
+    from tft_stat.item_classes import TANK_ITEM_IDS, BRUISER_ITEM_IDS, DMG_ITEM_IDS
+    ids: set[str] = set()
+    if getattr(args, "exclude_tank_items", False):
+        ids |= TANK_ITEM_IDS
+    if getattr(args, "exclude_dmg_items", False):
+        ids |= DMG_ITEM_IDS
+    if getattr(args, "exclude_bruiser_items", False):
+        ids |= BRUISER_ITEM_IDS
+    return ids
+
+
 def _params_from_args(args) -> list[str]:
     if hasattr(args, "filter") and args.filter:
         from tft_stat.filter_expr import Unit, Trait, Item, And, Or, Not
@@ -321,6 +337,12 @@ def main():
     p_items.add_argument("--min-count", type=int, default=100)
     p_items.add_argument("--normal-only", action="store_true",
                          help="Exclude artifact/radiant/trait/emblem items")
+    p_items.add_argument("--exclude-tank-items", action="store_true",
+                         help="Exclude tank items (Warmog, Gargoyle, Bramble, etc.)")
+    p_items.add_argument("--exclude-dmg-items", action="store_true",
+                         help="Exclude damage items (Guinsoo, IE, Dcap, etc.)")
+    p_items.add_argument("--exclude-bruiser-items", action="store_true",
+                         help="Exclude bruiser items (BT, GA, Gunblade, etc.)")
 
     # tftable
     p_tt = sub.add_parser("tftable", help="Query tftable ground-truth data")
