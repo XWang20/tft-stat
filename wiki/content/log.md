@@ -1,3 +1,9 @@
+## [2026-04-23] revision | Vex Third Item Build -- redone with --normal-only + Build Necessity
+- Revised [[experiments/2026-04-23-vex-third-item-build]] with --normal-only on all queries
+- All single-item + build data recollected excluding artifact/radiant/trait/emblem items
+- Chapter 4 now uses Build Necessity instead of raw AVP; GS+Guinsoo core validated (+0.055/+0.057)
+- Consistency check with correct item ID mappings (was swapped Void Staff/Red Buff)
+
 ## [2026-04-23] experiment | Vex Third Item Build Analysis
 - [[experiments/2026-04-23-vex-third-item-build]] — GS+Guinsoo 后第三件的社区争论用数据回答
 - nova_95: Red Buff(3.51) > Dcap(3.74) > Flail(3.76) >> Gunblade(3.92, 32% play rate 但排#8)
