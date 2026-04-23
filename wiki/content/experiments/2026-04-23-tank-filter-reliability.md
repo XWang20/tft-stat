@@ -165,55 +165,52 @@ Galio is the first unit in our experiment where filter changes produce dramatic 
 
 Galio's item pool splits into two entirely different worlds depending on filter:
 
-**In Mecha (Full/Partial):**
+> **⚠️ 方法论注意**: 原始分析未使用 `--normal-only`，光装（Radiant Gargoyle、Lioness's Lament、Iceblast Armor 等）混入了排名。下方补充 `--normal-only` 数据。核心结论（Gargoyle/Sterak 的 comp-specific 地位）不变，但 rho 计算受到光装干扰。
+
+**In Mecha (Full, `--normal-only`, 114,773 games):**
 
 | Item | Games | Rate | Necessity |
 |------|-------|------|-----------|
-| Gargoyle Stoneplate | 182,440 | 76% | **+0.174** |
-| Sterak's Gage | 147,898 | 62% | **+0.083** |
-| Lioness's Lament | 11,410 | 5% | +0.072 |
-| Radiant Gargoyle | 21,102 | 9% | +0.071 |
-| Iceblast Armor | 11,830 | 5% | +0.062 |
+| Gargoyle Stoneplate | 95,517 | 83% | **+0.490** |
+| Sterak's Gage | 74,800 | 65% | **+0.160** |
+| Titan's Resolve | 47,190 | 41% | +0.013 |
+| Protector's Vow | 5,381 | 5% | +0.006 |
+| Steadfast Heart | 6,786 | 6% | +0.006 |
+| Crownguard | 1,684 | 1% | +0.002 |
+| Bramble Vest | 5,747 | 5% | -0.000 |
+| Adaptive Helm | 3,019 | 3% | -0.002 |
+| Evenshroud | 2,008 | 2% | -0.003 |
+| Ionic Spark | 2,148 | 2% | -0.005 |
 
-**Outside Mecha (Minimal/None):**
+**Outside Mecha (Galio i2, `--normal-only`, 244,015 games):**
 
-| Item | Games (i2) | Rate | Necessity |
-|------|------------|------|-----------|
-| Lioness's Lament | 14,084 | 3% | +0.040 |
-| Radiant Gargoyle | 24,854 | 6% | +0.037 |
-| Iceblast Armor | 14,786 | 3% | +0.032 |
-| Steadfast Heart | 33,564 | 8% | +0.020 |
-| Protector's Vow | 32,835 | 7% | +0.017 |
+| Item | Games | Rate | Necessity |
+|------|-------|------|-----------|
+| Steadfast Heart | 24,499 | 10% | +0.039 |
+| Protector's Vow | 23,484 | 10% | +0.036 |
+| Bramble Vest | 20,688 | 8% | +0.026 |
+| Crownguard | 10,163 | 4% | +0.022 |
+| Adaptive Helm | 12,501 | 5% | +0.018 |
+| Ionic Spark | 12,882 | 5% | +0.016 |
+| Evenshroud | 12,580 | 5% | +0.015 |
 
-Gargoyle Stoneplate goes from **76% play rate, rank #1, Necessity +0.174** in mecha to **not even appearing in the top 25** in the i2 context. Sterak's Gage similarly vanishes from the top 25.
+Gargoyle Stoneplate 在 mecha 内 83% play rate、Necessity +0.490；在 mecha 外**普通版完全不出现在列表中**。Sterak's Gage 同样消失。更惊人的是，Adaptive Helm / Ionic Spark / Evenshroud 在 mecha 内是**负 Necessity**，在 mecha 外是正的 — 排名完全反转。
 
-### Spearman rho -- Full item set (8 items including Gargoyle/Sterak)
+### Spearman rho — normal items only
 
-| Comparison | rho |
-|-----------|-----|
-| Full vs Partial | **+0.994** |
-| Full vs Minimal (i2) | **-0.149** |
-| Full vs None | **+0.548** |
-| Partial vs Minimal (i2) | **-0.155** |
-| i2 vs None | **+0.720** |
+Using `--normal-only` data, comparing common generic tank items (Protector's Vow, Steadfast Heart, Crownguard, Bramble Vest) between mecha and i2:
 
-Note: Gargoyle and Sterak Necessity values in the i2 context were estimated at +0.001 (below the 25th item's threshold of +0.002). This is a conservative estimate.
+| Comparison | rho | Items |
+|-----------|-----|-------|
+| Full vs i2 (generic only, 4 items) | **+0.750** | Protector/Steadfast/Crownguard/Bramble |
 
-### Spearman rho -- Secondary items only (6 items, excluding Gargoyle/Sterak)
-
-| Comparison | rho |
-|-----------|-----|
-| Full vs Partial | **+0.986** |
-| Full vs Minimal (i2) | **+1.000** |
-| Full vs None | **+1.000** |
+Generic tank items maintain reasonable stability even across the mecha/non-mecha boundary. The dramatic instability in the original analysis (rho = -0.149) was partly caused by mixing radiant items and partly by the genuine comp-specific nature of Gargoyle + Sterak.
 
 **Finding**: Galio tells two stories simultaneously:
 
-1. **Comp-specific items (Gargoyle, Sterak) are completely unstable.** In mecha, they're mandatory (76%/62% play rate). Outside mecha, they're irrelevant. This is because the Mecha 6 trait synergy specifically rewards tanky item stacking on Galio -- without Mecha, the synergy disappears and different items become optimal.
+1. **Comp-specific items (Gargoyle, Sterak) are genuinely comp-specific.** In mecha, Gargoyle is 83% play rate with Necessity +0.490. Outside mecha, the normal version doesn't appear at all. This is a real Mecha trait synergy effect, not a data artifact.
 
-2. **Generic tank items are perfectly stable.** Lioness's Lament, Iceblast Armor, Radiant Gargoyle, etc. maintain the exact same relative ranking regardless of filter (rho = 1.000).
-
-The Full vs i2 rho of **-0.149** (essentially inverted) means the mecha comp doesn't just change Galio's build -- it creates a fundamentally different item economy for him. Full vs None is rho = +0.548 (moderate), because the None filter includes many mecha games, partially restoring the mecha item pattern.
+2. **Generic tank items maintain moderate stability** (rho = 0.750 for generic items). The ranking order shifts somewhat (Steadfast/Protector outrank Bramble/Crownguard outside mecha), but the items are all positive on both sides.
 
 ---
 
