@@ -5,148 +5,736 @@
 
 ## The Question
 
-对 compositions.py 中全部 29 个 comp，用 `core` 子命令（`exact_units_traits2` API）找出每个 comp 的 primary board、+1 灵活位前 3 名、以及 variant。
+对 compositions.py 中全部 29 个 comp，用 flex-slot-detection 方法（`core` → 控制变量 +1 分析）找出每个 comp 的 primary board、core level、以及 +1 灵活位 top 3（按 AVP + Necessity 排名）。
 
 ## Method
 
-```bash
-python3 cli.py core --comp <KEY>
-```
+每个 comp 两步：
 
-对每个 comp 查询 6-11 人口的 board compositions，按 freq 排序。从输出中提取：
-1. Primary board（freq #1）
-2. +1 candidates（比 primary 多 1 unit 的 board，按 freq 取前 3）
-3. Variant（和 primary 有 ≥3 unit 差异的高频 board）
+**Step 1**: `python3 cli.py core --comp <KEY>` → 找 primary board（freq #1），提取 core units 和 level
+
+**Step 2**: `python3 cli.py units --comp <KEY> --level <LEVEL+1> --filter "Unit(...) & Unit(...) & ..."` → 固定 core units + 控制 level，对非 core unit 计算 Necessity = p/(1-p) × (overall_AVP - unit_AVP)
+
+取 freq 前 5 → 按 AVP 和 Necessity 排 top 3。
+
+---
 
 ## Results
 
-### 全 Comp Flex Slot 总表
+### 5-Cost Comps
 
-#### 5-Cost Comps
+#### nova_95
+**Primary**: Aatrox Akali Blitzcrank Fiora Graves Morgana Nunu Shen Vex (9u, 82.8k, AVP 3.96)
+**+1 at level 10** (29,481 games, AVP 1.94):
 
-| Comp | Primary (Size) | Games | AVP | +1 #1 | +1 #2 | +1 #3 |
-|---|---|---|---|---|---|---|
-| nova_95 | 9 units | 82,563 | 3.95 | Sona (14.6k, 2.08) | Jhin (3.1k, 1.94) | TahmKench (2.6k, 2.53) |
-| vex_95 | 9 units | 23,148 | 3.98 | Morgana (7.3k, 1.96) | Sona (1.7k, 2.13) | — |
-| zed | 9 units | 2,770 | 3.04 | Vex (628, 1.70) | Sona (220, 1.76) | Jhin (41, 1.71) |
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Sona | 14,013 | 47.5% | 1.91 | +0.027 |
+| 2 | Rhaast | 1,856 | 6.3% | 1.62 | +0.022 |
+| 3 | Jhin | 3,138 | 10.6% | 1.78 | +0.019 |
 
-#### 4-Cost Comps
+#### vex_95
+**Primary**: Bard Blitzcrank IvernMinion Karma Mordekaiser Rammus Rhaast Shen Vex (9u, 23.1k, AVP 3.98)
+**+1 at level 10** (14,620 games, AVP 1.85):
 
-| Comp | Primary (Size) | Games | AVP | +1 #1 | +1 #2 | +1 #3 |
-|---|---|---|---|---|---|---|
-| dark_star | 9 units | 6,194 | 4.08 | Xayah (708, 2.48) | Morgana (462, 2.51) | Bard (268, 2.49) |
-| space_groove | 9 units | 25,903 | 3.79 | Samira (5.9k, 1.99) | Morgana (4.0k, 2.22) | Teemo (2.4k, 2.06) |
-| meeple_corki | 9 units | 9,539 | 4.25 | Shen (478, 2.73) | Morgana (442, 2.74) | Galio (336, 2.66) |
-| mecha | 7 units (lv9) | 17,021 | 3.53 | Jhin (2.9k, 1.95) | Morgana (2.3k, 2.01) | — |
-| vanguard_leblanc | 9 units | 35,344 | 5.32 | Bard (12.8k, 3.89) | Morgana (5.1k, 3.75) | Galio (2.7k, 3.73) |
-| shepherd | 10 units | 1,594 | 3.68 | Morgana (226, 2.46) | Pyke (90, 2.33) | — |
-| nova_yi | 9 units | 9,784 | 3.23 | Caitlyn (2.2k, 2.36) | Sona (1.2k, 2.13) | Morgana (835, 1.97) |
-| xayah | 9 units | 13,471 | 2.79 | — | — | — |
-| voyager | 9 units | 1,273 | 4.92 | Morgana (423, 3.24) | — | — |
-| anima_diana | 8 units | 9,490 | 6.25 | Galio (4.3k, 3.86) | Rhaast (1.8k, 3.32) | Morgana (1.0k, 3.89) |
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Morgana | 7,130 | 48.8% | 1.84 | +0.010 |
+| 2 | Galio | 756 | 5.2% | 1.86 | -0.001 |
+| 3 | Fiora | 584 | 4.0% | 1.96 | -0.005 |
 
-#### 3-Cost Comps
+#### zed
+**Primary**: Aatrox Akali Blitzcrank Fiora Graves Morgana Nunu Shen Zed (9u, 2.8k, AVP 3.04)
+**+1 at level 10** (1,118 games, AVP 1.58):
 
-| Comp | Primary (Size) | Games | AVP | +1 #1 | +1 #2 | +1 #3 |
-|---|---|---|---|---|---|---|
-| conduit_mf | 7 units | 10,854 | 5.23 | Bard (1.2k, 3.55) | ASol (890, 3.24) | Zoe (599, 3.59) |
-| viktor | 9 units | 115,221 | 3.59 | Bard (11.6k, 2.54) | Morgana (8.3k, 2.39) | Sona (2.7k, 2.44) |
-| kaisa | 8 units | 25,598 | 3.08 | — | — | — |
-| lulu | 7 units | 2,072 | 6.66 | Rhaast (2.1k, 4.13) | — | — |
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Vex | 560 | 50.1% | 1.52 | +0.060 |
+| 2 | Sona | 215 | 19.2% | 1.59 | -0.002 |
 
-#### 2-Cost Comps
+### 4-Cost Comps
 
-| Comp | Primary (Size) | Games | AVP | +1 #1 | +1 #2 | +1 #3 |
-|---|---|---|---|---|---|---|
-| pyke | 8 units | 5,614 | 3.74 | — (variant-heavy) | — | — |
-| reach_for_the_stars | 8 units | 15,066 | 3.12 | — | — | — |
-| the_big_bang | 8 units | 5,714 | 3.61 | Sona (3.5k, 2.06) | Illaoi (266, 2.22) | Leblanc (177, 2.43) |
-| primordian | 8 units | 90,285 | 4.27 | Shen (31.9k, 2.42) | Morgana (5.5k, 2.70) | Rammus (2.9k, 2.71) |
-| two_tanky_samira | 10 units | 6,192 | 2.03 | — (already 10) | — | — |
-| ez_chogath | 8 units | 5,088 | 5.06 | Jhin (3.8k, 2.49) | Lissandra (652, 3.08) | Kaisa (333, 2.88) |
+#### dark_star
+**Primary**: Blitzcrank Chogath Galio Jhin Kaisa Karma Lissandra Mordekaiser TahmKench (9u, 6.2k, AVP 4.08)
+**+1 at level 10** (2,503 games, AVP 2.46):
 
-#### 1-Cost Comps
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Morgana | 478 | 19.1% | 2.37 | +0.021 |
+| 2 | Xayah | 699 | 27.9% | 2.41 | +0.019 |
+| 3 | Sona | 120 | 4.8% | 2.40 | +0.003 |
 
-| Comp | Primary (Size) | Games | AVP | +1 #1 | +1 #2 | +1 #3 |
-|---|---|---|---|---|---|---|
-| bonk | 9 units | 8,324 | 3.84 | Blitzcrank (270, 1.87) | Nunu (237, 1.89) | Leblanc (126, 1.84) |
-| stellar_combo | 8 units | 2,771 | 4.14 | Shen (972, 2.25) | Morgana (159, 2.37) | Rammus (115, 2.53) |
-| termeepnal_velocity | 9 units | 13,164 | 4.24 | Bard (515, 1.79) | Fizz (262, 1.94) | Gnar (123, 2.20) |
-| tf | 8 units | 15,079 | 3.18 | Morgana (5.6k, 2.24) | Shen (4.6k, 2.28) | Nunu (1.9k, 2.34) |
-| veigar | 9 units | 19,353 | 4.35 | Bard (941, 1.85) | Fizz (475, 2.09) | Gnar (201, 2.29) |
-| teemo | 9 units | 24,118 | 4.01 | Blitzcrank (956, 1.87) | Nunu (887, 1.88) | Leblanc (373, 1.92) |
+#### space_groove
+**Primary**: Blitzcrank Gwen Nami Nasus Ornn Pantheon Riven Shen TahmKench (9u, 25.9k, AVP 3.79)
+**+1 at level 10** (19,468 games, AVP 1.96):
 
-### Variants（≥3 unit 差异）
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Samira | 6,114 | 31.4% | 1.84 | +0.055 |
+| 2 | Teemo | 2,339 | 12.0% | 1.89 | +0.010 |
+| 3 | Nunu | 806 | 4.1% | 1.98 | -0.001 |
 
-| Comp | Variant 描述 | Games | AVP | 差异 |
-|---|---|---|---|---|
-| vex_95 | Vanguard 版（Illaoi/Nunu/Sona/Summon 替换 Rammus/Rhaast/Shen） | 12,262 | 3.81 | 4+ units |
-| mecha | MasterYi/Viktor 版（drops Bard/Fiora/Karma） | 9,461 | 5.53 | 3 units |
-| kaisa | Aatrox/Chogath/Maokai shell（完全不同前排） | 9,626 | 5.16 | 4 units |
-| the_big_bang | Viktor carry / Overlord 版 | 5,327 | 2.93 | 5 units |
-| stellar_combo | TF carry 版 | 2,290 | 3.20 | 6 units |
-| bonk | Blitzcrank/Leblanc/Nunu 版（替换 Lissandra/Nami/Zoe） | 2,386 | 3.99 | 3 units |
-| pyke | 3-4 个完全不同的 variant（Witchcraft/Sona/Viktor 版） | ~5k | varies | 5+ units |
+#### meeple_corki
+**Primary**: Bard Corki Fizz Gnar IvernMinion Milio Poppy Rammus Riven (9u, 9.5k, AVP 4.24)
+**+1 at level 10** (2,744 games, AVP 2.25):
 
-### Comp 共享发现
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Veigar | 641 | 23.4% | 1.51 | +0.226 |
+| 2 | Jhin | 127 | 4.6% | 2.11 | +0.007 |
+| 3 | Galio | 267 | 9.7% | 2.49 | -0.026 |
 
-| 共享 Primary Board | Comps | 原因 |
-|---|---|---|
-| Nasus/Teemo 3★ reroll core (9 units) | bonk, teemo | 同一 reroll 阵容，不同 comp 定义 |
-| Poppy/Veigar 9-unit board | termeepnal_velocity, veigar | 同一阵容，不同 hero augment |
-| Primordian 8-unit board | primordian, stellar_combo | 同一 Bel'Veth core，Aatrox augment 是变体 |
+#### mecha
+**Primary**: AurelionSol Bard Fiora Galio Karma TahmKench Urgot (7u / level 9 with Mecha +2, 17.0k, AVP 3.53)
+**+1 at level 10** (9,260 games, AVP 1.91):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Jhin | 2,798 | 30.2% | 1.84 | +0.030 |
+| 2 | Morgana | 2,329 | 25.2% | 1.87 | +0.013 |
+| 3 | Sona | 500 | 5.4% | 2.01 | -0.006 |
+
+#### vanguard_leblanc
+**Primary**: Illaoi IvernMinion Karma Leblanc Leona Mordekaiser Nunu Summon Zoe (9u, 35.4k, AVP 5.32)
+**+1 at level 10** (4,884 games, AVP 2.39):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Bard | 2,817 | 57.7% | 2.35 | +0.055 |
+| 2 | Blitzcrank | 1,503 | 30.8% | 2.31 | +0.036 |
+| 3 | Sona | 513 | 10.5% | 2.35 | +0.005 |
+
+#### shepherd
+**Primary**: Galio Illaoi IvernMinion Karma Leblanc Leona Lissandra Sona Summon Teemo (10u, 1.6k, AVP 3.68)
+**+1**: 无（level 11 无数据）
+
+#### nova_yi
+**Primary**: Aatrox Akali Belveth Fiora Kindred Maokai MasterYi Shen TahmKench (9u, 9.8k, AVP 3.23)
+**+1 at level 10** (6,674 games, AVP 1.99):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Morgana | 1,256 | 18.8% | 1.84 | +0.035 |
+| 2 | Urgot | 487 | 7.3% | 1.70 | +0.023 |
+| 3 | Graves | 321 | 4.8% | 1.82 | +0.009 |
+
+#### xayah
+**Primary**: Bard Gnar Jax Jhin Mordekaiser Nunu Rammus Rhaast Xayah (9u, 13.5k, AVP 2.79)
+**+1 at level 10** (29,688 games, AVP 1.61):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Blitzcrank | 1,882 | 6.3% | 1.54 | +0.005 |
+| 2 | Shen | 3,500 | 11.8% | 1.63 | -0.003 |
+| 3 | Sona | 1,714 | 5.8% | 1.68 | -0.004 |
+
+#### voyager
+**Primary**: Galio Illaoi IvernMinion Karma Lissandra Nami Nunu Rhaast Summon (9u, 1.3k, AVP 4.93)
+**+1**: 数据不足（level 10 仅 163 games，无非 core unit 出现）
+
+#### anima_diana
+**Primary**: Aurora Diana Illaoi IvernMinion Jinx Leblanc Leona Summon (8u, 9.5k, AVP 6.24)
+**+1 at level 9** (4,391 games, AVP 2.20):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Rhaast | 757 | 17.2% | 1.81 | +0.081 |
+| 2 | Morgana | 1,059 | 24.1% | 2.05 | +0.048 |
+| 3 | Karma | 1,125 | 25.6% | 2.07 | +0.045 |
+
+### 3-Cost Comps
+
+#### conduit_mf
+**Primary**: Aatrox Gragas Maokai MissFortune Ornn Rhaast Viktor (7u, 10.9k, AVP 5.23)
+**+1 at level 8** (5,704 games, AVP 3.40):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | AurelionSol | 913 | 16.0% | 3.17 | +0.044 |
+| 2 | Mordekaiser | 399 | 7.0% | 3.26 | +0.011 |
+| 3 | Morgana | 377 | 6.6% | 3.27 | +0.009 |
+
+#### viktor
+**Primary**: Illaoi IvernMinion Lissandra Mordekaiser Nami Pyke Rhaast Summon Viktor (9u, 115.4k, AVP 3.59)
+**+1 at level 10** (4,957 games, AVP 1.91):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Blitzcrank | 609 | 12.3% | 1.81 | +0.014 |
+| 2 | Morgana | 1,694 | 34.2% | 1.89 | +0.010 |
+| 3 | Shen | 600 | 12.1% | 1.94 | -0.004 |
+
+#### kaisa
+**Primary**: Fizz IvernMinion Kaisa Karma Ornn Rammus Rhaast Riven (8u, 25.6k, AVP 3.09)
+**+1 at level 9** (4,998 games, AVP 2.00):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Gwen | 1,379 | 27.6% | 1.88 | +0.046 |
+| 2 | Galio | 305 | 6.1% | 1.83 | +0.011 |
+| 3 | Talon | 290 | 5.8% | 1.92 | +0.005 |
+
+#### lulu
+**Primary**: Aatrox Jax Lulu Maokai Milio Pantheon TwistedFate (7u, 2.1k, AVP 6.65)
+**+1 at level 8** (7,583 games, AVP 4.09):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Rhaast | 5,426 | 71.6% | 3.98 | +0.277 |
+| 2 | Riven | 434 | 5.7% | 3.59 | +0.030 |
+| 3 | Nunu | 346 | 4.6% | 4.09 | +0.000 |
+
+### 2-Cost Comps
+
+#### pyke
+**Primary**: Corki Gragas Gwen IvernMinion Milio Pantheon Pyke Riven (8u, 5.6k, AVP 3.74)
+**+1 at level 9** (2,152 games, AVP 2.56):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Morgana | 243 | 11.3% | 2.40 | +0.020 |
+| 2 | Bard | 543 | 25.2% | 2.51 | +0.017 |
+| 3 | Fizz | 301 | 14.0% | 2.51 | +0.008 |
+
+#### reach_for_the_stars
+**Primary**: Aatrox Caitlyn Corki Jax Milio Riven Talon TwistedFate (8u, 15.1k, AVP 3.12)
+**+1 at level 9** (22,291 games, AVP 2.30):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Morgana | 5,713 | 25.6% | 2.23 | +0.024 |
+| 2 | Rhaast | 1,591 | 7.1% | 2.08 | +0.017 |
+| 3 | Shen | 4,673 | 21.0% | 2.27 | +0.008 |
+
+#### the_big_bang
+**Primary**: Aurora Galio IvernMinion Karma Lissandra Poppy Pyke Rammus (8u, 5.7k, AVP 3.61)
+**+1 at level 9** (4,627 games, AVP 2.17):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Summon | 3,987 | 86.2% | 2.09 | +0.498 |
+| 2 | Sona | 3,495 | 75.5% | 2.06 | +0.340 |
+| 3 | Morgana | 120 | 2.6% | 2.17 | +0.000 |
+
+#### primordian
+**Primary**: Aatrox Akali Belveth Briar Caitlyn Kindred Maokai RekSai (8u, 90.5k, AVP 4.27)
+**+1 at level 9** (57,053 games, AVP 2.62):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Shen | 32,030 | 56.1% | 2.42 | +0.256 |
+| 2 | Rammus | 2,878 | 5.0% | 2.71 | -0.005 |
+| 3 | Sona | 1,787 | 3.1% | 2.84 | -0.007 |
+
+#### two_tanky_samira
+**Primary**: Blitzcrank Gwen Nami Nasus Ornn Pantheon Riven Samira Shen TahmKench (10u, 6.2k, AVP 2.03)
+**+1**: 无（level 11 无数据）
+
+#### ez_chogath
+**Primary**: Chogath Ezreal Maokai Milio Pantheon Riven TahmKench Xayah (8u, 5.1k, AVP 5.06)
+**+1 at level 9** (5,757 games, AVP 2.74):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Jhin | 3,786 | 65.8% | 2.49 | +0.480 |
+| 2 | Shen | 154 | 2.7% | 2.94 | -0.006 |
+| 3 | Kaisa | 335 | 5.8% | 2.87 | -0.008 |
+
+### 1-Cost Comps
+
+#### bonk
+**Primary**: Illaoi Leona Lissandra Mordekaiser Nami Nasus Summon Teemo Zoe (9u, 8.4k, AVP 3.84)
+**+1 at level 10** (525 games, AVP 1.91):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Blitzcrank | 272 | 51.8% | 1.86 | +0.054 |
+| 2 | Leblanc | 129 | 24.6% | 1.83 | +0.026 |
+| 3 | Nunu | 239 | 45.5% | 1.88 | +0.025 |
+
+#### stellar_combo
+**Primary**: Aatrox Akali Belveth Briar Caitlyn Kindred Maokai RekSai (8u, 2.8k, AVP 4.14)
+**+1 at level 9** (1,762 games, AVP 2.45):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Shen | 977 | 55.4% | 2.25 | +0.249 |
+| 2 | Morgana | 161 | 9.1% | 2.38 | +0.007 |
+| 3 | Rammus | 115 | 6.5% | 2.53 | -0.006 |
+
+#### termeepnal_velocity
+**Primary**: Corki Illaoi IvernMinion Lissandra Mordekaiser Poppy Rammus Summon Veigar (9u, 13.2k, AVP 4.24)
+**+1 at level 10** (643 games, AVP 1.88):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Bard | 517 | 80.4% | 1.79 | +0.369 |
+| 2 | Fizz | 262 | 40.7% | 1.94 | -0.041 |
+| 3 | Gnar | 123 | 19.1% | 2.20 | -0.076 |
+
+#### tf
+**Primary**: Aatrox Caitlyn Corki Jax Milio Riven Talon TwistedFate (8u, 15.1k, AVP 3.19)
+**+1 at level 9** (21,927 games, AVP 2.32):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Morgana | 5,590 | 25.5% | 2.24 | +0.027 |
+| 2 | Rhaast | 1,559 | 7.1% | 2.08 | +0.018 |
+| 3 | Shen | 4,602 | 21.0% | 2.28 | +0.011 |
+
+#### veigar
+**Primary**: Corki Illaoi IvernMinion Lissandra Mordekaiser Poppy Rammus Summon Veigar (9u, 19.4k, AVP 4.35)
+**+1 at level 10** (1,155 games, AVP 1.97):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Bard | 943 | 81.6% | 1.86 | +0.489 |
+| 2 | Morgana | 187 | 16.2% | 1.87 | +0.019 |
+| 3 | Galio | 101 | 8.7% | 1.79 | +0.017 |
+
+#### teemo
+**Primary**: Illaoi Leona Lissandra Mordekaiser Nami Nasus Summon Teemo Zoe (9u, 24.3k, AVP 4.01)
+**+1 at level 10** (1,686 games, AVP 1.92):
+
+| # | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Blitzcrank | 968 | 57.4% | 1.86 | +0.081 |
+| 2 | Nunu | 895 | 53.1% | 1.87 | +0.057 |
+| 3 | Sona | 357 | 21.2% | 1.87 | +0.013 |
+
+---
 
 ## What I Learned
 
-### 1. Flex Slot 的三种模式
+### 1. 最常见的 +1 Unit（across all comps with data）
 
-**有明确 +1（20/29 comp）**：大多数 comp 有清晰的 +1 候选，前 1-3 名按 freq 排列。AVP 改善通常 1-2 分。
+| Unit | 出现次数（作为 top 3 +1） |
+|---|---|
+| Morgana | 11 comp |
+| Shen | 6 comp |
+| Sona | 6 comp |
+| Rhaast | 5 comp |
+| Bard | 4 comp |
+| Blitzcrank | 4 comp |
+| Jhin | 4 comp |
 
-**无 +1 / 已满（5/29 comp）**：xayah、kaisa、reach_for_the_stars 停在 primary level 不再上升；two_tanky_samira 已经 10 人；shepherd 已经 10 人需要 level 11。
+Morgana 依然是万金油 +1（11/26 有数据的 comp）。
 
-**Variant 主导（4/29 comp）**：pyke、stellar_combo、the_big_bang、vex_95 有多个显著 variant，+1 分析意义有限（因为 "primary" 本身只代表其中一个玩法）。
+### 2. 压倒性 +1（Necessity > 0.2）
 
-### 2. 最常见的 +1 Unit
+| Comp | +1 Unit | Rate | Necessity | 解读 |
+|---|---|---|---|---|
+| the_big_bang | Summon | 86.2% | +0.498 | Summon 本质上是 comp 的一部分 |
+| veigar | Bard | 81.6% | +0.489 | 几乎必挂 |
+| ez_chogath | Jhin | 65.8% | +0.480 | Jhin 是阵容的核心补充 |
+| termeepnal_velocity | Bard | 80.4% | +0.369 | 几乎必挂 |
+| lulu | Rhaast | 71.6% | +0.277 | Rhaast 是阵容必需的 5-cost |
+| primordian | Shen | 56.1% | +0.256 | 前排坦克刚需 |
+| stellar_combo | Shen | 55.4% | +0.249 | 同上（共享 primary board） |
 
-| Unit | 出现次数（作为 +1） | 典型角色 |
+### 3. 无 +1 或数据不足（3/29）
+
+- **shepherd**: primary 已 10 units，level 11 无数据
+- **two_tanky_samira**: primary 已 10 units
+- **voyager**: level 10 仅 163 games，样本不足
+
+### 4. Comp 共享 Primary Board 确认
+
+| 共享 Board | Comps | +1 也相同？ |
 |---|---|---|
-| Morgana | 12 comp | 通用前排/辅助 |
-| Sona | 5 comp | 5-cost 辅助 |
-| Bard | 5 comp | 5-cost 辅助 |
-| Shen | 4 comp | 前排坦克 |
-| Rhaast | 4 comp | 5-cost 战士 |
-
-Morgana 是绝对的 "万金油 +1" — 在 12 个 comp 中出现，覆盖所有费用段。
-
-### 3. AVP 改善量级
-
-| Comp Type | Primary AVP | +1 AVP | 改善 |
-|---|---|---|---|
-| 5-cost (nova_95) | 3.95 | 2.08 | -1.87 |
-| 4-cost (vanguard_leblanc) | 5.32 | 3.75 | -1.57 |
-| 3-cost (viktor) | 3.59 | 2.39 | -1.20 |
-| Reroll (lulu) | 6.66 | 4.13 | -2.53 |
-
-Lulu 的 +1 (Rhaast) 改善最大（-2.53），因为 7 人口的 Lulu comp 极度不完整，Rhaast 补上了关键的 5-cost 战力。
-
-### 4. Comp 共享现象
-
-3 对 comp 共享相同的 primary board（bonk/teemo、termeepnal_velocity/veigar、primordian/stellar_combo）。这说明 compositions.py 中某些 comp 定义实际上指向同一个阵容，只是 hero augment 或 carry 不同。
+| Nasus/Teemo 9u reroll | bonk, teemo | 是：Blitzcrank/Nunu |
+| Poppy/Veigar 9u | termeepnal_velocity, veigar | 是：Bard |
+| Primordian 8u | primordian, stellar_combo | 是：Shen |
+| TF/Reach 8u | tf, reach_for_the_stars | 近似：Morgana 都是 #1 |
 
 ## Open Questions
 
-1. **Morgana 为什么是万金油 +1？** 她的 trait 和技能在这么多 comp 中都有价值吗？还是因为她是"最容易找到的高费 unit"？
-2. **无 +1 comp（xayah, kaisa, reach_for_the_stars）真的不升级吗？** 还是 sample 不够（这些 comp 很少到 level 10）？
-3. **Variant-heavy comp（pyke）如何做 item 分析？** 不同 variant 的 BIS 可能完全不同。
-4. **comp 共享（bonk = teemo, veigar = termeepnal_velocity）是否应该合并 comp 定义？**
+1. **Summon 作为 +1 有多少是 trait 机制？** the_big_bang 的 Summon 86% rate + Sona 75% rate 说明两者高度共现，可能是 Summoner trait 联动
+2. **Comp 共享是否应该合并定义？** 4 对 comp 共享 primary board 且 +1 相同
+3. **负 Necessity 的 +1 是否仍值得选？** 如 vex_95 的 Galio (-0.001) 和 Fiora (-0.005)，在 AVP 1.85 的环境下差异极小
 
 ## Questions for Xing
 
-1. **Morgana 的万金油地位** — 符合你的游戏体验吗？还是这反映了某种数据偏差？
-2. **Comp 共享** — bonk 和 teemo 共享 primary board，是否意味着 compositions.py 的定义有冗余？
-3. **Mecha 的 level 计算** — 确认 Mecha 3 unit 占 5 slot，所以 7-unit board = level 9？
+1. **Comp 共享**（bonk=teemo, primordian=stellar_combo）— 这些应该合并吗？还是 hero augment 的存在使得分开有意义？
+2. **Summon 的 +1 机制** — the_big_bang 的 Summon 是因为 Summoner trait 自动召唤还是玩家手动放？
+3. **这个实验的结果可以直接集成到 tftable 吗？** 或者需要进一步验证？
 
 ## Sources
-- MetaTFT `exact_units_traits2` endpoint
+- MetaTFT `exact_units_traits2` + `units_unique` endpoints
 - [[methods/flex-slot-detection]] — 分析方法
-- [[concepts/composition]] — variant/flex slot 定义
+- [[concepts/composition]] — comp structure definitions
+
+---
+
+## Appendix: Raw Data
+
+### Batch 1 (nova_95 ~ nova_yi)
+
+## nova_95
+
+**Primary**: Aatrox, Akali, Blitzcrank, Fiora, Graves, Morgana, Nunu, Shen, Vex (9 units, 82,755 games, AVP 3.96)
+**Level**: 9
+**+1 sample**: 29,481 games at level 10, overall AVP 1.94
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Sona | 14,013 | 47.5% | 1.91 | +0.027 |
+| 2 | Rhaast | 1,856 | 6.3% | 1.62 | +0.022 |
+| 3 | Jhin | 3,138 | 10.6% | 1.78 | +0.019 |
+| ref | TahmKench | 2,573 | 8.7% | 2.09 | -0.014 |
+| ref | Bard | 2,266 | 7.7% | 2.09 | -0.012 |
+
+---
+
+## vex_95
+
+**Primary**: Bard, Blitzcrank, IvernMinion, Karma, Mordekaiser, Rammus, Rhaast, Shen, Vex (9 units, 23,054 games, AVP 3.98)
+**Level**: 9
+**+1 sample**: 14,620 games at level 10, overall AVP 1.85
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Morgana | 7,130 | 48.8% | 1.84 | +0.010 |
+| 2 | Galio | 756 | 5.2% | 1.86 | -0.001 |
+| 3 | Fiora | 584 | 4.0% | 1.96 | -0.005 |
+| ref | Graves | 705 | 4.8% | 2.02 | -0.009 |
+| ref | Sona | 1,807 | 12.4% | 1.95 | -0.014 |
+
+---
+
+## zed
+
+**Primary**: Aatrox, Akali, Blitzcrank, Fiora, Graves, Morgana, Nunu, Shen, Zed (9 units, 2,776 games, AVP 3.04)
+**Level**: 9
+**+1 sample**: 1,118 games at level 10, overall AVP 1.58
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Vex | 560 | 50.1% | 1.52 | +0.060 |
+| 2 | Sona | 215 | 19.2% | 1.59 | -0.002 |
+
+(only 2 non-core units available)
+
+---
+
+## dark_star
+
+**Primary**: Blitzcrank, Chogath, Galio, Jhin, Kaisa, Karma, Lissandra, Mordekaiser, TahmKench (9 units, 6,214 games, AVP 4.08)
+**Level**: 9
+**+1 sample**: 2,503 games at level 10, overall AVP 2.46
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Morgana | 478 | 19.1% | 2.37 | +0.021 |
+| 2 | Xayah | 699 | 27.9% | 2.41 | +0.019 |
+| 3 | Sona | 120 | 4.8% | 2.40 | +0.003 |
+| ref | Bard | 303 | 12.1% | 2.45 | +0.001 |
+| ref | Shen | 138 | 5.5% | 2.45 | +0.001 |
+
+---
+
+## space_groove
+
+**Primary**: Blitzcrank, Gwen, Nami, Nasus, Ornn, Pantheon, Riven, Shen, TahmKench (9 units, 25,914 games, AVP 3.79)
+**Level**: 9
+**+1 sample**: 19,468 games at level 10, overall AVP 1.96
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Samira | 6,114 | 31.4% | 1.84 | +0.055 |
+| 2 | Teemo | 2,339 | 12.0% | 1.89 | +0.010 |
+| 3 | Nunu | 806 | 4.1% | 1.98 | -0.001 |
+| ref | Morgana | 5,161 | 26.5% | 1.99 | -0.011 |
+| ref | Sona | 1,427 | 7.3% | 2.12 | -0.013 |
+
+---
+
+## meeple_corki
+
+**Primary**: Bard, Corki, Fizz, Gnar, IvernMinion, Milio, Poppy, Rammus, Riven (9 units, 9,527 games, AVP 4.24)
+**Level**: 9
+**+1 sample**: 2,744 games at level 10, overall AVP 2.25
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Veigar | 641 | 23.4% | 1.51 | +0.226 |
+| 2 | Jhin | 127 | 4.6% | 2.11 | +0.007 |
+| 3 | Galio | 267 | 9.7% | 2.49 | -0.026 |
+| ref | Morgana | 418 | 15.2% | 2.54 | -0.052 |
+| ref | Shen | 479 | 17.5% | 2.65 | -0.085 |
+
+---
+
+## mecha
+
+**Primary**: AurelionSol, Bard, Fiora, Galio, Karma, TahmKench, Urgot (7 units / 9 slots with Mecha +2, 17,015 games, AVP 3.53)
+**Level**: 9 (7 + 2 Mecha)
+**+1 sample**: 9,260 games at level 10, overall AVP 1.91
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Jhin | 2,798 | 30.2% | 1.84 | +0.030 |
+| 2 | Morgana | 2,329 | 25.2% | 1.87 | +0.013 |
+| 3 | Sona | 500 | 5.4% | 2.01 | -0.006 |
+| ref | Shen | 711 | 7.7% | 2.02 | -0.009 |
+| ref | Mordekaiser | 811 | 8.8% | 2.06 | -0.014 |
+
+---
+
+## vanguard_leblanc
+
+**Primary**: Illaoi, IvernMinion, Karma, Leblanc, Leona, Mordekaiser, Nunu, Summon, Zoe (9 units, 35,392 games, AVP 5.32)
+**Level**: 9
+**+1 sample**: 4,884 games at level 10, overall AVP 2.39
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Bard | 2,817 | 57.7% | 2.35 | +0.055 |
+| 2 | Blitzcrank | 1,503 | 30.8% | 2.31 | +0.036 |
+| 3 | Sona | 513 | 10.5% | 2.35 | +0.005 |
+| ref | Morgana | 1,551 | 31.8% | 2.38 | +0.005 |
+| ref | Galio | 573 | 11.7% | 2.41 | -0.003 |
+
+---
+
+## shepherd
+
+**Primary**: Galio, Illaoi, IvernMinion, Karma, Leblanc, Leona, Lissandra, Sona, Summon, Teemo (10 units, 1,598 games, AVP 3.68)
+**Level**: 10
+**+1 sample**: 无 +1 (level 11 data unavailable, 0 games returned)
+
+---
+
+## nova_yi
+
+**Primary**: Aatrox, Akali, Belveth, Fiora, Kindred, Maokai, MasterYi, Shen, TahmKench (9 units, 9,796 games, AVP 3.23)
+**Level**: 9
+**+1 sample**: 6,674 games at level 10, overall AVP 1.99
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Morgana | 1,256 | 18.8% | 1.84 | +0.035 |
+| 2 | Urgot | 487 | 7.3% | 1.70 | +0.023 |
+| 3 | Graves | 321 | 4.8% | 1.82 | +0.009 |
+| ref | Sona | 1,560 | 23.4% | 1.97 | +0.006 |
+| ref | Caitlyn | 2,106 | 31.6% | 2.17 | -0.083 |
+
+### Batch 2 (xayah ~ reach_for_the_stars)
+
+## xayah
+
+**Primary**: Bard, Gnar, Jax, Jhin, Mordekaiser, Nunu, Rammus, Rhaast, Xayah (9 units, 13,541 games, AVP 2.79)
+**Level**: 9
+**+1 sample**: 29,688 games at level 10, overall AVP 1.61
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Blitzcrank | 1,882 | 6.3% | 1.54 | +0.005 |
+| 2 | Shen | 3,500 | 11.8% | 1.63 | -0.003 |
+| 3 | Sona | 1,714 | 5.8% | 1.68 | -0.004 |
+
+## voyager
+
+**Primary**: Galio, Illaoi, IvernMinion, Karma, Lissandra, Nami, Nunu, Rhaast, Summon (9 units, 1,274 games, AVP 4.93)
+**Level**: 9
+**+1**: Only 163 games at level 10 with all 9 core units, no non-core units visible. Insufficient data for +1 analysis.
+
+## conduit_mf
+
+**Primary**: Aatrox, Gragas, Maokai, MissFortune, Ornn, Rhaast, Viktor (7 units, 10,860 games, AVP 5.23)
+**Level**: 7
+**+1 sample**: 5,704 games at level 8, overall AVP 3.40
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | AurelionSol | 913 | 16.0% | 3.17 | +0.044 |
+| 2 | Mordekaiser | 399 | 7.0% | 3.26 | +0.011 |
+| 3 | Morgana | 377 | 6.6% | 3.27 | +0.009 |
+
+## lulu
+
+**Primary**: Aatrox, Jax, Lulu, Maokai, Milio, Pantheon, TwistedFate (7 units, 2,080 games, AVP 6.65)
+**Level**: 7
+**+1 sample**: 7,583 games at level 8, overall AVP 4.09
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Rhaast | 5,426 | 71.6% | 3.98 | +0.277 |
+| 2 | Riven | 434 | 5.7% | 3.59 | +0.030 |
+| 3 | Nunu | 346 | 4.6% | 4.09 | +0.000 |
+
+## anima_diana
+
+**Primary**: Aurora, Diana, Illaoi, IvernMinion, Jinx, Leblanc, Leona, Summon (8 units, 9,490 games, AVP 6.24)
+**Level**: 8
+**+1 sample**: 4,391 games at level 9, overall AVP 2.20
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Rhaast | 757 | 17.2% | 1.81 | +0.081 |
+| 2 | Morgana | 1,059 | 24.1% | 2.05 | +0.048 |
+| 3 | Karma | 1,125 | 25.6% | 2.07 | +0.045 |
+
+## viktor
+
+**Primary**: Illaoi, IvernMinion, Lissandra, Mordekaiser, Nami, Pyke, Rhaast, Summon, Viktor (9 units, 115,445 games, AVP 3.59)
+**Level**: 9
+**+1 sample**: 4,957 games at level 10, overall AVP 1.91
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Blitzcrank | 609 | 12.3% | 1.81 | +0.014 |
+| 2 | Morgana | 1,694 | 34.2% | 1.89 | +0.010 |
+| 3 | Shen | 600 | 12.1% | 1.94 | -0.004 |
+
+## kaisa
+
+**Primary**: Fizz, IvernMinion, Kaisa, Karma, Ornn, Rammus, Rhaast, Riven (8 units, 25,623 games, AVP 3.09)
+**Level**: 8
+**+1 sample**: 4,998 games at level 9, overall AVP 2.00
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Gwen | 1,379 | 27.6% | 1.88 | +0.046 |
+| 2 | Galio | 305 | 6.1% | 1.83 | +0.011 |
+| 3 | Talon | 290 | 5.8% | 1.92 | +0.005 |
+
+## two_tanky_samira
+
+**Primary**: Blitzcrank, Gwen, Nami, Nasus, Ornn, Pantheon, Riven, Samira, Shen, TahmKench (10 units, 6,212 games, AVP 2.03)
+**Level**: 10
+**+1**: Primary board is already 10 units; level 11 returns no data. No +1 analysis possible.
+
+## pyke
+
+**Primary**: Corki, Gragas, Gwen, IvernMinion, Milio, Pantheon, Pyke, Riven (8 units, 5,618 games, AVP 3.74)
+**Level**: 8
+**+1 sample**: 2,152 games at level 9, overall AVP 2.56
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Morgana | 243 | 11.3% | 2.40 | +0.020 |
+| 2 | Bard | 543 | 25.2% | 2.51 | +0.017 |
+| 3 | Fizz | 301 | 14.0% | 2.51 | +0.008 |
+
+## reach_for_the_stars
+
+**Primary**: Aatrox, Caitlyn, Corki, Jax, Milio, Riven, Talon, TwistedFate (8 units, 15,101 games, AVP 3.12)
+**Level**: 8
+**+1 sample**: 22,291 games at level 9, overall AVP 2.30
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Morgana | 5,713 | 25.6% | 2.23 | +0.024 |
+| 2 | Rhaast | 1,591 | 7.1% | 2.08 | +0.017 |
+| 3 | Shen | 4,673 | 21.0% | 2.27 | +0.008 |
+
+### Batch 3 (the_big_bang ~ teemo)
+
+## the_big_bang
+
+**Primary**: Aurora, Galio, IvernMinion, Karma, Lissandra, Poppy, Pyke, Rammus (8 units, 5740 games, AVP 3.61)
+**Level**: 9
+**+1 sample**: 4627 games at level 9, overall AVP 2.17
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Summon | 3987 | 86.2% | 2.09 | 0.498 |
+| 2 | Sona | 3495 | 75.5% | 2.06 | 0.340 |
+| 3 | Morgana | 120 | 2.6% | 2.17 | 0.000 |
+
+## primordian
+
+**Primary**: Aatrox, Akali, Belveth, Briar, Caitlyn, Kindred, Maokai, RekSai (8 units, 90521 games, AVP 4.27)
+**Level**: 9
+**+1 sample**: 57053 games at level 9, overall AVP 2.62
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Shen | 32030 | 56.1% | 2.42 | 0.256 |
+| 2 | Rammus | 2878 | 5.0% | 2.71 | -0.005 |
+| 3 | Sona | 1787 | 3.1% | 2.84 | -0.007 |
+
+## bonk
+
+**Primary**: Illaoi, Leona, Lissandra, Mordekaiser, Nami, Nasus, Summon, Teemo, Zoe (9 units, 8401 games, AVP 3.84)
+**Level**: 10
+**+1 sample**: 525 games at level 10, overall AVP 1.91
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Blitzcrank | 272 | 51.8% | 1.86 | 0.054 |
+| 2 | Leblanc | 129 | 24.6% | 1.83 | 0.026 |
+| 3 | Nunu | 239 | 45.5% | 1.88 | 0.025 |
+
+## stellar_combo
+
+**Primary**: Aatrox, Akali, Belveth, Briar, Caitlyn, Kindred, Maokai, RekSai (8 units, 2782 games, AVP 4.14)
+**Level**: 9
+**+1 sample**: 1762 games at level 9, overall AVP 2.45
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Shen | 977 | 55.4% | 2.25 | 0.249 |
+| 2 | Morgana | 161 | 9.1% | 2.38 | 0.007 |
+| 3 | Rammus | 115 | 6.5% | 2.53 | -0.006 |
+
+## termeepnal_velocity
+
+**Primary**: Corki, Illaoi, IvernMinion, Lissandra, Mordekaiser, Poppy, Rammus, Summon, Veigar (9 units, 13210 games, AVP 4.24)
+**Level**: 10
+**+1 sample**: 643 games at level 10, overall AVP 1.88
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Bard | 517 | 80.4% | 1.79 | 0.369 |
+| 2 | Fizz | 262 | 40.7% | 1.94 | -0.041 |
+| 3 | Gnar | 123 | 19.1% | 2.20 | -0.076 |
+
+## ez_chogath
+
+**Primary**: Chogath, Ezreal, Maokai, Milio, Pantheon, Riven, TahmKench, Xayah (8 units, 5092 games, AVP 5.06)
+**Level**: 9
+**+1 sample**: 5757 games at level 9, overall AVP 2.74
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Jhin | 3786 | 65.8% | 2.49 | 0.480 |
+| 2 | Shen | 154 | 2.7% | 2.94 | -0.006 |
+| 3 | Kaisa | 335 | 5.8% | 2.87 | -0.008 |
+
+## tf
+
+**Primary**: Aatrox, Caitlyn, Corki, Jax, Milio, Riven, Talon, TwistedFate (8 units, 15115 games, AVP 3.19)
+**Level**: 9
+**+1 sample**: 21927 games at level 9, overall AVP 2.32
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Morgana | 5590 | 25.5% | 2.24 | 0.027 |
+| 2 | Rhaast | 1559 | 7.1% | 2.08 | 0.018 |
+| 3 | Shen | 4602 | 21.0% | 2.28 | 0.011 |
+
+## veigar
+
+**Primary**: Corki, Illaoi, IvernMinion, Lissandra, Mordekaiser, Poppy, Rammus, Summon, Veigar (9 units, 19424 games, AVP 4.35)
+**Level**: 10
+**+1 sample**: 1155 games at level 10, overall AVP 1.97
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Bard | 943 | 81.6% | 1.86 | 0.489 |
+| 2 | Morgana | 187 | 16.2% | 1.87 | 0.019 |
+| 3 | Galio | 101 | 8.7% | 1.79 | 0.017 |
+
+## teemo
+
+**Primary**: Illaoi, Leona, Lissandra, Mordekaiser, Nami, Nasus, Summon, Teemo, Zoe (9 units, 24328 games, AVP 4.01)
+**Level**: 10
+**+1 sample**: 1686 games at level 10, overall AVP 1.92
+
+| Rank | Unit | Games | Rate | AVP | Necessity |
+|---|---|---|---|---|---|
+| 1 | Blitzcrank | 968 | 57.4% | 1.86 | 0.081 |
+| 2 | Nunu | 895 | 53.1% | 1.87 | 0.057 |
+| 3 | Sona | 357 | 21.2% | 1.87 | 0.013 |
