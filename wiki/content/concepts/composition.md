@@ -43,7 +43,7 @@ Comp 的构成有三种模式：
 
 **Level ≠ board 上的 unit 数**：有些 trait 的 unit 占多个 slot（如 Mecha 3 个 unit 占 5 个 slot），实际 level = board unit 数 + 额外 slot。
 
-具体分析流程见 [[methods/plus-one-discovery]]。
+具体分析流程见 [[methods/flex-slot-detection]]。
 
 ### Core vs Flex
 

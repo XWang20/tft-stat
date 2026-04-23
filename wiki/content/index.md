@@ -59,7 +59,7 @@
 | [[methods/filter-strategy]] | ✅ | Filter = control variables; primary carry/secondary; 5 expert patterns; design-from-scratch loop; Simpson's Paradox |
 | [[methods/build-analysis]] | ✅ | Three-item builds, control variable, consistency check |
 | [[methods/item-analysis-debiasing]] | 🧪 | Exclude special items (artifact/radiant/anima) + conflict recompute for shared-carry bias |
-| [[methods/plus-one-discovery]] | 🧪 | +1 分析方法：core 子命令找 primary board、两层控制（level + 固定核心）、IC3 对比 |
+| [[methods/flex-slot-detection]] | 🧪 | +1 分析方法：core 子命令找 primary board、两层控制（level + 固定核心）、IC3 对比 |
 
 ### Tools
 
