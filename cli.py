@@ -223,70 +223,50 @@ def cmd_scout(args):
 
 
 def cmd_core(args):
-    """Detect primary board composition from MetaTFT comp clusters."""
-    import json
-    import urllib.request
+    """Detect primary board composition via MetaTFT comps endpoint."""
+    params = _params_from_args(args)
+    if not params:
+        print("Error: --comp or --filter required for comps query", file=sys.stderr)
+        sys.exit(1)
 
-    rank = "CHALLENGER,DIAMOND,EMERALD,GRANDMASTER,MASTER,PLATINUM"
-    url = (f"https://api-hc.metatft.com/tft-comps-api/comps_data"
-           f"?queue=1100&patch=current&days=3&rank={rank}")
-    req = urllib.request.Request(url, headers={
-        "User-Agent": "Mozilla/5.0",
-        "Origin": "https://www.metatft.com",
-        "Referer": "https://www.metatft.com/",
-    })
-    with urllib.request.urlopen(req, timeout=15) as resp:
-        data = json.loads(resp.read())
+    slots = args.num_unit_slots or 9
+    params.append(f"num_unit_slots={slots}")
 
-    clusters = data["results"]["data"]["cluster_details"]
+    data = query("exact_units_traits2", params)
+    entries = data.get("data", [])
+    if not entries:
+        print("No board compositions found.")
+        return
 
-    comps = []
-    for cid, c in clusters.items():
-        overall = c.get("overall", {})
-        units_str = c.get("units_string", "")
-        units = [u.strip() for u in units_str.split(",") if u.strip()]
-        comps.append({
-            "id": cid,
-            "count": overall.get("count", 0),
-            "avg": overall.get("avg", 0),
-            "name": c.get("name_string", ""),
-            "units": units,
-            "level": c.get("levelling", ""),
-        })
+    entries.sort(key=lambda x: -sum(x.get("placement_count", [])))
+    total_games = sum(sum(e.get("placement_count", [])) for e in entries)
 
-    comps.sort(key=lambda x: -x["count"])
+    top_n = min(args.show, len(entries))
+    print(f"Board compositions: {len(entries)} ({total_games:,} total games, {slots} unit slots)")
+    print(f"\n{'#':<4} {'Games':>7} {'Share':>6} {'AVP':>5}  Units")
+    print("-" * 80)
+    for i, e in enumerate(entries[:top_n], 1):
+        ut = e.get("units_traits", "")
+        units = ut.split("|")[0].split("&") if ut else []
+        pc = e.get("placement_count", [])
+        games = sum(pc)
+        avg = sum((j+1)*c for j, c in enumerate(pc)) / games if games else 0
+        names = " ".join(u.replace("TFT17_", "") for u in units)
+        tag = " <- primary" if i == 1 else ""
+        print(f"{i:<4} {games:>7,} {games/total_games:>5.1%} {avg:>5.2f}  {names}{tag}")
 
-    # If --comp is given, find matching cluster
-    if args.comp:
-        from tft_stat.compositions import COMPOSITIONS
-        comp_def = COMPOSITIONS.get(args.comp)
-        if not comp_def:
-            print(f"Error: unknown comp '{args.comp}'", file=sys.stderr)
-            sys.exit(1)
-        comp_name = comp_def["name"]
-        print(f"Comp: {args.comp} ({comp_name})")
-        print(f"Looking for matching cluster among {len(comps)} clusters...\n")
-
-    top_n = min(args.show, len(comps))
-    print(f"{'#':<3} {'Count':>7} {'AVP':>5} {'Lvl':>7}  {'Name':<40} Units")
-    print("-" * 110)
-    for i, c in enumerate(comps[:top_n], 1):
-        units_short = ", ".join(u.replace("TFT17_", "") for u in c["units"][:9])
-        tag = " ← primary" if i == 1 else ""
-        print(f"{i:<3} {c['count']:>7,} {c['avg']:>5.2f} {c['level']:>7}  {c['name'][:40]:<40} {units_short}{tag}")
-
-    # Generate +1 command for the top comp
-    primary = comps[0]
-    core_ids = primary["units"]
-    core_size = len(core_ids)
+    primary = entries[0]
+    primary_units = primary.get("units_traits", "").split("|")[0].split("&")
+    core_size = len(primary_units)
+    primary_games = sum(primary.get("placement_count", []))
 
     if core_size >= 7:
-        filter_parts = [f"Unit('{uid}')" for uid in core_ids]
+        filter_parts = [f"Unit('{uid}')" for uid in primary_units]
         filter_str = " & ".join(filter_parts)
         flex_pop = core_size + 1
         comp_flag = f"--comp {args.comp} " if args.comp else ""
-        print(f"\nPrimary board: {core_size} units ({primary['count']:,} games, AVP {primary['avg']:.2f})")
-        print(f"+1 analysis command (level {flex_pop}):")
+        print(f"\nPrimary: {core_size} units, {primary_games:,} games ({primary_games/total_games:.0%})")
+        print(f"+1 command:")
         print(f"  python3 cli.py units {comp_flag}--level {flex_pop} --filter \"{filter_str}\"")
 
 def cmd_games(args):
@@ -422,9 +402,11 @@ def main():
     p_scout.add_argument("--top", type=int, default=4, help="Placement cutoff (default: 4)")
 
     # core
-    p_core = sub.add_parser("core", help="Show MetaTFT comp clusters (primary board detection)")
-    p_core.add_argument("--comp", help="Comp key for context (optional)")
-    p_core.add_argument("--show", type=int, default=15, help="Number of clusters to show (default: 15)")
+    p_core = sub.add_parser("core", help="Show board compositions for a comp (primary board detection)")
+    _add_filter_args(p_core)
+    p_core.add_argument("--num-unit-slots", type=int, default=None,
+                         help="Board size / number of units (default: auto)")
+    p_core.add_argument("--show", type=int, default=10, help="Compositions to show (default: 10)")
 
     # games
     p_games = sub.add_parser("games", help="Show sample boards matching a filter (sanity check)")
