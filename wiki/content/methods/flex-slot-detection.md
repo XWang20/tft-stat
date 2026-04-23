@@ -3,7 +3,7 @@
 
 ## When to Use
 
-分析一个 comp 的标准阵容构成和灵活位（+1 unit）。
+Analyze a comp's standard board composition and flex slot (+1 unit candidates).
 
 ## Method
 
@@ -13,46 +13,49 @@
 python3 cli.py core --comp <KEY>
 ```
 
-从 `exact_units_traits2` API 获取所有 board compositions（6-11 人口混排），按 freq 排序 + 显示平均星级。**freq #1 = primary board**。
+Queries `exact_units_traits2` API for all board compositions (size 6-11), sorted by frequency with average star levels. **freq #1 = primary board**.
 
-Primary board 告诉你：
-- **Core units**: primary board 中的所有 unit
-- **Core size**: primary board 的 unit 数（不是从 carry cost 推断，因为不一定符合 "5-cost=9, 4-cost=8" 的规律）
-- **Level**: 需要考虑多 slot trait（如 Mecha 3 unit 占 5 slot → 7 units on board = level 9）
+The primary board tells you:
+- **Core units**: all units in the primary board (excluding summoned units)
+- **Level**: number of player-placed units (derived from data, not assumed from carry cost)
 
-### Step 2: +1 控制变量分析
+**Summoned units** (e.g. `TFT17_Summon`) don't count as player population — they are automatically excluded from level calculation and core unit lists. The CLI marks them as `(Summon)` in the output.
 
-固定 primary board 的 core units + 控制 level：
+**Multi-slot traits** (e.g. Mecha: 3 units occupy 5 slots) mean board unit count ≠ player level. The `core` command handles Summon automatically; Mecha-style adjustments require manual correction.
+
+### Step 2: +1 Control Variable Analysis
+
+Fix the primary board's core units + control level:
 
 ```bash
-# core 命令会自动生成这个命令
-python3 cli.py units --comp <KEY> --level <CORE_LEVEL+1> --filter "\
+# The core command auto-generates this command
+python3 cli.py units --comp <KEY> --level <LEVEL+1> --filter "\
 Unit('unit1') & Unit('unit2') & ... & Unit('unitN')"
 ```
 
-对非 core unit 按 freq 排列，看 **AVP**（主指标）和 **Necessity**（补充）：
-- **AVP**: 完整 board 的 AVP 不受 survivorship bias 污染，freq 高且 AVP 低 = 好选择
-- **Necessity**: 衡量边际影响，但在高 level 时数值被压缩（AVP 空间小）
+Rank non-core units by **frequency**, then evaluate with **AVP** (primary metric) and **Necessity** (supplementary):
+- **AVP**: valid for complete boards (no survivorship bias). Lower AVP with high frequency = good pick.
+- **Necessity**: measures marginal impact, but compressed at high levels (small AVP range).
+
+Summoned units should not appear as +1 candidates — they are trait-generated, not player choices.
 
 ### Step 3: Cross-Validation
 
-`python3 cli.py tftable --comp <COMP>` 对比 tftable 的 unit necessity（注意两者衡量不同东西：我们的是存在价值，IC3 可能是 carry 价值）。
+`python3 cli.py tftable --comp <COMP>` — compare with tftable's unit necessity. Note: our unit necessity (existence value) and tftable's IC3 necessity (likely carry value) measure different things.
 
 ## Known Limitations
 
-1. **Primary board ≠ 唯一玩法**: variant-heavy comp（如 pyke）的 primary 可能只占 15%，不具代表性
-2. **Level bias**: 不控制 level 时 +1 候选 Necessity 被膨胀（Sona 在 nova_95 下降 88%）
-3. **Compressed AVP**: 高 level 时 AVP 空间小，+1 候选间差异可能在噪声范围内
-4. **多 slot trait**: Mecha、Summon 等 trait 的 unit 占多个 slot，level 需要手动修正
+1. **Primary ≠ only playstyle**: variant-heavy comps (e.g. pyke) may have a primary board representing only 15% of games.
+2. **Level bias**: without `--level` control, +1 candidate Necessity is inflated (Sona in nova_95 dropped 88% after level control).
+3. **Compressed AVP**: at high levels, AVP range is small — differences between candidates may be noise.
+4. **Multi-slot traits**: Mecha units occupy extra slots; level needs manual adjustment.
 
 ## Example: Nova 95
 
 **Step 1**: `python3 cli.py core --comp nova_95`
-→ primary = 9 units (Aatrox, Akali, Blitzcrank, Fiora, Graves, Morgana, Nunu, Shen, Vex), 82k games (46%), AVP 3.95
+→ primary = 9 units (Aatrox, Akali, Blitzcrank, Fiora, Graves, Morgana, Nunu, Shen, Vex), 82k games (46%), AVP 3.95, level 9
 
-**Step 2**: +1 boards visible in core output (10-unit boards with Sona 14k, Jhin 3k, etc.)
-
-**Step 3**: Control variable
+**Step 2**: control variable analysis
 ```bash
 python3 cli.py units --comp nova_95 --level 10 --filter "\
 Unit('TFT17_Aatrox') & Unit('TFT17_Akali') & Unit('TFT17_Vex') \
@@ -63,5 +66,5 @@ Unit('TFT17_Aatrox') & Unit('TFT17_Akali') & Unit('TFT17_Vex') \
 
 ## Sources
 - [[experiments/2026-04-23-nova95-unit-evaluation]] — method development
-- [[experiments/2026-04-23-flex-slot-all-comps]] — 29 comp 全量分析
+- [[experiments/2026-04-23-flex-slot-all-comps]] — all 29 comps analyzed
 - [[concepts/composition]] — comp structure definitions
