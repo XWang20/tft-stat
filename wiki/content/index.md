@@ -103,6 +103,7 @@
 | [[experiments/2026-04-23-vex-third-item-build]] | 2026-04-23 | 2, 3 | 🧪 | Revised w/ --normal-only + Build Necessity: nova_95 Flail>Red Buff>Dcap, vex_95 Dcap>Void Staff>Gunblade; JG worst in both; GS+Guinsoo core validated |
 | [[experiments/2026-04-23-nova95-unit-evaluation]] | 2026-04-23 | 4 | 🧪 | Level-Controlled: Shen Necessity 最高(+0.95)；控制 level 后十人口 Jhin/Rhaast/Sona 几乎持平，之前"Sona 3x 领先"是 level bias |
 | [[experiments/2026-04-23-tank-filter-reliability]] | 2026-04-23 | 1, 9 | 🧪 | 纠正前实验：真正带装的 tank(Nasus/Poppy/Cho) ρ=0.929-1.000，与 carry 一样稳定；Galio 揭示 comp-specific 物品反转现象 |
+| [[experiments/2026-04-23-flex-slot-all-comps]] | 2026-04-23 | 4 | 🧪 | 29 comp flex slot 总表：Morgana 万金油 +1（12 comp）；3 对 comp 共享 primary board；5 comp 无 +1；4 comp variant 主导 |
 
 ### Experiment Queue
 
