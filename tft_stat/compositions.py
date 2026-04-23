@@ -3,9 +3,11 @@
 Ported from XWang20/tft_data/analysis/team_comp/compositions.py.
 Each comp has a key, display name, and a filter expression tree.
 
-Hero augment comps (low-cost tanky carries) have `exclude_tank_items_for`
-listing unit IDs whose tank items should be excluded when analyzing hero
-augment contribution.  Use with `--exclude-tank-items` in CLI.
+Hero augment comps (low-cost tanky carries) have `exclude_dmg_items_for`
+listing unit IDs whose damage items should be excluded when analyzing
+tank carry builds.  These tanky carries' BIS are tank items — damage
+items on them are typically leftover/carousel items that add noise.
+Use with `--exclude-dmg-items` in CLI.
 """
 
 from __future__ import annotations
@@ -199,12 +201,12 @@ COMPOSITIONS = {
     "reach_for_the_stars": {
         "name": "Reach for the Stars / 摘星之志",
         "filter": Unit('TFT17_Jax', item_min=3, item_max=3),
-        "exclude_tank_items_for": ["TFT17_Jax"],
+        "exclude_dmg_items_for": ["TFT17_Jax"],
     },
     "the_big_bang": {
         "name": "The Big Bang / 宇宙大爆炸",
         "filter": Unit('TFT17_IvernMinion', item_min=3, item_max=3),
-        "exclude_tank_items_for": ["TFT17_IvernMinion"],
+        "exclude_dmg_items_for": ["TFT17_IvernMinion"],
     },
     "primordian": {
         "name": "Primordian Reroll / 海魔人",
@@ -219,17 +221,17 @@ COMPOSITIONS = {
     "bonk": {
         "name": "Bonk! / 邦！",
         "filter": Unit('TFT17_Nasus', item_min=3, item_max=3),
-        "exclude_tank_items_for": ["TFT17_Nasus"],
+        "exclude_dmg_items_for": ["TFT17_Nasus"],
     },
     "stellar_combo": {
         "name": "Stellar Combo / 星界连招",
         "filter": Unit('TFT17_Aatrox', item_min=3, item_max=3),
-        "exclude_tank_items_for": ["TFT17_Aatrox"],
+        "exclude_dmg_items_for": ["TFT17_Aatrox"],
     },
     "termeepnal_velocity": {
         "name": "Termeepnal Velocity / 飙速木灵",
         "filter": Unit('TFT17_Poppy', item_min=3, item_max=3),
-        "exclude_tank_items_for": ["TFT17_Poppy"],
+        "exclude_dmg_items_for": ["TFT17_Poppy"],
     },
     "ez_chogath": {
         "name": "EZ Cho'Gath Reroll / EZ科加斯",

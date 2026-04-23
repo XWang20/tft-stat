@@ -63,12 +63,63 @@ Low play rate + high necessity = the unit is hard to find/fit but strongly impro
 
 Analyzing non-core units (level-up candidates) suffers from **level bias**: reaching higher levels correlates with winning. Any unit that appears as "the Nth unit" has inflated AVP because the player was already ahead.
 
-**Mitigation**: Level bias affects all candidates equally at the same level, so **relative rankings** (Sona > Jhin > Rhaast at level 10) are more reliable than absolute necessity values.
+**Solution**: Use `--level` to control for player level. Example: `python3 cli.py units --comp nova_95 --level 10` only analyzes level 10 games, eliminating level bias entirely.
 
-**Open problem**: No standard method to fully remove level bias from unit necessity analysis. Possible approaches:
-- Control for board size (only compare games with exactly N units)
-- Use tftable's IC3 method (measures different thing — carry value, not existence value)
+Without `--level`, Sona's Necessity in nova_95 was +0.127 ("3x better than Jhin"). With `--level 10`, it dropped to +0.015 — nearly equal to Jhin (+0.021) and Rhaast (+0.019). The 88% drop proves level bias was the dominant signal.
+
+## Hero Augments
+
+### S17 Hero Augment 列表
+
+S17 有 **8 个 hero augment**，每个将一个低费 unit 变成 carry（改变技能 + 战斗模式）：
+
+| Augment | 名称 | Unit | Cost | 对应 Comp |
+|---|---|---|---|---|
+| NasusCarry | Bonk! | Nasus | 1 | `bonk` |
+| PoppyCarry | Termeepnal Velocity | Poppy | 1 | `termeepnal_velocity` |
+| AatroxCarry | Stellar Combo | Aatrox | 1 | `stellar_combo` |
+| JaxCarry | Reach for the Stars | Jax | 2 | `reach_for_the_stars` |
+| IvernMinionCarry | The Big Bang | Ivern | 2 | `the_big_bang` |
+| PykeCarry | Contract Killer | Pyke | 2 | `pyke` |
+| GragasCarry | Self Destruct | Gragas | 2 | — |
+| MordekaiserCarry | Heat Death | Mordekaiser | 3 | — |
+
+共同特征：都是将低费 tank/fighter 变成 carry，使其成为 3 件套主 C。有对应 comp 定义的 6 个 augment，其 comp filter 就是 `Unit(unit_id, item_min=3, item_max=3)`。
+
+### 通过 Stat 能发现什么
+
+MetaTFT API **不追踪 augment 数据**（match 记录中 `augments` 字段为 `None`），所以无法直接过滤或统计 hero augment。但可以通过间接手段观察其影响：
+
+**可发现的**：
+- **Tanky carry 的装备分裂**：hero augment 将 tank 变成 carry 后，玩家会给它 dmg 装备。在 bonk comp（Nasus i3）的 item 数据中，同时出现 tank 装（Warmog、Sunfire）和 dmg 装（Guinsoo、Deathcap），这两组来自完全不同的游戏——有 augment 的给 dmg 装，没有的给 tank 装
+- **Unit 的角色模糊性**：Nasus 在 bonk 中既是 tank（无 augment 时）又是 carry（有 augment 时）。这在 item necessity 中表现为两类装备都有正 necessity
+
+**不可发现的**：
+- 有 augment 和无 augment 的 AVP 差异
+- Augment 的出现率
+- Augment 对 comp 强度的影响
+
+### 普通 Comp 中去除 Hero Augment 影响
+
+Hero augment 污染 item 分析的机制：选了 Nasus hero augment 的玩家会给 Nasus 带 dmg 装（Guinsoo 等）。这些 dmg 装混入 bonk comp 的 item 数据中，扭曲了真正 tank carry 的 BIS 排名。
+
+**解决方法**：使用 `--exclude-dmg-items` 过滤掉 dmg 装备，只看 tank 装排名：
+
+```bash
+# 只看 tank 装备（排除 hero augment 玩家带的 dmg 装）
+python3 cli.py items TFT17_Nasus --comp bonk --normal-only --exclude-dmg-items
+```
+
+compositions.py 中 6 个 hero augment comp 都标注了 `exclude_dmg_items_for` 字段。
+
+反过来，如果想分析 hero augment carry build（只看 dmg 装），可以排除 tank 装：
+
+```bash
+# 只看 carry 装备（hero augment 玩家的 build）
+python3 cli.py items TFT17_Nasus --comp bonk --normal-only --exclude-tank-items
+```
 
 ## Sources
-- [[experiments/2026-04-23-nova95-unit-evaluation]] — core findings
+- [[experiments/2026-04-23-nova95-unit-evaluation]] — core findings, level bias quantification
 - [[experiments/2026-04-23-tank-filter-reliability]] — role taxonomy evidence
+- CDragon TFT static data — S17 hero augment definitions
