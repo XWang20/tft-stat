@@ -33,7 +33,7 @@ All data excludes emblem/spatula games (`--no-emblem`).
 | meeple_corki | 9 | 1,814 | Jhin (2.16, +.020) | Galio (2.54, -.007) | Morgana (2.64, -.038) |
 | mecha | 9 | 8,605 | Jhin (1.84, +.031) | Morgana (1.88, +.010) | Shen (2.01, -.008) |
 | vanguard_leblanc | 8 | 30,605 | Galio (3.55, +.020) | Morgana (3.63, +.028) | Blitzcrank (3.68, +.009) |
-| shepherd | 9 | 0 | — (no data w/o emblem) | — | — |
+| shepherd | 9 | 699* | Morgana (2.25, -.020) | — | — |
 | nova_yi | 9 | 2,685 | Morgana (1.96, +.028) | Sona (2.10, +.011) | Caitlyn (2.19, -.053) |
 | xayah | 9 | 23,699 | Blitzcrank (1.58, +.003) | Shen (1.64, -.003) | Samira (1.67, -.006) |
 | voyager | 8 | 988 | Morgana (3.20, +.134) | — | — |
@@ -54,6 +54,8 @@ All data excludes emblem/spatula games (`--no-emblem`).
 | tf | 8 | 17,991 | Morgana (2.25, +.027) | Shen (2.28, +.012) | Sona (2.34, -.001) |
 | veigar | 8 | 5,594 | Bard (2.62, +.118) | Galio (2.78, +.024) | Karma (2.90, +.001) |
 | teemo | 8 | 9,374 | Morgana (2.69, +.026) | Blitzcrank (2.74, +.012) | Leblanc (2.76, +.012) |
+
+\* shepherd is emblem-dependent: 0 games without emblem at level 10. Data shown includes emblem games.
 
 ## What I Learned
 
@@ -85,10 +87,11 @@ Morgana is the universal +1 (14/27 comps with data).
 | voyager | Morgana | 41.0% | +0.125 | Limited data |
 | anima_diana | Rhaast | 15.6% | +0.107 | Best AVP among candidates |
 
-### 3. No +1 or Insufficient Data (2/29)
+### 3. No +1 or Insufficient Data (1/29)
 
-- **two_tanky_samira**: primary already 10 units
-- **shepherd**: only 686 games at +1 level, sole candidate Morgana has negative Necessity
+- **two_tanky_samira**: primary already 10 units, no level 11 data
+
+Note: **shepherd** is fully emblem-dependent at level 10 (0 games without emblem). Data shown with emblem; sole +1 candidate Morgana has negative Necessity.
 
 ### 4. Shared Primary Boards
 
