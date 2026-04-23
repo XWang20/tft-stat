@@ -50,6 +50,7 @@
 | [[concepts/metrics]] | ✅ | AVP, Necessity, Delta — definitions, math, when to use each |
 | [[concepts/biases]] | ✅ | Three systematic biases: survivorship (biggest), player behavior, sample size |
 | [[concepts/framework]] | ✅ | Question → filter → dimensions; primary carry vs secondary; question sourcing |
+| [[concepts/composition]] | 🧪 | Comp 内部结构：standard board size、core vs flex、role taxonomy、play rate ≠ necessity、level bias |
 
 ### Methods
 
@@ -58,6 +59,7 @@
 | [[methods/filter-strategy]] | ✅ | Filter = control variables; primary carry/secondary; 5 expert patterns; design-from-scratch loop; Simpson's Paradox |
 | [[methods/build-analysis]] | ✅ | Three-item builds, control variable, consistency check |
 | [[methods/item-analysis-debiasing]] | 🧪 | Exclude special items (artifact/radiant/anima) + conflict recompute for shared-carry bias |
+| [[methods/unit-evaluation]] | 🧪 | Unit necessity 方法：识别 standard board、level-up 分析、level bias 处理、IC3 对比 |
 
 ### Tools
 
