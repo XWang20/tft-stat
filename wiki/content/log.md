@@ -1,3 +1,10 @@
+## [2026-04-23] experiment | Nova 95 Unit Evaluation (Level-Controlled 重做)
+- [[experiments/2026-04-23-nova95-unit-evaluation]] -- 用 --level 参数重做，消除 level bias
+- Level 9 (199k games): Shen Necessity 最高(+0.95)；Akali 92.5% play rate 但 Necessity 为零
+- Level 10 (54k games): Jhin(+0.021) ≈ Rhaast(+0.019) ≈ Sona(+0.015)，三者几乎持平
+- 之前"Sona 以 3 倍优势领先"完全是 level bias -- Sona play rate 从全局 16.5% 跳到 level 10 的 42.4%
+- Maokai/TahmKench 在控制 level 后仍为负 Necessity，排除了 level bias 解释
+
 ## [2026-04-23] experiment | Vex Third Item Build Analysis
 - [[experiments/2026-04-23-vex-third-item-build]] — GS+Guinsoo 后第三件的社区争论用数据回答
 - nova_95: Red Buff(3.51) > Dcap(3.74) > Flail(3.76) >> Gunblade(3.92, 32% play rate 但排#8)
@@ -5,12 +12,9 @@
 - Dcap 是通用安全选择；Void Staff 极度 comp 依赖（DRX 穿透使其在 nova_95 多余）
 - 挑战前提：Guinsoo+Dcap core 优于 Guinsoo+GS，但可能有选择偏差
 
-## [2026-04-23] experiment | Nova 95 Unit Evaluation (Module 4 开篇)
-- [[experiments/2026-04-23-nova95-unit-evaluation]] — Module 4 首个实验
-- 标准阵容为 9 人口（9 unit play rate > 70%）
-- Shen Necessity 最高(+1.40)，最不可替代；Akali play rate 第2(91.5%) 但 Necessity 最低(+0.17)
-- 十人口：Sona 是明确首选(Nec +0.127, 3x Jhin)；三候选均为 unique trait
-- 识别 level bias 并论证相对排名可靠性
+## [2026-04-23] experiment | Nova 95 Unit Evaluation (Module 4 开篇, 已被 level-controlled 版本取代)
+- [[experiments/2026-04-23-nova95-unit-evaluation]] — 已重做为 level-controlled 版本（见上方）
+- **已过时**: 未控制 level，Sona 的优势是 level bias
 
 ## [2026-04-23] experiment | Tank Filter Reliability Cross-Unit ρ
 - [[experiments/2026-04-23-tank-filter-reliability]] — 纠正前实验"tank 不稳定"结论

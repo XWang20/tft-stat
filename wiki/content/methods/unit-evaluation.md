@@ -12,7 +12,11 @@ When the question is about **which units matter** in a comp, not which items. Ty
 
 ### Step 1: Identify Standard Board
 
-Run `python3 cli.py units --comp <COMP>` and find all units with play rate > 70%. These form the **standard board**.
+Run `python3 cli.py units --comp <COMP> --level <N>` and find all units with play rate > 70%. These form the **standard board**.
+
+Use `--level` to control for player level. The standard board level is typically 9 for most comps:
+- `--level 9` for standard board analysis
+- `--level 10` for level-up candidate analysis
 
 The count of standard-board units tells you the comp's natural level:
 - 9 units > 70% → level 9 comp (e.g., nova_95)
@@ -39,13 +43,21 @@ Where `p` = unit play rate, `unit_AVP` = AVP in games containing this unit.
 
 ### Step 3: Level-Up Analysis
 
-For the "who to add at level N+1" question:
+For the "who to add at level N+1" question, **always use `--level` to control for player level**:
+
+```bash
+python3 cli.py units --comp <COMP> --level 10
+```
+
+This ensures all data comes from the same population (level 10 players), eliminating level bias.
 
 1. Look at non-core units with positive necessity
-2. Rank by necessity (relative ranking is reliable despite level bias)
+2. Rank by necessity
 3. Check **trait activation** — does the unit trigger a new breakpoint?
 4. Check **sample size** — units below 1% play rate may be noise
-5. Check **competition** — are top candidates mutually exclusive (Sona vs Jhin) or complementary?
+5. Check **competition** — are top candidates mutually exclusive or complementary?
+
+**Critical**: Without `--level`, level-up candidates have inflated necessity because reaching higher levels is correlated with winning. Sona in nova_95 went from +0.127 (uncontrolled) to +0.015 (level-controlled) — an 88% drop.
 
 ### Step 4: Cross-Validation
 
@@ -60,18 +72,23 @@ This means cross-validation for units is **not** the same as for items (where rh
 
 ## Known Limitations
 
-1. **Level bias**: Level-up candidates have inflated absolute necessity. Use relative rankings only.
-2. **w/o sample**: For core units (90%+ play rate), the "without" sample is small and potentially unrepresentative — these are games where the player couldn't find the unit.
-3. **No causal claim**: Negative necessity (Maokai, TahmKench) does not mean "this unit hurts the comp" — it means the unit appears in weaker game states (selection bias).
-4. **Emblem/spatula**: Not controlled. A unit's high necessity might depend on having an emblem that's not always available.
+1. **w/o sample**: For core units (90%+ play rate), the "without" sample is small and potentially unrepresentative — these are games where the player couldn't find the unit.
+2. **No causal claim**: Negative necessity (Maokai, TahmKench) does not mean "this unit hurts the comp" — it means the unit appears in weaker game states (selection bias). Note: this holds even after controlling for level.
+3. **Emblem/spatula**: Not controlled. A unit's high necessity might depend on having an emblem that's not always available.
+4. **Compressed AVP at high levels**: At level 10, overall AVP is very low (2.08 for nova_95), so all Necessity values are small. Differences between candidates may be within noise.
 
-## Example: Nova 95
+## Example: Nova 95 (Level-Controlled)
 
-Standard board (9 units): Aatrox, Akali, Vex, Fiora, Shen, Graves, Morgana, Blitzcrank, Nunu
+Standard board (9 units at level 9): Aatrox, Akali, Vex, Fiora, Shen, Graves, Morgana, Blitzcrank, Nunu
 
-Level 10 ranking: Sona (+0.127) > Jhin (+0.043) > Rhaast (+0.016)
+Level 9 (199k games, AVP 4.67):
+- Shen (+0.95) most irreplaceable, Akali (0.00) least
 
-Key insight: Shen (+1.40 necessity) is far more irreplaceable than Akali (+0.17) despite similar play rates. Tanks can be more critical than carries in comp structure.
+Level 10 (54k games, AVP 2.08):
+- Jhin (+0.021) ≈ Rhaast (+0.019) ≈ Sona (+0.015) — nearly equal after controlling for level
+- Without level control, Sona appeared 3x better (level bias artifact)
+
+Key insight: Shen (+0.95 necessity) is far more irreplaceable than Akali (+0.00) despite similar play rates. Tanks can be more critical than carries in comp structure.
 
 ## Sources
 - [[experiments/2026-04-23-nova95-unit-evaluation]] — method development
