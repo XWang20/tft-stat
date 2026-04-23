@@ -9,16 +9,47 @@ A composition is not just a filter — it has internal structure. Understanding 
 
 Every comp has a **standard board size** — the number of units that appear together in > 70% of games. This is the "natural" level for the comp:
 
-| Comp Type | Typical Board Size | Example |
-|---|---|---|
-| 5-cost carry | 9 units | nova_95: 9 units > 70% play rate |
-| 4-cost carry | 8 units | compositions.py 多数定义 8 个 unit |
-| Reroll (1-3 cost) | 7-8 units | bonk: Nasus-centric, 7-8 units |
+| Comp Type | Core Size | Flex Pop | Example |
+|---|---|---|---|
+| 5-cost carry | 9 units | 10 (看第 10 人) | nova_95 |
+| 4-cost carry | 8 units | 9 (看第 9 人) | dark_star, mecha |
+| Reroll (1-3 cost) | — | — (无灵活位) | bonk, termeepnal_velocity |
 
 Standard board size determines:
-- **At what level the comp "comes online"** — level 9 for nova_95
-- **What the level-up question is** — nova_95 asks "who is the 10th unit", not the 9th
-- **How to interpret unit necessity** — core units (> 70%) measure irreplaceability; non-core units measure marginal value
+- **At what level the comp "comes online"** — level 9 for 5-cost, level 8 for 4-cost
+- **What the +1 question is** — 5-cost asks "who is the 10th unit", 4-cost asks "who is the 9th"
+- **How to interpret unit necessity** — core units measure irreplaceability; +1 candidates measure marginal value
+
+### Comp Variants and Flex Slots
+
+Comp 的构成有三种模式：
+
+**1. 固定阵容（无灵活位）**：所有核心 unit 都是确定的，没有替换空间。多见于 reroll comp（如 bonk = Nasus 3★ + 固定队友）。这类 comp 不需要 +1 分析。
+
+**2. 存在灵活位**：核心 N 个 unit 固定，但第 N+1 个位置有多个候选互相竞争。这是 +1 分析的经典场景：
+- 5-cost comp: 固定 9 核心，10 人口时选第 10 人（如 nova_95: Sona vs Jhin vs Rhaast）
+- 4-cost comp: 固定 8 核心，9 人口时选第 9 人
+
+**3. 存在 Variant**：同一个 comp 有多个变体，核心阵容本身就不同。例如一个 comp 可能有 "标准版" 和 "高 roll 版"，两者的核心 unit 不同。tftable 通过 `comp_variants.py` 自动检测 variant — 对同一 comp 的所有 board 做聚类，找到出现率最高的阵容模式，variant 之间的差异用 symmetric difference 衡量。
+
+### +1 分析方法（控制变量法）
+
+分析灵活位的标准方法（参见 [[methods/unit-evaluation]]）：
+
+1. 确定 core_type：5-cost → core_size=9, flex_pop=10；4-cost → core_size=8, flex_pop=9
+2. 从 unit appearance rate 中取 top core_size 个 unit 作为 CoreUnits
+3. Filter 固定 CoreUnits + `--level flex_pop` → 只保留"标准阵容 + 1"的局面
+4. 对非 CoreUnit 计算 Necessity → 排名
+
+```bash
+# 5-cost example: nova_95 固定 9 核心, 看 level 10 的第 10 人
+python3 cli.py units --comp nova_95 --level 10 --filter "\
+Unit('TFT17_Aatrox') & Unit('TFT17_Akali') & Unit('TFT17_Vex') \
+& Unit('TFT17_Fiora') & Unit('TFT17_Shen') & Unit('TFT17_Graves') \
+& Unit('TFT17_Morgana') & Unit('TFT17_Blitzcrank') & Unit('TFT17_Nunu')"
+```
+
+低费 reroll comp（cost < 4）跳过 +1 分析 — 这类 comp 的阵容在 level 7-8 就已经定型，不存在有意义的灵活位。
 
 ### Core vs Flex
 
@@ -26,9 +57,9 @@ Within a comp's standard board:
 
 **Core units** (play rate > 70%): Always present. Their necessity measures **irreplaceability** — how much the comp suffers without them.
 
-**Flex slots**: Positions where multiple units compete. Example: nova_95 at level 9 includes both Blitzcrank (73%) and Nunu (73%), but at level 8 players choose between them.
+**Flex slots**: Positions where multiple units compete. In the +1 analysis, flex candidates are non-core units that appear in the controlled population.
 
-**Level-up candidates**: Units below the core threshold (< 20% play rate) that appear when players reach higher levels. Their necessity measures **marginal value** but is inflated by level bias.
+**Level-up candidates**: Units below the core threshold (< 20% play rate) that appear when players reach higher levels. Use `--level` + fix core to control for level bias and board completeness.
 
 ### Role Taxonomy
 
@@ -120,6 +151,8 @@ python3 cli.py items TFT17_Nasus --comp bonk --normal-only --exclude-tank-items
 ```
 
 ## Sources
-- [[experiments/2026-04-23-nova95-unit-evaluation]] — core findings, level bias quantification
+- [[experiments/2026-04-23-nova95-unit-evaluation]] — core findings, level bias quantification, control variable method
 - [[experiments/2026-04-23-tank-filter-reliability]] — role taxonomy evidence
 - CDragon TFT static data — S17 hero augment definitions
+- `tft_data/analysis/team_comp/flex_slot.py` — tftable flex slot analysis implementation
+- `tft_data/analysis/team_comp/comp_variants.py` — variant detection logic
