@@ -7,8 +7,9 @@
 
 ## [2026-04-23] experiment | Nova 95 Unit Evaluation (Module 4 开篇)
 - [[experiments/2026-04-23-nova95-unit-evaluation]] — Module 4 首个实验
+- 标准阵容为 9 人口（9 unit play rate > 70%）
 - Shen Necessity 最高(+1.40)，最不可替代；Akali play rate 第2(91.5%) 但 Necessity 最低(+0.17)
-- 九人口：Sona 是明确首选(Nec +0.127, 3x Jhin)；三候选均为 unique trait
+- 十人口：Sona 是明确首选(Nec +0.127, 3x Jhin)；三候选均为 unique trait
 - 识别 level bias 并论证相对排名可靠性
 
 ## [2026-04-23] experiment | Tank Filter Reliability Cross-Unit ρ

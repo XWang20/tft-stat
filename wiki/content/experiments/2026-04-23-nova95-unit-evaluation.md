@@ -1,13 +1,13 @@
-# Experiment: Unit Evaluation -- Nova 95 九人口分析
+# Experiment: Unit Evaluation -- Nova 95 十人口分析
 **Status**: 🧪 draft
 **Date**: 2026-04-23
 **Module**: 4 (Unit Evaluation)
 
 ## The Question
 
-在 Nova 95 阵容中，标准 8 人口阵容由哪些 unit 组成？到 9 人口时，挂谁最能提升 AVP？
+在 Nova 95 阵容中，标准 9 人口阵容由哪些 unit 组成？到 10 人口时，挂谁最能提升 AVP？
 
-这是一个玩家每局都会面临的决策问题。Level 9 时选择的 unit 直接影响对局结果。
+这是一个玩家每局都会面临的决策问题。Level 10 时选择的 unit 直接影响对局结果。
 
 ## Chapter 1: Nova 95 核心阵容结构
 
@@ -45,15 +45,15 @@ Nova 95 的 `compositions.py` 定义：
 | Blitzcrank | 73.2% | 4.05 |
 | Nunu | 73.0% | 4.15 |
 
-9 个 unit 竞争 8 个位置。实际游戏中，Blitzcrank 和 Nunu 互相竞争第 8 个槽位——两者 play rate 极为接近 (73% vs 73%)。
+9 个 unit 组成标准 level 9 阵容。实际游戏中，Blitzcrank 和 Nunu 都是核心成员——两者 play rate 极为接近 (73% vs 73%)，可能根据局面二选一或都上场。
 
 ### 样本 Board 验证
 
 从 15 个样本 board 中观察到的典型结构：
 
-**标准 Level 8**：Aatrox + Akali + Shen + Fiora + Vex + Graves + (Morgana 或 Blitzcrank) + Nunu
+**标准 Level 9**：Aatrox + Akali + Shen + Fiora + Vex + Graves + Morgana + Blitzcrank + Nunu
 
-**Level 9-10 常见追加**：Sona（出现在 #1、#2 名次的 board 中）、Maokai、TahmKench（出现在中下名次 board 中）
+**Level 10 常见追加**：Sona（出现在 #1、#2 名次的 board 中）、Maokai、TahmKench（出现在中下名次 board 中）
 
 ## Chapter 2: Unit Necessity 排名
 
@@ -79,7 +79,7 @@ Necessity = p/(1-p) * (overall_AVP - unit_AVP)
 | 8 | Graves | 84.5% | 4.25 | **+0.225** | 4.51 |
 | 9 | Akali | 91.5% | 4.27 | **+0.170** | 4.46 |
 
-### 非核心 Unit（level 9 候选，正 Necessity）
+### 非核心 Unit（level 10 候选，正 Necessity）
 
 | Rank | Unit | Play Rate | AVP | Necessity | Games |
 |---|---|---|---|---|---|
@@ -105,11 +105,11 @@ Akali 是 **play rate 第二高**（91.5%）但 **necessity 最低**（+0.170）
 
 相比之下，Shen 的 play rate (86.0%) 不是最高，但 necessity (1.402) 最大——没有 Shen 的局 AVP 暴跌到 5.69。Shen 是 Nova 95 最不可替代的 unit。
 
-## Chapter 3: 九人口候选分析
+## Chapter 3: 十人口候选分析
 
 ### 候选人一览
 
-Level 9 增加的第 9 个 unit，正 necessity 候选排序：
+Level 10 增加的第 10 个 unit，正 necessity 候选排序：
 
 | 排名 | Unit | Play Rate | AVP | Necessity | Trait |
 |---|---|---|---|---|---|
@@ -142,7 +142,7 @@ Sona 和 Jhin 是否在同一 board 上出现（level 10 情况）？
 - 在 44,710 局 Sona 局中，仅 4.5% 同时有 Jhin
 - 在 19,110 局 Jhin 局中，10.5% 同时有 Sona
 
-结论：Sona 和 Jhin 是**竞争关系**（二选一），不是互补关系。大部分局面中，玩家在 level 9 选择 Sona 或 Jhin 其中一个。
+结论：Sona 和 Jhin 是**竞争关系**（二选一），不是互补关系。大部分局面中，玩家在 level 10 选择 Sona 或 Jhin 其中一个。
 
 ### Trait 分析
 
@@ -150,14 +150,14 @@ Sona 和 Jhin 是否在同一 board 上出现（level 10 情况）？
 
 ### 关键 Caveat: Level Bias (选择偏差)
 
-Unit necessity 用于 level 9 分析有一个根本性的偏差：
+Unit necessity 用于 level 10 分析有一个根本性的偏差：
 
-**到达 level 9 本身就与胜利相关。** 到达 level 9 的玩家通常：
+**到达 level 10 本身就与胜利相关。** 到达 level 10 的玩家通常：
 1. 已经处于优势（连胜或高血量）
 2. 有足够的经济支撑升级
 3. 核心阵容已经成型
 
-因此任何作为 "第 9 个 unit" 出现的 unit 都会有系统性偏高的 AVP。
+因此任何作为 "第 10 个 unit" 出现的 unit 都会有系统性偏高的 AVP。
 
 但是：**这个偏差对所有候选 unit 是等价的。** 不论选 Sona 还是 Jhin 还是 Rhaast，level bias 对三者的影响方向和幅度相同。所以 **相对排名** (Sona > Jhin > Rhaast) 应该是可靠的，即使绝对 necessity 值被 level bias 膨胀了。
 
@@ -170,7 +170,7 @@ Maokai (30.4%) 和 TahmKench (31.4%) 的 play rate 远高于 Sona (16.5%)，但 
 | Maokai 无 Sona | 69,430 | 4.636 |
 | Maokai 有 Sona | 13,129 | 3.961 |
 
-Maokai 在没有 Sona 的局中 AVP 高达 4.636（很差）——这些是 level 8 挣扎中用 Maokai 凑前排的局。Maokai 不是"让阵容变差"，而是"出现在本来就差的局面里"——典型的 selection bias。
+Maokai 在没有 Sona 的局中 AVP 高达 4.636（很差）——这些是 level 9 挣扎中用 Maokai 凑前排的局。Maokai 不是"让阵容变差"，而是"出现在本来就差的局面里"——典型的 selection bias。
 
 ## Cross-Validation
 
@@ -206,7 +206,7 @@ Item necessity 衡量的是"某件装备对 carry 有多重要"——前提是 c
 对于 **核心 unit**（play rate > 70%），necessity 主要反映"不可替代性"：
 - Shen (+1.40) > Fiora (+1.16) > Vex (+0.93) — 坦克/前排比输出位更不可替代
 
-对于 **非核心 unit**（play rate < 20%），necessity 主要反映"level 9 边际价值"，但严重受 level bias 影响。
+对于 **非核心 unit**（play rate < 20%），necessity 主要反映"level 10 边际价值"，但严重受 level bias 影响。
 
 ### 2. Play Rate 和 Necessity 分离
 
@@ -216,9 +216,9 @@ Akali (91.5% play rate, +0.170 necessity) vs Shen (86.0% play rate, +1.402 neces
 
 这和 item 分析中 "play rate 不代表重要性" 是同一个原理。
 
-### 3. Level 9 结论：Sona 是明确的首选
+### 3. Level 10 结论：Sona 是明确的首选
 
-在 level bias 影响等价的前提下，Sona 以 3 倍于第二名的 necessity 优势成为最佳 level 9 选择。
+在 level bias 影响等价的前提下，Sona 以 3 倍于第二名的 necessity 优势成为最佳 level 10 选择。
 
 - Sona: 44,710 局验证，AVP 3.64，Necessity +0.127
 - Jhin: 19,110 局验证，AVP 3.72，Necessity +0.043
@@ -228,20 +228,20 @@ Akali (91.5% play rate, +0.170 necessity) vs Shen (86.0% play rate, +1.402 neces
 
 ### 4. 负 Necessity 不代表 "unit 有害"
 
-Maokai (-0.104) 和 TahmKench (-0.117) 的负 necessity 主要是 selection bias 而非因果关系。它们出现在玩家阵容残缺、level 8 凑前排的弱势局面中。
+Maokai (-0.104) 和 TahmKench (-0.117) 的负 necessity 主要是 selection bias 而非因果关系。它们出现在玩家阵容残缺、level 9 凑前排的弱势局面中。
 
 ## Open Questions
 
-1. **如何消除 level 9 分析中的 level bias？** 可能方法：只看 9+ unit 的 board，控制 board size 变量
+1. **如何消除 level 10 分析中的 level bias？** 可能方法：只看 10 unit 的 board，控制 board size 变量
 2. **IC3 necessity 到底怎么计算的？** 理解 tftable 的 unit 级指标是 Module 4 的关键前提
 3. **Sona 的具体价值来源是什么？** 是 Commander trait 的效果，还是 Sona 本身的技能？需要 build 级分析
-4. **Akali 的低 necessity 是否意味着可以替换？** 如果 Akali 在 level 8 就可以被更好的 unit 替代，这对 nova_95 的 level 8 构建也有意义
+4. **Akali 的低 necessity 是否意味着可以替换？** 如果 Akali 在 level 9 就可以被更好的 unit 替代，这对 nova_95 的 level 9 构建也有意义
 5. **unit necessity 的 Spearman ρ = -0.476 是系统性的吗？** 需要在更多 comp 上测试
 
 ## Questions for Xing
 
 1. **IC3 necessity 的计算方式**——是 "Item Count 3" 的缩写吗？它衡量的是 unit 作为 carry 的重要性还是存在的重要性？这直接决定了我们的 unit necessity 是否需要换一个公式。
-2. **Level bias 的标准处理方式**——在 tftable 或其他工具中，level 9 分析是否有标准方法来控制 level bias？
-3. **Sona 的结论是否符合直觉？** 作为玩家，level 9 选 Sona 是否是 Nova 95 的常见选择？
+2. **Level bias 的标准处理方式**——在 tftable 或其他工具中，level 10 分析是否有标准方法来控制 level bias？
+3. **Sona 的结论是否符合直觉？** 作为玩家，level 10 选 Sona 是否是 Nova 95 的常见选择？
 
 ## Review

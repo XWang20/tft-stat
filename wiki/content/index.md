@@ -17,7 +17,7 @@
 | 1 | Filter Design | How do we define "this comp" precisely? | ✅ | Filter is foundation; same unit different comp = different BIS |
 | 2 | Item Metrics | Given a comp, what metric tells us if an item is good? | ✅ | Necessity best single metric; Edge ≡ AVP; shrinkage doesn't fix bias |
 | 3 | Build Analysis | How do item combinations interact? | 🧪 | Control variable + consistency check validated |
-| 4 | Unit Evaluation | Which units matter most in a comp? | 🧪 | Shen most irreplaceable; level 9 Sona best; play rate ≠ necessity |
+| 4 | Unit Evaluation | Which units matter most in a comp? | 🧪 | Shen most irreplaceable; level 10 Sona best; play rate ≠ necessity |
 | 5 | Trait Breakpoints | When is 4->6 trait worth the cost? | 🧪 | Item rankings stable across tiers; selection bias persists within comps; filter leakage issue |
 | 6 | Comp Comparison | How do we compare two different comps? | ⬜ | — |
 | 7 | Emblem & Augment | What's the best emblem/augment for a comp? | ⬜ | — |
@@ -99,7 +99,7 @@
 | [[experiments/2026-04-22-filter-design-clustering]] | 2026-04-22 | 1 | 🧪 | Discovered 7 comp patterns from 38 boards; compared with 29 expert definitions; carry uniqueness determines filter complexity |
 | [[experiments/2026-04-22-xayah-stargazer-items]] | 2026-04-22 | 2, 7 | 🧪 | Xayah items × 7 Stargazers; core items stable; Guinsoo's diverges by Stargazer; IE negative is Jhin selection bias (conflict recompute) |
 | [[experiments/2026-04-23-vex-third-item-build]] | 2026-04-23 | 2, 3 | 🧪 | GS+Guinsoo 后第三件：nova_95 Red Buff 最优，vex_95 Dcap 最优；Gunblade 被严重高估(32% play rate 排#8)；Void Staff 极度 comp 依赖 |
-| [[experiments/2026-04-23-nova95-unit-evaluation]] | 2026-04-23 | 4 | 🧪 | Module 4 开篇：Shen Necessity 最高(+1.40)；九人口 Sona 是明确首选(3x Jhin)；Akali 高 play rate 低 Necessity |
+| [[experiments/2026-04-23-nova95-unit-evaluation]] | 2026-04-23 | 4 | 🧪 | Module 4 开篇：Shen Necessity 最高(+1.40)；十人口 Sona 是明确首选(3x Jhin)；Akali 高 play rate 低 Necessity |
 | [[experiments/2026-04-23-tank-filter-reliability]] | 2026-04-23 | 1, 9 | 🧪 | 纠正前实验：真正带装的 tank(Nasus/Poppy/Cho) ρ=0.929-1.000，与 carry 一样稳定；Galio 揭示 comp-specific 物品反转现象 |
 
 ### Experiment Queue
