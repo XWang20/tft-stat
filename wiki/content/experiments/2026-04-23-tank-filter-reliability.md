@@ -38,84 +38,90 @@ This asymmetry is itself informative: **1-cost reroll comps have simple filters 
 
 ## Chapter 2: Nasus (bonk) -- The Tanky Carry
 
-### Data by Filter Level
-
-| Filter Level | Games | Overall AVP | Description |
-|-------------|-------|-------------|-------------|
-| Comp (i3) | 63,545 | 4.31 | compositions.py: Nasus i3 |
-| s3:i3 | 59,520 | 4.27 | 3-star Nasus with 3 items |
-| None | 469,155 | 4.58 | All Nasus games |
-
-### Necessity Rankings (8 tank items)
-
-| Item | Comp (i3) | s3:i3 | None |
-|------|-----------|-------|------|
-| Warmog's Armor | 1 (+0.102) | 1 (+0.098) | 1 (+0.022) |
-| Sunfire Cape | 2 (+0.093) | 2 (+0.098) | 2 (+0.018) |
-| Ionic Spark | 3 (+0.072) | 3 (+0.074) | 5 (+0.013) |
-| Spirit Visage | 4 (+0.068) | 4 (+0.069) | 3 (+0.017) |
-| Steadfast Heart | 5 (+0.061) | 5 (+0.060) | 4 (+0.014) |
-| Dragon's Claw | 6 (+0.049) | 6 (+0.049) | 6 (+0.012) |
-| Bramble Vest | 7 (+0.048) | 7 (+0.047) | 7 (+0.011) |
-| Protector's Vow | 8 (+0.040) | 8 (+0.044) | 8 (+0.010) |
-
-### Spearman rho
-
-| Comparison | rho |
-|-----------|-----|
-| Comp vs s3:i3 | **1.000** |
-| Comp vs None | **0.929** |
-| s3:i3 vs None | **0.929** |
-
-**Finding**: Nasus's tank item rankings are remarkably stable. The top 2 (Warmog's, Sunfire) never move. Adding the 3-star requirement (s3:i3) doesn't change rankings at all (rho = 1.000). Even with no filter, rho = 0.929 -- the only movement is Ionic Spark and Spirit Visage swapping positions 3-5.
-
----
-
-## Chapter 3: Poppy (termeepnal_velocity) -- Another Tanky Carry
+> All queries use `--normal-only` to exclude radiant/special items.
 
 ### Data by Filter Level
 
 | Filter Level | Games | Overall AVP | Description |
 |-------------|-------|-------------|-------------|
-| Comp (i3) | 93,017 | 4.35 | compositions.py: Poppy i3 |
-| s3:i3 | 83,239 | 4.28 | 3-star Poppy with 3 items |
-| None | 415,333 | 4.61 | All Poppy games |
+| Comp (i3) | 52,448 | 4.29 | compositions.py: Nasus i3 |
+| s3:i3 | 49,502 | 4.26 | 3-star Nasus with 3 items |
+| None | 437,407 | 4.57 | All Nasus games |
 
 ### Necessity Rankings (8 tank items)
 
 | Item | Comp (i3) | s3:i3 | None |
 |------|-----------|-------|------|
-| Crownguard | 1 (+0.106) | 1 (+0.107) | 1 (+0.034) |
-| Ionic Spark | 2 (+0.081) | 2 (+0.087) | 2 (+0.028) |
-| Protector's Vow | 3 (+0.056) | 3 (+0.055) | 3.5 (+0.024) |
-| Sunfire Cape | 4 (+0.033) | 4 (+0.046) | 3.5 (+0.024) |
-| Warmog's Armor | 5 (+0.031) | 5 (+0.040) | 5 (+0.023) |
-| Dragon's Claw | 6 (+0.029) | 6 (+0.033) | 7 (+0.017) |
-| Steadfast Heart | 7.5 (+0.028) | 8 (+0.023) | 8 (+0.016) |
-| Spirit Visage | 7.5 (+0.028) | 7 (+0.033) | 6 (+0.019) |
+| Warmog's Armor | 1 (+0.114) | 2 (+0.110) | 1 (+0.021) |
+| Sunfire Cape | 2 (+0.111) | 1 (+0.115) | 2 (+0.019) |
+| Ionic Spark | 3 (+0.084) | 3 (+0.086) | 5 (+0.014) |
+| Spirit Visage | 4 (+0.079) | 4 (+0.080) | 3 (+0.017) |
+| Steadfast Heart | 5 (+0.068) | 5 (+0.067) | 4 (+0.014) |
+| Dragon's Claw | 6 (+0.056) | 6 (+0.056) | 6 (+0.012) |
+| Bramble Vest | 7 (+0.053) | 7 (+0.052) | 7 (+0.011) |
+| Protector's Vow | 8 (+0.046) | 8 (+0.050) | 8 (+0.010) |
 
 ### Spearman rho
 
 | Comparison | rho |
 |-----------|-----|
 | Comp vs s3:i3 | **0.976** |
-| Comp vs None | **0.952** |
+| Comp vs None | **0.929** |
+| s3:i3 vs None | **0.905** |
+
+**Finding**: Nasus's tank item rankings are highly stable. Warmog's and Sunfire are always the top 2 (swapping 1-2 between Comp and s3:i3, hence rho = 0.976 instead of 1.000). Even with no filter, rho = 0.929 -- the only movement is Ionic Spark dropping from 3 to 5 while Spirit Visage and Steadfast Heart rise. Ranks 6-8 are perfectly stable across all levels.
+
+---
+
+## Chapter 3: Poppy (termeepnal_velocity) -- Another Tanky Carry
+
+> All queries use `--normal-only` to exclude radiant/special items.
+
+### Data by Filter Level
+
+| Filter Level | Games | Overall AVP | Description |
+|-------------|-------|-------------|-------------|
+| Comp (i3) | 77,914 | 4.32 | compositions.py: Poppy i3 |
+| s3:i3 | 69,995 | 4.25 | 3-star Poppy with 3 items |
+| None | 382,571 | 4.61 | All Poppy games |
+
+### Necessity Rankings (8 tank items)
+
+| Item | Comp (i3) | s3:i3 | None |
+|------|-----------|-------|------|
+| Crownguard | 1 (+0.115) | 1 (+0.116) | 1 (+0.034) |
+| Ionic Spark | 2 (+0.085) | 2 (+0.093) | 2 (+0.029) |
+| Protector's Vow | 3 (+0.061) | 3 (+0.061) | 4 (+0.025) |
+| Sunfire Cape | 4 (+0.036) | 4 (+0.050) | 3 (+0.025) |
+| Dragon's Claw | 5 (+0.030) | 7 (+0.034) | 7 (+0.018) |
+| Spirit Visage | 6 (+0.029) | 6 (+0.035) | 6 (+0.020) |
+| Steadfast Heart | 7 (+0.028) | 8 (+0.023) | 8 (+0.016) |
+| Warmog's Armor | 8 (+0.026) | 5 (+0.036) | 5 (+0.023) |
+
+### Spearman rho
+
+| Comparison | rho |
+|-----------|-----|
+| Comp vs s3:i3 | **0.833** |
+| Comp vs None | **0.810** |
 | s3:i3 vs None | **0.976** |
 
-**Finding**: Poppy is even more stable than Nasus. Crownguard and Ionic Spark are always #1 and #2 -- exactly what you'd expect for a champion whose ability scales with armor (Crownguard gives AP on armor proc, Ionic Spark shreds MR). The small movements at ranks 6-8 involve Spirit Visage vs Dragon's Claw vs Steadfast Heart, which are all similarly valued defensive items.
+**Finding**: Crownguard and Ionic Spark are always #1 and #2 -- exactly what you'd expect for a champion whose ability scales with armor. But the mid-tier rankings (5-8) shift more than Nasus. Warmog's Armor is rank 8 in Comp but rank 5 in s3:i3 and None, driving the lower Comp vs s3:i3 rho. Notably, s3:i3 vs None is highly stable (0.976), suggesting the Comp definition (which equals Poppy i3, without the 3-star requirement) happens to shift a few mid-tier items compared to the 3-star subset.
 
 ---
 
 ## Chapter 4: Cho'Gath (ez_chogath) -- True Tank with Complex Filter
 
+> All queries use `--normal-only` to exclude radiant/special items.
+
 ### Filter Levels
 
 | Level | Games | Overall AVP | Filter |
 |-------|-------|-------------|--------|
-| Full | 87,915 | 4.76 | (Cho i2 OR Pantheon i2) AND Ezreal i2 |
-| Partial | 83,686 | 4.74 | Cho i2 AND Ezreal i2 (drop Pantheon OR) |
-| Minimal | 116,761 | 4.71 | Cho i2 only |
-| None | 265,607 | 4.72 | All Cho'Gath games |
+| Full | 70,276 | 4.79 | (Cho i2 OR Pantheon i2) AND Ezreal i2 |
+| Partial | 66,108 | 4.77 | Cho i2 AND Ezreal i2 (drop Pantheon OR) |
+| Minimal | 90,922 | 4.73 | Cho i2 only |
+| None | 233,129 | 4.74 | All Cho'Gath games |
 
 Note: the ez_chogath comp is the first tank in our experiment with genuine filter complexity. The OR with Pantheon and the AND with Ezreal create meaningful structure to degrade.
 
@@ -123,32 +129,32 @@ Note: the ez_chogath comp is the first tank in our experiment with genuine filte
 
 | Item | Full | Partial | Minimal | None |
 |------|------|---------|---------|------|
-| Spirit Visage | 1 (+0.090) | 1 (+0.081) | 1 (+0.070) | 1 (+0.025) |
-| Warmog's Armor | 2 (+0.052) | 3 (+0.043) | 2 (+0.043) | 2 (+0.018) |
-| Dragon's Claw | 3 (+0.049) | 2 (+0.044) | 3 (+0.041) | 3 (+0.017) |
-| Protector's Vow | 4 (+0.037) | 4 (+0.036) | 4 (+0.034) | 4 (+0.015) |
-| Crownguard | 5 (+0.021) | 5 (+0.020) | 5 (+0.018) | 5 (+0.009) |
-| Bramble Vest | 6 (+0.010) | 7 (+0.007) | 6 (+0.011) | 6 (+0.006) |
-| Soraka's Miracle | 7 (+0.009) | 6 (+0.009) | 7 (+0.007) | 7 (+0.003) |
+| Spirit Visage | 1 (+0.107) | 1 (+0.097) | 1 (+0.083) | 1 (+0.021) |
+| Warmog's Armor | 2 (+0.063) | 2 (+0.054) | 2 (+0.054) | 2 (+0.016) |
+| Dragon's Claw | 3 (+0.056) | 3 (+0.050) | 3 (+0.048) | 3 (+0.015) |
+| Protector's Vow | 4 (+0.045) | 4 (+0.043) | 4 (+0.042) | 4 (+0.014) |
+| Crownguard | 5 (+0.028) | 5 (+0.027) | 5 (+0.023) | 5 (+0.009) |
+| Bramble Vest | 6 (+0.013) | 6 (+0.010) | 6 (+0.014) | 6 (+0.005) |
+| Ionic Spark | 7 (-0.001) | 7 (-0.002) | 7 (+0.002) | 7 (+0.001) |
 
 ### Spearman rho
 
 | Comparison | rho |
 |-----------|-----|
-| Full vs Partial | **0.929** |
+| Full vs Partial | **1.000** |
 | Full vs Minimal | **1.000** |
 | Full vs None | **1.000** |
-| Partial vs Minimal | **0.929** |
-| Partial vs None | **0.929** |
+| Partial vs Minimal | **1.000** |
+| Partial vs None | **1.000** |
 | Minimal vs None | **1.000** |
 
-**Finding**: Cho'Gath's rankings are **perfectly stable** (rho = 1.000 for Full vs None). Spirit Visage is always #1, Warmog's #2, Dragon's Claw #3, etc. The only minor movement is between Warmog's and Dragon's Claw (positions 2-3 swap in Partial). This is as stable as Vex or better.
-
-The ez_chogath comp definition includes Ezreal and Pantheon, which provide meaningful comp context. Yet removing this context entirely (None) doesn't change Cho'Gath's item rankings at all. Cho'Gath's tank build is apparently universal -- the same items are good regardless of what carries surround him.
+**Finding**: Cho'Gath's rankings are **perfectly stable** across all filter levels (rho = 1.000 for every pair). Spirit Visage is always #1, Warmog's #2, Dragon's Claw #3, all the way down to Ionic Spark at #7. With `--normal-only`, even the previously observed Warmog/Dragon's Claw swap in Partial (which produced rho = 0.929 in the original data) disappears. Cho'Gath's tank build is truly universal -- the same items are best regardless of comp context.
 
 ---
 
 ## Chapter 5: Galio (mecha) -- The Revealing Case
+
+> All queries use `--normal-only` to exclude radiant/special items.
 
 Galio is the first unit in our experiment where filter changes produce dramatic instability. But the story is more nuanced than "tanks are unstable."
 
@@ -164,8 +170,6 @@ Galio is the first unit in our experiment where filter changes produce dramatic 
 ### The Two-World Problem
 
 Galio's item pool splits into two entirely different worlds depending on filter:
-
-> **⚠️ 方法论注意**: 原始分析未使用 `--normal-only`，光装（Radiant Gargoyle、Lioness's Lament、Iceblast Armor 等）混入了排名。下方补充 `--normal-only` 数据。核心结论（Gargoyle/Sterak 的 comp-specific 地位）不变，但 rho 计算受到光装干扰。
 
 **In Mecha (Full, `--normal-only`, 114,773 games):**
 
@@ -216,7 +220,7 @@ Generic tank items maintain reasonable stability even across the mecha/non-mecha
 
 ## Chapter 6: Why Mordekaiser Was Different
 
-The previous experiment found Mordekaiser (dark_star) at rho = 0.048. This experiment shows that properly-itemized tanks achieve rho of 0.929-1.000. What explains the gap?
+The previous experiment found Mordekaiser (dark_star) at rho = 0.048. This experiment shows that properly-itemized tanks achieve rho of 0.810-1.000. What explains the gap?
 
 **Mordekaiser is not the primary itemized unit in dark_star.** The dark_star comp definition (`Trait('TFT17_DarkStar', min_units=4) & ~Kaisa_s3 & ~Chogath_s3`) does not specify Mordekaiser at all -- he's just one of many DarkStar units. Players typically prioritize items on the carries (Jhin, Kindred) and give Mordekaiser leftover items or none at all.
 
@@ -232,9 +236,10 @@ In contrast, all four tanks in this experiment ARE the primary itemized unit in 
 | Category | Example | Comp vs None rho | Why |
 |----------|---------|-------------------|-----|
 | Primary Carry | Vex (nova_95) | 0.976 | Unit IS the comp |
-| Tanky Carry | Nasus (bonk), Poppy | 0.929-0.952 | Unit IS the comp, builds tank items |
+| Tanky Carry | Nasus (bonk) | 0.929 | Unit IS the comp, builds tank items |
+| Tanky Carry | Poppy (termeepnal_velocity) | 0.810 | Unit IS the comp, mid-tier items shift |
 | Primary Tank | Cho'Gath (ez_chogath) | 1.000 | Universally good tank items |
-| Comp-Specific Tank | Galio (mecha) | 0.548 (full) / 1.000 (secondary) | Comp determines build identity |
+| Comp-Specific Tank | Galio (mecha) | 0.750 (generic only) | Comp determines build identity |
 | Non-Itemized "Tank" | Mordekaiser (dark_star) | 0.048 | Sparse data, role confusion |
 
 ---
@@ -247,15 +252,17 @@ tftable was unavailable during this experiment (SSH to desktop timed out). Cross
 
 ## What I Learned
 
-1. **The previous conclusion was wrong: "tanks have unstable item rankings" is not correct.** When we select tanks that players actually build (Nasus, Poppy, Cho'Gath), their Necessity rankings are just as stable as carries (rho 0.929-1.000). The Mordekaiser rho = 0.048 result was an artifact of studying a unit that isn't the primary item holder in its comp.
+1. **The previous conclusion was wrong: "tanks have unstable item rankings" is not correct.** When we select tanks that players actually build (Nasus, Poppy, Cho'Gath), their Necessity rankings are substantially more stable than Mordekaiser (rho 0.810-1.000 vs 0.048). The Mordekaiser rho = 0.048 result was an artifact of studying a unit that isn't the primary item holder in its comp.
 
-2. **Filter reliability depends on whether the unit IS the comp's identity, not on carry vs tank role.** Nasus (bonk) has rho = 0.929 because bonk IS "Nasus with 3 items" -- the unit defines the comp. Mordekaiser (dark_star) has rho = 0.048 because dark_star is NOT "Mordekaiser with items" -- he's a supporting unit in someone else's comp.
+2. **Filter reliability depends on whether the unit IS the comp's identity, not on carry vs tank role.** Nasus (bonk) has rho = 0.929 and Cho'Gath has rho = 1.000 because the filter aligns with the unit's build context. Mordekaiser (dark_star) has rho = 0.048 because dark_star is NOT "Mordekaiser with items" -- he's a supporting unit in someone else's comp.
 
-3. **Comp-specific items are unstable; generic items are stable.** The Galio (mecha) case reveals this clearly: Gargoyle Stoneplate and Sterak's Gage are mandatory in mecha (76% and 62% play rate) but irrelevant outside it. Meanwhile, generic tank items (Lioness's Lament, Iceblast Armor) maintain perfect rank stability (rho = 1.000) regardless of context. This makes sense -- Gargoyle+Sterak synergize specifically with the Mecha trait, while generic tank items are universally useful.
+3. **`--normal-only` matters for ranking accuracy.** Excluding radiant/special items changed some results: Cho'Gath improved from rho = 0.929 (Full vs Partial) to 1.000 (the Warmog/Dragon's Claw swap in Partial disappeared). Nasus's Comp vs s3:i3 dropped from 1.000 to 0.976 (Warmog/Sunfire now swap). Poppy's Comp vs s3:i3 dropped from 0.976 to 0.833 (Warmog shifts from rank 8 to rank 5). The radiant items were masking some real mid-tier instability while also creating false instability in other cases.
 
-4. **1-cost reroll comps have trivially simple filter definitions.** bonk = Nasus i3, termeepnal_velocity = Poppy i3. There is no trait, no exclusion -- the unit IS the comp. This means Full/Partial/Minimal collapse to the same filter. Filter reliability analysis is less meaningful for these comps because there is nothing to degrade.
+4. **Poppy shows more mid-tier instability than Nasus, despite both being 1-cost reroll tanky carries.** Warmog's Armor is rank 8 in Poppy's Comp filter but rank 5 in s3:i3 and None. This suggests that the items per se are not interchangeable -- even among the same class of tanks, the specific champion's kit determines which items are stable and which are context-sensitive.
 
-5. **rho between Galio Full and Galio i2 is -0.149 -- rankings essentially invert.** This is the most dramatic finding. It means that analyzing Galio items in the mecha comp context vs analyzing Galio items in isolation gives opposite conclusions about which items are best. This is not instability -- it's a real phenomenon where the Mecha trait fundamentally changes Galio's optimal build.
+5. **Cho'Gath is the stability champion.** Perfect rho = 1.000 across all 6 filter pairs with 7 items. His tank build is truly universal -- Spirit Visage #1, Warmog's #2, Dragon's Claw #3, all the way down, regardless of comp context. This makes sense: Cho'Gath's kit (health stacking from feast) synergizes with the same items regardless of which carries surround him.
+
+6. **Comp-specific items (Galio's Gargoyle + Sterak) are genuinely comp-specific.** In mecha, Gargoyle is 83% play rate with Necessity +0.490. Outside mecha, the normal version doesn't appear at all. Generic tank items maintain moderate stability (rho = 0.750) across the mecha/non-mecha boundary.
 
 ## Open Questions
 
