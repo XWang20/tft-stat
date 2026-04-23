@@ -19,6 +19,40 @@
 
 ---
 
+## Summary Table
+
+| Comp | Core Size | Level | +1 Games | +1 #1 (AVP, Nec) | +1 #2 (AVP, Nec) | +1 #3 (AVP, Nec) |
+|---|---|---|---|---|---|---|
+| nova_95 | 9u | 9 | 29,481 | Sona (1.91, +.027) | Rhaast (1.62, +.022) | Jhin (1.78, +.019) |
+| vex_95 | 9u | 9 | 14,620 | Morgana (1.84, +.010) | Galio (1.86, -.001) | Fiora (1.96, -.005) |
+| zed | 9u | 9 | 1,118 | Vex (1.52, +.060) | Sona (1.59, -.002) | — |
+| dark_star | 9u | 9 | 2,503 | Morgana (2.37, +.021) | Xayah (2.41, +.019) | Sona (2.40, +.003) |
+| space_groove | 9u | 9 | 19,468 | Samira (1.84, +.055) | Teemo (1.89, +.010) | Nunu (1.98, -.001) |
+| meeple_corki | 9u | 9 | 2,744 | Veigar (1.51, +.226) | Jhin (2.11, +.007) | Galio (2.49, -.026) |
+| mecha | 7u | 9 | 9,260 | Jhin (1.84, +.030) | Morgana (1.87, +.013) | Sona (2.01, -.006) |
+| vanguard_leblanc | 9u | 9 | 4,884 | Bard (2.35, +.055) | Blitzcrank (2.31, +.036) | Sona (2.35, +.005) |
+| shepherd | 10u | 10 | 0 | — | — | — |
+| nova_yi | 9u | 9 | 6,674 | Morgana (1.84, +.035) | Urgot (1.70, +.023) | Graves (1.82, +.009) |
+| xayah | 9u | 9 | 29,688 | Blitzcrank (1.54, +.005) | Shen (1.63, -.003) | Sona (1.68, -.004) |
+| voyager | 9u | 9 | 163 | — (数据不足) | — | — |
+| conduit_mf | 7u | 7 | 5,704 | ASol (3.17, +.044) | Mordekaiser (3.26, +.011) | Morgana (3.27, +.009) |
+| lulu | 7u | 7 | 7,583 | Rhaast (3.98, +.277) | Riven (3.59, +.030) | Nunu (4.09, .000) |
+| anima_diana | 8u | 8 | 4,391 | Rhaast (1.81, +.081) | Morgana (2.05, +.048) | Karma (2.07, +.045) |
+| viktor | 9u | 9 | 4,957 | Blitzcrank (1.81, +.014) | Morgana (1.89, +.010) | Shen (1.94, -.004) |
+| kaisa | 8u | 8 | 4,998 | Gwen (1.88, +.046) | Galio (1.83, +.011) | Talon (1.92, +.005) |
+| two_tanky_samira | 10u | 10 | 0 | — | — | — |
+| pyke | 8u | 8 | 2,152 | Morgana (2.40, +.020) | Bard (2.51, +.017) | Fizz (2.51, +.008) |
+| reach_for_the_stars | 8u | 8 | 22,291 | Morgana (2.23, +.024) | Rhaast (2.08, +.017) | Shen (2.27, +.008) |
+| the_big_bang | 8u | 9 | 4,627 | Summon (2.09, +.498) | Sona (2.06, +.340) | Morgana (2.17, .000) |
+| primordian | 8u | 9 | 57,053 | Shen (2.42, +.256) | Rammus (2.71, -.005) | Sona (2.84, -.007) |
+| bonk | 9u | 10 | 525 | Blitzcrank (1.86, +.054) | Leblanc (1.83, +.026) | Nunu (1.88, +.025) |
+| stellar_combo | 8u | 9 | 1,762 | Shen (2.25, +.249) | Morgana (2.38, +.007) | Rammus (2.53, -.006) |
+| termeepnal_velocity | 9u | 10 | 643 | Bard (1.79, +.369) | Fizz (1.94, -.041) | Gnar (2.20, -.076) |
+| ez_chogath | 8u | 9 | 5,757 | Jhin (2.49, +.480) | Shen (2.94, -.006) | Kaisa (2.87, -.008) |
+| tf | 8u | 9 | 21,927 | Morgana (2.24, +.027) | Rhaast (2.08, +.018) | Shen (2.28, +.011) |
+| veigar | 9u | 10 | 1,155 | Bard (1.86, +.489) | Morgana (1.87, +.019) | Galio (1.79, +.017) |
+| teemo | 9u | 10 | 1,686 | Blitzcrank (1.86, +.081) | Nunu (1.87, +.057) | Sona (1.87, +.013) |
+
 ## Results
 
 ### 5-Cost Comps
