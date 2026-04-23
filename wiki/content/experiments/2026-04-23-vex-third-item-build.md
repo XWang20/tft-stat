@@ -60,53 +60,59 @@ But the single-item picture already hints at a cross-comp difference: in nova_95
 
 ## Chapter 2: Build Analysis -- Controlling for GS + Guinsoo
 
-This is the core experiment. Fix Giant Slayer + Guinsoo's Rageblade, then rank the third item by build AVP.
+This is the core experiment. Fix Giant Slayer + Guinsoo's Rageblade, then rank the third item by **Build Necessity** (not raw AVP — lesson #3).
 
-### nova_95: GS + Guinsoo + X (73,516 games across 20 third items)
+Build Necessity within the GS+Guinsoo subset: `p/(1-p) × (overall_GS_Guinsoo_AVP - build_AVP)`, where p = build play rate within the GS+Guinsoo population.
 
-| Rank | Third Item | Games | Rate | AVP | Top4% |
+### nova_95: GS + Guinsoo + X (73,516 games, overall GS+Guinsoo AVP 3.895)
+
+| Rank | Third Item | Games | Rate | AVP | Necessity |
 |---|---|---|---|---|---|
-| 1 | **Red Buff** | 2,878 | 3.9% | 3.51 | 66.9% |
-| 2 | **Rabadon's Deathcap** | 5,247 | 7.1% | 3.74 | 63.2% |
-| 3 | Guinsoo's Rageblade | 4,421 | 6.0% | 3.74 | 63.0% |
-| 4 | **Striker's Flail** | 9,348 | 12.7% | 3.76 | 62.7% |
-| 5 | Nashor's Tooth | 1,106 | 1.5% | 3.80 | 62.7% |
-| 6 | Archangel's Staff | 4,004 | 5.4% | 3.85 | 61.4% |
-| 7 | Radiant Hextech Gunblade | 542 | 0.7% | 3.92 | 61.3% |
-| 8 | **Hextech Gunblade** | 23,679 | **32.2%** | 3.92 | 60.2% |
-| 9 | Morellonomicon | 1,622 | 2.2% | 3.93 | 59.9% |
-| 10 | **Jeweled Gauntlet** | 11,784 | **16.0%** | 4.07 | 57.4% |
-| 11 | Void Staff | 5,293 | 7.2% | 4.17 | 55.6% |
+| 1 | **Striker's Flail** | 9,348 | 12.7% | 3.76 | **+0.020** |
+| 2 | **Red Buff** | 2,878 | 3.9% | 3.51 | **+0.016** |
+| 3 | **Rabadon's Deathcap** | 5,247 | 7.1% | 3.74 | **+0.012** |
+| 4 | Guinsoo's ★2 | 4,421 | 6.0% | 3.74 | +0.010 |
+| 5 | Archangel's Staff | 4,004 | 5.4% | 3.85 | +0.003 |
+| 6 | Nashor's Tooth | 1,106 | 1.5% | 3.80 | +0.002 |
+| 7 | Radiant Hextech Gunblade | 542 | 0.7% | 3.92 | -0.000 |
+| 8 | Morellonomicon | 1,622 | 2.2% | 3.93 | -0.001 |
+| 9 | **Hextech Gunblade** | 23,679 | **32.2%** | 3.92 | **-0.012** |
+| 10 | Void Staff | 5,293 | 7.2% | 4.17 | -0.021 |
+| 11 | **Jeweled Gauntlet** | 11,784 | **16.0%** | 4.07 | **-0.033** |
 
 **Key findings in nova_95**:
 
-1. **Red Buff is the best third item by AVP** (3.51) but has very low play rate (3.9%). This 0.41 AVP gap over Gunblade is substantial -- nearly half a placement.
+1. **Striker's Flail is the best third item by Necessity** (+0.020). It has both decent play rate (12.7%) and strong AVP (3.76), making it the most reliably impactful choice. Red Buff has better AVP (3.51) but its low play rate (3.9%) limits its Necessity — the low play rate may reflect survivorship bias (only built when ahead/lucky with components).
 
-2. **Rabadon's Deathcap** (3.74) and **Striker's Flail** (3.76) are the solid middle tier.
+2. **Rabadon's Deathcap** (+0.012) is a solid #3 — good AVP and reasonable play rate.
 
-3. **Hextech Gunblade is massively overbuilt**: 32.2% of all GS+Guinsoo builds use Gunblade as the third item, yet it ranks #8 with AVP 3.92. Players default to Gunblade because it feels safe (spell vamp), but the data says it's mediocre.
+3. **Hextech Gunblade has negative Necessity** (-0.012). Despite 32.2% play rate, its AVP (3.92) is barely better than the GS+Guinsoo baseline (3.895). The massive play rate means its "without" AVP is almost the same — Gunblade contributes almost nothing to placement improvement. Players default to it but it's actively worse than the population average.
 
-4. **Jeweled Gauntlet is even worse**: 16.0% play rate, AVP 4.07 -- barely better than the overall comp average. JG is a trap.
+4. **Jeweled Gauntlet is the worst** (-0.033). High play rate (16.0%) combined with bad AVP (4.07) = large negative Necessity. JG actively drags down the average.
 
-### vex_95: GS + Guinsoo + X (70,035 games across 26 third items)
+### vex_95: GS + Guinsoo + X (70,035 games, overall GS+Guinsoo AVP 3.678)
 
-| Rank | Third Item | Games | Rate | AVP | Top4% |
+| Rank | Third Item | Games | Rate | AVP | Necessity |
 |---|---|---|---|---|---|
-| 1 | **Rabadon's Deathcap** | 10,236 | 14.6% | 3.57 | 66.3% |
-| 2 | **Void Staff** | 13,997 | 20.0% | 3.63 | 65.2% |
-| 3 | Guinsoo's Rageblade | 2,118 | 3.0% | 3.64 | 64.4% |
-| 4 | **Hextech Gunblade** | 15,368 | **21.9%** | 3.65 | 65.2% |
-| 5 | Red Buff | 959 | 1.4% | 3.69 | 63.6% |
-| 6 | Archangel's Staff | 3,074 | 4.4% | 3.70 | 65.2% |
-| 7 | **Jeweled Gauntlet** | 15,131 | **21.6%** | 3.77 | 63.6% |
-| 8 | Striker's Flail | 2,662 | 3.8% | 3.91 | 60.0% |
-| 9 | Nashor's Tooth | 630 | 0.9% | 4.13 | 57.0% |
+| 1 | **Rabadon's Deathcap** | 10,236 | 14.6% | 3.57 | **+0.018** |
+| 2 | **Void Staff** | 13,997 | 20.0% | 3.63 | **+0.012** |
+| 3 | **Hextech Gunblade** | 15,368 | 21.9% | 3.65 | **+0.008** |
+| 4 | Guinsoo's ★2 | 2,118 | 3.0% | 3.64 | +0.001 |
+| 5 | Red Buff | 959 | 1.4% | 3.69 | -0.000 |
+| 6 | Archangel's Staff | 3,074 | 4.4% | 3.70 | -0.001 |
+| 7 | Nashor's Tooth | 630 | 0.9% | 3.96 | -0.003 |
+| 8 | Striker's Flail | 2,662 | 3.8% | 3.91 | -0.009 |
+| 9 | **Jeweled Gauntlet** | 15,131 | **21.6%** | 3.77 | **-0.025** |
 
 **Key findings in vex_95**:
 
-1. **Rabadon's Deathcap is the clear winner** (3.57). Unlike nova_95 where Red Buff leads, here Dcap takes the top spot with a respectable 14.6% play rate -- this isn't a low-frequency fluke.
+1. **Rabadon's Deathcap is the clear winner** (+0.018) — strong AVP (3.57) and solid play rate (14.6%). Not a low-frequency fluke.
 
-2. **Void Staff surprises at #2** (3.63). In nova_95 it ranked near the bottom. In vex_95 it's a legitimate option, likely because the comp lacks DRX trait and needs the magic pen to compensate.
+2. **Void Staff at #2** (+0.012). In nova_95 it has negative Necessity (-0.021). The DRX trait in nova_95 likely provides sufficient magic penetration, making Void Staff redundant; without DRX (vex_95), Void Staff fills a crucial gap.
+
+3. **Gunblade is positive in vex_95** (+0.008) but negative in nova_95 (-0.012). The Blitzcrank + Mordekaiser frontline in vex_95 may keep Vex alive longer, amplifying spell vamp value.
+
+4. **JG remains the worst** (-0.025) — same pattern as nova_95. High play rate, bad AVP, large negative Necessity.
 
 3. **Gunblade is acceptable here** (#4, AVP 3.65) -- much closer to the top than in nova_95 (#8, AVP 3.92). The 0.27 AVP gap between the two comps suggests Gunblade's value is context-dependent.
 
@@ -118,17 +124,16 @@ This is the core experiment. Fix Giant Slayer + Guinsoo's Rageblade, then rank t
 
 ## Chapter 3: Cross-Comp Comparison (nova_95 vs vex_95)
 
-### Direct comparison: GS + Guinsoo + X
+### Direct comparison: GS + Guinsoo + X (by Necessity)
 
-| Third Item | nova_95 AVP | nova_95 Rank | vex_95 AVP | vex_95 Rank | Shift |
+| Third Item | nova_95 Nec | nova_95 Rank | vex_95 Nec | vex_95 Rank | Shift |
 |---|---|---|---|---|---|
-| Red Buff | 3.51 | #1 | 3.69 | #5 | down 4 |
-| Rabadon's Deathcap | 3.74 | #2 | 3.57 | **#1** | **up 1** |
-| Striker's Flail | 3.76 | #4 | 3.91 | #8 | down 4 |
-| Hextech Gunblade | 3.92 | #8 | 3.65 | #4 | up 4 |
-| Jeweled Gauntlet | 4.07 | #10 | 3.77 | #7 | up 3 |
-| Void Staff | 4.17 | #11 | 3.63 | **#2** | **up 9** |
-| Archangel's Staff | 3.85 | #6 | 3.70 | #6 | same |
+| Striker's Flail | +0.020 | **#1** | -0.009 | #8 | down 7 |
+| Red Buff | +0.016 | #2 | -0.000 | #5 | down 3 |
+| Rabadon's Deathcap | +0.012 | #3 | **+0.018** | **#1** | **up 2** |
+| Hextech Gunblade | -0.012 | #9 | +0.008 | #3 | up 6 |
+| Void Staff | -0.021 | #10 | +0.012 | **#2** | **up 8** |
+| Jeweled Gauntlet | -0.033 | #11 | -0.025 | #9 | up 2 |
 
 The answer to the third-item question **changes dramatically between comps**:
 
@@ -233,20 +238,20 @@ However, the internal consistency check (7 base pairs x 2 comps) serves as parti
 
 ## What I Learned
 
-1. **The third item answer depends on the comp**:
-   - **nova_95**: Red Buff > Dcap > Flail >> Gunblade >> JG
-   - **vex_95**: Dcap > Void Staff > Gunblade >> JG
-   - **Dcap is the universal safe pick** -- top 2 in both comps, consistent across all base pairs.
+1. **The third item answer depends on the comp** (by Build Necessity):
+   - **nova_95**: Striker's Flail (+0.020) > Red Buff (+0.016) > Dcap (+0.012) >> Gunblade (-0.012) >> JG (-0.033)
+   - **vex_95**: Dcap (+0.018) > Void Staff (+0.012) > Gunblade (+0.008) >> JG (-0.025)
+   - **Dcap is the universal safe pick** -- positive Necessity in both comps, consistent across base pairs.
 
-2. **Hextech Gunblade is massively overbuilt**: 32% of GS+Guinsoo builds in nova_95 use Gunblade, but it ranks #8 by AVP. The popularity-performance gap is one of the largest in the data. Gunblade is the "default" choice, not the optimal one.
+2. **Hextech Gunblade has negative Necessity in nova_95** (-0.012): 32% play rate but AVP barely above baseline. Gunblade is the "default" choice, not the optimal one. In vex_95 it's slightly positive (+0.008) — comp context matters.
 
-3. **Jeweled Gauntlet is a trap in both comps**: 16-22% play rate, consistently bottom half. Single-item Necessity already flags this (near zero in both comps), and build analysis confirms it.
+3. **Jeweled Gauntlet is the worst in both comps**: largest negative Necessity (-0.033 / -0.025). High play rate + bad AVP = actively dragging down average placement. JG is a trap.
 
-4. **Void Staff is comp-dependent**: terrible in nova_95 (DRX provides magic pen), excellent in vex_95 (no DRX, needs magic pen). This is a clear example of how trait context changes item value.
+4. **Void Staff is comp-dependent**: -0.021 in nova_95 (DRX provides magic pen), +0.012 in vex_95 (no DRX, needs magic pen). This is a clear example of how trait context changes item value.
 
-5. **GS + Guinsoo may not be the optimal core**: Guinsoo + Dcap builds outperform Guinsoo + GS builds by 0.08-0.27 AVP in both comps. The community consensus on "GS + Guinsoo first" might be wrong -- though selection bias makes this tentative.
+5. **Striker's Flail is the biggest cross-comp mover**: #1 in nova_95 (+0.020) but #8 in vex_95 (-0.009). The DRX shell amplifies on-hit items.
 
-6. **Build analysis reveals what single-item Necessity misses**: Red Buff has low single-item Necessity (#6 in nova_95) because of low play rate, but when you control for the base pair, it's consistently the best marginal third item. Control variable analysis and Necessity answer different questions.
+6. **Red Buff's AVP ranking was misleading**: AVP ranked it #1 in nova_95, but Necessity puts it #2 behind Striker's Flail — its low play rate (3.9%) limits its weighted impact. This is exactly why Build Necessity matters even in control variable analysis.
 
 ---
 

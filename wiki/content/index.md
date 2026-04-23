@@ -100,7 +100,7 @@
 | [[experiments/2026-04-22-carry-leverage-necessity]] | 2026-04-22 | 5 | 🧪 | 5 comps tested: AP carry Necessity ↑ at higher tier, AD carry flat/↓; ΔAVP magnitude may be confound |
 | [[experiments/2026-04-22-filter-design-clustering]] | 2026-04-22 | 1 | 🧪 | Discovered 7 comp patterns from 38 boards; compared with 29 expert definitions; carry uniqueness determines filter complexity |
 | [[experiments/2026-04-22-xayah-stargazer-items]] | 2026-04-22 | 2, 7 | 🧪 | Xayah items × 7 Stargazers; core items stable; Guinsoo's diverges by Stargazer; IE negative is Jhin selection bias (conflict recompute) |
-| [[experiments/2026-04-23-vex-third-item-build]] | 2026-04-23 | 2, 3 | 🧪 | GS+Guinsoo 后第三件：nova_95 Red Buff 最优，vex_95 Dcap 最优；Gunblade 被严重高估(32% play rate 排#8)；Void Staff 极度 comp 依赖 |
+| [[experiments/2026-04-23-vex-third-item-build]] | 2026-04-23 | 2, 3 | 🧪 | Build Necessity: nova_95 Flail>Red Buff>Dcap，vex_95 Dcap>Void Staff>Gunblade；Gunblade/JG 负 Necessity；Void Staff 极度 comp 依赖 |
 | [[experiments/2026-04-23-nova95-unit-evaluation]] | 2026-04-23 | 4 | 🧪 | Module 4 开篇：Shen Necessity 最高(+1.40)；十人口 Sona 是明确首选(3x Jhin)；Akali 高 play rate 低 Necessity |
 | [[experiments/2026-04-23-tank-filter-reliability]] | 2026-04-23 | 1, 9 | 🧪 | 纠正前实验：真正带装的 tank(Nasus/Poppy/Cho) ρ=0.929-1.000，与 carry 一样稳定；Galio 揭示 comp-specific 物品反转现象 |
 
