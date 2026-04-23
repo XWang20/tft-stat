@@ -32,62 +32,18 @@ Comp 的构成有三种模式：
 
 **3. 存在 Variant**：同一个 comp 有多个变体，核心阵容本身就不同（**3 个以上 unit 差异**才算 variant，1-2 个差异属于灵活位）。例如 Mecha 的 Fiora 版 vs Viktor 版，核心 carry 不同。tftable 通过 `comp_variants.py` 自动检测 variant — 对同一 comp 的所有 board 做聚类，variant 之间的差异用 symmetric difference 衡量。
 
-### 分析流程：Primary Board → Core Units → +1
+### 如何识别 Primary、Variant 和灵活位
 
-**Step 1: 找 Primary Board**
+使用 `core` 子命令查看一个 comp 的 board compositions（`python3 cli.py core --comp <COMP>`），按频率排序。判读标准：
 
-使用 `core` 子命令查看一个 comp 下所有 board compositions（自动查 6-11 人口），按频率排序：
-
-```bash
-python3 cli.py core --comp mecha
-```
-
-freq #1 就是 primary board。
-
-**Step 2: 判断 Core Units 和 Level**
-
-从 primary board 读出 core units。注意 **level ≠ board 上的 unit 数**：有些 trait 的 unit 占多个 slot（如 Mecha 3 个 unit 占 5 个 slot），所以实际 level = board unit 数 + 额外 slot。
-
-**Step 3: 找 +1 Board**
-
-在 `core` 输出中，比 primary 多 1 个 unit 的 board 就是 +1 候选。按 freq 排列，同时看 **AVP** 和 **Necessity**。
-
-**AVP 在这里是有效指标**：和单件分析不同，完整 board 的 AVP 不受 survivorship bias 污染（每个 board 就是一个完整的游戏状态）。按 freq 往下排，AVP 越低越好。
-
-**判读方法**：
 - **Primary**: freq 最高的 board
-- **Variant**: 和 primary 有 **≥3 个 unit 差异**的高频 board（如 mecha 的 Fiora 版 vs Viktor 版）
-- **+1 board**: 比 primary 多 1 个 unit 的 board（AVP 通常更低，因为到了更高 level）
-- **灵活位替换**: 和 primary 只有 1-2 个 unit 差异的 board（不算 variant，是同一 comp 的灵活位选择）
+- **Variant**: 和 primary 有 **≥3 个 unit 差异**的高频 board
+- **灵活位替换**: 和 primary 只有 1-2 个 unit 差异的 board（不算 variant）
+- **+1 board**: 比 primary 多 1 个 unit 的 board
 
-**Mecha 示例**：
-```
-#1  17k  11%  AVP 3.53  7 units: ASol Bard Fiora Galio Karma TahmKench Urgot     ← primary
-#2  14k   9%  AVP 5.57  6 units: ASol Fiora Galio Karma TahmKench Urgot          ← 6 人口（尚未成型）
-#3   9k   6%  AVP 5.54  6 units: ASol Galio MasterYi TahmKench Urgot Viktor      ← variant（Viktor 版，≥3 unit 差异）
-```
+**Level ≠ board 上的 unit 数**：有些 trait 的 unit 占多个 slot（如 Mecha 3 个 unit 占 5 个 slot），实际 level = board unit 数 + 额外 slot。
 
-注意：Mecha 的 primary 是 7 units 但实际 level = 9（3 Mecha unit 占 5 slot → 7 units on board = level 7 + 2 = level 9）。
-
-### +1 分析方法（控制变量法）
-
-分析灵活位的标准方法（参见 [[methods/plus-one-discovery]]）：
-
-1. 从 `core` 输出确定 primary board → core units + level
-2. Filter 固定 CoreUnits + `--level flex_pop` → 只保留"标准阵容 + 1"的局面
-3. 按 freq 排列候选，同时看 **AVP**（主指标）和 **Necessity**
-
-**AVP 在 +1 board 分析中是有效指标**：每个 board 是完整的游戏状态，不存在单件分析的 survivorship bias。freq 高且 AVP 低的 +1 候选就是好选择。
-
-```bash
-# 5-cost example: nova_95 固定 9 核心, 看 level 10 的第 10 人
-python3 cli.py units --comp nova_95 --level 10 --filter "\
-Unit('TFT17_Aatrox') & Unit('TFT17_Akali') & Unit('TFT17_Vex') \
-& Unit('TFT17_Fiora') & Unit('TFT17_Shen') & Unit('TFT17_Graves') \
-& Unit('TFT17_Morgana') & Unit('TFT17_Blitzcrank') & Unit('TFT17_Nunu')"
-```
-
-低费 reroll comp（cost < 4）跳过 +1 分析 — 这类 comp 的阵容在 level 7-8 就已经定型，不存在有意义的灵活位。
+具体分析流程见 [[methods/plus-one-discovery]]。
 
 ### Core vs Flex
 
