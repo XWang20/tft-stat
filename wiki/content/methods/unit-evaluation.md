@@ -50,12 +50,14 @@ For the "who to add at level N+1" question, use **two layers of control**:
 **Layer 2 — Fix core units**: Require all core units present in the filter. This is the unit-level analogue of "fix 2 items, vary the 3rd" in build analysis.
 
 ```bash
-# Fix all 9 core nova_95 units + level 10 → only vary the 10th slot
+# comp filter (nova_95 定义) + fix all 9 core units + level 10
 python3 cli.py units --comp nova_95 --level 10 --filter "\
 Unit('TFT17_Aatrox') & Unit('TFT17_Akali') & Unit('TFT17_Vex') \
 & Unit('TFT17_Fiora') & Unit('TFT17_Shen') & Unit('TFT17_Graves') \
 & Unit('TFT17_Morgana') & Unit('TFT17_Blitzcrank') & Unit('TFT17_Nunu')"
 ```
+
+`--comp` and `--filter` stack: comp provides the base filter (traits + carry + exclusions), `--filter` adds the fixed core unit requirements on top.
 
 This ensures:
 - All data is from level 10 (no level bias)

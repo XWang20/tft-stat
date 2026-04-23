@@ -292,19 +292,21 @@ def _item_exclude_set(args) -> set[str]:
 
 
 def _params_from_args(args) -> list[str]:
-    if hasattr(args, "filter") and args.filter:
-        from tft_stat.filter_expr import Unit, Trait, Item, And, Or, Not
-        from tft_stat.filter_params import expr_to_params
-        expr = eval(args.filter)
-        params = expr_to_params(expr)
-    elif hasattr(args, "comp") and args.comp:
+    from tft_stat.filter_expr import Unit, Trait, Item, And, Or, Not
+    from tft_stat.filter_params import expr_to_params
+
+    params = []
+    if hasattr(args, "comp") and args.comp:
         from tft_stat.compositions import COMPOSITIONS
-        from tft_stat.filter_params import expr_to_params
         comp = COMPOSITIONS.get(args.comp)
         if not comp:
             print(f"Error: unknown comp '{args.comp}'", file=sys.stderr)
             sys.exit(1)
         params = expr_to_params(comp["filter"])
+
+    if hasattr(args, "filter") and args.filter:
+        extra_expr = eval(args.filter)
+        params.extend(expr_to_params(extra_expr))
     else:
         params = []
 
