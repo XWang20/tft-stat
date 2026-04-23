@@ -41,15 +41,28 @@ Where `p` = unit play rate, `unit_AVP` = AVP in games containing this unit.
 | Level-up candidate (< 20%) | Marginal value at higher level | Inflated by level bias |
 | Negative necessity | Appears in losing boards | Usually selection bias, not causation |
 
-### Step 3: Level-Up Analysis
+### Step 3: Level-Up Analysis (Control Variable Method)
 
-For the "who to add at level N+1" question, **always use `--level` to control for player level**:
+For the "who to add at level N+1" question, use **two layers of control**:
+
+**Layer 1 — Control level**: `--level` eliminates level bias.
+
+**Layer 2 — Fix core units**: Require all core units present in the filter. This is the unit-level analogue of "fix 2 items, vary the 3rd" in build analysis.
 
 ```bash
-python3 cli.py units --comp <COMP> --level 10
+# Fix all 9 core nova_95 units + level 10 → only vary the 10th slot
+python3 cli.py units --comp nova_95 --level 10 --filter "\
+Unit('TFT17_Aatrox') & Unit('TFT17_Akali') & Unit('TFT17_Vex') \
+& Unit('TFT17_Fiora') & Unit('TFT17_Shen') & Unit('TFT17_Graves') \
+& Unit('TFT17_Morgana') & Unit('TFT17_Blitzcrank') & Unit('TFT17_Nunu')"
 ```
 
-This ensures all data comes from the same population (level 10 players), eliminating level bias.
+This ensures:
+- All data is from level 10 (no level bias)
+- All 9 core units are present (no incomplete boards)
+- The only variable is which 10th unit was chosen
+
+Then compute necessity for each candidate within this controlled population.
 
 1. Look at non-core units with positive necessity
 2. Rank by necessity
@@ -77,16 +90,22 @@ This means cross-validation for units is **not** the same as for items (where rh
 3. **Emblem/spatula**: Not controlled. A unit's high necessity might depend on having an emblem that's not always available.
 4. **Compressed AVP at high levels**: At level 10, overall AVP is very low (2.08 for nova_95), so all Necessity values are small. Differences between candidates may be within noise.
 
-## Example: Nova 95 (Level-Controlled)
+## Example: Nova 95 (Level-Controlled + Core-Fixed)
 
 Standard board (9 units at level 9): Aatrox, Akali, Vex, Fiora, Shen, Graves, Morgana, Blitzcrank, Nunu
 
 Level 9 (199k games, AVP 4.67):
 - Shen (+0.95) most irreplaceable, Akali (0.00) least
 
-Level 10 (54k games, AVP 2.08):
-- Jhin (+0.021) ≈ Rhaast (+0.019) ≈ Sona (+0.015) — nearly equal after controlling for level
-- Without level control, Sona appeared 3x better (level bias artifact)
+Level 10 — control variable (30k games, all 9 core fixed, AVP 1.95):
+- Rhaast (+0.019) ≈ Sona (+0.017) ≈ Jhin (+0.016) — nearly equal
+- Zed (+0.008) is a surprise 4th candidate
+- Maokai (+0.001) nearly zero; Blitzcrank★2 (-0.001) slightly negative
+
+Three levels of analysis yield increasingly refined conclusions:
+1. No control: "Sona is 3x better" (level bias artifact)
+2. `--level 10` only: "Jhin ≈ Rhaast ≈ Sona" (level controlled)
+3. `--level 10` + fix core 9: "Rhaast slightly ahead" (fully controlled)
 
 Key insight: Shen (+0.95 necessity) is far more irreplaceable than Akali (+0.00) despite similar play rates. Tanks can be more critical than carries in comp structure.
 
