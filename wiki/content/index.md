@@ -13,7 +13,7 @@
 
 | Module | Topic | Core Question | Status | Key Learnings |
 |---|---|---|---|---|
-| 0 | Foundations | What data do we have and where does it come from? | ✅ | 9 endpoints discovered, filter format documented |
+| 0 | Foundations | What data do we have and where does it come from? | ✅ | 12 endpoints discovered, filter format documented, alias map + explorer tab mapping |
 | 1 | Filter Design | How do we define "this comp" precisely? | ✅ | Filter is foundation; same unit different comp = different BIS |
 | 2 | Item Metrics | Given a comp, what metric tells us if an item is good? | ✅ | Necessity best single metric; Edge ≡ AVP; shrinkage doesn't fix bias |
 | 3 | Build Analysis | How do item combinations interact? | 🧪 | Control variable + consistency check validated |
@@ -65,7 +65,7 @@
 
 | Page | Status | Summary |
 |---|---|---|
-| [[tools/metatft-api]] | ✅ | Explorer API: 9 endpoints, filter format, common params |
+| [[tools/metatft-api]] | ✅ | Explorer API: 12 endpoints, filter format, common params, alias map, explorer tab mapping |
 
 ### Sources
 

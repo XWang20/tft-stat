@@ -12,7 +12,9 @@ When the question is about **which units matter** in a comp, not which items. Ty
 
 ### Step 1: Identify Standard Board
 
-Run `python3 cli.py units --comp <COMP> --level <N>` and find all units with play rate > 70%. These form the **standard board**.
+Use `python3 cli.py core --comp <COMP>` to detect the primary board automatically. The `core` subcommand queries `exact_units_traits2` and shows board compositions ranked by frequency, with average star levels. The #1 board is the primary board.
+
+Alternatively, run `python3 cli.py units --comp <COMP> --level <N>` and find all units with play rate > 70%. These form the **standard board**.
 
 Use `--level` to control for player level. The standard board level is typically 9 for most comps:
 - `--level 9` for standard board analysis

@@ -14,13 +14,14 @@ Two main components:
 
 ```
 tft-stat/
-├── cli.py                        # CLI entry point (subcommands: comps/total/units/items)
+├── cli.py                        # CLI entry point (subcommands: comps/total/units/items/core/scout/games)
 ├── tft_stat/                     # Core library (Python 3, stdlib only)
 │   ├── api.py                    # MetaTFT Explorer API client
 │   ├── metrics.py                # placement_stats, necessity/edge calculations
 │   ├── filter_params.py          # Expression tree + CLI specs → API query params
 │   ├── filter_expr.py            # Boolean expression tree (Unit/Trait/And/Or/Not)
 │   ├── compositions.py           # 29 S17 comp definitions (from XWang20/tft_data)
+│   ├── item_classes.py           # Item categories: TANK, DMG, BRUISER item ID sets
 │   └── config/pbe/               # traits.json (breakpoints), items.json (names)
 └── wiki/                         # Quartz wiki (separate git repo)
     └── content/
@@ -45,6 +46,22 @@ python3 cli.py total --comp nova_95
 python3 cli.py units --comp nova_95
 python3 cli.py items TFT17_Vex --comp nova_95
 
+# Filter by player level (all subcommands)
+python3 cli.py units --comp nova_95 --level 10
+
+# --comp and --filter stack (comp provides base filter, --filter adds on top)
+python3 cli.py units --comp nova_95 --level 10 --filter "\
+Unit('TFT17_Aatrox') & Unit('TFT17_Akali') & Unit('TFT17_Vex') \
+& Unit('TFT17_Fiora') & Unit('TFT17_Shen') & Unit('TFT17_Graves') \
+& Unit('TFT17_Morgana') & Unit('TFT17_Blitzcrank') & Unit('TFT17_Nunu')"
+
+# Board composition detection (primary board, star levels)
+python3 cli.py core --comp nova_95
+
+# Item analysis with item class exclusion (for hero augment decontamination)
+python3 cli.py items TFT17_Nasus --comp bonk --normal-only --exclude-dmg-items
+python3 cli.py items TFT17_Nasus --comp bonk --normal-only --exclude-tank-items
+
 # Cross-validate with tftable (SSH to desktop, compare necessity rankings)
 python3 cli.py tftable TFT17_Vex --comp nova_95
 
@@ -59,6 +76,31 @@ python3 cli.py items TFT17_Vex \
 ```
 
 Unit spec syntax: `TFT17_Vex:s2:i3` (s=star, i=items). Trait spec: `TFT17_DRX:2` (min_units, auto-converts to tier).
+
+### Subcommands
+
+| Command | Purpose |
+|---|---|
+| `comps` | List all 29 composition definitions |
+| `total` | Overall stats (games, AVP, top4%, win%) |
+| `units` | Per-unit stats within a comp |
+| `items` | Item stats for a specific unit |
+| `core` | Board compositions via `exact_units_traits2` (primary board detection, star levels) |
+| `tftable` | Cross-validate against tftable ground truth |
+| `scout` | Scan top player endgame boards |
+| `games` | Show sample boards matching a filter (sanity check) |
+
+### Global Flags
+
+| Flag | Applies To | Description |
+|---|---|---|
+| `--comp` | all | Use a composition definition as base filter |
+| `--filter` | all | Additional filter expression (stacks with --comp) |
+| `--level N` | all | Player level filter (1-10) |
+| `--normal-only` | items | Exclude artifact/radiant/trait/emblem items |
+| `--exclude-tank-items` | items | Exclude tank items (Warmog, Gargoyle, etc.) |
+| `--exclude-dmg-items` | items | Exclude damage items (Guinsoo, IE, Dcap, etc.) |
+| `--exclude-bruiser-items` | items | Exclude bruiser items (BT, GA, Gunblade, etc.) |
 
 ## Library Usage
 
