@@ -371,6 +371,9 @@ def _params_from_args(args) -> list[str]:
     if hasattr(args, "level") and args.level:
         params.append(f"level={args.level}")
 
+    if hasattr(args, "no_emblem") and args.no_emblem:
+        params.append("emblem_count=!1-any")
+
     return params
 
 
@@ -440,6 +443,7 @@ def _add_filter_args(p):
     p.add_argument("--comp", help="Comp key (e.g. nova_95, dark_star)")
     p.add_argument("--filter", help="Filter expression (e.g. \"Unit('TFT17_Vex', item_min=3) & Trait('TFT17_DRX', min_units=2)\")")
     p.add_argument("--level", type=int, help="Player level filter (e.g. 9, 10)")
+    p.add_argument("--no-emblem", action="store_true", help="Exclude games with emblems/spatulas")
 
 
 if __name__ == "__main__":
