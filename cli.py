@@ -223,62 +223,71 @@ def cmd_scout(args):
 
 
 def cmd_core(args):
-    """Detect core comp and +1 candidates for a composition."""
-    params = _params_from_args(args)
+    """Detect primary board composition from MetaTFT comp clusters."""
+    import json
+    import urllib.request
 
-    data = query("units_unique", params)
+    rank = "CHALLENGER,DIAMOND,EMERALD,GRANDMASTER,MASTER,PLATINUM"
+    url = (f"https://api-hc.metatft.com/tft-comps-api/comps_data"
+           f"?queue=1100&patch=current&days=3&rank={rank}")
+    req = urllib.request.Request(url, headers={
+        "User-Agent": "Mozilla/5.0",
+        "Origin": "https://www.metatft.com",
+        "Referer": "https://www.metatft.com/",
+    })
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        data = json.loads(resp.read())
 
-    units = []
-    for item in data.get("data", []):
-        uid = item.get("units_unique", "")
-        if not uid or "PVE" in uid:
-            continue
-        stats = placement_stats(item.get("placement_count", []))
-        if stats["games"] < 50:
-            continue
-        units.append((uid, stats))
+    clusters = data["results"]["data"]["cluster_details"]
 
-    units.sort(key=lambda x: -x[1]["games"])
-    if not units:
-        print("No unit data found.")
-        return
+    comps = []
+    for cid, c in clusters.items():
+        overall = c.get("overall", {})
+        units_str = c.get("units_string", "")
+        units = [u.strip() for u in units_str.split(",") if u.strip()]
+        comps.append({
+            "id": cid,
+            "count": overall.get("count", 0),
+            "avg": overall.get("avg", 0),
+            "name": c.get("name_string", ""),
+            "units": units,
+            "level": c.get("levelling", ""),
+        })
 
-    total = units[0][1]["games"]
-    threshold = args.threshold
+    comps.sort(key=lambda x: -x["count"])
 
-    core = [(uid, s) for uid, s in units if s["games"] / total >= threshold]
-    core_size = len(core)
-    core_ids = [uid.split("-")[0] for uid, _ in core]
+    # If --comp is given, find matching cluster
+    if args.comp:
+        from tft_stat.compositions import COMPOSITIONS
+        comp_def = COMPOSITIONS.get(args.comp)
+        if not comp_def:
+            print(f"Error: unknown comp '{args.comp}'", file=sys.stderr)
+            sys.exit(1)
+        comp_name = comp_def["name"]
+        print(f"Comp: {args.comp} ({comp_name})")
+        print(f"Looking for matching cluster among {len(comps)} clusters...\n")
 
-    print(f"Core units ({core_size}, appearance >= {threshold:.0%}):")
-    print(f"{'Unit':<30} {'Games':>8} {'Rate':>6} {'AVP':>6}")
-    print("-" * 54)
-    for uid, s in core:
-        print(f"{uid:<30} {s['games']:>8,} {s['games']/total:>5.1%} {s['avg']:>6.2f}")
+    top_n = min(args.show, len(comps))
+    print(f"{'#':<3} {'Count':>7} {'AVP':>5} {'Lvl':>7}  {'Name':<40} Units")
+    print("-" * 110)
+    for i, c in enumerate(comps[:top_n], 1):
+        units_short = ", ".join(u.replace("TFT17_", "") for u in c["units"][:9])
+        tag = " ← primary" if i == 1 else ""
+        print(f"{i:<3} {c['count']:>7,} {c['avg']:>5.2f} {c['level']:>7}  {c['name'][:40]:<40} {units_short}{tag}")
 
-    non_core = [(uid, s) for uid, s in units if s["games"] / total < threshold and s["games"] >= 100]
-    if non_core:
-        overall_avg = sum(s["games"] * s["avg"] for _, s in core) / sum(s["games"] for _, s in core)
-        print(f"\n+1 candidates (by Necessity, overall AVP={overall_avg:.2f}):")
-        print(f"{'Unit':<30} {'Games':>8} {'Rate':>6} {'AVP':>6} {'Neces.':>8}")
-        print("-" * 62)
-        candidates = []
-        for uid, s in non_core:
-            p = s["games"] / total
-            nec = p / (1 - p) * (overall_avg - s["avg"])
-            candidates.append((uid, s, nec))
-        candidates.sort(key=lambda x: -x[2])
-        for uid, s, nec in candidates[:10]:
-            print(f"{uid:<30} {s['games']:>8,} {s['games']/total:>5.1%} {s['avg']:>6.2f} {nec:>+8.4f}")
+    # Generate +1 command for the top comp
+    primary = comps[0]
+    core_ids = primary["units"]
+    core_size = len(core_ids)
 
     if core_size >= 7:
-        filter_parts = [f"Unit('{cid}')" for cid in core_ids]
+        filter_parts = [f"Unit('{uid}')" for uid in core_ids]
         filter_str = " & ".join(filter_parts)
         flex_pop = core_size + 1
         comp_flag = f"--comp {args.comp} " if args.comp else ""
-        print(f"\n+1 analysis command:")
+        print(f"\nPrimary board: {core_size} units ({primary['count']:,} games, AVP {primary['avg']:.2f})")
+        print(f"+1 analysis command (level {flex_pop}):")
         print(f"  python3 cli.py units {comp_flag}--level {flex_pop} --filter \"{filter_str}\"")
-
 
 def cmd_games(args):
     """Show sample boards matching a filter — sanity check."""
@@ -413,10 +422,9 @@ def main():
     p_scout.add_argument("--top", type=int, default=4, help="Placement cutoff (default: 4)")
 
     # core
-    p_core = sub.add_parser("core", help="Detect core comp and +1 candidates")
-    _add_filter_args(p_core)
-    p_core.add_argument("--threshold", type=float, default=0.70,
-                         help="Appearance rate threshold for core units (default: 0.70)")
+    p_core = sub.add_parser("core", help="Show MetaTFT comp clusters (primary board detection)")
+    p_core.add_argument("--comp", help="Comp key for context (optional)")
+    p_core.add_argument("--show", type=int, default=15, help="Number of clusters to show (default: 15)")
 
     # games
     p_games = sub.add_parser("games", help="Show sample boards matching a filter (sanity check)")
