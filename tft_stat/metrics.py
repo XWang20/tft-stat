@@ -14,20 +14,16 @@ def placement_stats(placement_count: list[int]) -> dict:
 
 
 def add_item_metrics(results: list, overall_avg: float, total_comp_games: int) -> None:
-    """Add edge, play_rate, necessity (weighted_delta), marginal to each result's stats dict."""
+    """Add play_rate, delta, necessity (weighted_delta) to each result's stats dict."""
     for _name, _base, _tier, s in results:
         p = s["games"] / total_comp_games if total_comp_games > 0 else 0
-        edge = overall_avg - s["avg"]
         if p < 1.0:
             no_item_avg = (overall_avg - p * s["avg"]) / (1 - p)
             weighted_delta = no_item_avg - overall_avg
-            marginal = no_item_avg - s["avg"]
         else:
             no_item_avg = overall_avg
             weighted_delta = 0
-            marginal = 0
-        s["edge"] = edge
+        s["delta"] = s["avg"] - no_item_avg
         s["play_rate"] = p
         s["weighted_delta"] = weighted_delta
-        s["marginal"] = marginal
         s["no_item_avg"] = no_item_avg

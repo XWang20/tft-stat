@@ -4,7 +4,12 @@
 > **Pattern**: [Karpathy's LLM Wiki](https://x.com/karpathy/status/2039805659525644595) — compiled once, kept current, not re-derived.
 > **Goal**: Master TFT data retrieval and analysis. Become better than the teacher.
 
-**New agent?** Read: this page → [[lab-checklist]] → start working.
+**New agent?** Start here:
+1. This page — syllabus overview and knowledge catalog
+2. [[concepts/framework]] — stats are priors, three-dimension analysis model
+3. [[lab-checklist]] — preflight rules for every experiment
+4. [[methods/filter-strategy]] → [[concepts/metrics]] → [[concepts/biases]] — as needed
+
 **Returning?** Check [[log]] for what changed since last session.
 
 ---
@@ -15,12 +20,12 @@
 |---|---|---|---|---|
 | 0 | Foundations | What data do we have and where does it come from? | ✅ | 12 endpoints discovered, filter format documented, alias map + explorer tab mapping |
 | 1 | Filter Design | How do we define "this comp" precisely? | ✅ | Filter is foundation; same unit different comp = different BIS |
-| 2 | Item Metrics | Given a comp, what metric tells us if an item is good? | ✅ | Necessity best single metric; Edge ≡ AVP; shrinkage doesn't fix bias |
+| 2 | Item Metrics | Given a comp, what metric tells us if an item is good? | ✅ | Necessity best single metric; shrinkage doesn't fix bias |
 | 3 | Build Analysis | How do item combinations interact? | 🧪 | Control variable + consistency check validated |
 | 4 | Unit Evaluation | Which units matter most in a comp? | 🧪 | Shen most irreplaceable; level 10 Jhin/Rhaast/Sona nearly equal (level-controlled); play rate ≠ necessity |
 | 5 | Trait Breakpoints | When is 4->6 trait worth the cost? | 🧪 | Item rankings stable across tiers; selection bias persists within comps; filter leakage issue |
 | 6 | Comp Comparison | How do we compare two different comps? | ⬜ | — |
-| 7 | Emblem & Augment | What's the best emblem/augment for a comp? | ⬜ | — |
+| 7 | Emblem/Artifact/Radiant | How do special items (emblem, artifact, radiant) affect a comp? | ⬜ | — |
 | 8 | Temporal Analysis | How does the meta shift within a patch? | ⬜ | — |
 | 9 | Cross-Validation | When should we trust our results? | ⬜ | — |
 
@@ -29,13 +34,13 @@
 | Module | Concepts | Readings |
 |---|---|---|
 | 0 | Endgame snapshots, API endpoints | [[sources/morbrid-reddit-post]], [[tools/metatft-api]] |
-| 1 | Conditioning, Simpson's Paradox | [[sources/dishsoap-frodan-stats]], [[methods/filter-strategy]] |
-| 2 | AVP, Delta, Necessity, survivorship bias | [[sources/aesah-data-mistakes]], [[concepts/metrics]] |
-| 3 | Builds, control variable, consistency check | [[sources/dishsoap-frodan-stats]], [[methods/build-analysis]] |
-| 4 | Unit Necessity, carry vs support | [[sources/morbrid-aesah-talk]] |
+| 1 | Conditioning, Simpson's Paradox, comp structure | [[sources/dishsoap-frodan-stats]], [[methods/filter-strategy]], [[concepts/composition]] |
+| 2 | AVP, Delta, Necessity, survivorship bias, play rate as signal | [[sources/aesah-data-mistakes]], [[concepts/metrics]], [[concepts/biases]], [[sources/tftacademy-video-collection]] |
+| 3 | Builds, control variable, consistency check | [[sources/dishsoap-frodan-stats]], [[methods/build-analysis]], [[methods/item-analysis-debiasing]] |
+| 4 | Unit Necessity, carry vs support, flex slots | [[sources/morbrid-aesah-talk]], [[methods/flex-slot-detection]] |
 | 5 | Trait Delta, opportunity cost | [[sources/dishsoap-frodan-stats]] |
-| 6 | Strength, AVP distribution, matchups | tftable comps data |
-| 7 | Plus-one traits, augment proxies | [[sources/morbrid-aesah-talk]] |
+| 6 | Strength, AVP distribution, consistency metrics | [[sources/aesah-video-collection]] (augment evaluation), [[sources/tftacademy-video-collection]] (consistency) |
+| 7 | Emblem effects, artifact/radiant, power budget | [[sources/morbrid-aesah-talk]], [[sources/aesah-video-collection]] (power budget, artifacts) |
 | 8 | Day-over-day trends, early vs late patch | — |
 | 9 | Convergence of methods, confidence | All prior modules |
 
@@ -47,9 +52,9 @@
 
 | Page | Status | Summary |
 |---|---|---|
-| [[concepts/metrics]] | ✅ | AVP, Necessity, Delta — definitions, math, when to use each |
-| [[concepts/biases]] | ✅ | Three systematic biases: survivorship (biggest), player behavior, sample size |
-| [[concepts/framework]] | ✅ | Question → filter → dimensions; primary carry vs secondary; question sourcing |
+| [[concepts/metrics]] | ✅ | AVP, Necessity, Delta, play rate as signal, consistency (bottom-4 rate) |
+| [[concepts/biases]] | ✅ | Survivorship, player behavior, dual-comp pollution, level bias, sample size |
+| [[concepts/framework]] | ✅ | Stats are priors not truths; three layers of TFT knowledge; three analysis dimensions; parametric verification |
 | [[concepts/composition]] | 🧪 | Comp 内部结构：standard board size、core vs flex、role taxonomy、play rate ≠ necessity、level bias |
 
 ### Methods
@@ -75,6 +80,8 @@
 | [[sources/aesah-data-mistakes]] | Aesah | Play rate weighted formula → Necessity derivation |
 | [[sources/morbrid-aesah-talk]] | morbrid + Aesah | Graph view, exclude→toggle, advanced mode, don't specify stars |
 | [[sources/dishsoap-frodan-stats]] | Dishsoap + Frodan | "Add context first", builds > single items, sample size underrated |
+| [[sources/aesah-video-collection]] | Aesah | 13-video study: filter-first principle, power budget, parametric verification, stage-dependent value |
+| [[sources/tftacademy-video-collection]] | Dishsoap + Frodan | 7-video study: stats-as-questions, play rate as signal, multiplicative item model, consistency > raw power |
 
 ---
 

@@ -8,9 +8,6 @@
 | **AVP** | raw average placement | lower = better | industry standard | ✅ |
 | **Delta** | `item_AVP - w/o_AVP` | negative = good | MetaTFT, TacticsTools | ✅ standard |
 | **Necessity** | `w/o_AVP - overall_AVP` | positive = important | tftable | 🧪 |
-| ~~Edge~~ | `overall_AVP - item_AVP` | positive = good | Mochi (deprecated) | ≡ AVP |
-
-**Edge ≡ AVP**: `Edge = constant - AVP`, so sorting by Edge is identical to sorting by AVP. It's a readability improvement (positive = good) but provides no additional analytical power. Deprecated as a separate metric.
 
 ## Mathematical Relationships
 
@@ -62,6 +59,33 @@ A practical player needs all three perspectives: Necessity tells you what to pri
 | "Is this item better than that one?" (similar play rates) | **Delta** | w/o baselines are comparable when play rates are close |
 | "What's the most important item for this comp?" | **Necessity** | Weights by play rate — core items rank high, carousel items rank low |
 | "What should I build?" (practical) | **Builds** (not a single-item metric) | See [[methods/build-analysis]] — avoids single-item bias entirely |
+| "How consistent is this comp/item?" | **Bottom-4 rate** alongside AVP | AVP alone hides variance — a 4.0 AVP from consistent top-4s is very different from a 4.0 AVP with high win% AND high bot-4% |
+
+## Play Rate as Confidence Signal
+
+Play rate is not just an input to Necessity — it's an independent confidence signal (Dishsoap):
+
+| Play Rate | Delta | Interpretation |
+|---|---|---|
+| High | Positive | **Real signal** — many players build it and it performs. Strongest evidence. |
+| High | Negative | Item is popular but underperforming — possibly over-hyped or only correct in specific contexts |
+| Low | Positive | **Investigate** — could be carousel bias, secondary carry effect, or a genuinely underrated niche item |
+| Low | Negative | Item is rare and bad — ignore |
+
+**Rule**: Always check play rate before acting on Delta or AVP. A positive Delta at 5% play rate is a hypothesis; a positive Delta at 40% play rate is evidence.
+
+## Consistency: Beyond AVP
+
+AVP is a mean — it hides variance. Two comps can have identical AVP with very different risk profiles:
+
+| Comp | AVP | Win% | Bot-4% | Profile |
+|---|---|---|---|---|
+| A | 4.0 | 15% | 10% | Consistent — rarely wins but rarely bots |
+| B | 4.0 | 25% | 25% | Volatile — high ceiling, high floor |
+
+Dishsoap evaluates comps by **consistency** (low bottom-4 rate) over raw AVP. For climbing LP, consistency matters more than ceiling.
+
+**Practical rule**: When comparing comps or builds, report both AVP and bottom-4 rate. A build with 0.1 worse AVP but 5% lower bot-4 rate may be strictly better for climbing.
 
 ## Known Limitations
 
@@ -102,5 +126,6 @@ A practical player needs all three perspectives: Necessity tells you what to pri
 - [[sources/morbrid-reddit-post]]: CI, sample size, constant frequency-AVP bias
 - [[sources/morbrid-aesah-talk]]: Graph view (frequency vs AVP), tier algorithm = frequency + place change
 - [[sources/dishsoap-frodan-stats]]: Play rate as confidence signal, builds > single items
+- [[sources/tftacademy-video-collection]]: Play rate × Delta matrix, consistency (bottom-4 rate), multiplicative item model
 - [[experiments/2026-04-21-vex-nova95-items]]: Empirical comparison of all metrics on Vex in Nova 95
 - [[experiments/2026-04-22-cross-validation-vex-nova95]]: Spearman 0.993 ranking robustness, Necessity compression

@@ -114,15 +114,15 @@ def cmd_items(args):
 
     print(f"Overall AVP: {overall_avg:.2f} ({total_comp_games:,} games)")
     print()
-    print(f"{'Item':<28} {'Games':>7} {'Rate':>5} {'AVP':>5} {'Edge':>6} {'Neces.':>7}")
+    print(f"{'Item':<28} {'Games':>7} {'Rate':>5} {'AVP':>5} {'Delta':>6} {'Neces.':>7}")
     print("-" * 65)
     for name, _, tier, s in results[:25]:
         label = f"{name}" if tier == "1" else f"{name} ★{tier}"
-        print(f"{label:<28} {s['games']:>7} {s['play_rate']:>4.0%} {s['avg']:>5.2f} {s['edge']:>+6.2f} {s['weighted_delta']:>+7.3f}")
+        print(f"{label:<28} {s['games']:>7} {s['play_rate']:>4.0%} {s['avg']:>5.2f} {s['delta']:>+6.2f} {s['weighted_delta']:>+7.3f}")
 
     adj = data.get("filter_adjustment", {})
     print(f"\nTotal sample: {adj.get('sample_size', '?')}")
-    print("\nEdge = overall - w/ (positive=good). Necessity = w/o - overall (play-rate weighted).")
+    print("\nDelta = w/ - w/o (negative=good). Necessity = w/o - overall (play-rate weighted).")
 
 
 def cmd_tftable(args):

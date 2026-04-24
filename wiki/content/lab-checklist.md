@@ -21,7 +21,6 @@
 - [ ] **NEVER sort by raw AVP to compare items** — survivorship bias contaminates it
 - [ ] Use **Necessity** as primary ranking metric
 - [ ] Use **Delta** as secondary (aware of w/o baseline shift)
-- [ ] ~~Edge~~ ≡ AVP — don't use it
 
 ## Data Granularity (Dimension 2)
 - [ ] Single-item analysis → always supplement with build analysis
@@ -53,8 +52,7 @@
 ## Lessons Learned
 Append new ones here. These are hard-won — don't repeat them.
 
-1. **Edge ≡ AVP** — algebraically trivial, caught by Xing (2026-04-21)
-2. **Shrinkage doesn't fix systematic bias** — TFT's problem is bias not variance (2026-04-21)
+1. **Shrinkage doesn't fix systematic bias** — TFT's problem is bias not variance (2026-04-21)
 3. **Don't regress to AVP** — cron experiment used AVP despite proving it unreliable the same day (2026-04-22)
 4. **Isolated sessions forget everything** — must re-read wiki before every experiment (2026-04-22)
 5. **compositions.py 一定能筛出足够样本** — tftable 定义是专家写的。0 games = 我们的 filter 转换有 bug，不是定义的问题。vex_95 曾因缺少 `_.*` 后缀返回 0 (2026-04-22)

@@ -114,6 +114,44 @@ Players tend to build "consensus best" items, creating a self-fulfilling prophec
 
 ---
 
+## 3b. Dual-Comp Pollution (Context Confusion Bias)
+
+When a unit is played in two or more different comps, aggregated stats mix their contexts. Each comp may require completely different itemization.
+
+**Canonical example (Aesah)**: Gwen in 6 Sorcerer vs 8 Soul Fighter:
+- 6 Sorc (weak frontline): Edge of Night is critical for Gwen's survival
+- 8 Soul Fighter (trait gives +650 HP): Gunblade becomes viable; Edge of Night is less needed
+
+Without filtering by comp, Gwen's item stats are a meaningless average of two contradictory strategies. The "best" item depends entirely on which comp you're playing.
+
+**Related example**: Yumi as primary carry (damage items are BIS) vs Yumi as secondary carry behind Katarina 3 (support items look good because secondary carries inherit leftover items from winning boards).
+
+**Diagnostic**: If a unit appears in multiple comps on the MetaTFT comps page, always filter by specific comp context before analyzing items.
+
+**Mitigations**:
+- Always use comp filters ([[methods/filter-strategy]])
+- Use compositions.py definitions that distinguish comp variants
+- Check games tab to verify filter captures intended comps
+
+---
+
+## 3c. Level Bias
+
+Player level at endgame correlates with board strength. Higher-level players have more units, more gold spent, and generally stronger boards. Filtering or not filtering by level changes what question you're asking.
+
+**Canonical example**: Sona in Nova 95. Without level control, Sona has Necessity +0.127 — appears to be the third most important unit. With `--level 10` control, Sona drops to +0.015 (an 88% decrease). The reason: Sona mostly appears at level 10 (9-unit boards), and level 10 games are already winning. Sona's apparent importance was almost entirely level bias.
+
+**Why it matters**: Unit evaluation, flex slot analysis, and +1 candidate analysis are all heavily affected. A unit that only appears at high levels will always look important without level control — because reaching that level is already a signal of success.
+
+**Diagnostic**: If a unit's Necessity drops dramatically when adding `--level`, the original value was inflated by level bias.
+
+**Mitigations**:
+- Always use `--level` when analyzing unit importance or flex slots
+- Compare same-level cohorts when evaluating +1 candidates
+- Level bias is a **variable to prevent**, not a finding to discover — control it upfront
+
+---
+
 ## 4. Low Sample Size Noise
 
 Fewer observations → higher variance → more outliers. Not a systematic bias but interacts badly with selection bias (rare items are both biased AND noisy).
@@ -137,7 +175,7 @@ Not every analysis requires full debiasing. Use this framework:
 **Bias matters most when**:
 - Comparing items with very different play rates (e.g., 7% vs 87%)
 - Comparing trait tiers (higher tier games are systematically stronger boards)
-- Ranking items by AVP or Edge (both are just AVP; neither corrects for frequency)
+- Ranking items by raw AVP (doesn't correct for frequency)
 - Working with unfiltered/lightly filtered data (global stats)
 
 **Bias matters less when**:
@@ -155,8 +193,6 @@ Not every analysis requires full debiasing. Use this framework:
 
 ## Key Identities and Traps
 
-**Edge = AVP.** `Edge = overall_AVP - item_AVP = constant - AVP`. Rankings are identical. Edge provides no additional information over AVP. Don't use it as a separate metric.
-
 **Delta has a shifting baseline.** `Delta = item_AVP - without_item_AVP`. For high play rate items (Guinsoo at 87%), the "without" group is only 13% of players — a non-representative group that was likely struggling. For low play rate items (Red Buff at 7%), "without" is 93% of players — approximately the overall average. Comparisons across play rates are structurally unfair.
 
 **Necessity = play_rate / (1 - play_rate) * (overall_AVP - item_AVP).** This is the best single-metric correction available without by-round data, but it assumes play rate is a sufficient proxy for survivorship exposure. It is not a complete solution.
@@ -168,6 +204,7 @@ Not every analysis requires full debiasing. Use this framework:
 - [[sources/morbrid-aesah-talk]]: "CI doesn't fix survivorship bias", frequency-AVP graph
 - [[sources/dishsoap-frodan-stats]]: Sample size rules of thumb
 - [[sources/aesah-data-mistakes]]: Play rate as the key corrector
+- [[sources/aesah-video-collection]]: Dual-comp pollution (Gwen), overfiltering, parametric verification
 - [[experiments/2026-04-21-vex-nova95-items]]: Frequency-AVP regression (R² ≈ 0 in filtered data)
 - [[experiments/2026-04-22-universal-improvement-bias]]: 8-trait universal improvement test
 - [[experiments/2026-04-22-nova-trait-breakpoint]]: Necessity compression at higher tiers
