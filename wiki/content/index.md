@@ -111,7 +111,7 @@
 | [[experiments/2026-04-23-nova95-unit-evaluation]] | 2026-04-23 | 4 | 🧪 | Level-Controlled: Shen Necessity 最高(+0.95)；控制 level 后十人口 Jhin/Rhaast/Sona 几乎持平，之前"Sona 3x 领先"是 level bias |
 | [[experiments/2026-04-23-tank-filter-reliability]] | 2026-04-23 | 1, 9 | 🧪 | 纠正前实验：真正带装的 tank(Nasus/Poppy/Cho) ρ=0.929-1.000，与 carry 一样稳定；Galio 揭示 comp-specific 物品反转现象 |
 | [[experiments/2026-04-23-flex-slot-all-comps]] | 2026-04-23 | 4 | 🧪 | 29 comp flex slot 总表：Morgana 万金油 +1（12 comp）；3 对 comp 共享 primary board；5 comp 无 +1；4 comp variant 主导 |
-| [[experiments/2026-05-12-delta-necessity-myth]] | 2026-05-12 | 2 | 🧪 | 重装提莫数据：拆解「Δ=0 是核心装」与「核心装显示 Δ=0」两种常见误读；数学层面 Δ=0 = 无功无过 ≠ 核心装；数据层面网站 Δ 列普遍做 Bayesian shrinkage（鬼索真 Δ=−0.24，DataTFT 显示 0.00）；推荐手动 exclude 自己算；引出必要性作为 freq 加权 Δ，抗 carousel/神器 survivorship；含两张 metric landscape 图 |
+| [[experiments/2026-05-12-delta-necessity-myth]] | 2026-05-12 | 2 | 🧪 | 重装提莫数据：拆解「Δ=0 是核心装」与「核心装显示 Δ=0」两种常见误读；数学层面 Δ=0 = 无功无过 ≠ 核心装；数据层面 DataTFT/MetaTFT 显示 Δ 与公式 Δ 不一致（鬼索公式 Δ=−0.24 vs DataTFT 显示 0.00），TacticsTools 直出公式值；推荐手动 exclude 自己算；引出必要性作为 freq 加权 Δ，抗 carousel/神器 survivorship；含两张 metric landscape 图 |
 
 ### Experiment Queue
 
