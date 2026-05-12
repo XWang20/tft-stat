@@ -1,11 +1,11 @@
-# Experiment: AVP / Delta / Necessity 三指标的数学结构与「装备越必要 Delta 越接近 0」的误解
+# Experiment: AVP / Delta / 必要性 三指标的数学结构与「装备越必要 Delta 越接近 0」的误解
 **Status**: 🧪 draft
 **Date**: 2026-05-12
 **Module**: 2
 
 > **数据范围**：本文所有数据均为 **diamond+ rank、过去 7 天**，覆盖 challenger / GM / master / diamond 四档。
-> **AVP 来源**：本文表格里的 `Games / Freq / AVP / w/o` 都来自 MetaTFT API 的原始 `placement_count`（你也可以在 MetaTFT 网页同样 filter 下看到一致数值）。
-> **Delta / Necessity**：从原始 AVP 用公式 `Δ=(a−A)/(1−p)`、`N=p/(1−p)·(A−a)` 重算 —— 不直接读取任何网站显示列。
+> **AVP 来源**：本文表格里的 `Games / Freq / w/ / w/o` 都来自 MetaTFT API 的原始 `placement_count`（你也可以在 MetaTFT 网页同样 filter 下看到一致数值）。
+> **Delta / 必要性**：从原始 AVP 用公式重算 —— 不直接读取任何网站显示列。
 
 ---
 
@@ -17,30 +17,56 @@
 
 这个论断常被拿来「劝诫」初学者：「别看 Guinsoo 的 Delta 不大，这个装备就是核心，Delta 接近 0 才是它必要的证据」。但仔细推敲，这个论断**无论数学上还是直觉上都不成立**。
 
-本文用 **重装提莫（Teemo ic3）** 的真实数据 + 两张等高线图来解构 AVP、Delta、Necessity 三个指标，并直接反驳上述误解。顺带回答另一个常见问题：为什么 Necessity 比 Delta 更适合做「阵容核心装备」的排名。
+本文用 **重装提莫（Teemo ic3）** 的真实数据 + 两张等高线图来解构 AVP、Delta、必要性 三个指标，并直接反驳上述误解。顺带回答另一个常见问题：为什么必要性比 Delta 更适合做「阵容核心装备」的排名。
 
 最后还会附一章关于「不同数据网站显示的 Delta 列对不上」的发现 —— 这是另一个独立问题，给读者一个实用的工作建议。
 
 ---
 
-## Chapter 1: 三个指标的数学关系
+## Chapter 1: 三个指标 — 从「有没有这件装备」开始
 
-设 `p = play_rate`、`a = item_AVP`、`A = overall_AVP`。
+考虑一件具体的装备（比如 Teemo 身上的 Guinsoo's Rageblade）。把所有的局分成两堆：
 
-把"with 这个装备的局"和"without 这个装备的局"看作 overall 的两个互补子集，由权重平均的恒等式可以解出：
+- **w/** ：携带这件装备的局，平均排名记作 `w/`
+- **w/o**：没有携带这件装备的局，平均排名记作 `w/o`
+
+再加两个常用量：
+
+- **freq**：携带这件装备的局占整体的比例（出场率）
+- **A**：整体（所有局）的平均排名
+
+整体平均排名是两堆按出场率加权的平均：
 
 ```
-w/o_AVP   = (A − p × a) / (1 − p)
+A = freq · w/  +  (1 − freq) · w/o
+```
 
-Delta     = a − w/o = (a − A) / (1 − p)        负数 = 好
-Necessity = w/o − A = p / (1 − p) × (A − a)    正数 = 重要
+这个恒等式可以反解出 `w/o`（你也可以在数据网站手动加 "exclude this item" filter 直接读 `w/o`，两边会对得上）：
+
+```
+w/o = (A − freq · w/) / (1 − freq)
+```
+
+三个指标的定义：
+
+| 指标 | 定义 | 解读 |
+|---|---|---|
+| **AVP** | `w/`（直接就是「携带这件装备的平均排名」） | 越小越好 |
+| **Delta** | `w/ − w/o` | 「携带 vs 不携带」的差，**负数 = 好** |
+| **必要性 (Necessity)** | `w/o − A` | 「拿掉这件装备整体会变差多少」，**正数 = 重要** |
+
+把 `w/o` 的表达式代回去，可以得到两个等价改写（后面会用到）：
+
+```
+Delta     = w/ − w/o = (w/ − A) / (1 − freq)
+必要性    = w/o − A  = freq / (1 − freq) × (A − w/)
 ```
 
 两个等价改写很关键：
 
-- **Delta 是 (a−A) 的「Leverage 放大」**：分母 `(1−p)` 越小（freq 越高），同样的 `(a−A)` 被放大得越多。
-- **Necessity 是 (A−a) 的「Frequency 加权」**：用 `p/(1−p)` 加权，freq 越高权重越大。
-- 两者代数关系：`Necessity = −p × Delta`。它们其实是**同一个原始量** `(A−a)` 的两种不同放大方式。
+- **Delta 是 (w/ − A) 的「Leverage 放大」**：分母 `(1 − freq)` 越小（freq 越高），同样的 `(w/ − A)` 被放大得越多。
+- **必要性是 (A − w/) 的「Frequency 加权」**：用 `freq / (1 − freq)` 加权，freq 越高权重越大。
+- 两者代数关系：`必要性 = − freq × Delta`。它们其实是**同一个原始量** `(A − w/)` 的两种不同放大方式。
 
 下面整段实验都会回到这两个公式。
 
@@ -65,9 +91,9 @@ Unit('TFT17_Teemo', item_min=3, item_max=3)
 
 ## Chapter 3: Teemo ic3 物品数据
 
-按 Necessity 排序的 top 10（normal items + 主要 emblem，截掉极低 freq）：
+按必要性排序的 top 10（normal items + 主要 emblem，截掉极低 freq）：
 
-| Item | Games | Freq | AVP (a) | w/o | Δ | Necessity |
+| Item | Games | Freq | w/ | w/o | Delta | 必要性 |
 |---|---:|---:|---:|---:|---:|---:|
 | **Guinsoo's Rageblade** | 167,799 | **96%** | 4.134 | 4.378 | −0.244 | **+0.234** |
 | Giant Slayer | 107,877 | 62% | 4.063 | 4.275 | −0.213 | +0.131 |
@@ -79,28 +105,28 @@ Unit('TFT17_Teemo', item_min=3, item_max=3)
 | Striker's Flail | 7,834 | 4% | 4.197 | 4.142 | +0.055 | −0.002 |
 | Vanguard Emblem | 4,869 | 3% | 4.264 | 4.141 | +0.123 | −0.003 |
 
-> 验算 Guinsoo 行：`a=4.134, A=4.144, p=167799/175244=0.957`，`w/o=(4.144−0.957·4.134)/0.043=4.378`，`Δ=4.134−4.378=−0.244`，`N=4.378−4.144=+0.234`。可以自己在 MetaTFT 用同样 filter 验：`Games`、`Freq`、`AVP` 三列肉眼一致；`w/o` 你可以**手动加 "no Guinsoo's Rageblade" filter** 读出 ~4.38。
+> 验算 Guinsoo 行：`w/ = 4.134, A = 4.144, freq = 167799/175244 = 0.957`，`w/o = (4.144 − 0.957·4.134)/0.043 = 4.378`，`Delta = 4.134 − 4.378 = −0.244`，`必要性 = 4.378 − 4.144 = +0.234`。可以自己在 MetaTFT 用同样 filter 验：`Games / Freq / AVP` 三列肉眼一致；`w/o` 你可以**手动加 "no Guinsoo's Rageblade" filter** 读出 ~4.38。
 
 两个先放在这里的观察：
 
 - **Δ 最负的是 Rabadon's Deathcap**（−0.350，30% freq），不是 Guinsoo。
-- **Necessity 最高的是 Guinsoo**（+0.234），远超第二名 Giant Slayer（+0.131）。
+- **必要性最高的是 Guinsoo**（+0.234），远超第二名 Giant Slayer（+0.131）。
 
-也就是说，Δ 和 Necessity 对 top 1 的判断**完全不一样**。这是后面讨论 Necessity 优势的关键案例。
+也就是说，Δ 和必要性对 top 1 的判断**完全不一样**。这是后面讨论必要性优势的关键案例。
 
 ---
 
-## Chapter 4: 两张等高线图 — 看 Delta 和 Necessity 的几何形状
+## Chapter 4: 两张等高线图 — 看 Delta 和必要性的几何形状
 
-把 (play_rate, item_AVP) 画成平面，背景填的是 metric 在该平面上的等值线（A 固定为 4.14），点是上表里的真实装备。
+把 (出场率, w/) 画成平面，背景填的是 metric 在该平面上的等值线（A 固定为 4.14），点是上表里的真实装备。
 
-### Necessity Landscape
+### 必要性 Landscape
 
-![Necessity Landscape](/experiments/2026-05-12-necessity-landscape.png)
+![必要性 Landscape](/experiments/2026-05-12-necessity-landscape.png)
 
 观察：
-- 等高线在低/中 freq 区域很缓，但接近 freq=1 时**急速向右上拉升** —— 因为 `p/(1−p)` 在 p→1 时趋向无穷。
-- 这就是为什么 Guinsoo（freq 96%、AVP 4.13 vs A=4.14，gap 只有 0.01）仍然能排到 Necessity 第一：杠杆系数 `0.96/0.04 = 24×` 把那 0.01 的 gap 放大成 +0.234。
+- 等高线在低/中 freq 区域很缓，但接近 freq=1 时**急速向右上拉升** —— 因为 `freq/(1−freq)` 在 freq→1 时趋向无穷。
+- 这就是为什么 Guinsoo（freq 96%、w/ 4.13 vs A=4.14，gap 只有 0.01）仍然能排到必要性第一：杠杆系数 `0.96/0.04 = 24×` 把那 0.01 的 gap 放大成 +0.234。
 - Rabadon's Deathcap（freq 30%、gap 0.245，是 Guinsoo 的 ~24 倍）只有 +0.104 —— 因为权重系数才 `0.30/0.70 ≈ 0.43×`。
 
 ### Delta Landscape
@@ -108,11 +134,11 @@ Unit('TFT17_Teemo', item_min=3, item_max=3)
 ![Delta Landscape](/experiments/2026-05-12-delta-landscape.png)
 
 观察：
-- 等高线在 freq < 50% 的区域几乎是水平的：Δ ≈ a − A，play_rate 不太影响。
-- 当 freq > 80% 后，等高线急速发散 —— 因为 `1/(1−p)` 在这里也趋向无穷。也就是说，**高 freq 区域同样的 (a−A) 被 Δ 放大、不是缩小**。
-- 这两张图共用相同的 (p, a) 平面，但 metric 几何形状完全不同：Necessity 在 p→1 沿 (A−a) 一侧爆炸，Δ 在 p→1 沿 (a−A) 另一侧爆炸。两者都不会在 p→1 时归零。
+- 等高线在 freq < 50% 的区域几乎是水平的：Δ ≈ w/ − A，play_rate 不太影响。
+- 当 freq > 80% 后，等高线急速发散 —— 因为 `1/(1−freq)` 在这里也趋向无穷。也就是说，**高 freq 区域同样的 (w/ − A) 被 Δ 放大、不是缩小**。
+- 这两张图共用相同的 (freq, w/) 平面，但 metric 几何形状完全不同：必要性在 freq→1 沿 (A − w/) 一侧爆炸，Δ 在 freq→1 沿 (w/ − A) 另一侧爆炸。两者都不会在 freq→1 时归零。
 
-> Δ=0 的等高线 **是水平的、不依赖 p**：当且仅当 `a = A` 时 Δ=0。换句话说，"Δ→0" 只能由 "item AVP 等于 overall AVP" 引起，不能由 "freq 高" 引起。
+> Δ=0 的等高线 **是水平的、不依赖 freq**：当且仅当 `w/ = A` 时 Δ=0。换句话说，"Δ→0" 只能由 "携带这件装备的平均排名等于整体平均排名" 引起，不能由 "freq 高" 引起。
 
 ---
 
@@ -120,11 +146,11 @@ Unit('TFT17_Teemo', item_min=3, item_max=3)
 
 最简洁的反驳：**Guinsoo 在 Teemo ic3 freq 96%，公式 Δ = −0.244，不是 0**。
 
-如果 freq 高真的能强制 Δ→0，Guinsoo 这个 96% 的极端例子早该读出 0 附近的数。但代入公式 `Δ = (4.134−4.144)/0.043 = −0.244`，被 23× 杠杆放大着。
+如果 freq 高真的能强制 Δ→0，Guinsoo 这个 96% 的极端例子早该读出 0 附近的数。但代入公式 `Δ = (4.134 − 4.144)/0.043 = −0.244`，被 23× 杠杆放大着。
 
 让我们再看其他几个高 freq 装备的真实 Δ（diamond+ 7d，公式重算）：
 
-| Comp | Top freq item | Freq | AVP | Δ (公式) | Necessity |
+| Comp | Top freq item | Freq | w/ | Δ (公式) | 必要性 |
 |---|---|---:|---:|---:|---:|
 | Teemo ic3 | Guinsoo's Rageblade | 96% | 4.134 | **−0.24** | +0.234 |
 | Lulu Reroll | Jeweled Gauntlet | 88% | 4.443 | **−0.22** | +0.193 |
@@ -139,43 +165,43 @@ Unit('TFT17_Teemo', item_min=3, item_max=3)
 
 ## Chapter 6: 神话错在哪里 — 数学诊断
 
-「freq → 1 时 Δ → 0」这个说法的**唯一**成立条件是 `a → A`。代入公式：
+「freq → 1 时 Δ → 0」这个说法的**唯一**成立条件是 `w/ → A`。代入公式：
 
 ```
-Δ = (a − A) / (1 − p)
+Δ = (w/ − A) / (1 − freq)
 ```
 
-要让 Δ → 0，需要分子 `(a − A) → 0` 比分母 `(1 − p) → 0` 更快。
+要让 Δ → 0，需要分子 `(w/ − A) → 0` 比分母 `(1 − freq) → 0` 更快。
 
-什么时候 `a = A`？当 with-this-item 子集和 overall 子集**有完全相同的 AVP 分布**。这意味着这件装备**对最终名次没有任何 lift** —— with 和 without 两组玩家的胜率完全一样。
+什么时候 `w/ = A`？当**携带这件装备的局 AVP 和整体 AVP 相同**。这意味着这件装备**对最终名次没有任何 lift** —— 携带和不携带两组玩家的胜率完全一样。
 
 直觉版本：
 
 > 「装备 freq 接近 1 但 Δ 接近 0」**不是装备必要的特征，而是装备无关紧要的特征**。
 >
-> 因为如果绝大多数局都拿到了，但 with 组和 without 组的 AVP 几乎一样 —— 那这件装备到底贡献了什么？答案是：什么都没贡献。它只是"恰好被普遍持有"，但对结果没影响。
+> 因为如果绝大多数局都拿到了，但 with 组和 without 组的平均排名几乎一样 —— 那这件装备到底贡献了什么？答案是：什么都没贡献。它只是"恰好被普遍持有"，但对结果没影响。
 
-社区直觉的错误在于把 **"装备就是阵容本身" 解读成 "with = overall"**。但事实是即使一件装备真的是阵容核心，**没拿到它的局会显著掉名次** —— 也就是 `w/o > A`，于是 `(a − A) < 0` 仍然成立，Δ 不会归零。Guinsoo 在 Teemo ic3 里的 4% 缺货局 AVP 大约是 `4.14 + 0.234 = 4.38`（你可以在 MetaTFT 加 `no Guinsoo` filter 直接验证），明显比 baseline 4.14 差 —— 这正是 Guinsoo 必要的证据，而不是 Δ 接近 0 是它必要的证据。
+社区直觉的错误在于把 **"装备就是阵容本身" 解读成 "携带 = 整体"**。但事实是即使一件装备真的是阵容核心，**没拿到它的局会显著掉名次** —— 也就是 `w/o > A`，于是 `(w/ − A) < 0` 仍然成立，Δ 不会归零。Guinsoo 在 Teemo ic3 里的 4% 缺货局 AVP 大约是 `4.14 + 0.234 = 4.38`（你可以在 MetaTFT 加 `no Guinsoo` filter 直接验证），明显比 baseline 4.14 差 —— 这正是 Guinsoo 必要的证据，而不是 Δ 接近 0 是它必要的证据。
 
 ---
 
-## Chapter 7: Necessity vs Delta — 排名分歧的案例
+## Chapter 7: 必要性 vs Delta — 排名分歧的案例
 
 ### Teemo ic3 里 top 1 完全相反
 
 | 排名指标 | top 1 | 数值 | freq |
 |---|---|---|---|
 | Δ（最负） | Rabadon's Deathcap | −0.350 | 30% |
-| Necessity（最大） | Guinsoo's Rageblade | +0.234 | 96% |
+| 必要性（最大） | Guinsoo's Rageblade | +0.234 | 96% |
 
 **两个指标都没有错**，他们在回答不同的问题：
 
 | 指标 | 在回答的问题 |
 |---|---|
 | Δ（最负） | 「在某一局里，碰巧拿到这件装备能让我提升多少名次？」（per-game lift） |
-| Necessity（最大） | 「如果整个 metaverse 都不存在这件装备，整体 AVP 会差多少？」（comp-level dependence） |
+| 必要性（最大） | 「如果整个 metaverse 都不存在这件装备，整体平均排名会差多少？」（comp-level dependence） |
 
-对玩家的 prio 决策来说，Necessity 的答案更接近你真正想要的：
+对玩家的 prio 决策来说，必要性的答案更接近你真正想要的：
 - Guinsoo 是 Teemo 的核心 BIS（攻速锁定 reroll 必出），没有它阵容崩塌；优先 slam。
 - Rabadon's Deathcap 单件 lift 很高（−0.35），但它**不是 prio**，因为只有 30% 玩家拿得到（需要 BF + Rod，凑卡难）。它高 lift 部分原因是：能完成 Dcap 的玩家通常已经把核心装备先做完了（survivorship）。
 
@@ -183,26 +209,26 @@ Unit('TFT17_Teemo', item_min=3, item_max=3)
 
 Teemo ic3 数据里：
 
-| Item | Freq | AVP | Δ | Necessity |
+| Item | Freq | w/ | Δ | 必要性 |
 |---|---:|---:|---:|---:|
 | Statikk Shiv | 2% | 3.771 | **−0.383** | +0.009 |
 
-Statikk Shiv 的 Δ（−0.38）几乎跟 Rabadon's Deathcap 一样负，但 Necessity 只有 +0.009 —— 几乎是 0。Δ 看起来像「Statikk Shiv 是隐藏神装」，但 Necessity 直接告诉你「99% 玩家不需要这件，可以无视」。
+Statikk Shiv 的 Δ（−0.38）几乎跟 Rabadon's Deathcap 一样负，但必要性只有 +0.009 —— 几乎是 0。Δ 看起来像「Statikk Shiv 是隐藏神装」，但必要性直接告诉你「99% 玩家不需要这件，可以无视」。
 
-这就是 Necessity 相比 Δ 的另一个核心优势：**抗 carousel/emblem survivorship**。Δ 把低 freq 高 lift 的装备捧上天，Necessity 通过 freq 加权直接把它压成 ~0。如果按 Δ 排名 prio 装备，会被 Statikk Shiv / 各种 emblem / Tactician's Crown 等根本拿不到的东西误导。
+这就是必要性相比 Δ 的另一个核心优势：**抗 carousel/emblem survivorship**。Δ 把低 freq 高 lift 的装备捧上天，必要性通过 freq 加权直接把它压成 ~0。如果按 Δ 排名 prio 装备，会被 Statikk Shiv / 各种 emblem / Tactician's Crown 等根本拿不到的东西误导。
 
 ---
 
-## Chapter 8: Necessity 也不是终极答案
+## Chapter 8: 必要性也不是终极答案
 
-需要承认 Necessity 的几个局限，以避免它被神化成另一个误解的源头：
+需要承认必要性的几个局限，以避免它被神化成另一个误解的源头：
 
-1. **Necessity 假设 freq 是 lift 的合理代理**。但 freq 高也可能是 selection 的产物 —— 拿到 Guinsoo 的 96% 玩家本来就是「够稳的局 + 够熟的玩家」，without 组 4% 是「拿不到的非典型局」。Necessity 不区分这两种因果。
-2. **Necessity 受 baseline AVP 影响**：同一件装备在不同 condition（filter 紧/松、不同 comp）下绝对值不同，虽然 ranking 通常稳定（参见 [[experiments/2026-04-22-cross-validation-vex-nova95]] Spearman 0.993）。
-3. **niche-but-strong 装备会被压制**：低 freq 装备 Necessity 总是低，但不一定是它差，可能只是少有人 prio。本文 Rabadon's Deathcap 和 Statikk Shiv 都是潜在例子。
-4. **tftable 等工具有更进阶的 debiasing**（IC3 weighting、conditional baseline 等），Necessity 只是其中较易解释的一步。本文不展开。
+1. **必要性假设 freq 是 lift 的合理代理**。但 freq 高也可能是 selection 的产物 —— 拿到 Guinsoo 的 96% 玩家本来就是「够稳的局 + 够熟的玩家」，without 组 4% 是「拿不到的非典型局」。必要性不区分这两种因果。
+2. **必要性受 baseline AVP 影响**：同一件装备在不同 condition（filter 紧/松、不同 comp）下绝对值不同，虽然 ranking 通常稳定（参见 [[experiments/2026-04-22-cross-validation-vex-nova95]] Spearman 0.993）。
+3. **niche-but-strong 装备会被压制**：低 freq 装备必要性总是低，但不一定是它差，可能只是少有人 prio。本文 Rabadon's Deathcap 和 Statikk Shiv 都是潜在例子。
+4. **tftable 等工具有更进阶的 debiasing**（IC3 weighting、conditional baseline 等），必要性只是其中较易解释的一步。本文不展开。
 
-实践原则：**Necessity 适合回答「阵容核心装备」，Δ 适合回答「per-game 边际」，两者结合 + Build Analysis 才是完整答案**。详见 [[methods/build-analysis]]。
+实践原则：**必要性适合回答「阵容核心装备」，Δ 适合回答「per-game 边际」，两者结合 + Build Analysis 才是完整答案**。详见 [[methods/build-analysis]]。
 
 ---
 
@@ -214,7 +240,7 @@ Statikk Shiv 的 Δ（−0.38）几乎跟 Rabadon's Deathcap 一样负，但 Nec
 
 | 数据源 | 显示的 Δ |
 |---|---:|
-| 我们 cli.py / 公式 `(a−A)/(1−p)` | **−0.24** |
+| 我们 cli.py / 公式 `(w/ − A)/(1 − freq)` | **−0.24** |
 | MetaTFT | **−0.09** |
 | DataTFT | **0.00** |
 | TacticsTools | **(待补)** |
@@ -233,7 +259,7 @@ Statikk Shiv 的 Δ（−0.38）几乎跟 Rabadon's Deathcap 一样负，但 Nec
 
 1. **手动加 "without this item" filter**（任何网站都支持）
 2. 读出 AVP，这就是真实的 `w/o`
-3. 用公式自己算：`Δ = a − w/o`
+3. 用公式自己算：`Δ = w/ − w/o`
 
 无论你用哪家网站做这个 filter 操作，得到的 `w/o` 应该都接近一致（因为是同一份原始数据）。然后公式 Δ 就是公式 Δ，不受任何显示算法干扰。
 
@@ -253,21 +279,21 @@ Statikk Shiv 的 Δ（−0.38）几乎跟 Rabadon's Deathcap 一样负，但 Nec
 
 | 论断 | 真相 |
 |---|---|
-| "freq 越接近 1，Δ 越接近 0 是必然" | **错**。Δ = (a−A)/(1−p)，freq 高反而**放大** Δ，不是缩小 |
-| "Δ 接近 0 是装备必要的标志" | **反过来**：Δ=0 等价于 a=A，这意味着这件装备对最终名次没有 per-game lift —— 是无关紧要的标志 |
-| "Necessity 只是 Δ 的换算，提供不了新信息" | 代数上是 `−p×Δ`，但 ranking 信息被 freq 重新加权后，更接近"阵容核心"的 player 直觉 |
-| "Δ 和 Necessity 哪个对" | 两者都对，回答不同的问题。Δ 答 per-game lift，Necessity 答 comp-level dependence |
+| "freq 越接近 1，Δ 越接近 0 是必然" | **错**。Δ = (w/ − A)/(1 − freq)，freq 高反而**放大** Δ，不是缩小 |
+| "Δ 接近 0 是装备必要的标志" | **反过来**：Δ=0 等价于 w/ = A，这意味着这件装备对最终名次没有 per-game lift —— 是无关紧要的标志 |
+| "必要性只是 Δ 的换算，提供不了新信息" | 代数上是 `−freq×Δ`，但 ranking 信息被 freq 重新加权后，更接近"阵容核心"的 player 直觉 |
+| "Δ 和必要性哪个对" | 两者都对，回答不同的问题。Δ 答 per-game lift，必要性答 comp-level dependence |
 | "看网站 Δ 列就行" | 高 freq 装备各家口径不同，需要手动 filter 验真实 w/o |
 
-数据先行，结论后到。下次有人说「这个装备 Δ 接近 0 是因为它必出」，请他给一个 a < A 但 (a−A)/(1−p) 趋近 0 的真实案例 —— 大概率给不出，因为这种"必出且无 lift"的装备在数据上几乎不存在。
+数据先行，结论后到。下次有人说「这个装备 Δ 接近 0 是因为它必出」，请他给一个 w/ < A 但 (w/ − A)/(1 − freq) 趋近 0 的真实案例 —— 大概率给不出，因为这种"必出且无 lift"的装备在数据上几乎不存在。
 
 ---
 
 ## Open Questions
 
-- [ ] Lulu / Bonk 等 comp 里能否找到 Δ 与 Necessity ranking 完全反向的情形（不仅是 top 1 不同，而是整个 top 5 翻转）？
-- [ ] tftable 的进阶 debiasing 在 Teemo ic3 上会把 Statikk Shiv 推到第几位？是否颠覆当前 Δ vs Necessity 的故事？
-- [ ] 当 condition 极紧（freq → 1）时，Necessity 和 Δ 都会被压缩，应当用什么标度去比较"压缩前后" rankings 的稳定度？
+- [ ] Lulu / Bonk 等 comp 里能否找到 Δ 与必要性 ranking 完全反向的情形（不仅是 top 1 不同，而是整个 top 5 翻转）？
+- [ ] tftable 的进阶 debiasing 在 Teemo ic3 上会把 Statikk Shiv 推到第几位？是否颠覆当前 Δ vs 必要性的故事？
+- [ ] 当 condition 极紧（freq → 1）时，必要性和 Δ 都会被压缩，应当用什么标度去比较"压缩前后" rankings 的稳定度？
 - [ ] 各数据网站 Δ 显示算法到底是什么？是否在不同 patch / sample size 下口径会变？
 
 ## Questions for Xing
@@ -280,7 +306,7 @@ Statikk Shiv 的 Δ（−0.38）几乎跟 Rabadon's Deathcap 一样负，但 Nec
 ## Sources / Cross-references
 - [[concepts/metrics]] — 三指标定义、play rate 作为 confidence signal
 - [[experiments/2026-04-21-vex-nova95-items]] — 之前的 Vex Nova 95 物品分析（5 metric 对比）
-- [[experiments/2026-04-22-cross-validation-vex-nova95]] — Necessity rank Spearman 0.993 跨数据源稳定
+- [[experiments/2026-04-22-cross-validation-vex-nova95]] — 必要性 rank Spearman 0.993 跨数据源稳定
 - [[concepts/biases]] — Survivorship bias、selection effect
 
 ---
