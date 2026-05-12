@@ -111,6 +111,7 @@
 | [[experiments/2026-04-23-nova95-unit-evaluation]] | 2026-04-23 | 4 | 🧪 | Level-Controlled: Shen Necessity 最高(+0.95)；控制 level 后十人口 Jhin/Rhaast/Sona 几乎持平，之前"Sona 3x 领先"是 level bias |
 | [[experiments/2026-04-23-tank-filter-reliability]] | 2026-04-23 | 1, 9 | 🧪 | 纠正前实验：真正带装的 tank(Nasus/Poppy/Cho) ρ=0.929-1.000，与 carry 一样稳定；Galio 揭示 comp-specific 物品反转现象 |
 | [[experiments/2026-04-23-flex-slot-all-comps]] | 2026-04-23 | 4 | 🧪 | 29 comp flex slot 总表：Morgana 万金油 +1（12 comp）；3 对 comp 共享 primary board；5 comp 无 +1；4 comp variant 主导 |
+| [[experiments/2026-05-12-delta-necessity-myth]] | 2026-05-12 | 2 | 🧪 | diamond+ 7d 数据：反驳「freq 高 → Delta 趋近 0」社区误解；Vex Nova95 (ic3) Guinsoo freq 96% Delta −0.14；两张 metric landscape 图；Delta=0 等价于 a=A（无 lift）与 freq 无关；Necessity 用 freq 加权 + 抗 emblem survivorship（Kaisa LW Δ=+0.18 反直觉但 N=−0.04 直接显示「不重要」；Tactician's Crown Δ −1.22 但 N ≈ 0） |
 
 ### Experiment Queue
 

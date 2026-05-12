@@ -19,15 +19,16 @@ COMPOSITIONS = {
     "nova_95": {
         "name": "N.O.V.A. 95 / 新星 95",
         "filter": (
-            (Unit('TFT17_Fiora', item_min=3, item_max=3)
-             | Unit('TFT17_Vex', item_min=3, item_max=3)
-             | Unit('TFT17_Graves', item_min=3, item_max=3))
+            (Unit('TFT17_Fiora', item_min=2)
+             | Unit('TFT17_Vex', item_min=2)
+             | Unit('TFT17_Graves', item_min=2))
             & Trait('TFT17_DRX', min_units=2)
             & ~Trait('TFT17_Mecha', min_units=4)
             & ~Unit('TFT17_Kindred')
             & ~Unit('TFT17_Aurora', item_min=3, item_max=3)
             & ~Unit('TFT17_MasterYi', item_min=3, item_max=3)
             & ~Unit('TFT17_Zed')
+            & ~Unit('TFT17_Corki')
         ),
     },
     "vex_95": {
@@ -182,8 +183,18 @@ COMPOSITIONS = {
         ),
     },
     "kaisa": {
-        "name": "Kai'Sa Reroll / 卡莎",
-        "filter": Unit('TFT17_Kaisa', item_min=3, item_max=3),
+        "name": "Kai'Sa / 卡莎",
+        "filter": (
+            (
+                Unit('TFT17_Kaisa', item_min=2)
+                & Unit('TFT17_Fizz', item_min=2)
+            )
+            | (
+                Unit('TFT17_Kaisa', item_min=2)
+                & Unit('TFT17_Illaoi', item_min=2)
+                & Trait('TFT17_DarkStar', min_units=4)
+            )
+        ),
     },
     "two_tanky_samira": {
         "name": "Two Tanky Samira / 成双莎弥拉",
