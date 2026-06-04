@@ -165,7 +165,6 @@ Run `python3 cli.py total` and `python3 cli.py units` with your filter. Check:
 - **Total games**: is the sample size reasonable (≥1000)?
 - **Carry IC3 rate**: what % of games have the carry with 3 items? Should be high (>50%) if this is truly a carry comp
 - **Unit frequency**: do the expected core units appear at high rates? Do unexpected units appear (= contamination)?
-- **Always look at cap-state, not aggregate**: run `--level N` for each likely cap level (9 / 10) separately. Aggregate AVP and unit frequencies blend cap boards with transition-death boards (players who lost at level 7-8 with the comp half-assembled). A unit at 30% in aggregate may be at 85% at cap — only the cap number reflects comp identity. Same logic applies to AVP: aggregate AVP 4.4 can hide cap-state AVP 3.6, which is the comp's real performance.
 
 #### Step 4: Iteratively refine
 Based on Step 3 results:
@@ -176,7 +175,6 @@ Based on Step 3 results:
 - **Sample too large with mixed boards** → add a trait ceiling or more exclusions
 - **Low-cost reroll contamination in Line comps** → when a trait-anchored filter (e.g., SpaceGroove >= 5) overlaps with a reroll comp's units, check for 3-star carries with 3 items leaking in. Use `~Unit(X, item_min=3, star_min=3, star_max=3)` to exclude only the true reroll cases while keeping normal appearances of that unit.
 - **Too many exclusions needed** → if you find yourself adding 10+ exclusions to clean the filter, you likely need a **trait ceiling** (`max_units`) rather than more exclusions. A single `Summon = 3` (not `>= 3`) replaces a dozen carry exclusions by cutting off overlap with higher-breakpoint variants (e.g., Shepherd at Summon >= 5). Fix the constraint first, then add only the targeted exclusions the constraint can't handle.
-- **Every non-carry unit anchor must be ablated** → before keeping any `Unit('TFT17_X')` constraint that isn't the carry, remove it and run `cli.py core --level 10` on the resulting filter to inspect the *gained boards*. If they show the same trait shell and identity (just with the unit swapped for a replacement) → remove the anchor. If they show different trait shells, different identity, or boards from neighboring comps leaking in → keep the anchor. AVP delta alone is unreliable — it can stay flat while contamination enters. **Do not skip this for "obviously required" units like 4-cost main tanks** — high co-occurrence ≠ identity. See "Anchor Ablation" section below.
 
 #### Step 5: Cross-validate
 Compare your filter's item Necessity rankings against tftable (`python3 cli.py tftable`) if the comp exists there. If rankings diverge significantly, your filter boundary may be wrong.
@@ -251,74 +249,6 @@ Not all units benefit equally from careful filtering. Filter reliability depends
 **Why**: The primary carry IS the comp's identity. Filter changes mostly add/remove non-carry games, but carry-specific games stay similar. A tank's optimal build depends on the surrounding team context — different filters select different contexts.
 
 **Practical rule**: For primary carries, even a minimal filter (carry + 3 items) produces reliable Necessity rankings. For tanks and secondary carries, cross-validate with tftable before trusting any ranking. See [[experiments/2026-04-22-filter-reliability]].
-
-### Cap-State vs Aggregate — A Universal Lens
-
-**Aggregate metrics blend cap-state with transition-death state. Use level-conditional analysis to separate them.**
-
-A comp's games end at different player levels:
-- **Cap level** (typically 9 or 10): player assembled the full board → final-form comp
-- **Sub-cap levels** (7-8): player died before reaching cap → comp half-built, often missing key units
-
-These two sub-populations have completely different metrics:
-
-| Metric | Aggregate | Cap-state | Why they differ |
-|---|---|---|---|
-| AVP | Blended with losers (lv7-8 = 5.7-6.7 avg) | True comp ceiling (3.4-3.6 at lv9, 1.8-2.1 at lv10) | Players who died early drag the mean up |
-| Unit frequency | Diluted by half-built boards | Reflects actual cap composition | Late-game units (e.g., 5-cost frontline) are missing from sub-cap boards |
-| Trait activation | Includes partial activations | Full trait shell present | Comp identity emerges only at cap |
-
-**Implications:**
-1. Always run `--level 9` and `--level 10` separately when designing or validating a comp filter
-2. **Identify unit anchors using cap-state frequency, not aggregate.** A unit at 30% aggregate can be 85% at cap — the cap number is the comp identity signal. Aggregate frequency under-states load-bearing late-game units because half the games never reached them.
-3. **Don't dismiss a comp by aggregate AVP alone.** A 4.7 aggregate can hide a 3.7 cap AVP with high execution difficulty (lots of sub-cap deaths). The comp is fine — it's just hard to push to cap.
-
-**Real example (Asol Mecha=3 flex, 2026-05-14)**: aggregate AVP 4.72 looked "weak". Breakdown:
-- lv8 cap: 52% of games at AVP 5.84 (= transition deaths)
-- lv9 cap: 41% at AVP 3.79 (= competitive)
-- lv10 cap: 8% at AVP 2.19 (= excellent)
-
-The 4.72 was a weighted average of "many failures + decent successes." Calling this comp weak misses the actual signal.
-
-### Anchor Ablation — Inspect the Gained Boards, Not the AVP Delta
-
-**The goal of an anchor is to maximize same-comp board coverage while excluding contamination from other comps. The diagnostic is what enters the filter when the anchor is removed — not how the aggregate metric shifts.**
-
-A naive ablation rule "remove the anchor if cap AVP doesn't change" is *necessary but not sufficient*. Cap AVP can stay flat for two opposite reasons:
-- The anchor was redundant — the gained boards are legitimate same-comp variants performing similarly (✅ remove anchor)
-- The anchor was protective — the gained boards mix in contamination from other comps that happen to perform similarly (❌ keep anchor; AVP-based ablation would have misled you)
-
-You cannot distinguish these from aggregate numbers. You must look at the *boards themselves*.
-
-**The correct ablation procedure:**
-
-1. Write filter with the candidate anchor in place. Record cap-state sample (lv9 / lv10).
-2. Remove the anchor. Record new cap-state sample.
-3. Run `cli.py core --level 10 --filter "<filter without anchor> & ~<anchor>"` — this isolates the *gained set* (boards that joined when the anchor was removed).
-4. Inspect those gained boards: do they show the comp's trait shell, carry pattern, and recognizable identity?
-
-**Verdict criteria — based on inspecting the gained set:**
-
-| Gained boards look like... | Verdict |
-|---|---|
-| Same trait shell, similar shell units, just one piece swapped (e.g., Sona → LeBlanc, same Summon trio) | **Replaceable, remove anchor** |
-| Different trait shell or different identity (e.g., Leona/Nasus frontline instead of Galio/Mecha, or 5-Mecha cap-incomplete boards from another comp) | **Contamination, keep anchor** |
-| Mostly heterogeneous noise, no consistent identity | Likely contamination — **keep anchor** |
-| Mixed: ~50% same-comp variants + ~50% contamination | Anchor is doing real work — **keep, or tighten the boundary another way** |
-
-**Worked examples (Asol comps, 2026-05-14):**
-
-| Anchor | Filter | Gained boards when removed | Verdict |
-|---|---|---|---|
-| `Unit('TFT17_Sona')` in summon_asol | Asol i3 + Summon=3 + ... | 469 boards, all Summon trait active, LeBlanc/Lissandra fill Sona's slot | **Remove — same comp** |
-| `Unit('TFT17_Mordekaiser')` in summon_asol | Asol i3 + Summon=3 + ... | 167 boards, all Summon active, similar shell variants | **Remove — same comp** |
-| `Unit('TFT17_Galio')` in flex_asol | Asol i3 + Morde + ~Summon=3 + ~Mecha=6 | 312 boards with Leona/Nasus/Aatrox/Maokai frontlines — entirely different comps | **Keep — contamination** |
-| `Unit('TFT17_Mordekaiser')` in flex_asol | Asol i3 + Galio + ~Summon=3 + ~Mecha=6 | 374 boards, mostly 5-Mecha cap-incomplete (Asol+Bard+Fiora+Galio+Karma+Tahm+Urgot) — mecha-line leaking in | **Keep — contamination** |
-| `Unit('TFT17_Karma')` in flex_asol | Asol i3 + Galio + Morde + ~Summon=3 + ~Mecha=6 | 162 boards with Pyke/Bard/Viktor replacing Karma in the 5-cost caster slot | **Remove — same comp** |
-
-The AVP delta in all five was within ±0.07 — by AVP-based ablation, you'd remove all of them and let two comps' worth of contamination slip into flex_asol.
-
-**Do NOT use blanket cost-based heuristics** (e.g., "5-cost units are flex, skip them"). Costs can be mis-remembered, and a unit's role varies by comp. The gained-set inspection is the only reliable test.
 
 ## Ad-hoc vs Standardized Filters
 

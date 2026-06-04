@@ -14,8 +14,6 @@
 - [ ] Use `compositions.py` definitions when available (expert-curated baseline)
 - [ ] Use `--normal-only` — 不排除光装/特殊装备会污染排名
 - [ ] Use `--level` when analyzing level-up candidates — level bias 是需要预防的变量，不是需要发现的结论
-- [ ] **Look at cap-state(`--level 9`/`--level 10`), not aggregate** — 聚合 AVP 和单位频率都被 transition-death 板子稀释,只有 cap-state 反映真实 comp identity
-- [ ] **每个非 carry 单位锚点都要 ablation** — 去掉后跑 `cli.py core --level 10` 看 gained boards 的羁绊/单位身份。同 comp 变体(只是锚点单位被替换)→ 可去;不同 comp 漏入(不同羁绊壳/不同身份)→ 该留。AVP Δ 不是充分判据(可能合法扩张+污染相抵消)
 - [ ] Don't overfilter — keep ≥1000 games
 - [ ] Sanity check: would a real player recognize these games as "this comp"?
 
@@ -64,5 +62,3 @@ Append new ones here. These are hard-won — don't repeat them.
 9. **物品分析必须用 `--normal-only`** — 不排除光装/特殊装备会污染 Necessity 排名，光装和普通装混排无意义 (2026-04-23)
 10. **固定两件看第三件 = 单件 AVP** — 控制变量分析固定 base pair 后，第三件的 raw AVP 和单件 AVP 有同样的 survivorship bias，必须用 Necessity。但 consistency check（跨 base pair 排名）用 AVP 是有效的 (2026-04-23)
 11. **Level bias 是预防不是发现** — 分析 +1 挂谁时必须用 `--level` 控制人口。Sona 在 nova_95 的 Necessity 从未控制的 +0.127 降到 level-controlled 的 +0.015（下降 88%）(2026-04-23)
-12. **聚合 AVP/单位频率都骗人** — 中盘死的板子混在 cap 板里,把 4.40 当 comp 弱、把 30% 频率当"该单位不重要"都是错。必须 `--level 9/10` 分别看。Asol Mecha=3 flex 聚合 4.72 但 lv10 cap 2.19,是难执行不是弱 comp (2026-05-14)
-13. **非 carry 单位锚点必须 ablation,且要看 gained set 不是 AVP** — Anchor ablation 的目的是"最大化纳入同 comp 变体,排除杂 boards",不是"AVP 不变就去"。AVP Δ ≤ 0.05 可能是同 comp 扩张,也可能是合法扩张和污染相抵消。必须跑 `cli.py core` 看增量 boards 的羁绊壳是不是同 comp。同样不能用"5费一律 flex"之类 blanket rule(LeBlanc/Karma/Lissandra 不是 5费;cost-based rule 本身脆弱且跳过了"逐个看"步骤)。Asol 三 comp 案例:Sona、Karma 增量是同 comp 变体可去;Galio、Mordekaiser 在 flex_asol 增量是 Leona/Nasus 不同 comp + 5-Mecha mid 漏入,必须留 (2026-05-14)
