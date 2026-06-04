@@ -351,6 +351,29 @@ def _item_exclude_set(args) -> set[str]:
     return ids
 
 
+_COMP_EXCLUDE_FIELDS = {
+    "exclude_dmg_items_for": "DMG_ITEM_IDS",
+    "exclude_tank_items_for": "TANK_ITEM_IDS",
+    "exclude_bruiser_items_for": "BRUISER_ITEM_IDS",
+}
+
+
+def _apply_comp_item_exclusions(filter_expr, comp):
+    """Add Not(Item(...)) constraints from comp's exclude_*_items_for fields."""
+    from tft_stat.filter_expr import Item
+    from tft_stat import item_classes
+
+    for field, attr in _COMP_EXCLUDE_FIELDS.items():
+        unit_ids = comp.get(field, [])
+        if not unit_ids:
+            continue
+        item_ids = getattr(item_classes, attr)
+        for unit_id in unit_ids:
+            for iid in sorted(item_ids):
+                filter_expr = filter_expr & ~Item(item_id=iid, carrier_unit_id=unit_id)
+    return filter_expr
+
+
 def _params_from_args(args) -> list[str]:
     from tft_stat.filter_expr import Unit, Trait, Item, And, Or, Not
     from tft_stat.filter_params import expr_to_params
@@ -362,7 +385,8 @@ def _params_from_args(args) -> list[str]:
         if not comp:
             print(f"Error: unknown comp '{args.comp}'", file=sys.stderr)
             sys.exit(1)
-        params = expr_to_params(comp["filter"])
+        filter_expr = _apply_comp_item_exclusions(comp["filter"], comp)
+        params = expr_to_params(filter_expr)
 
     if hasattr(args, "filter") and args.filter:
         extra_expr = eval(args.filter)

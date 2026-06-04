@@ -19,7 +19,7 @@
 | Module | Topic | Core Question | Status | Key Learnings |
 |---|---|---|---|---|
 | 0 | Foundations | What data do we have and where does it come from? | ✅ | 12 endpoints discovered, filter format documented, alias map + explorer tab mapping |
-| 1 | Filter Design | How do we define "this comp" precisely? | ✅ | Filter is foundation; same unit different comp = different BIS |
+| 1 | Filter Design | How do we define "this comp" precisely? | ✅ | Filter is foundation; same unit different comp = different BIS; cap-state lens (aggregate blends transition-death); anchor ablation by gained set, not AVP delta |
 | 2 | Item Metrics | Given a comp, what metric tells us if an item is good? | ✅ | Necessity best single metric; shrinkage doesn't fix bias |
 | 3 | Build Analysis | How do item combinations interact? | 🧪 | Control variable + consistency check validated |
 | 4 | Unit Evaluation | Which units matter most in a comp? | 🧪 | Shen most irreplaceable; level 10 Jhin/Rhaast/Sona nearly equal (level-controlled); play rate ≠ necessity |
@@ -112,6 +112,7 @@
 | [[experiments/2026-04-23-tank-filter-reliability]] | 2026-04-23 | 1, 9 | 🧪 | 纠正前实验：真正带装的 tank(Nasus/Poppy/Cho) ρ=0.929-1.000，与 carry 一样稳定；Galio 揭示 comp-specific 物品反转现象 |
 | [[experiments/2026-04-23-flex-slot-all-comps]] | 2026-04-23 | 4 | 🧪 | 29 comp flex slot 总表：Morgana 万金油 +1（12 comp）；3 对 comp 共享 primary board；5 comp 无 +1；4 comp variant 主导 |
 | [[experiments/2026-05-12-delta-necessity-myth]] | 2026-05-12 | 2 | 🧪 | 重装提莫数据：拆解「Δ=0 是核心装」与「核心装显示 Δ=0」两种常见误读；数学层面 Δ=0 = 无功无过 ≠ 核心装；数据层面 DataTFT/MetaTFT 显示 Δ 与公式 Δ 不一致（鬼索公式 Δ=−0.24 vs DataTFT 显示 0.00），TacticsTools 直出公式值；推荐手动 exclude 自己算；引出必要性作为 freq 加权 Δ，抗 carousel/神器 survivorship；含两张 metric landscape 图 |
+| [[experiments/2026-05-14-asol-cap-state-anchor-ablation]] | 2026-05-14 | 1 | 🧪 | Asol 双壳定稿 summon_asol/flex_asol：(1) cap-state lens — mecha 聚合 AVP 4.31 掩盖 lv10 2.17，聚合 = comp 强度×执行难度的混合；(2) anchor ablation 看 gained set 不看 AVP delta — 5 个 anchor AVP Δ 都在 ±0.1，但 Galio/Morde 去掉漏入暗星+Mecha 残局(KEEP)，Sona/Morde/Karma 去掉是同壳变体(REMOVE)；删除无背书的 ap_flex |
 
 ### Experiment Queue
 
@@ -135,4 +136,4 @@ Every experiment report includes a **## Review** section at the end. Xing's feed
 ---
 
 **Maintenance**: [[schema]] (rules) · [[log]] (timeline) · [[lab-checklist]] (preflight)
-**Last updated**: 2026-04-23 · **Contributors**: Xing (teacher), Agent (learner)
+**Last updated**: 2026-05-14 · **Contributors**: Xing (teacher), Agent (learner)

@@ -3,11 +3,16 @@
 Ported from XWang20/tft_data/analysis/team_comp/compositions.py.
 Each comp has a key, display name, and a filter expression tree.
 
-Hero augment comps (low-cost tanky carries) have `exclude_dmg_items_for`
-listing unit IDs whose damage items should be excluded when analyzing
-tank carry builds.  These tanky carries' BIS are tank items — damage
-items on them are typically leftover/carousel items that add noise.
-Use with `--exclude-dmg-items` in CLI.
+Hero augment comps (low-cost tanky carries) may declare any of:
+  - `exclude_dmg_items_for`:     list[unit_id]  (no DMG items on these units)
+  - `exclude_tank_items_for`:    list[unit_id]  (no TANK items on these units)
+  - `exclude_bruiser_items_for`: list[unit_id]  (no BRUISER items on these units)
+
+These fields are applied as Not(Item(...)) constraints to the filter at
+query time (i.e. they restrict the dataset itself, not just post-process
+the items endpoint output). The intent is to isolate the comp's intended
+itemization (e.g. "摘星之志 Jax wears bruiser items, not dmg/tank") and
+keep hero-augment-leftover boards out of the baseline.
 """
 
 from __future__ import annotations
@@ -78,9 +83,34 @@ COMPOSITIONS = {
     "mecha": {
         "name": "Mecha ASOL / 霸天机甲",
         "filter": (
-            Trait('TFT17_Mecha', min_units=6, max_units=6)
+            Trait('TFT17_Mecha', min_units=3)
             & Unit('TFT17_AurelionSol', item_min=2)
             & Unit('TFT17_Galio', item_min=2)
+        ),
+    },
+    "summon_asol": {
+        "name": "Summon ASOL / 召唤龙王",
+        # Asol carry under a Summon(>=3) trait shell. Sona/Mordekaiser are
+        # high-frequency shell units but replaceable (Lissandra/LeBlanc fill
+        # the slot) — anchor ablation showed gained boards stay same-comp, so
+        # no unit anchors beyond the carry. See 2026-05-14 anchor-ablation exp.
+        "filter": (
+            Unit('TFT17_AurelionSol', item_min=3)
+            & Trait('TFT17_SummonTrait', min_units=3)
+        ),
+    },
+    "flex_asol": {
+        "name": "Flex ASOL / Flex 龙王",
+        # Asol carry on a Galio+Morde frontline, NOT a Summon shell. Galio and
+        # Mordekaiser are protective anchors (removing Galio leaks Leona/Nasus
+        # darkstar boards; removing Morde leaks 5-Mecha cap-incomplete boards).
+        # ~Mecha(>=6) keeps the full mecha line out. See 2026-05-14 exp.
+        "filter": (
+            Unit('TFT17_AurelionSol', item_min=3)
+            & Unit('TFT17_Galio')
+            & Unit('TFT17_Mordekaiser')
+            & ~Trait('TFT17_SummonTrait', min_units=3)
+            & ~Trait('TFT17_Mecha', min_units=6)
         ),
     },
     "vanguard_leblanc": {
