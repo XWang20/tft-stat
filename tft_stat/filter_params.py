@@ -324,12 +324,12 @@ def build_filter_params(*, comp: str | None = None,
 
     if comp:
         from tft_stat.compositions import COMPOSITIONS
-        comp_def = COMPOSITIONS.get(comp)
+        comp_def = next((c for c in COMPOSITIONS if c.key == comp), None)
         if not comp_def:
             print(f"Error: unknown comp '{comp}'", file=sys.stderr)
-            print(f"Available: {', '.join(sorted(COMPOSITIONS.keys()))}", file=sys.stderr)
+            print(f"Available: {', '.join(sorted(c.key for c in COMPOSITIONS))}", file=sys.stderr)
             sys.exit(1)
-        params.extend(expr_to_params(comp_def["filter"]))
+        params.extend(expr_to_params(comp_def.filter))
 
     if or_units:
         specs = or_units.split(",")

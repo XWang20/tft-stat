@@ -23,8 +23,8 @@ from tft_stat import tftable
 def cmd_comps(_args):
     print(f"{'Key':<25} {'Name'}")
     print("-" * 55)
-    for key, comp in COMPOSITIONS.items():
-        print(f"{key:<25} {comp['name']}")
+    for comp in COMPOSITIONS:
+        print(f"{comp.key:<25} {comp.display_name_en} / {comp.display_name_cn}")
 
 
 def cmd_total(args):
@@ -352,19 +352,19 @@ def _item_exclude_set(args) -> set[str]:
 
 
 _COMP_EXCLUDE_FIELDS = {
-    "exclude_dmg_items_for": "DMG_ITEM_IDS",
-    "exclude_tank_items_for": "TANK_ITEM_IDS",
-    "exclude_bruiser_items_for": "BRUISER_ITEM_IDS",
+    "exclude_dmg_items_for_carriers": "DMG_ITEM_IDS",
+    "exclude_tank_items_for_carriers": "TANK_ITEM_IDS",
+    "exclude_bruiser_items_for_carriers": "BRUISER_ITEM_IDS",
 }
 
 
 def _apply_comp_item_exclusions(filter_expr, comp):
-    """Add Not(Item(...)) constraints from comp's exclude_*_items_for fields."""
+    """Add Not(Item(...)) constraints from comp's exclude_*_items_for_carriers fields."""
     from tft_stat.filter_expr import Item
     from tft_stat import item_classes
 
     for field, attr in _COMP_EXCLUDE_FIELDS.items():
-        unit_ids = comp.get(field, [])
+        unit_ids = getattr(comp, field, []) or []
         if not unit_ids:
             continue
         item_ids = getattr(item_classes, attr)
@@ -381,11 +381,11 @@ def _params_from_args(args) -> list[str]:
     params = []
     if hasattr(args, "comp") and args.comp:
         from tft_stat.compositions import COMPOSITIONS
-        comp = COMPOSITIONS.get(args.comp)
+        comp = next((c for c in COMPOSITIONS if c.key == args.comp), None)
         if not comp:
             print(f"Error: unknown comp '{args.comp}'", file=sys.stderr)
             sys.exit(1)
-        filter_expr = _apply_comp_item_exclusions(comp["filter"], comp)
+        filter_expr = _apply_comp_item_exclusions(comp.filter, comp)
         params = expr_to_params(filter_expr)
 
     if hasattr(args, "filter") and args.filter:

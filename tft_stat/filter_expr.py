@@ -65,3 +65,30 @@ class Not(_ExprOps):
 
 
 FilterExpr = Union[Unit, Trait, Item, And, Or, Not]
+
+
+def collect_unit_ids(expr: FilterExpr) -> list[str]:
+    """Collect ``unit_id`` values from positive ``Unit`` leaves.
+
+    Nodes inside ``Not(...)`` are skipped — they represent exclusions and
+    should not contribute to *core_units*.
+    """
+    result: list[str] = []
+    _collect_unit_ids_inner(expr, result, negated=False)
+    return result
+
+
+def _collect_unit_ids_inner(expr: FilterExpr, out: list[str], *, negated: bool) -> None:
+    if isinstance(expr, Unit):
+        if not negated and expr.unit_id not in out:
+            out.append(expr.unit_id)
+    elif isinstance(expr, (Trait, Item)):
+        pass
+    elif isinstance(expr, And):
+        for child in expr.children:
+            _collect_unit_ids_inner(child, out, negated=negated)
+    elif isinstance(expr, Or):
+        for child in expr.children:
+            _collect_unit_ids_inner(child, out, negated=negated)
+    elif isinstance(expr, Not):
+        _collect_unit_ids_inner(expr.child, out, negated=True)
