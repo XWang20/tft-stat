@@ -4,6 +4,16 @@
 ## Base URL
 `https://api-hc.metatft.com/tft-explorer-api/`
 
+## Data Granularity — End-Board Only (Critical Limitation)
+
+**Every endpoint returns aggregates of the final board (end-of-game snapshot) only. There is no per-stage / per-round API.** We never see the game *over time*, only where each player ended up.
+
+Consequences for analysis:
+
+- **`level=N` is the exit level, not a time slice.** It means "this game *ended* with the player at level N" (eliminated, or game over), NOT "the player's board at the moment they were level N." Low `level` = died early = a losing subpopulation; it is itself a selection, not a window into the early game.
+- **No timing/sequence information exists.** We cannot observe when an item was completed, which unit got the *first* item, what level a player rolled down at, or who held the carry items mid-game. IC1 / IC2 / IC3 are *final* item counts, not a "first item priority" signal.
+- **Survivorship cannot be removed by slicing earlier.** Since there is no early-game snapshot, the "an IC3 unit might just be a survivor that got leftover items dumped on it" confound (see [[concepts/composition]] reroll-vs-tempo) cannot be resolved by looking at the D-stage — that data does not exist. Only end-board cross-sectional signals are available: final star distribution, item-composition concentration (BIS entropy), and Necessity (with-vs-without reframing). These *infer* investment; they cannot *observe* it.
+
 ## Common Parameters
 ```
 formatnoarray=true
@@ -79,3 +89,4 @@ MetaTFT Explorer UI tabs map to these endpoints:
 - Xing + Mochi API exploration (2026-04-21)
 - Playwright network capture from MetaTFT Explorer
 - CLI `core` subcommand development (2026-04-23) — discovered `exact_units_traits2`, `extra_traits`, alias map
+- Xing (2026-06-04) — end-board-only limitation: no per-stage API, `level` = exit level

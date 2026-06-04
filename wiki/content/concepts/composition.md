@@ -47,6 +47,35 @@ Units serve different roles within a comp. Role determines how to analyze them:
 | Support | Core but rarely itemized | Leftover items | Very low (ρ ~ 0.05) | Mordekaiser in dark_star |
 | Flex/Fill | Interchangeable with other units | Varies | Context-dependent | Blitzcrank/Nunu in nova_95 |
 
+### Carry Form: Reroll vs Tempo
+
+**A carry holding 3 items is not necessarily a reroll carry.** The same unit can be played two ways, and `Unit(X, item_min=3)` does not tell you which:
+
+- **Reroll**: hold a low level (often 8, sometimes 7), roll gold to hit a high star (usually 3★), win on unit power. Board is a fixed roster.
+- **Tempo / level-to-power**: push levels on curve, itemize the carry at a lower star (often 2★), and win on board quality + level advantage rather than star level.
+
+Assuming "3-item low-cost carry = reroll" is a mistake. Diagnose the form with a **star × level breakdown** — split IC3 (`item_min=3`, i.e. the carry holding ≥3 items) by `star_min/star_max` across `--level 7/8/9`. **Merge lv9 and lv10 into a single "cap" row** — lv10 alone is too sparse for a 3-cost comp and isn't the steady state; lv9+10 together represent the "played it to the late game" ceiling. lv10 is not examined on its own.
+
+| Signature | Reroll | Tempo |
+|---|---|---|
+| Where do the IC3 games sit? | Concentrated **low** (lv7–8) | Spread up toward the cap |
+| High-star rate at low level | Already high (rolled to cap) | Lower — many stay at 2★ |
+| 2★ AVP across levels | n/a (most are 3★) | **Improves as level rises** (2★ underpowered → leaning on population quality to compensate) |
+
+**Worked example — Samira IC3 in `space_groove` (2026-06-04, SpaceGroove≥5):**
+
+| Level | IC3 games | 2★ (AVP) | 3★ (AVP) | 3★ share |
+|---|---|---|---|---|
+| 7 | 74,002 | 33k (6.02) | 40k (5.08) | 55% |
+| 8 | **166,794** | 57k (4.69) | 108k (2.92) | 65% |
+| 9–10 (cap) | 105,741 | 42k (2.96) | 63k (1.76) | 60% |
+
+Reading: games pile up at **lv7–8 with 55–65% already 3★** → the dominant form is reroll. But 2★-itemized Samira exists at every level in volume (33k/57k/42k) and its **AVP climbs 6.02 → 4.69 → 2.96** as the player levels up → a real tempo branch coexists. The correct description is "reroll-dominant, with a tempo branch," not "Samira reroll."
+
+This is the [[methods/filter-strategy]] cap-state principle applied to star level: aggregating across levels blends two different game plans.
+
+For the related question of *which* unit in a comp is the real itemization target (vs a unit that just got spare items dumped on it), see [[concepts/biases]] → "Disentangling Investment from Survivor-Dumping (IC3)" — the same end-board-only constraint applies, and the diagnostic is unit-necessity × item-necessity plus build entropy.
+
 ### Play Rate vs Necessity Decoupling
 
 Play rate and necessity measure different things:
@@ -97,7 +126,7 @@ python3 cli.py items TFT17_Nasus --comp bonk --normal-only --exclude-dmg-items  
 python3 cli.py items TFT17_Nasus --comp bonk --normal-only --exclude-tank-items  # carry build
 ```
 
-6 hero augment comps in compositions.py have `exclude_dmg_items_for` field annotated.
+10 hero-augment / tanky-carry comps in compositions.py annotate an `exclude_{dmg,tank,bruiser}_items_for_carriers` field (upstream `CompositionDefinition`), applied as `Not(Item(...))` constraints at query time.
 
 ## Sources
 - [[experiments/2026-04-23-nova95-unit-evaluation]] — core findings

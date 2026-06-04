@@ -45,6 +45,47 @@ The test works because selection bias has a prerequisite: reaching the higher ti
 - **Secondary carry items look amazing** — you only give secondary carries items when you're already winning.
 - **Every trait shows better AVP at higher tiers** (with rare exceptions like Anima Squad).
 
+### Disentangling Investment from Survivor-Dumping (IC3)
+
+A unit holding 3 items (IC3) with a good AVP has **two indistinguishable causal paths**:
+
+- **Investment**: items were built on it early → it carries → it wins. IC3 is the *cause*.
+- **Survivor-dumping**: the game was already won → player survived to lv9–10 → spare items get dumped on a spare unit. IC3 is the *consequence*.
+
+Both produce "IC3 + good AVP". Neither IC3 frequency nor IC3 AVP can tell them apart — survivor-dumping inherits the high AVP of "games good enough to reach the item surplus." And because the API is [[tools/metatft-api|end-board-only]], there is **no early-game snapshot to inspect** — you cannot resolve this by "looking at who held items at the D-stage." Only end-board cross-sectional signals exist. Use a three-stage funnel:
+
+**Stage 1 — IC3 build scale: does the unit even enter the 3-item pool?** Survivor-dump positions often *never* assemble a real 3-item build — they wear an auto-item (Thief's Gloves) or 1–2 leftovers. Query `unit_builds` and count distinct full builds and their total games. A unit with ~0 standard 3-item builds is a dump slot regardless of how often it appears.
+
+**Stage 2 — two Necessities: core-ness vs item-hunger.** These answer different questions and must not be conflated:
+- **unit-necessity** = ΔAVP when the *unit* is absent (`& ~Unit(X)`) → is it core?
+- **item-necessity** = ΔAVP when a *specific item* is absent on a present unit (items endpoint) → does it want items?
+
+**Stage 3 — build entropy: itemization focus**, meaningful *only within units that truly itemize* (passed Stage 1). Compute Shannon entropy over the unit's 3-item build distribution; report effective build count `2^H`. Low = locked BIS, high = flexible. It does **not** separate "flexible real carry" from "dump slot" on its own — both are high-entropy; combine with Stages 1–2.
+
+**Worked example — `space_groove`, lv9 (2026-06-04):**
+
+| Unit | Appearances | IC3 build games | builds (2^H) | unit-nec | item-nec | Verdict |
+|---|---|---|---|---|---|---|
+| Samira | 113k | 62k | 10.8 | +0.32 | +0.52 | **Item-hungry carry** (core + wants items, locked BIS) |
+| Nami | 173k | 116k | 18.1 | **+0.82** | +0.05 | **Item-light core** (core but flexible/ability-based, not a dump) |
+| Gwen | 167k | **0** | — | +0.22 | +0.01 | **Dump slot** (high appearance, never a real build) |
+| Jhin | 41k | 132 | 1.0 | +0.18 | +0.004 | **Dump / off-carry** (best IC3 AVP, lowest necessity) |
+
+The two traps this catches: **appearance frequency** says Gwen/Nami (167k/173k) matter more than Samira (113k) — wrong, Gwen is a dump. **IC3 AVP** says Jhin (2.18, the best of the four) is strongest — wrong, his necessity is ~0; his AVP is the survivorship signature ("games where Jhin got items were already won").
+
+**The four quadrants (unit-nec × item-nec):**
+
+| | item-nec high (wants items) | item-nec low (doesn't) |
+|---|---|---|
+| **unit-nec high (core)** | item-hungry carry (Samira) | ability/trait core (Nami) |
+| **unit-nec low (edge)** | (rare) | dump slot / off-carry (Gwen, Jhin) |
+
+**Caveats — do not over-read the numbers:**
+- **unit-necessity over-credits trait anchors.** `~Unit(Nami)` under `SpaceGroove≥5` also breaks the trait (hard to reach 5 without her), so +0.82 measures "Nami **plus the trait slot she fills**", not Nami alone. The remaining sample (boards that hit 5 SpaceGroove yet lack Nami) is small and atypical.
+- **"Remove the unit" ≠ "remove IC3."** `~Unit(X)` excludes the unit entirely (any star, any item count). To ask "is itemizing X worth it" cleanly, compare IC3 vs low-item *while the unit is present*, holding presence and trait fixed.
+- **Necessities from different bases aren't directly comparable in magnitude** (unit-nec base here is `SpaceGroove≥5`; item-nec base is the `space_groove` comp). Read directions, not absolute gaps.
+- This whole funnel *infers* investment from end-board cross-sections; it cannot *observe* it. Survivor-dumping is reduced, not eliminated.
+
 ### Mitigations
 
 - Use [[concepts/metrics|Necessity]] instead of raw AVP (play rate weighting)

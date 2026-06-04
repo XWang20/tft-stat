@@ -8,6 +8,9 @@
 | **AVP** | raw average placement | lower = better | industry standard | ✅ |
 | **Delta** | `item_AVP - w/o_AVP` | negative = good | MetaTFT, TacticsTools | ✅ standard |
 | **Necessity** | `w/o_AVP - overall_AVP` | positive = important | tftable | 🧪 |
+| **Build Entropy** | `2^H`, H = −Σ p·log₂p over a unit's 3-item build distribution | lower = locked BIS, higher = flexible/scattered | derived (`unit_builds`) | 🧪 |
+
+**Build Entropy** is a distribution metric, not an item score — it measures how concentrated a unit's itemization is (effective number of builds). Use it to tell a focused carry (Samira, `2^H`≈11) from a flexible one (Nami, ≈18); combined with unit/item Necessity it separates an investment target from a survivor-dump slot. See [[concepts/biases]] → "Disentangling Investment from Survivor-Dumping (IC3)".
 
 ## Mathematical Relationships
 
